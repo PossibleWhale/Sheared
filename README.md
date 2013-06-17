@@ -3,7 +3,6 @@ Sheared
 
 **A mobile game for crafty players**
 
-
 Sheared is a simple side-scrolling "shearer". The player uses a shear-firing
 weapon to shear as many sheep of as many different colors as possible.
 
