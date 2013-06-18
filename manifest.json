@@ -11,7 +11,7 @@
 		"landscape"
 	],
 	"description": "",
-	"icon": "resources/icons/icon512.png",
+	"icon": "resources/icons/ewe.jpg",
 	"splash": {
 		"autoHide": true,
 		"portrait480": "resources/splash/portrait480.png",
@@ -45,3 +45,4 @@
 	},
 	"sdkVersion": "release-0.1.22"
 }
+
