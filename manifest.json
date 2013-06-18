@@ -42,5 +42,6 @@
 			"144": "resources/icons/ios144.png",
 			"renderGloss": true
 		}
-	}
+	},
+	"sdkVersion": "release-0.1.22"
 }
