@@ -1,1 +1,6 @@
 *.pyc
+build/
+resources/fonts/fontsheetSizeMap.json
+resources/fonts/metadata.json
+resources/icons/metadata.json
+resources/splash/metadata.json
