@@ -41,9 +41,9 @@ exports = Class(GC.Application, function () {
         rootView.push(titleScreen);
 
         var playButton = new ui.View({
-            superview: this,
+            superview: titleScreen,
             x: 110,
-            y: 168,
+            y: 140,
             width: 50,
             height: 28,
             opacity: 0.5,
@@ -51,32 +51,32 @@ exports = Class(GC.Application, function () {
         });
 
         var craftButton = new ui.View({
-            superview: this,
+            superview: titleScreen,
             x: 321,
-            y: 168,
+            y: 140,
             width: 58,
             height: 28,
             opacity: 0.5,
             backgroundColor: '#77aa77'
         });
 
-        playButton.on('InputSelect', bind(this, function () {
-            this.emit('titleScreen:play');
-        }));
-
-        craftButton.on('InputSelect', bind(this, function () {
-            this.emit('titleScreen:craft');
-        }));
-
-        titleScreen.on('titleScreen:play', bind(this, function () {
+        titleScreen.on('titleScreen:play', function () {
             rootView.push(playScreen);
             playScreen.emit('play:start');
-        }));
+        });
 
-        titleScreen.on('titleScreen:craft', bind(this, function () {
+        titleScreen.on('titleScreen:craft', function () {
             rootView.push(craftScreen);
             craftScreen.emit('craft:start');
-        }));
+        });
+
+        playButton.on('InputSelect', function () {
+            titleScreen.emit('titleScreen:play');
+        });
+
+        craftButton.on('InputSelect', function () {
+            titleScreen.emit('titleScreen:craft');
+        });
 
         //// /* When the game screen has signalled that the game is over,
         ////  * show the title screen so that the user may play the game again.
