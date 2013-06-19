@@ -1,6 +1,6 @@
 "use strict";
 
-import constants;
+import src.constants as constants;
 
 exports = {
     Inventory: function () {
