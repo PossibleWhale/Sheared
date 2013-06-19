@@ -9,6 +9,7 @@ import ui.StackView as StackView;
 //user imports
 import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
+import src.PlayScreen as PlayScreen;
 
 /* Your application inherits from GC.Application, which is
  * exported and instantiated when the game is run.
@@ -20,7 +21,8 @@ exports = Class(GC.Application, function () {
      */
     this.initUI = function () {
         var titleScreen = new TitleScreen(),
-                craftScreen = new CraftScreen(); // , playScreen = new PlayScreen();
+                craftScreen = new CraftScreen(),
+                playScreen = new PlayScreen();
 
         this.view.style.backgroundColor = '#30B040';
 
