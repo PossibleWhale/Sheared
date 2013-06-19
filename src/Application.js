@@ -4,6 +4,7 @@
 
 //sdk imports
 import device;
+import ui.View;
 import ui.StackView as StackView;
 //user imports
 import src.TitleScreen as TitleScreen;
@@ -18,8 +19,8 @@ exports = Class(GC.Application, function () {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        var titlescreen = new TitleScreen(),
-                craftscreen = new CraftScreen();
+        var titleScreen = new TitleScreen(),
+                craftScreen = new CraftScreen(); // , playScreen = new PlayScreen();
 
         this.view.style.backgroundColor = '#30B040';
 
@@ -35,17 +36,45 @@ exports = Class(GC.Application, function () {
             backgroundColor: '#37B34A'
         });
 
-        rootView.push(titlescreen);
+        rootView.push(titleScreen);
 
-        //// /* Listen for an event dispatched by the title screen when
-        ////  * the start button has been pressed. Hide the title screen,
-        ////  * show the game screen, then dispatch a custom event to the
-        ////  * game screen to start the game.
-        ////  */
-        //// titlescreen.on('titlescreen:start', function () {
-        ////     rootView.push(gamescreen);
-        ////     gamescreen.emit('app:start');
-        //// });
+        var playButton = new ui.View({
+            superview: this,
+            x: 110,
+            y: 168,
+            width: 50,
+            height: 28,
+            opacity: 0.5,
+            backgroundColor: '#aa77aa'
+        });
+
+        var craftButton = new ui.View({
+            superview: this,
+            x: 321,
+            y: 168,
+            width: 58,
+            height: 28,
+            opacity: 0.5,
+            backgroundColor: '#77aa77'
+        });
+
+        playButton.on('InputSelect', bind(this, function () {
+            this.emit('titleScreen:play');
+        }));
+
+        craftButton.on('InputSelect', bind(this, function () {
+            this.emit('titleScreen:craft');
+        }));
+
+        titleScreen.on('titleScreen:play', bind(this, function () {
+            rootView.push(playScreen);
+            playScreen.emit('play:start');
+        }));
+
+        titleScreen.on('titleScreen:craft', bind(this, function () {
+            rootView.push(craftScreen);
+            craftScreen.emit('craft:start');
+        }));
 
         //// /* When the game screen has signalled that the game is over,
         ////  * show the title screen so that the user may play the game again.
