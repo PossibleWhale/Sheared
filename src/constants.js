@@ -3,16 +3,16 @@
 exports = {
     COLOR_NONE: null,
 
-    COLOR_RED: 
-        {label: 'red', weight: 2},
-    COLOR_BLUE:
-        {label: 'blue', weight: 2},
-    COLOR_GREEN:
-        {label: 'green', weight: 2},
-    COLOR_YELLOW:
-        {label: 'yellow', weight: 2},
     COLOR_WHITE: 
         {label: 'white', weight: 2},
+    COLOR_RED: 
+        {label: 'red', weight: 2},
+    COLOR_GREEN:
+        {label: 'green', weight: 2},
+    COLOR_BLUE:
+        {label: 'blue', weight: 2},
+    COLOR_YELLOW:
+        {label: 'yellow', weight: 2},
     COLOR_BLACK: 
         {label: 'black', weight: 1},
 
@@ -29,3 +29,6 @@ exports = {
     TYPE_SWEATER: 
         {label: 'scarf'}
 };
+exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED, exports.COLOR_GREEN,
+    exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
+

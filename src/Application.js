@@ -54,9 +54,7 @@ exports = Class(GC.Application, function () {
             x: 110,
             y: 140,
             width: 50,
-            height: 28,
-            opacity: 0.5,
-            backgroundColor: '#aa77aa'
+            height: 28
         });
 
         var craftButton = new ui.View({
@@ -64,9 +62,7 @@ exports = Class(GC.Application, function () {
             x: 321,
             y: 140,
             width: 58,
-            height: 28,
-            opacity: 0.5,
-            backgroundColor: '#77aa77'
+            height: 28
         });
 
         titleScreen.on('titleScreen:play', function () {
