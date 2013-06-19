@@ -11,6 +11,12 @@ import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 
+var boundsWidth = 1024,
+    boundsHeight = 576,
+    baseWidth = boundsWidth,
+    baseHeight = device.screen.height * (boundsWidth / device.screen.width),
+    scale = device.screen.width / boundsWidth;
+
 /* Your application inherits from GC.Application, which is
  * exported and instantiated when the game is run.
  */
@@ -20,20 +26,23 @@ exports = Class(GC.Application, function () {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        var titleScreen = new TitleScreen(),
-                craftScreen = new CraftScreen(),
-                playScreen = new PlayScreen();
+        var titleScreen = new TitleScreen({
+                width: boundsWidth,
+                height: boundsHeight
+            }),
+            craftScreen = new CraftScreen(),
+            playScreen = new PlayScreen();
 
         this.view.style.backgroundColor = '#30B040';
+        this.view.style.scale = scale;
 
         //Add a new StackView to the root of the scene graph
-        var hh = 270, ww = 270*16/9;
         var rootView = new StackView({
-            superview: this,
+            superview: this.view,
             x: 0,
-            y: (device.height - hh)/2,
-            height: hh,
-            width: ww,
+            y: 0,
+            height: baseHeight,
+            width: baseWidth,
             clip: true,
             backgroundColor: '#37B34A'
         });
