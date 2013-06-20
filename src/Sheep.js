@@ -3,7 +3,8 @@ import ui.ImageView as ImageView;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/ewe-white.png'
+            image: 'resources/images/ewe-white.png',
+            autoSize: true
         });
 
         supr(this, 'init', [opts]);
@@ -18,8 +19,3 @@ exports = Class(ImageView, function (supr) {
         }), 100)
     };
 });
-
-// return a random integer between 0 and 7, inclusive
-function randomLane () {
-    return Math.floor(Math.random()*8);
-};

@@ -21,13 +21,20 @@ exports = Class(ImageView, function (supr) {
 
 function play_game () {
     this.interval = setInterval(spawnSheep.bind(this), 1000);
-};
+}
 
 function spawnSheep () {
     var sheep = new Sheep({
-        x: device.width - 98,
-        y: Math.random()*(device.width-65) 
+        x: 1024,
+        y: randomLaneCoord()
     });
     this.addSubview(sheep);
     sheep.run();
 }
+
+// return a random y-coordinate for the lane
+function randomLaneCoord () {
+    // 80px fence
+    // 52px lane
+    return ((Math.floor(Math.random()*8)) * 52) + 80;
+};
