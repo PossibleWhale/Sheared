@@ -9,13 +9,15 @@ import ui.ImageView;
 import ui.TextView;
 
 import src.constants as constants;
+import src.Button as Button;
 
 var colors = constants.colors;
+
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: "resources/images/16x9/craftstand-dev.png",
+            image: "resources/images/craft-dev.png",
             autosize: true
         });
 
@@ -37,14 +39,15 @@ exports = Class(ui.ImageView, function (supr) {
 
             var opts = {
                 superview: this,
-                clip: true
+                clip: true,
+                text: region.c.label.substr(0, 1)
             };
             merge(opts, region);
             opts.x = opts.x * BIZARRE_SCALE_RATIO;
             opts.y = opts.y * BIZARRE_SCALE_RATIO;
             opts.height = opts.height * BIZARRE_SCALE_RATIO;
             opts.width = opts.width * BIZARRE_SCALE_RATIO;
-            var btn = new ui.TextView(opts);
+            var btn = new Button(opts);
 
             btn.on('InputSelect', function () {
                 console.log(this.getOpts().c.label + ' clicked');
@@ -82,11 +85,12 @@ requirements: [
     {y:114, x:1047, width:58, height:60}
     ],
 garments: [
-    {y:139, x:1153, width:95, height:90},
-    {y:255, x:1161, width:74, height:90},
-    {y:358, x:1164, width:68, height:90},
-    {y:466, x:1173, width:53, height:90},
-    {y:571, x:1156, width:88, height:90}
+    {g: constants.TYPE_YARN, y:0, x:1153, width:95, height:90},
+    {g: constants.TYPE_CAP, y:139, x:1153, width:95, height:90},
+    {g: constants.TYPE_MITTEN, y:255, x:1161, width:74, height:90},
+    {g: constants.TYPE_SOCK, y:358, x:1164, width:68, height:90},
+    {g: constants.TYPE_SCARF, y:466, x:1173, width:53, height:90},
+    {g: constants.TYPE_SWEATER, y:571, x:1156, width:88, height:90}
     ],
 chalkboards: [
     {y:504, x:182, width:108, height:67},

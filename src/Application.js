@@ -10,6 +10,9 @@ import ui.StackView as StackView;
 import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
+import src.Button as Button;
+
+GC.debug = false;
 
 var boundsWidth = 1024,
     boundsHeight = 576,
@@ -49,20 +52,20 @@ exports = Class(GC.Application, function () {
 
         rootView.push(titleScreen);
 
-        var playButton = new ui.View({
+        var playButton = new Button({
             superview: titleScreen,
-            x: 110,
-            y: 140,
-            width: 50,
-            height: 28
+            x: 232,
+            y: 355,
+            width: 110,
+            height: 75
         });
 
-        var craftButton = new ui.View({
+        var craftButton = new Button({
             superview: titleScreen,
-            x: 321,
-            y: 140,
-            width: 58,
-            height: 28
+            x: 687,
+            y: 355,
+            width: 125,
+            height: 75
         });
 
         titleScreen.on('titleScreen:play', function () {
