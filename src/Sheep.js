@@ -3,7 +3,7 @@ import ui.ImageView as ImageView;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/16x9/ewe-white.png'
+            image: 'resources/images/ewe-white.png'
         });
 
         supr(this, 'init', [opts]);

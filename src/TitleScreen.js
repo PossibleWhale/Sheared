@@ -16,7 +16,7 @@ import ui.ImageView;
 exports = Class(ui.ImageView, function (supr) {
         this.init = function (opts) {
                 opts = merge(opts, {
-                        image: "resources/images/16x9/title-dev.png"
+                        image: "resources/images/title-dev.png"
                 });
 
                 supr(this, 'init', [opts]);
@@ -25,27 +25,6 @@ exports = Class(ui.ImageView, function (supr) {
         };
 
         this.build = function() {
-        console.log('build title screen');
-        if (0) {
-                /* Since the start button is a part the background image,
-                 * we just need to create and position an overlay view that
-                 * will register input events and act as button.
-                 */
-                var startbutton = new ui.View({
-                        superview: this,
-                        x: 58,
-                        y: 313,
-                        width: 200,
-                        height: 100
-                });
-
-                /* Listening for a touch or click event, and will dispatch a
-                 * custom event to the title screen, which is listened for in
-                 * the top-level application file.
-                 */
-                startbutton.on('InputSelect', bind(this, function () {
-                        this.emit('titlescreen:start');
-                }));
-        }
+            console.log("build title screen");
         };
 });
