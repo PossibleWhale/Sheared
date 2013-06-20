@@ -1,3 +1,4 @@
+import src.constants as constants;
 import ui.ImageView as ImageView;
 
 var stepSize = 13,
@@ -6,7 +7,7 @@ var stepSize = 13,
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/ewe-white.png',
+            image: randomColor().image,
             autoSize: true
         });
 
@@ -22,3 +23,8 @@ exports = Class(ImageView, function (supr) {
         }), stepFrequency)
     };
 });
+
+function randomColor () {
+    var maxIdx = constants.colors.length;
+    return constants.colors[Math.floor(Math.random() * maxIdx)];
+}
