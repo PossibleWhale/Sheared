@@ -1,20 +1,40 @@
 "use strict";
 
+var imagePath = 'resources/images/';
+
 exports = {
     COLOR_NONE: null,
 
-    COLOR_WHITE: 
-        {label: 'white', weight: 2},
-    COLOR_RED: 
-        {label: 'red', weight: 2},
-    COLOR_GREEN:
-        {label: 'green', weight: 2},
-    COLOR_BLUE:
-        {label: 'blue', weight: 2},
-    COLOR_YELLOW:
-        {label: 'yellow', weight: 2},
-    COLOR_BLACK: 
-        {label: 'black', weight: 1},
+    COLOR_WHITE: {
+        label: 'white',
+        image: imagePath + 'ewe-white.png',
+        weight: 2
+    },
+    COLOR_RED: {
+        label: 'red',
+        image: imagePath + 'ewe-red.png',
+        weight: 2
+    },
+    COLOR_GREEN: {
+        label: 'green',
+        image: imagePath + 'ewe-green.png',
+        weight: 2
+    },
+    COLOR_BLUE: {
+        label: 'blue',
+        image: imagePath + 'ewe-blue.png',
+        weight: 2
+    },
+    COLOR_YELLOW: {
+        label: 'yellow',
+        image: imagePath + 'ewe-yellow.png',
+        weight: 2
+    },
+    COLOR_BLACK: {
+        label: 'black',
+        image: imagePath + 'ewe-black.png',
+        weight: 1
+    },
 
     TYPE_NAKED: null,
 
