@@ -5,14 +5,11 @@ import src.Sheep as Sheep;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/field-dev.png',
+            image: 'resources/images/play-dev.png',
             autoSize: true
         });
 
         supr(this, 'init', [opts]);
-
-        console.log(this.style.width);
-        console.log(this.style.height);
 
         this.build();
     };

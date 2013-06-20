@@ -16,9 +16,9 @@ GC.debug = false;
 
 var boundsWidth = 1024,
     boundsHeight = 576,
-    baseWidth = boundsWidth,
-    baseHeight = device.screen.height * (boundsWidth / device.screen.width),
-    scale = device.screen.width / boundsWidth;
+    scale = device.screen.height / boundsHeight,
+    baseWidth = device.screen.width / scale,
+    baseHeight = device.screen.height / scale;
 
 /* Your application inherits from GC.Application, which is
  * exported and instantiated when the game is run.
