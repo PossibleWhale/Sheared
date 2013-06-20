@@ -11,9 +11,6 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        console.log(this.style.width);
-        console.log(this.style.height);
-
         this.build();
     };
 
