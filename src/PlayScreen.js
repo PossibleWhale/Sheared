@@ -1,6 +1,7 @@
 import device;
 import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
+import src.Clipper as Clipper;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -15,6 +16,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        var clipper = new Clipper({
+            x: 0,
+            y: laneCoord(4) + 5 // start in middle lane
+        });
+        this.addSubview(clipper);
+
         this.on('play:start', bind(this, play_game));
     };
 });
@@ -34,7 +41,11 @@ function spawnSheep () {
 
 // return a random y-coordinate for the lane
 function randomLaneCoord () {
+    return laneCoord(Math.floor(Math.random()*8));
+}
+
+function laneCoord (index) {
     // 80px fence
     // 52px lane
-    return ((Math.floor(Math.random()*8)) * 52) + 80;
-};
+    return (index * 52) + 80;
+}
