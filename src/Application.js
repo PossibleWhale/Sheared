@@ -54,18 +54,18 @@ exports = Class(GC.Application, function () {
 
         var playButton = new Button({
             superview: titleScreen,
-            x: 232,
-            y: 355,
-            width: 110,
-            height: 75
+            x: 190,
+            y: 300,
+            width: 100,
+            height: 70
         });
 
         var craftButton = new Button({
             superview: titleScreen,
-            x: 687,
-            y: 355,
+            x: 570,
+            y: 295,
             width: 125,
-            height: 75
+            height: 70
         });
 
         titleScreen.on('titleScreen:play', function () {
