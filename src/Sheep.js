@@ -1,5 +1,8 @@
 import ui.ImageView as ImageView;
 
+var stepSize = 13,
+    stepFrequency = 50; // step every x milliseconds
+
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
@@ -12,10 +15,10 @@ exports = Class(ImageView, function (supr) {
 
     this.run = function () {
         setInterval(bind(this, function () {
-            this.style.x = this.style.x - 10;
-            if (this.style.x < 0) {
+            this.style.x = this.style.x - stepSize;
+            if (this.style.x < -1*this.style.width) {
                 this.removeFromSuperview();
             }
-        }), 100)
+        }), stepFrequency)
     };
 });
