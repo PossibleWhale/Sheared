@@ -14,11 +14,13 @@ import src.Button as Button;
 
 GC.debug = false;
 
+// DO NOT QUESTION THIS MATH
 var boundsWidth = 1024,
     boundsHeight = 576,
-    scale = device.screen.height / boundsHeight,
-    baseWidth = device.screen.width / scale,
-    baseHeight = device.screen.height / scale;
+    scale = device.width / boundsWidth,
+    baseWidth = device.width,
+    baseHeight = boundsHeight * scale,
+    gap = (device.height - baseHeight) / (2 * scale);
 
 /* Your application inherits from GC.Application, which is
  * exported and instantiated when the game is run.
@@ -29,44 +31,51 @@ exports = Class(GC.Application, function () {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        var titleScreen = new TitleScreen({
-                width: boundsWidth,
-                height: boundsHeight
-            }),
-            craftScreen = new CraftScreen(),
-            playScreen = new PlayScreen();
-
-        this.view.style.backgroundColor = '#30B040';
+        this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
 
         //Add a new StackView to the root of the scene graph
         var rootView = new StackView({
             superview: this.view,
             x: 0,
-            y: 0,
-            height: baseHeight,
-            width: baseWidth,
+            y: gap,
+            height: boundsHeight,
+            width: boundsWidth,
             clip: true,
             backgroundColor: '#37B34A'
         });
 
+        var titleScreen = new TitleScreen(),
+            craftScreen = new CraftScreen(),
+            playScreen = new PlayScreen();
+
+
         rootView.push(titleScreen);
 
-        var playButton = new Button({
-            superview: titleScreen,
-            x: 190,
-            y: 300,
-            width: 100,
-            height: 70
-        });
+        var debugBackground = {
+            backgroundColor: '#7c7',
+            opacity: 0.7
+        }
 
-        var craftButton = new Button({
+        var pbOpts = {
             superview: titleScreen,
-            x: 570,
-            y: 295,
-            width: 125,
+            x: 235,
+            y: 300,
+            width: 105,
             height: 70
-        });
+        };
+        // merge(pbOpts, debugBackground);
+        var playButton = new Button(pbOpts);
+
+        var cbOpts = {
+            superview: titleScreen,
+            x: 680,
+            y: 295,
+            width: 130,
+            height: 70
+        }
+        // merge(cbOpts, debugBackground);
+        var craftButton = new Button(cbOpts);
 
         titleScreen.on('titleScreen:play', function () {
             rootView.push(playScreen);
