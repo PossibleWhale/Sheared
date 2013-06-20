@@ -43,10 +43,10 @@ exports = Class(ui.ImageView, function (supr) {
                 text: region.c.label.substr(0, 1)
             };
             merge(opts, region);
-            opts.x = opts.x * BIZARRE_SCALE_RATIO;
-            opts.y = opts.y * BIZARRE_SCALE_RATIO;
-            opts.height = opts.height * BIZARRE_SCALE_RATIO;
-            opts.width = opts.width * BIZARRE_SCALE_RATIO;
+            opts.x = opts.x;
+            opts.y = opts.y;
+            opts.height = opts.height;
+            opts.width = opts.width;
             var btn = new Button(opts);
 
             btn.on('InputSelect', function () {
@@ -60,18 +60,16 @@ exports = Class(ui.ImageView, function (supr) {
 });
 
 
-var BIZARRE_SCALE_RATIO = 0.375;
-
 var craftScreenRegions = {
 colors: [
-    {c: constants.COLOR_WHITE, y:142, x:50, width:58, height:58},
-    {c: constants.COLOR_GREEN, y:228, x:50, width:58, height:58},
-    {c: constants.COLOR_RED, y:316, x:50, width:58, height:58},
-    {c: constants.COLOR_BLUE, y:403, x:50, width:58, height:58},
-    {c: constants.COLOR_YELLOW, y:490, x:50, width:58, height:58},
-    {c: constants.COLOR_BLACK, y:577, x:50, width:58, height:58}
+    {c: constants.COLOR_WHITE, y:170, x:39, width:49, height:49},
+    {c: constants.COLOR_RED, y:234, x:39, width:49, height:49},
+    {c: constants.COLOR_GREEN, y:298, x:39, width:49, height:49},
+    {c: constants.COLOR_BLUE, y:362, x:39, width:49, height:49},
+    {c: constants.COLOR_YELLOW, y:426, x:39, width:49, height:49},
+    {c: constants.COLOR_BLACK, y:490, x:39, width:49, height:49}
     ],
-requirements: [
+costs: [
     {y:114, x:210, width:58, height:60},
     {y:114, x:337, width:58, height:60},
     {y:114, x:406, width:58, height:60},
