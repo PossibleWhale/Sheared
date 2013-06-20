@@ -2,17 +2,17 @@
  * The main application file, your game code begins here.
  */
 
-//sdk imports
 import device;
 import ui.View;
 import ui.StackView as StackView;
-//user imports
+
 import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.Button as Button;
 
-GC.debug = false;
+GC.debug = true;
+
 
 // DO NOT QUESTION THIS MATH
 var boundsWidth = 1024,
@@ -52,11 +52,6 @@ exports = Class(GC.Application, function () {
 
         rootView.push(titleScreen);
 
-        var debugBackground = {
-            backgroundColor: '#7c7',
-            opacity: 0.7
-        }
-
         var pbOpts = {
             superview: titleScreen,
             x: 235,
@@ -64,7 +59,6 @@ exports = Class(GC.Application, function () {
             width: 105,
             height: 70
         };
-        // merge(pbOpts, debugBackground);
         var playButton = new Button(pbOpts);
 
         var cbOpts = {
@@ -74,7 +68,6 @@ exports = Class(GC.Application, function () {
             width: 130,
             height: 70
         }
-        // merge(cbOpts, debugBackground);
         var craftButton = new Button(cbOpts);
 
         titleScreen.on('titleScreen:play', function () {
