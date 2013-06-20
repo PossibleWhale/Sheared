@@ -15,7 +15,7 @@ var colors = constants.colors;
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: "resources/images/16x9/craftstand-dev.png",
+            image: "resources/images/craft-dev.png",
             autosize: true
         });
 

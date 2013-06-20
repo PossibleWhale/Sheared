@@ -5,7 +5,7 @@ import src.Sheep as Sheep;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/field-dev.png',
+            image: 'resources/images/play-dev.png',
             autoSize: true
         });
 
