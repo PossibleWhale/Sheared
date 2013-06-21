@@ -75,7 +75,7 @@ exports = Class(ui.ImageView, function (supr) {
 
         var _toggleBackground = bind(this, function () {
             if (this.selectedGarment === c.GARMENT_YARN) {
-                this.setImage('resources/images/craft-yarn-dev.png');
+                this.setImage('resources/images/craft-dev-yarn.png');
                 // when switching from yarn to another garment, toggle the
                 // background back. Do this only once; thus, switching from
                 // another garment to another garment does nothing.
