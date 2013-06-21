@@ -4,6 +4,7 @@ import src.Sheep as Sheep;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Inventory as Inventory;
+import src.constants as constants;
 import ui.TextView as TextView;
 
 exports = Class(ImageView, function (supr) {
@@ -96,7 +97,5 @@ function randomLaneCoord () {
 }
 
 function laneCoord (index) {
-    // 80px fence
-    // 52px lane
-    return (index * 52) + 80;
+    return (index * constants.laneSize) + constants.fenceSize;
 }

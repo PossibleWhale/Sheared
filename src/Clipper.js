@@ -29,14 +29,14 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-            this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
-            this.style.y = dragEvt.srcPt.y - this.dragOffset.y;
-        }));
+            var y = dragEvt.srcPt.y - this.dragOffset.y;
 
-        this.on('DragStop', function (startEvt, dragEvt) {
             this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
-            this.style.y = dragEvt.srcPt.y - this.dragOffset.y;
-        });
+
+            if (y > constants.fenceSize && y < 576 - constants.fenceSize - this.style.height) { 
+                this.style.y = y;
+            }
+        }));
     };
 
     this.decreaseHealth = function () {

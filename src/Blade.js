@@ -30,7 +30,7 @@ exports = Class(ImageView, function (supr) {
             } else {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
-                        inventory.wool[sheep[i].color.label] += 1;
+                        inventory.addWool(sheep[i].color.label);
                         clearInterval(interval);
                         sheep[i].die();
                         this.removeFromSuperview();

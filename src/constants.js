@@ -94,3 +94,6 @@ exports.colorsByLabel = indexByLabel(exports.colors);
 exports.garments = [exports.GARMENT_YARN, exports.GARMENT_HAT, exports.GARMENT_SOCK,
     exports.GARMENT_SCARF, exports.GARMENT_MITTEN, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
+
+exports.fenceSize = 80;
+exports.laneSize = 52;
