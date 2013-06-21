@@ -7,12 +7,16 @@ var stepSize = 13,
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
+        var color = randomColor();
+
         opts = merge(opts, {
-            image: randomColor().image,
+            image: color.image,
             autoSize: true
         });
 
         supr(this, 'init', [opts]);
+
+        this.color = color;
     };
 
     this.run = function () {

@@ -3,6 +3,7 @@ import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
+import src.Inventory as Inventory;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -12,6 +13,8 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        this.inventory = new Inventory();
 
         this.sheep = [];
         this.build();
