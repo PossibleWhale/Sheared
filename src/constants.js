@@ -36,23 +36,36 @@ exports = {
         weight: 1
     },
 
-    TYPE_NAKED: null,
+    GARMENT_NAKED: null,
 
-    TYPE_YARN: 
+    GARMENT_YARN: 
         {label: 'yarn', cost: {fringe: 0, body: 1}},
-    TYPE_HAT: 
+    GARMENT_HAT: 
         {label: 'hat', cost: {fringe: 1, body: 2}},
-    TYPE_SOCK: 
+    GARMENT_SOCK: 
         {label: 'sock', cost: {fringe: 1, body: 3}},
-    TYPE_SCARF: 
+    GARMENT_SCARF: 
         {label: 'scarf', cost: {fringe: 3, body: 6}},
-    TYPE_MITTEN: 
+    GARMENT_MITTEN: 
         {label: 'mitten', cost: {fringe: 1, body: 2}},
-    TYPE_SWEATER: 
+    GARMENT_SWEATER: 
         {label: 'sweater', cost: {fringe: 5, body: 20}},
 };
+
+function indexByLabel(objs) {
+    var r = {};
+    for (var i = 0; i < objs.length; i++) {
+        var o = objs[i];
+        r[o.label] = o;
+    }
+    return r;
+}
+
 exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED, exports.COLOR_GREEN,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
+exports.colorsByLabel = indexByLabel(exports.colors);
 
-exports.garments = [exports.TYPE_YARN, exports.TYPE_HAT, exports.TYPE_SOCK,
-    exports.TYPE_SCARF, exports.TYPE_MITTEN, exports.TYPE_SWEATER];
+
+exports.garments = [exports.GARMENT_YARN, exports.GARMENT_HAT, exports.GARMENT_SOCK,
+    exports.GARMENT_SCARF, exports.GARMENT_MITTEN, exports.GARMENT_SWEATER];
+exports.garmentsByLabel = indexByLabel(exports.garments);
