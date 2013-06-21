@@ -40,8 +40,8 @@ exports = {
 
     TYPE_YARN: 
         {label: 'yarn'},
-    TYPE_CAP: 
-        {label: 'cap'},
+    TYPE_HAT: 
+        {label: 'hat'},
     TYPE_SOCK: 
         {label: 'sock'},
     TYPE_SCARF: 
@@ -54,5 +54,5 @@ exports = {
 exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED, exports.COLOR_GREEN,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
 
-exports.garments = [exports.TYPE_YARN, exports.TYPE_CAP, exports.TYPE_SOCK,
+exports.garments = [exports.TYPE_YARN, exports.TYPE_HAT, exports.TYPE_SOCK,
     exports.TYPE_SCARF, exports.TYPE_MITTEN, exports.TYPE_SWEATER];

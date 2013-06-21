@@ -55,7 +55,7 @@ exports = Class(GC.Application, function () {
         var pbOpts = {
             superview: titleScreen,
             x: 235,
-            y: 300,
+            y: 271,
             width: 105,
             height: 70
         };
@@ -64,7 +64,7 @@ exports = Class(GC.Application, function () {
         var cbOpts = {
             superview: titleScreen,
             x: 680,
-            y: 295,
+            y: 271,
             width: 130,
             height: 70
         }
