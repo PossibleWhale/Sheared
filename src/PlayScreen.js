@@ -2,6 +2,7 @@ import device;
 import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
 import src.Clipper as Clipper;
+import src.Blade as Blade;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -12,17 +13,32 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
+        this.sheep = [];
         this.build();
     };
 
     this.build = function () {
-        var clipper = new Clipper({
+        this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5 // start in middle lane
         });
-        this.addSubview(clipper);
+        this.addSubview(this.clipper);
 
         this.on('play:start', bind(this, play_game));
+
+        this.on('InputSelect', bind(this, function () {
+            var blade = new Blade({
+                x: this.clipper.style.x + this.clipper.style.width,
+                y: this.clipper.style.y + 3
+            });
+            this.addSubview(blade);
+            blade.run();
+        }));
+    };
+
+    this.removeSheep = function (sheep) {
+        this.sheep.splice(this.sheep.indexOf(sheep), 1);
+        sheep.removeFromSuperview();
     };
 });
 
@@ -36,6 +52,7 @@ function spawnSheep () {
         y: randomLaneCoord()
     });
     this.addSubview(sheep);
+    this.sheep.push(sheep);
     sheep.run();
 }
 

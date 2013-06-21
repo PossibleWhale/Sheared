@@ -15,15 +15,12 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function () {
         this.on('InputStart', bind(this, function (evt) {
-            console.log('input select');
             this.startDrag({
                 inputStartEvt: evt
             });
         }));
 
         this.on('DragStart', function (dragEvt) {
-            console.log('start drag');
-            console.log(dragEvt);
             this.dragOffset = {
                 x: dragEvt.srcPt.x - this.style.x,
                 y: dragEvt.srcPt.y - this.style.y
@@ -31,7 +28,6 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-            console.log('drag event');
             this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
             this.style.y = dragEvt.srcPt.y - this.dragOffset.y;
         }));
