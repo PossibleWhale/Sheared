@@ -11,8 +11,6 @@ import ui.TextView;
 import src.constants as constants;
 import src.Button as Button;
 
-var colors = constants.colors;
-
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
@@ -32,23 +30,17 @@ exports = Class(ui.ImageView, function (supr) {
             // TODO - something may go here someday
         });
 
-        // create color buttons
+        var commonOpts = { superview: this, clip: true };
+
+        function _buttonFromRegion(region) {
+            var opts = merge(merge({}, commonOpts), region);
+            return new Button(opts);
+        }
+
+        // color buttons
         var colorButtons = [];
         for (var i = 0; i < craftScreenRegions.colors.length; i++) {
-            var region = craftScreenRegions.colors[i];
-
-            var opts = {
-                superview: this,
-                clip: true,
-                text: region.c.label.substr(0, 1)
-            };
-            merge(opts, region);
-            opts.x = opts.x * BIZARRE_SCALE_RATIO;
-            opts.y = opts.y * BIZARRE_SCALE_RATIO;
-            opts.height = opts.height * BIZARRE_SCALE_RATIO;
-            opts.width = opts.width * BIZARRE_SCALE_RATIO;
-            var btn = new Button(opts);
-
+            var btn = _buttonFromRegion(craftScreenRegions.colors[i]);
             btn.on('InputSelect', function () {
                 console.log(this.getOpts().c.label + ' clicked');
             });
@@ -56,41 +48,62 @@ exports = Class(ui.ImageView, function (supr) {
             colorButtons.push(btn);
         }
 
+        // garment buttons
+        var garmentButtons = [];
+        for (var i = 0; i < craftScreenRegions.garments.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.garments[i]);
+            btn.on('InputSelect', function () {
+                console.log(this.getOpts().g.label + ' clicked');
+            });
+
+            garmentButtons.push(btn);
+        }
+
+        // cost buttons
+        var costButtons = [];
+        for (var i = 0; i < craftScreenRegions.costs.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.costs[i]);
+
+            costButtons.push(btn);
+        }
     };
 });
 
 
-var BIZARRE_SCALE_RATIO = 0.375;
-
 var craftScreenRegions = {
 colors: [
-    {c: constants.COLOR_WHITE, y:142, x:50, width:58, height:58},
-    {c: constants.COLOR_GREEN, y:228, x:50, width:58, height:58},
-    {c: constants.COLOR_RED, y:316, x:50, width:58, height:58},
-    {c: constants.COLOR_BLUE, y:403, x:50, width:58, height:58},
-    {c: constants.COLOR_YELLOW, y:490, x:50, width:58, height:58},
-    {c: constants.COLOR_BLACK, y:577, x:50, width:58, height:58}
+    {c: constants.COLOR_WHITE, y:170, x:39, width:50, height:50},
+    {c: constants.COLOR_RED, y:234, x:39, width:50, height:50},
+    {c: constants.COLOR_GREEN, y:298, x:39, width:50, height:50},
+    {c: constants.COLOR_BLUE, y:362, x:39, width:50, height:50},
+    {c: constants.COLOR_YELLOW, y:426, x:39, width:50, height:50},
+    {c: constants.COLOR_BLACK, y:490, x:39, width:50, height:50}
     ],
-requirements: [
-    {y:114, x:210, width:58, height:60},
-    {y:114, x:337, width:58, height:60},
-    {y:114, x:406, width:58, height:60},
-    {y:114, x:495, width:58, height:60},
-    {y:114, x:566, width:58, height:60},
-    {y:114, x:655, width:58, height:60},
-    {y:114, x:723, width:58, height:60},
-    {y:114, x:817, width:58, height:60},
-    {y:114, x:887, width:58, height:60},
-    {y:114, x:976, width:58, height:60},
-    {y:114, x:1047, width:58, height:60}
+costs: [
+    {g: constants.TYPE_YARN, y:152, x:166, width:50, height:50},
+
+    {g: constants.TYPE_CAP, y:152, x:266, width:50, height:50},
+    {g: constants.TYPE_CAP, y:152, x:323, width:50, height:50},
+
+    {g: constants.TYPE_MITTEN, y:152, x:395, width:50, height:50},
+    {g: constants.TYPE_MITTEN, y:152, x:452, width:50, height:50},
+
+    {g: constants.TYPE_SOCK, y:152, x:522, width:50, height:50},
+    {g: constants.TYPE_SOCK, y:152, x:579, width:50, height:50},
+
+    {g: constants.TYPE_SCARF, y:152, x:651, width:50, height:50},
+    {g: constants.TYPE_SCARF, y:152, x:708, width:50, height:50},
+
+    {g: constants.TYPE_SWEATER, y:152, x:779, width:50, height:50},
+    {g: constants.TYPE_SWEATER, y:152, x:836, width:50, height:50}
     ],
 garments: [
-    {g: constants.TYPE_YARN, y:0, x:1153, width:95, height:90},
-    {g: constants.TYPE_CAP, y:139, x:1153, width:95, height:90},
-    {g: constants.TYPE_MITTEN, y:255, x:1161, width:74, height:90},
-    {g: constants.TYPE_SOCK, y:358, x:1164, width:68, height:90},
-    {g: constants.TYPE_SCARF, y:466, x:1173, width:53, height:90},
-    {g: constants.TYPE_SWEATER, y:571, x:1156, width:88, height:90}
+    {g: constants.TYPE_YARN, y:170, x:936, width:50, height:50},
+    {g: constants.TYPE_CAP, y:234, x:936, width:50, height:50},
+    {g: constants.TYPE_MITTEN, y:298, x:936, width:50, height:50},
+    {g: constants.TYPE_SOCK, y:362, x:936, width:50, height:50},
+    {g: constants.TYPE_SCARF, y:426, x:936, width:50, height:50},
+    {g: constants.TYPE_SWEATER, y:490, x:936, width:50, height:50}
     ],
 chalkboards: [
     {y:504, x:182, width:108, height:67},
