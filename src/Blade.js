@@ -1,6 +1,7 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
+import src.Inventory as Inventory;
 
 var stepSize = 13,
     stepFrequency = 30;
@@ -19,18 +20,17 @@ exports = Class(ImageView, function (supr) {
         var interval;
         interval = setInterval(bind(this, function () {
             var sheep = this.getSuperview().sheep,
-                i = sheep.length;
+                i = sheep.length,
+                inventory = this.getSuperview().inventory;
             this.style.x = this.style.x + stepSize;
             if (this.style.x > 1024) {
                 this.removeFromSuperview();
             } else {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
-                        // TODO score
-                        console.log("blade hit sheep");
+                        inventory.wool[sheep[i].color.label] += 1;
                         clearInterval(interval);
                         sheep[i].die();
-                        //this.getSuperview().removeSheep(sheep[i]);
                         this.removeFromSuperview();
                         break;
                     }
@@ -39,4 +39,3 @@ exports = Class(ImageView, function (supr) {
         }), stepFrequency)
     };
 });
-
