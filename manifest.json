@@ -3,9 +3,9 @@
 	"shortName": "sheared",
 	"title": "Sheared",
 	"studio": {
-		"name": "Example Studio Name",
-		"domain": "studio.example.com",
-		"stagingDomain": "staging.example.com"
+		"name": "Possible Whale",
+		"domain": "possiblewhale.com",
+		"stagingDomain": "staging.possiblewhale.com"
 	},
 	"supportedOrientations": [
 		"landscape"
