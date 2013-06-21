@@ -22,12 +22,13 @@ exports = Class(ImageView, function (supr) {
     this.run = function () {
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
+
             this.style.x = this.style.x - stepSize;
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
-                // TODO decrease clipper health
                 console.log("sheep hit clipper");
+                superview.clipper.decreaseHealth();
                 this.die();
             }
         }), stepFrequency)
@@ -35,7 +36,9 @@ exports = Class(ImageView, function (supr) {
 
     this.die = function () {
         clearInterval(this.interval);
-        this.getSuperview().removeSheep(this);
+        if (this.getSuperview()) {
+            this.getSuperview().removeSheep(this);
+        }
     };
 });
 

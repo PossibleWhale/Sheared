@@ -14,6 +14,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        this.health = 5;
         this.on('InputStart', bind(this, function (evt) {
             this.startDrag({
                 inputStartEvt: evt
@@ -36,5 +37,14 @@ exports = Class(ImageView, function (supr) {
             this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
             this.style.y = dragEvt.srcPt.y - this.dragOffset.y;
         });
+    };
+
+    this.decreaseHealth = function () {
+        this.health -= 1;
+        if (this.health > 0) {
+            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+        } else {
+            this.getSuperview().gameOver();
+        }
     };
 });

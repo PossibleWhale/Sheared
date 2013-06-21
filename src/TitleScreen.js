@@ -14,17 +14,17 @@ import ui.ImageView;
  * it adds the start button as a child.
  */
 exports = Class(ui.ImageView, function (supr) {
-        this.init = function (opts) {
-                opts = merge(opts, {
-                        image: "resources/images/title-dev.png"
-                });
+    this.init = function (opts) {
+        opts = merge(opts, {
+            image: "resources/images/title-dev.png"
+        });
 
-                supr(this, 'init', [opts]);
+        supr(this, 'init', [opts]);
 
-                this.build();
-        };
+        this.build();
+    };
 
-        this.build = function() {
-            console.log("build title screen");
-        };
+    this.build = function() {
+        console.log("build title screen");
+    };
 });

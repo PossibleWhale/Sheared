@@ -4,6 +4,7 @@ import src.Sheep as Sheep;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Inventory as Inventory;
+import ui.TextView as TextView;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -29,19 +30,40 @@ exports = Class(ImageView, function (supr) {
 
         this.on('play:start', bind(this, play_game));
 
-        this.on('InputSelect', bind(this, function () {
-            var blade = new Blade({
-                x: this.clipper.style.x + this.clipper.style.width,
-                y: this.clipper.style.y + 3
-            });
-            this.addSubview(blade);
-            blade.run();
-        }));
+        this.on('InputSelect', bind(this, launchBlade));
     };
 
     this.removeSheep = function (sheep) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
         sheep.removeFromSuperview();
+    };
+
+    this.gameOver = function () {
+        var gameOverScreen, i = this.sheep.length;
+
+        while (i--) {
+            clearInterval(this.sheep[i].interval);
+        }
+        if (this.blade) {
+            clearInterval(this.blade.interval);
+        }
+        clearInterval(this.interval);
+
+        this.removeAllSubviews();
+        gameOverScreen = new TextView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 576,
+            text: 'You lost',
+            size: 42,
+            color: '#FFFFFF',
+            backgroundColor: '#000000'
+        });
+        gameOverScreen.on('InputSelect', function (evt) {
+            evt.cancel();
+        });
+        this.addSubview(gameOverScreen);
     };
 });
 
@@ -58,6 +80,15 @@ function spawnSheep () {
     this.sheep.push(sheep);
     sheep.run();
 }
+
+function launchBlade () {
+    var blade = new Blade({
+        x: this.clipper.style.x + this.clipper.style.width,
+        y: this.clipper.style.y + 3
+    });
+    this.addSubview(blade);
+    blade.run();
+};
 
 // return a random y-coordinate for the lane
 function randomLaneCoord () {
