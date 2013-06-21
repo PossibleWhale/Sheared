@@ -97,9 +97,7 @@ exports = Class(GC.Application, function () {
             rootView.pop();
         }
         
-        NATIVE.onBackButton = function() {
-            device.setBackButtonHandler(_back);
-        };
+        device.setBackButtonHandler(_back);
 
         /* When the game screen has signalled that the game is over,
          * show the title screen so that the user may play the game again.
