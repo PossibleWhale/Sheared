@@ -11,7 +11,7 @@ import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.Button as Button;
 
-GC.debug = true;
+GC.debug = false;
 
 
 // DO NOT QUESTION THIS MATH

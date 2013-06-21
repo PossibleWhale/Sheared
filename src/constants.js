@@ -39,17 +39,17 @@ exports = {
     TYPE_NAKED: null,
 
     TYPE_YARN: 
-        {label: 'yarn'},
+        {label: 'yarn', cost: {fringe: 0, body: 1}},
     TYPE_HAT: 
-        {label: 'hat'},
+        {label: 'hat', cost: {fringe: 1, body: 2}},
     TYPE_SOCK: 
-        {label: 'sock'},
+        {label: 'sock', cost: {fringe: 1, body: 3}},
     TYPE_SCARF: 
-        {label: 'scarf'},
+        {label: 'scarf', cost: {fringe: 3, body: 6}},
     TYPE_MITTEN: 
-        {label: 'mitten'},
+        {label: 'mitten', cost: {fringe: 1, body: 2}},
     TYPE_SWEATER: 
-        {label: 'sweater'}
+        {label: 'sweater', cost: {fringe: 5, body: 20}},
 };
 exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED, exports.COLOR_GREEN,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
