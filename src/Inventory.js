@@ -6,14 +6,13 @@ import event.Emitter as Emitter;
 exports = Class(Emitter, function Inventory(supr) {
     this.init = function () {
         supr(this, 'init', arguments);
-        this.wool = {
-            c.COLOR_WHITE: 0,
-            c.COLOR_RED: 0,
-            c.COLOR_GREEN: 0,
-            c.COLOR_BLUE: 0,
-            c.COLOR_YELLOW: 0,
-            c.COLOR_BLACK: 0
-        };
+        this.wool = {};
+        this.wool[c.COLOR_WHITE.label] = 0;
+        this.wool[c.COLOR_RED.label] = 0;
+        this.wool[c.COLOR_GREEN.label] = 0;
+        this.wool[c.COLOR_BLUE.label] = 0;
+        this.wool[c.COLOR_YELLOW.label] = 0;
+        this.wool[c.COLOR_BLACK.label] = 0;
  
         this._crafts = [];
 
