@@ -29,7 +29,6 @@ exports = Class(ImageView, function (supr) {
         this.addSubview(this.clipper);
 
         this.on('play:start', bind(this, play_game));
-
         this.on('InputSelect', bind(this, launchBlade));
     };
 
@@ -60,10 +59,11 @@ exports = Class(ImageView, function (supr) {
             color: '#FFFFFF',
             backgroundColor: '#000000'
         });
-        gameOverScreen.on('InputSelect', function (evt) {
-            evt.cancel();
-        });
         this.addSubview(gameOverScreen);
+        this.removeAllListeners();
+        gameOverScreen.on('InputSelect', bind(this, function () {
+            this.getSuperview().emit('titleScreen:craft');
+        }));
     };
 });
 

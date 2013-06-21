@@ -70,22 +70,22 @@ exports = Class(GC.Application, function () {
         }
         var craftButton = new Button(cbOpts);
 
-        titleScreen.on('titleScreen:play', function () {
+        rootView.on('titleScreen:play', function () {
             rootView.push(playScreen);
             playScreen.emit('play:start');
         });
 
-        titleScreen.on('titleScreen:craft', function () {
+        rootView.on('titleScreen:craft', function () {
             rootView.push(craftScreen);
             craftScreen.emit('craft:start');
         });
 
         playButton.on('InputSelect', function () {
-            titleScreen.emit('titleScreen:play');
+            rootView.emit('titleScreen:play');
         });
 
         craftButton.on('InputSelect', function () {
-            titleScreen.emit('titleScreen:craft');
+            rootView.emit('titleScreen:craft');
         });
 
         function _back() {
