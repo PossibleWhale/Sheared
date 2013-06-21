@@ -19,11 +19,13 @@ exports = Class(ImageView, function (supr) {
     this.run = function () {
         var interval;
         interval = setInterval(bind(this, function () {
-            var sheep = this.getSuperview().sheep,
+            var superview = this.getSuperview(),
+                sheep = superview.sheep,
                 i = sheep.length,
-                inventory = this.getSuperview().inventory;
+                inventory = superview.inventory;
             this.style.x = this.style.x + stepSize;
             if (this.style.x > 1024) {
+                clearInterval(interval);
                 this.removeFromSuperview();
             } else {
                 while (i--) {
