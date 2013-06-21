@@ -5,3 +5,4 @@ resources/fonts/metadata.json
 resources/icons/metadata.json
 resources/splash/metadata.json
 sdk
+hs_err_*.log

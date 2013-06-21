@@ -33,6 +33,11 @@ exports = Class(ui.ImageView, function (supr) {
         this.setGarment = bind(this, function(garment) {
             this.selectedGarment = garment;
             this.emit('craftScreen:changeGarment');
+            if (garment === c.GARMENT_YARN) {
+                this.emit('craftScreen:usingGarmentYarn');
+            } else {
+                this.emit('craftScreen:usingGarmentOther');
+            }
         });
 
         /*
@@ -49,6 +54,9 @@ exports = Class(ui.ImageView, function (supr) {
          */
         var _lookupUIResource = bind(this, function () {
             var garment = this.selectedGarment, color = this.selectedColor;
+            if (garment == c.GARMENT_YARN) {
+                return 'resources/images/craft-yarn.png';
+            }
             return 'resources/images/craft-' + garment.label + '-' + color.label + '.png';
         });
 
@@ -64,6 +72,20 @@ exports = Class(ui.ImageView, function (supr) {
             this.uiLayer.removeAllSubviews();
             new ui.ImageView(merge({image: res}, uiImageOpts()));
         });
+
+        var _toggleBackground = bind(this, function () {
+            if (this.selectedGarment === c.GARMENT_YARN) {
+                this.setImage('resources/images/craft-dev-yarn.png');
+                // when switching from yarn to another garment, toggle the
+                // background back. Do this only once; thus, switching from
+                // another garment to another garment does nothing.
+                this.once('craftScreen:usingGarmentOther', _toggleBackground);
+            } else {
+                this.setImage('resources/images/craft-dev.png');
+            }
+        });
+        this.on('craftScreen:usingGarmentYarn', _toggleBackground);
+            
 
         // clear out the ui image and replace it when color changes
         this.changeColor = bind(this, function () {
