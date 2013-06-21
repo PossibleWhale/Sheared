@@ -18,7 +18,7 @@ exports = Class(ui.TextView, function (supr) {
         if (GC.debug) {
             merge(opts, {
                 backgroundColor: '#c6c',
-                opacity: 0.7
+                opacity: 0.4
             });
         }
         supr(this, 'init', [opts]);
