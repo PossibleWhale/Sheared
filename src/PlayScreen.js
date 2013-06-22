@@ -5,6 +5,7 @@ import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Inventory as Inventory;
 import src.constants as constants;
+import src.Timer as Timer;
 import ui.TextView as TextView;
 
 exports = Class(ImageView, function (supr) {
@@ -38,7 +39,7 @@ exports = Class(ImageView, function (supr) {
         sheep.removeFromSuperview();
     };
 
-    this.gameOver = function () {
+    this.gameOver = function (text) {
         var gameOverScreen, i = this.sheep.length;
 
         while (i--) {
@@ -55,7 +56,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 1024,
             height: 576,
-            text: 'You lost',
+            text: text || 'You lost',
             size: 42,
             color: '#FFFFFF',
             backgroundColor: '#000000'
@@ -66,10 +67,24 @@ exports = Class(ImageView, function (supr) {
             this.getSuperview().emit('titleScreen:craft');
         }));
     };
+
+    this.timeOver = function () {
+        // TODO show results and go to next "day"
+        this.gameOver('You beat the level!');
+    };
 });
 
 function play_game () {
     this.interval = setInterval(spawnSheep.bind(this), 1000);
+
+    this.timer = new Timer({
+        x: 0,
+        y: 0,
+        width: 1024,
+        height: constants.fenceSize
+    });
+    this.addSubview(this.timer);
+    this.timer.run();
 }
 
 function spawnSheep () {
