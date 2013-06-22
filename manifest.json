@@ -3,9 +3,9 @@
 	"shortName": "sheared",
 	"title": "Sheared",
 	"studio": {
-		"name": "Example Studio Name",
-		"domain": "studio.example.com",
-		"stagingDomain": "staging.example.com"
+		"name": "Possible Whale",
+		"domain": "possiblewhale.com",
+		"stagingDomain": "staging.possiblewhale.com"
 	},
 	"supportedOrientations": [
 		"landscape"
@@ -14,13 +14,7 @@
 	"icon": "resources/icons/ewe.jpg",
 	"splash": {
 		"autoHide": true,
-		"portrait480": "resources/splash/portrait480.png",
-		"portrait960": "resources/splash/portrait960.png",
-		"portrait1024": "resources/splash/portrait1024.png",
-		"portrait1136": "resources/splash/portrait1136.png",
-		"portrait2048": "resources/splash/portrait2048.png",
-		"landscape768": "resources/splash/landscape768.png",
-		"landscape1536": "resources/splash/landscape1536.png"
+		"universal": "resources/splash/universal.png"
 	},
 	"android": {
 		"versionCode": 1,
