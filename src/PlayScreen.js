@@ -19,7 +19,7 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.inventory = new Inventory();
+        this.inventory = GC.app.inventory;
 
         this.day = 0;
         this.build();

@@ -10,6 +10,7 @@ import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.Button as Button;
+import src.Inventory as Inventory;
 
 GC.debug = false;
 
@@ -130,5 +131,7 @@ exports = Class(GC.Application, function () {
     /* Executed after the asset resources have been loaded.
      * If there is a splash screen, it's removed.
      */
-    this.launchUI = function () {};
+    this.launchUI = function () {
+        this.inventory = new Inventory();
+    };
 });
