@@ -160,7 +160,6 @@ var craftScreenRegions = {
 colors: [
     {item: c.COLOR_WHITE, y:170, x:39, width:50, height:50},
     {item: c.COLOR_RED, y:234, x:39, width:50, height:50},
-    {item: c.COLOR_GREEN, y:298, x:39, width:50, height:50},
     {item: c.COLOR_BLUE, y:362, x:39, width:50, height:50},
     {item: c.COLOR_YELLOW, y:426, x:39, width:50, height:50},
     {item: c.COLOR_BLACK, y:490, x:39, width:50, height:50}

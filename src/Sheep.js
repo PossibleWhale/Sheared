@@ -10,7 +10,7 @@ exports = Class(ImageView, function (supr) {
         var color = randomColor();
 
         opts = merge(opts, {
-            image: color.image,
+            image: color.eweImage,
             autoSize: true
         });
 
@@ -27,7 +27,6 @@ exports = Class(ImageView, function (supr) {
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
-                console.log("sheep hit clipper");
                 superview.clipper.decreaseHealth();
                 this.die();
             }
@@ -42,7 +41,18 @@ exports = Class(ImageView, function (supr) {
     };
 });
 
+// return a random color taking into account rarity
 function randomColor () {
-    var maxIdx = constants.colors.length;
-    return constants.colors[Math.floor(Math.random() * maxIdx)];
+    var rarityTotal = 0, i = constants.colors.length,
+        r, currentTotal = 0;
+    while (i--) {
+        rarityTotal += constants.colors[i].rarity;
+    }
+    r = Math.random()*rarityTotal;
+    for (i = 0; i < constants.colors.length; i++) {
+        currentTotal += constants.colors[i].rarity;
+        if (r < currentTotal) {
+            return constants.colors[i];
+        }
+    }
 }
