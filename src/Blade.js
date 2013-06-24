@@ -3,8 +3,8 @@ import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
 import src.Inventory as Inventory;
 
-var stepSize = 13,
-    stepFrequency = 30;
+var stepSize = 20,
+    stepFrequency = 10;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -27,6 +27,7 @@ exports = Class(ImageView, function (supr) {
             if (this.style.x > 1024) {
                 clearInterval(interval);
                 this.removeFromSuperview();
+                superview.bladeOut = false;
             } else {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
@@ -34,6 +35,7 @@ exports = Class(ImageView, function (supr) {
                         clearInterval(interval);
                         sheep[i].die();
                         this.removeFromSuperview();
+                        superview.bladeOut = false;
                         break;
                     }
                 }

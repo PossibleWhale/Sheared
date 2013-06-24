@@ -20,6 +20,7 @@ exports = Class(ImageView, function (supr) {
 
         this.inventory = new Inventory();
 
+        this.day = 6;
         this.sheep = [];
         this.build();
     };
@@ -76,7 +77,7 @@ exports = Class(ImageView, function (supr) {
 });
 
 function play_game () {
-    this.interval = setInterval(spawnSheep.bind(this), 1000);
+    this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
 
     this.timer = new Timer({
         x: 0,
@@ -108,11 +109,15 @@ function spawnSheep () {
 }
 
 function launchBlade () {
+    if (this.bladeOut) {
+        return;
+    }
     var blade = new Blade({
         x: this.clipper.style.x + this.clipper.style.width,
         y: this.clipper.style.y + 3
     });
     this.addSubview(blade);
+    this.bladeOut = true;
     blade.run();
 };
 
