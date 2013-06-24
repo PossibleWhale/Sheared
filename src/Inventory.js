@@ -15,9 +15,12 @@ exports = Class(Emitter, function Inventory(supr) {
  
         this._crafts = [];
 
+        this.deduct = bind(this, function (color) {
+        });
+
         this.addWool = bind(this, function (color, amt) {
-            if (typeof color === 'string') {
-                color = c.colorsByLabel[color];
+            if (! typeof color === 'string') {
+                color = color.label;
             }
             this.wool[color] = this.wool[color] + (amt || 1);
             this.emit('inventory:woolAdded', color, amt);
