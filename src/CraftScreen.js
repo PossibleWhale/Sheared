@@ -6,6 +6,7 @@
 
 import ui.View;
 import ui.ImageView;
+import ui.resource.Image as Image;
 
 import src.constants as c;
 import src.Button as Button;
@@ -13,9 +14,16 @@ import src.Button as Button;
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
+        this.backgrounds = {
+            mainBG: new Image({url: "resources/images/craft-dev.png"}),
+            yarnBG: new Image({url: "resources/images/craft-dev-yarn.png"})
+        }
+
+        console.log(this.backgrounds.mainBG.getImageData());
+
         opts = merge(opts, {
-            image: "resources/images/craft-dev.png",
-            autosize: true
+            autosize: true,
+            image: this.backgrounds.mainBG
         });
 
         supr(this, 'init', [opts]);
@@ -75,13 +83,13 @@ exports = Class(ui.ImageView, function (supr) {
 
         var _toggleBackground = bind(this, function () {
             if (this.selectedGarment === c.GARMENT_YARN) {
-                this.setImage('resources/images/craft-dev-yarn.png');
+                this.setImage(this.backgrounds.yarnBG);
                 // when switching from yarn to another garment, toggle the
                 // background back. Do this only once; thus, switching from
                 // another garment to another garment does nothing.
                 this.once('craftScreen:usingGarmentOther', _toggleBackground);
             } else {
-                this.setImage('resources/images/craft-dev.png');
+                this.setImage(this.backgrounds.mainBG);
             }
         });
         this.on('craftScreen:usingGarmentYarn', _toggleBackground);
