@@ -52,8 +52,6 @@ exports = Class(GC.Application, function () {
     };
 
     this._initUI = function () {
-        GC.hidePreloader();
-
         //Add a new StackView to the root of the scene graph
         var rootView = new StackView({
             superview: this.view,
@@ -124,6 +122,9 @@ exports = Class(GC.Application, function () {
         rootView.on('gamescreen:end', function () {
             _back();
         });
+
+        GC.hidePreloader();
+
     };
 
     /* Executed after the asset resources have been loaded.
