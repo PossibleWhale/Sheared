@@ -25,6 +25,5 @@ exports = Class(ui.ImageView, function (supr) {
     };
 
     this.build = function() {
-        console.log("build title screen");
     };
 });
