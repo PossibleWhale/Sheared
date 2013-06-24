@@ -18,9 +18,6 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
-
-        this.inventory = GC.app.inventory;
-
         this.day = 0;
         this.build();
     };
@@ -33,7 +30,7 @@ exports = Class(ImageView, function (supr) {
         });
         this.addSubview(this.clipper);
 
-        this.on('play:start', bind(this, play_game));
+        this.on('play:start', bind(this, playGame));
         this.on('InputSelect', bind(this, launchBlade));
     };
 
@@ -109,7 +106,8 @@ exports = Class(ImageView, function (supr) {
     };
 });
 
-function play_game () {
+function playGame () {
+    this.inventory = GC.app.inventory;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
     this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
 
