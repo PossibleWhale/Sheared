@@ -34,12 +34,19 @@ exports = Class(GC.Application, function () {
         this.view.style.scale = scale;
 
         // preload eeeeeverything
+
+        // FIXME - for some reason this API, and ONLY this API, operates on
+        // the "built" filesystem, i.e. after spritesheets have been
+        // generated. Everything else operates on the pre-build directory
+        // index. Thus we preload the spritesheets, not the original resources
+        // paths, for now.
         loader.preload([
                 'spritesheets',
-                'resources/images', 
-                'resources/icons', 
-                'resources/splash', 
-                'resources/fonts'], bind(this, function () {
+                // 'resources/images',
+                // 'resources/icons', 
+                // 'resources/splash', 
+                // 'resources/fonts'
+                ], bind(this, function () {
             this._initUI();
         }));
     };
