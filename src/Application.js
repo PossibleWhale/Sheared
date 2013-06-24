@@ -3,7 +3,7 @@
  */
 
 import device;
-import ui.View;
+import ui.resource.loader as loader;
 import ui.StackView as StackView;
 
 import src.TitleScreen as TitleScreen;
@@ -26,7 +26,6 @@ var boundsWidth = 1024,
  * exported and instantiated when the game is run.
  */
 exports = Class(GC.Application, function () {
-
     /* Run after the engine is created and the scene graph is in
      * place, but before the resources have been loaded.
      */
@@ -34,6 +33,25 @@ exports = Class(GC.Application, function () {
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
 
+        // preload eeeeeverything
+
+        // FIXME - for some reason this API, and ONLY this API, operates on
+        // the "built" filesystem, i.e. after spritesheets have been
+        // generated. Everything else operates on the pre-build directory
+        // index. Thus we preload the spritesheets, not the original resources
+        // paths, for now.
+        loader.preload([
+                'spritesheets',
+                // 'resources/images',
+                // 'resources/icons', 
+                // 'resources/splash', 
+                // 'resources/fonts'
+                ], bind(this, function () {
+            this._initUI();
+        }));
+    };
+
+    this._initUI = function () {
         //Add a new StackView to the root of the scene graph
         var rootView = new StackView({
             superview: this.view,
@@ -89,14 +107,13 @@ exports = Class(GC.Application, function () {
         });
 
         function _back() {
-            // FIXME - if the game is in play when back is hit, don't do
-            // this.
+            // FIXME - this probably should not do anything in the released
+            // game
             if (rootView.getCurrentView() === titleScreen) {
                 return;
             }
             rootView.pop();
         }
-        
         device.setBackButtonHandler(_back);
 
         /* When the game screen has signalled that the game is over,
@@ -105,6 +122,9 @@ exports = Class(GC.Application, function () {
         rootView.on('gamescreen:end', function () {
             _back();
         });
+
+        GC.hidePreloader();
+
     };
 
     /* Executed after the asset resources have been loaded.
