@@ -3,7 +3,7 @@
  */
 
 import device;
-import ui.View;
+import ui.resource.loader as loader;
 import ui.StackView as StackView;
 
 import src.TitleScreen as TitleScreen;
@@ -26,13 +26,26 @@ var boundsWidth = 1024,
  * exported and instantiated when the game is run.
  */
 exports = Class(GC.Application, function () {
-
     /* Run after the engine is created and the scene graph is in
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
+
+        // preload eeeeeverything
+        loader.preload([
+                'spritesheets',
+                'resources/images', 
+                'resources/icons', 
+                'resources/splash', 
+                'resources/fonts'], bind(this, function () {
+            this._initUI();
+        }));
+    };
+
+    this._initUI = function () {
+        GC.hidePreloader();
 
         //Add a new StackView to the root of the scene graph
         var rootView = new StackView({
@@ -89,14 +102,13 @@ exports = Class(GC.Application, function () {
         });
 
         function _back() {
-            // FIXME - if the game is in play when back is hit, don't do
-            // this.
+            // FIXME - this probably should not do anything in the released
+            // game
             if (rootView.getCurrentView() === titleScreen) {
                 return;
             }
             rootView.pop();
         }
-        
         device.setBackButtonHandler(_back);
 
         /* When the game screen has signalled that the game is over,

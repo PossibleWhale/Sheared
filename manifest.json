@@ -13,7 +13,7 @@
 	"description": "",
 	"icon": "resources/icons/ewe.jpg",
 	"splash": {
-		"autoHide": true,
+		"autoHide": false,
 		"universal": "resources/splash/universal.png"
 	},
 	"android": {
