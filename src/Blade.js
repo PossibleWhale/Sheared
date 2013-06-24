@@ -9,7 +9,6 @@ var stepSize = 20,
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/blade-regular.png',
             autoSize: true
         });
 
@@ -17,6 +16,13 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.run = function () {
+        if (this.getSuperview().clipper.isDiamond) {
+            this.setImage('resources/images/blade-diamond.png');
+            this.isDiamond = true;
+        } else {
+            this.setImage('resources/images/blade-regular.png');
+            this.isDiamond = false;
+        }
         var interval;
         interval = setInterval(bind(this, function () {
             var superview = this.getSuperview(),
@@ -31,9 +37,11 @@ exports = Class(ImageView, function (supr) {
             } else {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
-                        inventory.addWool(sheep[i].color.label);
+                        if (!sheep[i].isRam || this.isDiamond) {
+                            inventory.addWool(sheep[i].color.label);
+                            sheep[i].die();
+                        }
                         clearInterval(interval);
-                        sheep[i].die();
                         this.removeFromSuperview();
                         superview.bladeOut = false;
                         break;

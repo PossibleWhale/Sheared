@@ -7,17 +7,12 @@ var stepSize = 13,
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
-        var color = randomColor();
-
         opts = merge(opts, {
-            image: color.eweImage,
+            image: 'resources/images/diamond.png',
             autoSize: true
         });
 
         supr(this, 'init', [opts]);
-
-        this.color = color;
-        this.isRam = false;
     };
 
     this.run = function () {
@@ -28,7 +23,7 @@ exports = Class(ImageView, function (supr) {
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
-                superview.clipper.decreaseHealth();
+                superview.clipper.becomeDiamond();
                 this.die();
             }
         }), stepFrequency)
@@ -36,24 +31,6 @@ exports = Class(ImageView, function (supr) {
 
     this.die = function () {
         clearInterval(this.interval);
-        if (this.getSuperview()) {
-            this.getSuperview().removeSheep(this);
-        }
+        this.removeFromSuperview();
     };
 });
-
-// return a random color taking into account rarity
-function randomColor () {
-    var rarityTotal = 0, i = constants.colors.length,
-        r, currentTotal = 0;
-    while (i--) {
-        rarityTotal += constants.colors[i].rarity;
-    }
-    r = Math.random()*rarityTotal;
-    for (i = 0; i < constants.colors.length; i++) {
-        currentTotal += constants.colors[i].rarity;
-        if (r < currentTotal) {
-            return constants.colors[i];
-        }
-    }
-}
