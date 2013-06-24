@@ -2,8 +2,7 @@ import src.constants as constants;
 import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
 
-var stepSize = 13,
-    stepFrequency = 50; // step every x milliseconds
+var stepFrequency = 50; // step every x milliseconds
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -16,7 +15,9 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
+        this.stepSize = (Math.random() * 20) + 10;
         this.color = color;
+        this.bolts = 1;
         this.isRam = false;
     };
 
@@ -24,7 +25,7 @@ exports = Class(ImageView, function (supr) {
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
 
-            this.style.x = this.style.x - stepSize;
+            this.style.x = this.style.x - this.stepSize;
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {

@@ -38,7 +38,7 @@ exports = Class(ImageView, function (supr) {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
-                            inventory.addWool(sheep[i].color.label);
+                            inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             sheep[i].die();
                         }
                         clearInterval(interval);
