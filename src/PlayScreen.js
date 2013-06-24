@@ -4,6 +4,8 @@ import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
+import src.Diamond as Diamond;
+import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
 import ui.TextView as TextView;
@@ -16,9 +18,6 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
-
-        this.inventory = GC.app.inventory;
-
         this.day = 0;
         this.build();
     };
@@ -31,7 +30,7 @@ exports = Class(ImageView, function (supr) {
         });
         this.addSubview(this.clipper);
 
-        this.on('play:start', bind(this, play_game));
+        this.on('play:start', bind(this, playGame));
         this.on('InputSelect', bind(this, launchBlade));
     };
 
@@ -49,7 +48,11 @@ exports = Class(ImageView, function (supr) {
         if (this.blade) {
             clearInterval(this.blade.interval);
         }
+        if (this.diamond) {
+            clearInterval(this.diamond.interval);
+        }
         clearInterval(this.interval);
+        clearInterval(this.diamondInterval);
 
         this.removeAllSubviews();
         this.removeAllListeners();
@@ -103,8 +106,10 @@ exports = Class(ImageView, function (supr) {
     };
 });
 
-function play_game () {
+function playGame () {
+    this.inventory = GC.app.inventory;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
+    this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
 
     this.timer = new Timer({
         x: 0,
@@ -133,6 +138,16 @@ function spawnSheep () {
     this.addSubview(sheep);
     this.sheep.push(sheep);
     sheep.run();
+}
+
+function spawnDiamond () {
+    this.diamond = new Diamond({
+        x: 1024,
+        y: randomLaneCoord(8)
+    });
+
+    this.addSubview(this.diamond);
+    this.diamond.run();
 }
 
 function launchBlade () {

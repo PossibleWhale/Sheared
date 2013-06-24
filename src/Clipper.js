@@ -15,6 +15,7 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function () {
         this.health = 5;
+        this.isDiamond = false;
         this.on('InputStart', bind(this, function (evt) {
             this.startDrag({
                 inputStartEvt: evt
@@ -42,9 +43,24 @@ exports = Class(ImageView, function (supr) {
     this.decreaseHealth = function () {
         this.health -= 1;
         if (this.health > 0) {
-            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+            if (this.isDiamond) {
+                this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+            } else {
+                this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+            }
         } else {
             this.getSuperview().gameOver();
         }
+    };
+
+    this.becomeDiamond = function () {
+        this.isDiamond = true;
+        this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+        setTimeout(bind(this, this.becomeRegular), 5000);
+    };
+
+    this.becomeRegular = function () {
+        this.isDiamond = false;
+        this.setImage('resources/images/clipper-' + this.health + '-regular.png');
     };
 });
