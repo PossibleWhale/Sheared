@@ -41,7 +41,7 @@ exports = Class(GC.Application, function () {
         // index. Thus we preload the spritesheets, not the original resources
         // paths, for now.
         loader.preload([
-                'spritesheets',
+                'spritesheets'
                 // 'resources/images',
                 // 'resources/icons', 
                 // 'resources/splash', 
