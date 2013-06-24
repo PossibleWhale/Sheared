@@ -52,6 +52,11 @@ exports = Class(ui.ImageView, function (supr) {
          * reset crafting state
          */
         this.startCrafting = bind(this, function() {
+            for (var i = 0; i < this.colorButtons.length; i++) {
+                var btn = this.colorButtons[i];
+                var color = btn.getOpts().item;
+                btn.setText(GC.app.inventory.wool[color.label]);
+            }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
         });
@@ -123,14 +128,15 @@ exports = Class(ui.ImageView, function (supr) {
         });
 
         // color buttons
-        var colorButtons = [];
+        this.colorButtons = [];
         for (var i = 0; i < craftScreenRegions.colors.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.colors[i]);
+            var region = craftScreenRegions.colors[i];
+            var btn = _buttonFromRegion(region);
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
 
-            colorButtons.push(btn);
+            this.colorButtons.push(btn);
         }
 
         // garment buttons

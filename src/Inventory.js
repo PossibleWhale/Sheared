@@ -7,11 +7,11 @@ exports = Class(Emitter, function Inventory(supr) {
     this.init = function () {
         supr(this, 'init', arguments);
         this.wool = {};
-        this.wool[c.COLOR_WHITE.label] = 0;
-        this.wool[c.COLOR_RED.label] = 0;
-        this.wool[c.COLOR_BLUE.label] = 0;
-        this.wool[c.COLOR_YELLOW.label] = 0;
-        this.wool[c.COLOR_BLACK.label] = 0;
+        this.wool[c.COLOR_WHITE.label] = 100;
+        this.wool[c.COLOR_RED.label] = 100;
+        this.wool[c.COLOR_BLUE.label] = 100;
+        this.wool[c.COLOR_YELLOW.label] = 100;
+        this.wool[c.COLOR_BLACK.label] = 100;
  
         this._crafts = [];
 

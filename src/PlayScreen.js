@@ -4,7 +4,6 @@ import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
-import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
 import ui.TextView as TextView;
@@ -18,7 +17,7 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.inventory = new Inventory();
+        this.inventory = GC.app.inventory;
 
         this.day = 0;
         this.build();
