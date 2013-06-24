@@ -1,6 +1,7 @@
 import device;
 import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
+import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Inventory as Inventory;
@@ -88,10 +89,19 @@ function play_game () {
 }
 
 function spawnSheep () {
-    var sheep = new Sheep({
-        x: 1024,
-        y: randomLaneCoord()
-    });
+    var sheep, r = Math.random();
+    if (r > 0.5) {
+        sheep = new Sheep({
+            x: 1024,
+            y: randomLaneCoord(8)
+        });
+    } else {
+        sheep = new Ram({
+            x: 1024,
+            y: randomLaneCoord(7)
+        });
+    }
+
     this.addSubview(sheep);
     this.sheep.push(sheep);
     sheep.run();
@@ -107,8 +117,8 @@ function launchBlade () {
 };
 
 // return a random y-coordinate for the lane
-function randomLaneCoord () {
-    return laneCoord(Math.floor(Math.random()*8));
+function randomLaneCoord (numLanes) {
+    return laneCoord(Math.floor(Math.random()*numLanes));
 }
 
 function laneCoord (index) {

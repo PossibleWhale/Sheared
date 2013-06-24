@@ -7,37 +7,36 @@ exports = {
 
     COLOR_WHITE: {
         label: 'white',
-        image: imagePath + 'ewe-white.png',
+        eweImage: imagePath + 'ewe-white.png',
+        ramImage: imagePath + 'ram-white.png',
         weight: 2,
         rarity: 2.00
     },
     COLOR_RED: {
         label: 'red',
-        image: imagePath + 'ewe-red.png',
-        weight: 2,
-        rarity: 1.00
-    },
-    COLOR_GREEN: {
-        label: 'green',
-        image: imagePath + 'ewe-green.png',
+        eweImage: imagePath + 'ewe-red.png',
+        ramImage: imagePath + 'ram-red.png',
         weight: 2,
         rarity: 1.00
     },
     COLOR_BLUE: {
         label: 'blue',
-        image: imagePath + 'ewe-blue.png',
+        eweImage: imagePath + 'ewe-blue.png',
+        ramImage: imagePath + 'ram-blue.png',
         weight: 2,
         rarity: 1.00
     },
     COLOR_YELLOW: {
         label: 'yellow',
-        image: imagePath + 'ewe-yellow.png',
+        eweImage: imagePath + 'ewe-yellow.png',
+        ramImage: imagePath + 'ram-yellow.png',
         weight: 2,
         rarity: 1.00
     },
     COLOR_BLACK: {
         label: 'black',
-        image: imagePath + 'ewe-black.png',
+        eweImage: imagePath + 'ewe-black.png',
+        ramImage: imagePath + 'ram-black.png',
         weight: 1,
         rarity: 0.50
     },
@@ -86,7 +85,7 @@ function indexByLabel(objs) {
     return r;
 }
 
-exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED, exports.COLOR_GREEN,
+exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
 exports.colorsByLabel = indexByLabel(exports.colors);
 

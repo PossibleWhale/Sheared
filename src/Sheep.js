@@ -10,7 +10,7 @@ exports = Class(ImageView, function (supr) {
         var color = randomColor();
 
         opts = merge(opts, {
-            image: color.image,
+            image: color.eweImage,
             autoSize: true
         });
 
