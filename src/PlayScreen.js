@@ -20,12 +20,12 @@ exports = Class(ImageView, function (supr) {
 
         this.inventory = new Inventory();
 
-        this.day = 6;
-        this.sheep = [];
+        this.day = 0;
         this.build();
     };
 
     this.build = function () {
+        this.sheep = [];
         this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5 // start in middle lane
@@ -41,8 +41,8 @@ exports = Class(ImageView, function (supr) {
         sheep.removeFromSuperview();
     };
 
-    this.gameOver = function (text) {
-        var gameOverScreen, i = this.sheep.length;
+    this.endDay = function () {
+        var i = this.sheep.length;
 
         while (i--) {
             clearInterval(this.sheep[i].interval);
@@ -53,26 +53,54 @@ exports = Class(ImageView, function (supr) {
         clearInterval(this.interval);
 
         this.removeAllSubviews();
-        gameOverScreen = new TextView({
+        this.removeAllListeners();
+    };
+
+    this.gameOver = function () {
+        this.endDay();
+
+        var gameOverScreen = new TextView({
             x: 0,
             y: 0,
             width: 1024,
             height: 576,
-            text: text || 'You lost',
+            text: 'You lost',
             size: 42,
             color: '#FFFFFF',
             backgroundColor: '#000000'
         });
         this.addSubview(gameOverScreen);
-        this.removeAllListeners();
         gameOverScreen.on('InputSelect', bind(this, function () {
             this.getSuperview().emit('titleScreen:craft');
         }));
     };
 
     this.timeOver = function () {
-        // TODO show results and go to next "day"
-        this.gameOver('You beat the level!');
+        this.endDay();
+
+        // TODO show actual results
+        var resultsScreen = new TextView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 576,
+            text: 'Day ' + (this.day + 1) + ' complete!',
+            size: 42,
+            color: '#FFFFFF',
+            backgroundColor: '#000000'
+        });
+        this.addSubview(resultsScreen);
+        resultsScreen.on('InputSelect', bind(this, function (evt) {
+            evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
+            resultsScreen.removeFromSuperview();
+            this.day += 1;
+            if (this.day > 6) {
+                this.getSuperview().emit('titleScreen:craft');
+            } else {
+                this.build();
+                this.emit('play:start');
+            }
+        }));
     };
 });
 
@@ -91,7 +119,7 @@ function play_game () {
 
 function spawnSheep () {
     var sheep, r = Math.random();
-    if (r > 0.5) {
+    if (r > constants.days[this.day].ramRarity) {
         sheep = new Sheep({
             x: 1024,
             y: randomLaneCoord(8)

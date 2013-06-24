@@ -95,6 +95,6 @@ exports.days = [];
 for (var i = 0; i < 7; i++) {
     exports.days.push({
         sheepFrequency: (2 - (i * 1/6))*1000, // delay between sheep spawns
-        rams: true // TODO only have rams on some days
+        ramRarity: 0.2 // TODO make it vary
     });
 }
