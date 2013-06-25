@@ -32,6 +32,15 @@ exports = Class(ImageView, function (supr) {
 
         this.on('play:start', bind(this, playGame));
         this.on('InputSelect', bind(this, launchBlade));
+
+        // for playtesting purposes..
+        if (device.name === 'browser') {
+            var onKey = function (e) {
+                launchBlade();
+            };
+            document.addEventListener('keydown', bind(this, launchBlade), false);
+        }
+
     };
 
     this.removeSheep = function (sheep) {
