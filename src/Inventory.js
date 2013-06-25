@@ -15,14 +15,11 @@ exports = Class(Emitter, function Inventory(supr) {
  
         this._crafts = [];
 
-        this.deduct = bind(this, function (color) {
-        });
-
         this.addWool = bind(this, function (color, amt) {
             if (! typeof color === 'string') {
                 color = color.label;
             }
-            this.wool[color] = this.wool[color] + (amt || 1);
+            this.wool[color] += (amt || 1);
             this.emit('inventory:woolAdded', color, amt);
         });
 
@@ -39,14 +36,5 @@ exports = Class(Emitter, function Inventory(supr) {
             this._crafts.push(new Craft(garment, base, trim));
             this.emit('inventory:craftAdded', garment, base, trim);
         });
-
-        // add all the wool from another inventory to this one
-        this.addInventory = function (other) {
-            var i = c.colors.length;
-            while (i--) {
-                this.wool[c.colors[i].label] += other.wool[c.colors[i].label];
-            }
-        };
     };
 });
-

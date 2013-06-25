@@ -10,7 +10,7 @@ import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.Button as Button;
-import src.Inventory as Inventory;
+import src.Player as Player;
 
 GC.debug = false;
 
@@ -132,6 +132,6 @@ exports = Class(GC.Application, function () {
      * If there is a splash screen, it's removed.
      */
     this.launchUI = function () {
-        this.inventory = new Inventory();
+        this.player = new Player();
     };
 });

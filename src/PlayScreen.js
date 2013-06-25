@@ -6,6 +6,7 @@ import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Diamond as Diamond;
+import src.Player as Player;
 import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
@@ -26,6 +27,7 @@ exports = Class(ImageView, function (supr) {
     this.build = function () {
         this.sheep = [];
         this.dailyInventory = new Inventory();
+
         this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5 // start in middle lane
@@ -68,7 +70,7 @@ exports = Class(ImageView, function (supr) {
         this.removeAllSubviews();
         this.removeAllListeners();
 
-        this.inventory.addInventory(this.dailyInventory);
+        this.player.addInventory(this.dailyInventory);
     };
 
     this.gameOver = function () {
@@ -139,7 +141,7 @@ exports = Class(ImageView, function (supr) {
 });
 
 function playGame () {
-    this.inventory = GC.app.inventory;
+    this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
     this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
 

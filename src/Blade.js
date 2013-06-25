@@ -1,7 +1,7 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
-import src.Inventory as Inventory;
+import src.Player as Player;
 
 var stepSize = 20,
     stepFrequency = 10;
