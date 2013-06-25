@@ -28,7 +28,7 @@ exports = Class(ImageView, function (supr) {
             var superview = this.getSuperview(),
                 sheep = superview.sheep,
                 i = sheep.length,
-                inventory = superview.inventory;
+                inventory = superview.dailyInventory;
             this.style.x = this.style.x + stepSize;
             if (this.style.x > 1024) {
                 clearInterval(interval);

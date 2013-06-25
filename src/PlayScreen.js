@@ -1,4 +1,5 @@
 import device;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
 import src.Ram as Ram;
@@ -24,6 +25,7 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function () {
         this.sheep = [];
+        this.dailyInventory = new Inventory();
         this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5 // start in middle lane
@@ -65,6 +67,8 @@ exports = Class(ImageView, function (supr) {
 
         this.removeAllSubviews();
         this.removeAllListeners();
+
+        this.inventory.addInventory(this.dailyInventory);
     };
 
     this.gameOver = function () {
@@ -89,19 +93,36 @@ exports = Class(ImageView, function (supr) {
     this.timeOver = function () {
         this.endDay();
 
-        // TODO show actual results
-        var resultsScreen = new TextView({
+        var i, resultsScreen = new ImageView({
             x: 0,
             y: 0,
             width: 1024,
             height: 576,
-            text: 'Day ' + (this.day + 1) + ' complete!',
-            size: 42,
-            color: '#FFFFFF',
-            backgroundColor: '#000000'
+            image: 'resources/images/results.png'
+        }),
+        continueButton = new View({
+            x: 392,
+            y: 418,
+            width: 240,
+            height: 54
         });
+        for (i = 0; i < constants.colors.length; i++) {
+            resultsScreen.addSubview(new TextView({
+                x: 72 + 196*i,
+                y: 337,
+                width: 96,
+                height: 48,
+                horizontalAlign: 'center',
+                verticalAlign: 'middle',
+                text: '' + this.dailyInventory.wool[constants.colors[i].label],
+                size: 128,
+                autoFontSize: true,
+                color: '#FFFFFF'
+            }));
+        }
+        resultsScreen.addSubview(continueButton);
         this.addSubview(resultsScreen);
-        resultsScreen.on('InputSelect', bind(this, function (evt) {
+        continueButton.on('InputSelect', bind(this, function (evt) {
             evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
             resultsScreen.removeFromSuperview();
             this.day += 1;

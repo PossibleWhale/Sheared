@@ -39,6 +39,14 @@ exports = Class(Emitter, function Inventory(supr) {
             this._crafts.push(new Craft(garment, base, trim));
             this.emit('inventory:craftAdded', garment, base, trim);
         });
+
+        // add all the wool from another inventory to this one
+        this.addInventory = function (other) {
+            var i = c.colors.length;
+            while (i--) {
+                this.wool[c.colors[i].label] += other.wool[c.colors[i].label];
+            }
+        };
     };
 });
 
