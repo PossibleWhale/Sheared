@@ -63,4 +63,12 @@ exports = Class(ImageView, function (supr) {
         this.isDiamond = false;
         this.setImage('resources/images/clipper-' + this.health + '-regular.png');
     };
+
+    this.reloadBlade = function () {
+        if (this.isDiamond) {
+            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+        } else {
+            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+        }
+    };
 });

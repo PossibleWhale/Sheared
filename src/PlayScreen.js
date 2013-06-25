@@ -14,7 +14,7 @@ import ui.TextView as TextView;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/play-dev.png',
+            image: 'resources/images/play.png',
             autoSize: true
         });
 
@@ -192,6 +192,7 @@ function launchBlade () {
     });
     this.addSubview(blade);
     this.bladeOut = true;
+    this.clipper.setImage('resources/images/clipper-' + this.clipper.health + '-none.png');
     blade.run();
 };
 

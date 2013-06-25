@@ -25,8 +25,13 @@ exports = Class(ImageView, function (supr) {
         }
         var interval;
         interval = setInterval(bind(this, function () {
-            var superview = this.getSuperview(),
-                sheep = superview.sheep,
+            var superview = this.getSuperview();
+
+            if (!superview) {
+                clearInterval(interval);
+                return;
+            }
+            var sheep = superview.sheep,
                 i = sheep.length,
                 inventory = superview.dailyInventory;
             this.style.x = this.style.x + stepSize;
@@ -34,6 +39,7 @@ exports = Class(ImageView, function (supr) {
                 clearInterval(interval);
                 this.removeFromSuperview();
                 superview.bladeOut = false;
+                superview.clipper.reloadBlade();
             } else {
                 while (i--) {
                     if (intersect.rectAndRect(sheep[i].style, this.style)) {
@@ -44,6 +50,7 @@ exports = Class(ImageView, function (supr) {
                         clearInterval(interval);
                         this.removeFromSuperview();
                         superview.bladeOut = false;
+                        superview.clipper.reloadBlade();
                         break;
                     }
                 }
