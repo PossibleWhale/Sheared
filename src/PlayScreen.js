@@ -117,7 +117,9 @@ exports = Class(ImageView, function (supr) {
                 text: '' + this.dailyInventory.wool[constants.colors[i].label],
                 size: 128,
                 autoFontSize: true,
-                color: '#FFFFFF'
+                color: '#FFFFFF',
+                strokeWidth: 4,
+                strokeColor: '#000000'
             }));
         }
         resultsScreen.addSubview(continueButton);

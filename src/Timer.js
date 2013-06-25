@@ -2,13 +2,16 @@ import ui.TextView as TextView;
 
 exports = Class(TextView, function (supr) {
     this.init = function (opts) {
-        var initialTime = 60;
+        var initialTime = 5;
 
         opts = merge(opts, {
             color: '#FFFFFF',
+            size: 128,
             autoFontSize: true,
             text: initialTime,
-            horizontalAlign: 'center'
+            horizontalAlign: 'center',
+            strokeWidth: 4,
+            strokeColor: '#000000'
         });
 
         supr(this, 'init', [opts]);
