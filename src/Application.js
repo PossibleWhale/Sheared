@@ -72,7 +72,6 @@ exports = Class(GC.Application, function () {
 
         rootView.on('titleScreen:play', function () {
             rootView.push(playScreen);
-            playScreen.emit('play:start');
         });
 
         rootView.on('titleScreen:craft', function () {

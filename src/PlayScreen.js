@@ -28,11 +28,20 @@ exports = Class(ImageView, function (supr) {
         this.sheep = [];
         this.dailyInventory = new Inventory();
 
-        this.clipper = new Clipper({
+        var dayIntro = new ImageView({
             x: 0,
-            y: laneCoord(4) + 5 // start in middle lane
+            y: 0,
+            width: 1024,
+            height: 576,
+            image: 'resources/images/day-' + (this.day+1) + '.png'
         });
-        this.addSubview(this.clipper);
+
+        this.addSubview(dayIntro);
+        dayIntro.on('InputSelect', bind(this, function(evt) {
+            evt.cancel();
+            dayIntro.removeFromSuperview();
+            this.emit('play:start');
+        }));
 
         this.on('play:start', bind(this, playGame));
         this.on('InputSelect', bind(this, launchBlade));
@@ -44,7 +53,6 @@ exports = Class(ImageView, function (supr) {
             };
             document.addEventListener('keydown', bind(this, launchBlade), false);
         }
-
     };
 
     this.removeSheep = function (sheep) {
@@ -55,6 +63,7 @@ exports = Class(ImageView, function (supr) {
     this.endDay = function () {
         var i = this.sheep.length;
 
+        this.bladeOut = false;
         while (i--) {
             clearInterval(this.sheep[i].interval);
         }
@@ -134,13 +143,18 @@ exports = Class(ImageView, function (supr) {
                 this.getSuperview().emit('titleScreen:craft');
             } else {
                 this.build();
-                this.emit('play:start');
             }
         }));
     };
 });
 
 function playGame () {
+    this.clipper = new Clipper({
+        x: 0,
+        y: laneCoord(4) + 5 // start in middle lane
+    });
+    this.addSubview(this.clipper);
+
     this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
     this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
