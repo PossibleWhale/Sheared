@@ -1,41 +1,41 @@
 {
-    "appID": "1f0a0998fe0047e89241980872fa7ff6",
-    "shortName": "sheared",
-    "title": "Sheared",
-    "studio": {
-        "name": "Possible Whale",
-        "domain": "possiblewhale.com",
-        "stagingDomain": "staging.possiblewhale.com"
-    },
-    "supportedOrientations": [
-        "landscape"
-    ],
-    "description": "",
-    "icon": "resources/icons/ewe.jpg",
-    "splash": {
-        "autoHide": false,
-        "universal": "resources/splash/universal.png"
-    },
-    "android": {
-        "versionCode": 1,
-        "icons": {
-            "36": "resources/icons/ewe36.png",
-            "48": "resources/icons/ewe48.png",
-            "72": "resources/icons/ewe72.png",
-            "96": "resources/icons/ewe96.png"
-        }
-    },
-    "ios": {
-        "bundleID": "example.bundle",
-        "appleID": "12345678",
-        "version": "1.0.0",
-        "icons": {
-            "57": "resources/icons/ewe57.png",
-            "72": "resources/icons/ewe72.png",
-            "114": "resources/icons/ewe114.png",
-            "144": "resources/icons/ewe144.png",
-            "renderGloss": true
-        }
-    },
-    "sdkVersion": "release-0.1.23"
+	"appID": "1f0a0998fe0047e89241980872fa7ff6",
+	"shortName": "sheared",
+	"title": "Sheared",
+	"studio": {
+		"name": "Possible Whale",
+		"domain": "possiblewhale.com",
+		"stagingDomain": "staging.possiblewhale.com"
+	},
+	"supportedOrientations": [
+		"landscape"
+	],
+	"description": "",
+	"icon": "resources/icons/ewe.jpg",
+	"splash": {
+		"autoHide": false,
+		"universal": "resources/splash/universal.png"
+	},
+	"android": {
+		"versionCode": 1,
+		"icons": {
+			"36": "resources/icons/ewe36.png",
+			"48": "resources/icons/ewe48.png",
+			"72": "resources/icons/ewe72.png",
+			"96": "resources/icons/ewe96.png"
+		}
+	},
+	"ios": {
+		"bundleID": "example.bundle",
+		"appleID": "12345678",
+		"version": "1.0.0",
+		"icons": {
+			"57": "resources/icons/ewe57.png",
+			"72": "resources/icons/ewe72.png",
+			"114": "resources/icons/ewe114.png",
+			"144": "resources/icons/ewe144.png",
+			"renderGloss": true
+		}
+	},
+	"sdkVersion": "release-0.1.24"
 }
