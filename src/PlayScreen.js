@@ -149,10 +149,15 @@ exports = Class(ImageView, function (supr) {
 });
 
 function playGame () {
-    this.clipper = new Clipper({
-        x: 0,
-        y: laneCoord(4) + 5 // start in middle lane
-    });
+    if (!this.clipper) {
+        this.clipper = new Clipper({
+            x: 0,
+            y: laneCoord(4) + 5 // start in middle lane
+        });
+    } else {
+        this.clipper.style.x = 0;
+        this.clipper.style.y = laneCoord(4) + 5;
+    }
     this.addSubview(this.clipper);
 
     this.player = GC.app.player;
