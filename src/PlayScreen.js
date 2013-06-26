@@ -1,4 +1,5 @@
 import device;
+import animate;
 import ui.View as View;
 import ui.ImageView as ImageView;
 import src.Sheep as Sheep;
@@ -29,7 +30,7 @@ exports = Class(ImageView, function (supr) {
         this.dailyInventory = new Inventory();
 
         var dayIntro = new ImageView({
-            x: 0,
+            x: 1024,
             y: 0,
             width: 1024,
             height: 576,
@@ -37,10 +38,14 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.addSubview(dayIntro);
+        animate(dayIntro).now({x: 0});
+
         dayIntro.on('InputSelect', bind(this, function(evt) {
             evt.cancel();
-            dayIntro.removeFromSuperview();
-            this.emit('play:start');
+            animate(dayIntro).now({x: -1024}).then(bind(this, function () {
+                dayIntro.removeFromSuperview();
+                this.emit('play:start');
+            }));
         }));
 
         this.on('play:start', bind(this, playGame));
@@ -105,7 +110,7 @@ exports = Class(ImageView, function (supr) {
         this.endDay();
 
         var i, resultsScreen = new ImageView({
-            x: 0,
+            x: 1024,
             y: 0,
             width: 1024,
             height: 576,
@@ -135,15 +140,19 @@ exports = Class(ImageView, function (supr) {
         }
         resultsScreen.addSubview(continueButton);
         this.addSubview(resultsScreen);
+        animate(resultsScreen).now({x: 0});
+
         continueButton.on('InputSelect', bind(this, function (evt) {
             evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
-            resultsScreen.removeFromSuperview();
-            this.day += 1;
-            if (this.day > 6) {
-                this.getSuperview().emit('titleScreen:craft');
-            } else {
-                this.build();
-            }
+            animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
+                resultsScreen.removeFromSuperview();
+                this.day += 1;
+                if (this.day > 6) {
+                    this.getSuperview().emit('titleScreen:craft');
+                } else {
+                    this.build();
+                }
+            }));
         }));
     };
 });
