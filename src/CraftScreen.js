@@ -153,6 +153,17 @@ exports = Class(ui.ImageView, function (supr) {
             this.chalkboardButtons.push(btn);
         }
 
+        // refunds 
+        this.refundButtons = [];
+        for (var i = 0; i < craftScreenRegions.refunds.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.refunds[i]);
+            this.refundButtons.push(btn);
+        }
+
+        this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
+        this.totalButton = _buttonFromRegion(craftScreenRegions.total);
+        this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
+
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);
     };
@@ -205,7 +216,7 @@ craftCounts: [
 
     {item: {_1: null}, y:330, x:624, width:96, height:32},
 
-    {item: {_1: null}, y:330, x:784, width:96, height:32},
+    {item: {_1: null}, y:330, x:784, width:96, height:32}
     ],
 chalkboards: [
     {y:378, x:148, width:88, height:54},
@@ -214,11 +225,14 @@ chalkboards: [
     {y:378, x:628, width:88, height:54},
     {y:378, x:788, width:88, height:54}
     ],
-refunds: [ // FIXME
-    {y:597, x:191, width:40, height:40},
-    {y:597, x:351, width:40, height:40},
-    {y:597, x:410, width:40, height:40},
-    {y:597, x:509, width:40, height:40},
-    {y:597, x:571, width:40, height:40},
-    ]
+refunds: [
+    {y:448, x:144, width:96, height:32},
+    {y:448, x:304, width:96, height:32},
+    {y:448, x:464, width:96, height:32},
+    {y:448, x:624, width:96, height:32},
+    {y:448, x:784, width:96, height:32}
+    ],
+finish: {y:504, x:560, width:322, height:48},
+total: {y:504, x:144, width:322, height:48},
+shopName: {y:78, x:136, width:750, height:44}
 }
