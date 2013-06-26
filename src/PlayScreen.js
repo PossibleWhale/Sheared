@@ -12,6 +12,7 @@ import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
 import ui.TextView as TextView;
+import ui.ParticleEngine as ParticleEngine;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -26,6 +27,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        this.particleEngine = new ParticleEngine({
+            superview: this,
+            width: 1024,
+            height: 576
+        });
+
         this.sheep = [];
         this.dailyInventory = new Inventory();
 
