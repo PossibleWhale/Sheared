@@ -7,20 +7,15 @@ import event.Emitter as Emitter;
 exports = Class(Emitter, function Player(supr) {
     this.init = function () {
         supr(this, 'init', arguments);
+
         this.inventory = new Inventory();
-        // if there are no saved wool values, initialize them
-        if (!localStorage['wool.' + c.COLOR_WHITE.label]) {
-            localStorage['wool.' + c.COLOR_WHITE.label] = 0;
-            localStorage['wool.' + c.COLOR_RED.label] = 0;
-            localStorage['wool.' + c.COLOR_BLUE.label] = 0;
-            localStorage['wool.' + c.COLOR_YELLOW.label] = 0;
-            localStorage['wool.' + c.COLOR_BLACK.label] = 0;
-        }
-        this.inventory.wool[c.COLOR_WHITE.label] = parseInt(localStorage['wool.' + c.COLOR_WHITE.label]);
-        this.inventory.wool[c.COLOR_RED.label] = parseInt(localStorage['wool.' + c.COLOR_RED.label]);
-        this.inventory.wool[c.COLOR_BLUE.label] = parseInt(localStorage['wool.' + c.COLOR_BLUE.label]);
-        this.inventory.wool[c.COLOR_YELLOW.label] = parseInt(localStorage['wool.' + c.COLOR_YELLOW.label]);
-        this.inventory.wool[c.COLOR_BLACK.label] = parseInt(localStorage['wool.' + c.COLOR_BLACK.label]);
+        loadStats(this.inventory.wool, 'wool.');
+
+        this.ewesSheared = {};
+        loadStats(this.ewesSheared, 'ewes.');
+
+        this.ramsSheared = {};
+        loadStats(this.ramsSheared, 'rams.');
 
         this.deduct = bind(this, function (color) {
         });
@@ -42,6 +37,31 @@ exports = Class(Emitter, function Player(supr) {
                 this.addWool(c.colors[i].label, other.wool[c.colors[i].label]);
             }
         };
+
+        this.shearedSheep = function (sheep) {
+            if (sheep.isRam) {
+                this.ramsSheared[sheep.color.label] += 1;
+                localStorage['rams.' + sheep.color.label] = this.ramsSheared[sheep.color.label];
+            } else {
+                this.ewesSheared[sheep.color.label] += 1;
+                localStorage['ewes.' + sheep.color.label] = this.ewesSheared[sheep.color.label];
+            }
+        };
     };
 });
 
+function loadStats (obj, id) {
+    var i = c.colors.length;
+    // if there are no saved values, initialize them
+    if (!localStorage[id + c.COLOR_WHITE.label]) {
+        while (i--) {
+            localStorage[id + c.colors[i].label] = 0;
+        }
+    }
+
+    // pull the stats from local storage
+    i = c.colors.length;
+    while (i--) {
+        obj[c.colors[i].label] = parseInt(localStorage[id + c.colors[i].label]);
+    }
+}
