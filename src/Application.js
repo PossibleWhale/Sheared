@@ -72,7 +72,6 @@ exports = Class(GC.Application, function () {
 
         rootView.on('titleScreen:play', function () {
             rootView.push(playScreen);
-            playScreen.emit('play:start');
         });
 
         rootView.on('titleScreen:craft', function () {
@@ -87,16 +86,6 @@ exports = Class(GC.Application, function () {
         craftButton.on('InputSelect', function () {
             rootView.emit('titleScreen:craft');
         });
-
-        function _back() {
-            // FIXME - this probably should not do anything in the released
-            // game
-            if (rootView.getCurrentView() === titleScreen) {
-                return;
-            }
-            rootView.pop();
-        }
-        device.setBackButtonHandler(_back);
 
         /* When the game screen has signalled that the game is over,
          * show the title screen so that the user may play the game again.
