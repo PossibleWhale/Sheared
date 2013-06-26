@@ -16,8 +16,6 @@ exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
         this.background = new Image({url: "resources/images/craft-dev.png"});
 
-        console.log(this.background.getImageData());
-
         opts = merge(opts, {
             autosize: true,
             image: this.background
