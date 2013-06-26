@@ -14,6 +14,7 @@ import src.Button as Button;
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
+// GC.debug = true;
         this.background = new Image({url: "resources/images/craft-dev.png"});
 
         opts = merge(opts, {
@@ -42,9 +43,13 @@ exports = Class(ui.ImageView, function (supr) {
          * reset crafting state
          */
         this.startCrafting = bind(this, function() {
-            for (var i = 0; i < this.colorButtons.length; i++) {
-                var btn = this.colorButtons[i];
+            for (var i = 0; i < this.colorCountButtons.length; i++) {
+                var btn = this.colorCountButtons[i];
                 var color = btn.getOpts().item;
+
+// if (GC.debug) {
+//     GC.app.player.inventory.wool[color.label] = 100;
+// }
                 btn.setText(GC.app.player.inventory.wool[color.label]);
             }
             this.setGarment(c.GARMENT_HAT);
@@ -102,33 +107,52 @@ exports = Class(ui.ImageView, function (supr) {
 
         // color buttons
         this.colorButtons = [];
+        this.colorCountButtons = [];
         for (var i = 0; i < craftScreenRegions.colors.length; i++) {
             var region = craftScreenRegions.colors[i];
             var btn = _buttonFromRegion(region);
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
-
             this.colorButtons.push(btn);
+
+            var region2 = craftScreenRegions.colorCounts[i];
+            var btn2 = _buttonFromRegion(region2);
+            this.colorCountButtons.push(btn2);
         }
 
         // garment buttons
-        var garmentButtons = [];
+        this.garmentButtons = [];
         for (var i = 0; i < craftScreenRegions.garments.length; i++) {
             var btn = _buttonFromRegion(craftScreenRegions.garments[i]);
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
 
-            garmentButtons.push(btn);
+            this.garmentButtons.push(btn);
         }
 
-        // temp disabled until i fix the positions // cost buttons
-        // temp disabled until i fix the positions var costButtons = [];
-        // temp disabled until i fix the positions for (var i = 0; i < craftScreenRegions.costs.length; i++) {
-        // temp disabled until i fix the positions     var btn = _buttonFromRegion(craftScreenRegions.costs[i]);
-        // temp disabled until i fix the positions     costButtons.push(btn);
-        // temp disabled until i fix the positions }
+        // cost buttons
+        this.costButtons = [];
+        for (var i = 0; i < craftScreenRegions.costs.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.costs[i]);
+            this.costButtons.push(btn);
+        }
+
+        // craft count buttons
+        this.craftCountButtons = [];
+        for (var i = 0; i < craftScreenRegions.craftCounts.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.craftCounts[i]);
+            this.craftCountButtons.push(btn);
+        }
+
+        // chalkboards
+        this.chalkboardButtons = [];
+        for (var i = 0; i < craftScreenRegions.chalkboards.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.chalkboards[i]);
+            this.chalkboardButtons.push(btn);
+        }
+
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);
     };
@@ -137,48 +161,58 @@ exports = Class(ui.ImageView, function (supr) {
 
 var craftScreenRegions = {
 colors: [
-    {item: c.COLOR_WHITE, y:148, x:40, width:50, height:58},
-    {item: c.COLOR_RED, y:230, x:40, width:50, height:58},
-    {item: c.COLOR_BLUE, y:312, x:40, width:50, height:58},
-    {item: c.COLOR_YELLOW, y:394, x:40, width:50, height:58},
-    {item: c.COLOR_BLACK, y:476, x:40, width:50, height:58}
+    {item: c.COLOR_WHITE, y:148, x:40, width:48, height:60},
+    {item: c.COLOR_RED, y:230, x:40, width:48, height:60},
+    {item: c.COLOR_BLUE, y:312, x:40, width:48, height:60},
+    {item: c.COLOR_YELLOW, y:394, x:40, width:48, height:60},
+    {item: c.COLOR_BLACK, y:476, x:40, width:48, height:60}
     ],
 colorCounts: [
-    {item: c.COLOR_WHITE, y:196, x:40, width:50, height:34},
-    {item: c.COLOR_RED, y:278, x:40, width:50, height:34},
-    {item: c.COLOR_BLUE, y:374, x:40, width:50, height:34},
-    {item: c.COLOR_YELLOW, y:470, x:40, width:50, height:34},
-    {item: c.COLOR_BLACK, y:566, x:40, width:50, height:34}
-    ],
-costs: [ // FIXME 
-    {item: {_1: c.GARMENT_HAT}, y:152, x:266, width:50, height:50},
-    {item: {_2: c.GARMENT_HAT}, y:152, x:323, width:50, height:50},
-
-    {item: {_1: c.GARMENT_MITTEN}, y:152, x:395, width:50, height:50},
-    {item: {_2: c.GARMENT_MITTEN}, y:152, x:452, width:50, height:50},
-
-    {item: {_1: c.GARMENT_SOCK}, y:152, x:522, width:50, height:50},
-    {item: {_2: c.GARMENT_SOCK}, y:152, x:579, width:50, height:50},
-
-    {item: {_1: c.GARMENT_SCARF}, y:152, x:651, width:50, height:50},
-    {item: {_2: c.GARMENT_SCARF}, y:152, x:708, width:50, height:50},
-
-    {item: {_1: c.GARMENT_SWEATER}, y:152, x:779, width:50, height:50},
-    {item: {_2: c.GARMENT_SWEATER}, y:152, x:836, width:50, height:50}
+    {item: c.COLOR_WHITE, y:208, x:40, width:48, height:22},
+    {item: c.COLOR_RED, y:290, x:40, width:48, height:22},
+    {item: c.COLOR_BLUE, y:372, x:40, width:48, height:22},
+    {item: c.COLOR_YELLOW, y:454, x:40, width:48, height:22},
+    {item: c.COLOR_BLACK, y:536, x:40, width:48, height:22}
     ],
 garments: [
-    {item: c.GARMENT_HAT, y:148, x:930, width:50, height:58},
-    {item: c.GARMENT_MITTEN, y:230, x:930, width:50, height:58},
-    {item: c.GARMENT_SOCK, y:312, x:930, width:50, height:58},
-    {item: c.GARMENT_SCARF, y:394, x:930, width:50, height:58},
-    {item: c.GARMENT_SWEATER, y:476, x:930, width:50, height:58}
+    {item: c.GARMENT_HAT, y:148, x:930, width:58, height:60},
+    {item: c.GARMENT_MITTEN, y:230, x:930, width:58, height:60},
+    {item: c.GARMENT_SOCK, y:312, x:930, width:58, height:60},
+    {item: c.GARMENT_SCARF, y:394, x:930, width:58, height:60},
+    {item: c.GARMENT_SWEATER, y:476, x:930, width:58, height:60}
     ],
-chalkboards: [ // FIXME
-    {y:504, x:182, width:108, height:67},
-    {y:504, x:346, width:108, height:67},
-    {y:504, x:507, width:108, height:67},
-    {y:504, x:826, width:108, height:67},
-    {y:504, x:985, width:108, height:67}
+costs: [
+    {item: {_1: null}, y:152, x:168, width:48, height:50},
+
+    {item: {_1: null}, y:152, x:300, width:48, height:50},
+    {item: {_2: null}, y:152, x:356, width:48, height:50},
+
+    {item: {_1: null}, y:152, x:460, width:48, height:50},
+    {item: {_2: null}, y:152, x:516, width:48, height:50},
+
+    {item: {_1: null}, y:152, x:620, width:48, height:50},
+    {item: {_2: null}, y:152, x:674, width:48, height:50},
+
+    {item: {_1: null}, y:152, x:780, width:48, height:50},
+    {item: {_2: null}, y:152, x:836, width:48, height:50}
+    ],
+craftCounts: [
+    {item: {_1: null}, y:330, x:144, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:304, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:464, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:624, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:784, width:96, height:32},
+    ],
+chalkboards: [
+    {y:378, x:148, width:88, height:54},
+    {y:378, x:308, width:88, height:54},
+    {y:378, x:468, width:88, height:54},
+    {y:378, x:628, width:88, height:54},
+    {y:378, x:788, width:88, height:54}
     ],
 refunds: [ // FIXME
     {y:597, x:191, width:40, height:40},
