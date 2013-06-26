@@ -2,7 +2,7 @@ import ui.TextView as TextView;
 
 exports = Class(TextView, function (supr) {
     this.init = function (opts) {
-        var initialTime = 10;
+        var initialTime = 30;
 
         opts = merge(opts, {
             color: '#FFFFFF',

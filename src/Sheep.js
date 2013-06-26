@@ -26,13 +26,14 @@ exports = Class(ImageView, function (supr) {
             var superview = this.getSuperview();
 
             this.style.x = this.style.x - this.stepSize;
+
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 superview.clipper.decreaseHealth();
                 this.die();
             }
-        }), stepFrequency)
+        }), stepFrequency);
     };
 
     this.die = function () {
@@ -40,6 +41,36 @@ exports = Class(ImageView, function (supr) {
         if (this.getSuperview()) {
             this.getSuperview().removeSheep(this);
         }
+    };
+
+    this.emitWool = function () {
+        var superview = this.getSuperview(),
+            particleObjects = superview.particleEngine.obtainParticleArray(this.bolts), i;
+        for (i = 0; i < particleObjects.length; i++) {
+            var pObj = particleObjects[i];
+            pObj.x = this.style.x;
+            pObj.y = this.style.y;
+            pObj.dx = Math.random() * 300;
+            pObj.dy = Math.random() * 300;
+            if (Math.random() > 0.5) {
+                pObj.dx *= -1;
+            }
+            if (Math.random() > 0.5) {
+                pObj.dy *= -1;
+            }
+            pObj.ddx = Math.random() * 200;
+            pObj.ddy = Math.random() * 200;
+            pObj.dr = Math.random() * Math.PI / 4;
+            pObj.ax = 30;
+            pObj.ay = 30;
+            pObj.width = 60;
+            pObj.height = 60;
+            pObj.scale = 0.5;
+            pObj.dscale = 0.5;
+            pObj.dopacity = -1;
+            pObj.image = 'resources/images/particle-' + this.color.label + '.png';
+        }
+        superview.particleEngine.emitParticles(particleObjects);
     };
 });
 

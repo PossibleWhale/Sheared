@@ -94,6 +94,10 @@ exports = Class(GC.Application, function () {
             _back();
         });
 
+        this.engine.on('Tick', bind(this, function (dt) {
+            playScreen.particleEngine.runTick(dt);
+        }));
+
         GC.hidePreloader();
 
     };

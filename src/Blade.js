@@ -47,6 +47,7 @@ exports = Class(ImageView, function (supr) {
                             inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
                             superview.player.hitWithBlade(this.isDiamond);
+                            sheep[i].emitWool();
                             sheep[i].die();
                         }
                         clearInterval(interval);
