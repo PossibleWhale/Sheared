@@ -47,8 +47,35 @@ exports = Class(Emitter, function Player(supr) {
                 localStorage['ewes.' + sheep.color.label] = this.ewesSheared[sheep.color.label];
             }
         };
+
+        this.collectedDiamond = function () {
+            incrementCounter('diamonds');
+        };
+
+        this.hitWithBlade = function (isDiamond) {
+            if (isDiamond) {
+                incrementCounter('diamondBladesHit');
+            } else {
+                incrementCounter('regularBladesHit');
+            }
+        };
+
+        this.bladeFired = function (isDiamond) {
+            if (isDiamond) {
+                incrementCounter('diamondBladesFired');
+            } else {
+                incrementCounter('regularBladesFired');
+            }
+        };
     };
 });
+
+function incrementCounter (counterName) {
+    if (!localStorage[counterName]) {
+        localStorage[counterName] = 0;
+    }
+    localStorage[counterName] = parseInt(localStorage[counterName]) + 1;
+}
 
 function loadStats (obj, id) {
     var i = c.colors.length;

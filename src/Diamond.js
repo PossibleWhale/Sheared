@@ -24,6 +24,7 @@ exports = Class(ImageView, function (supr) {
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 superview.clipper.becomeDiamond();
+                superview.player.collectedDiamond();
                 this.die();
             }
         }), stepFrequency)

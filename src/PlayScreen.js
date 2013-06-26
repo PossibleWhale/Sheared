@@ -210,6 +210,7 @@ function launchBlade () {
     this.bladeOut = true;
     this.clipper.setImage('resources/images/clipper-' + this.clipper.health + '-none.png');
     blade.run();
+    this.player.bladeFired(blade.isDiamond);
 };
 
 // return a random y-coordinate for the lane

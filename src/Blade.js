@@ -46,6 +46,7 @@ exports = Class(ImageView, function (supr) {
                         if (!sheep[i].isRam || this.isDiamond) {
                             inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
+                            superview.player.hitWithBlade(this.isDiamond);
                             sheep[i].die();
                         }
                         clearInterval(interval);
