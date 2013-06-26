@@ -122,22 +122,37 @@ exports = Class(ui.ImageView, function (supr) {
         }
 
         // garment buttons
-        var garmentButtons = [];
+        this.garmentButtons = [];
         for (var i = 0; i < craftScreenRegions.garments.length; i++) {
             var btn = _buttonFromRegion(craftScreenRegions.garments[i]);
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
 
-            garmentButtons.push(btn);
+            this.garmentButtons.push(btn);
         }
 
         // cost buttons
-        var costButtons = [];
+        this.costButtons = [];
         for (var i = 0; i < craftScreenRegions.costs.length; i++) {
             var btn = _buttonFromRegion(craftScreenRegions.costs[i]);
-            costButtons.push(btn);
+            this.costButtons.push(btn);
         }
+
+        // craft count buttons
+        this.craftCountButtons = [];
+        for (var i = 0; i < craftScreenRegions.craftCounts.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.craftCounts[i]);
+            this.craftCountButtons.push(btn);
+        }
+
+        // chalkboards
+        this.chalkboardButtons = [];
+        for (var i = 0; i < craftScreenRegions.chalkboards.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.chalkboards[i]);
+            this.chalkboardButtons.push(btn);
+        }
+
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);
     };
@@ -181,12 +196,23 @@ costs: [
     {item: {_1: null}, y:152, x:780, width:48, height:50},
     {item: {_2: null}, y:152, x:836, width:48, height:50}
     ],
-chalkboards: [ // FIXME
-    {y:504, x:182, width:108, height:67},
-    {y:504, x:346, width:108, height:67},
-    {y:504, x:507, width:108, height:67},
-    {y:504, x:826, width:108, height:67},
-    {y:504, x:985, width:108, height:67}
+craftCounts: [
+    {item: {_1: null}, y:330, x:144, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:304, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:464, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:624, width:96, height:32},
+
+    {item: {_1: null}, y:330, x:784, width:96, height:32},
+    ],
+chalkboards: [
+    {y:378, x:148, width:88, height:54},
+    {y:378, x:308, width:88, height:54},
+    {y:378, x:468, width:88, height:54},
+    {y:378, x:628, width:88, height:54},
+    {y:378, x:788, width:88, height:54}
     ],
 refunds: [ // FIXME
     {y:597, x:191, width:40, height:40},
