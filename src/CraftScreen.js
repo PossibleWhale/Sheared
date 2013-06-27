@@ -15,7 +15,7 @@ import src.Button as Button;
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
 // GC.debug = true;
-        this.background = new Image({url: "resources/images/craft-dev.png"});
+        this.background = new Image({url: "resources/images/craft.png"});
 
         opts = merge(opts, {
             autosize: true,
@@ -108,23 +108,23 @@ exports = Class(ui.ImageView, function (supr) {
         // color buttons
         this.colorButtons = [];
         this.colorCountButtons = [];
-        for (var i = 0; i < craftScreenRegions.colors.length; i++) {
-            var region = craftScreenRegions.colors[i];
+        for (var i = 0; i < craftScreenRegions.color.length; i++) {
+            var region = craftScreenRegions.color[i];
             var btn = _buttonFromRegion(region);
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
             this.colorButtons.push(btn);
 
-            var region2 = craftScreenRegions.colorCounts[i];
+            var region2 = craftScreenRegions.colorCount[i];
             var btn2 = _buttonFromRegion(region2);
             this.colorCountButtons.push(btn2);
         }
 
         // garment buttons
         this.garmentButtons = [];
-        for (var i = 0; i < craftScreenRegions.garments.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.garments[i]);
+        for (var i = 0; i < craftScreenRegions.garment.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.garment[i]);
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
@@ -134,29 +134,29 @@ exports = Class(ui.ImageView, function (supr) {
 
         // cost buttons
         this.costButtons = [];
-        for (var i = 0; i < craftScreenRegions.costs.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.costs[i]);
+        for (var i = 0; i < craftScreenRegions.cost.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.cost[i]);
             this.costButtons.push(btn);
         }
 
         // craft count buttons
         this.craftCountButtons = [];
-        for (var i = 0; i < craftScreenRegions.craftCounts.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.craftCounts[i]);
+        for (var i = 0; i < craftScreenRegions.craftCount.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.craftCount[i]);
             this.craftCountButtons.push(btn);
         }
 
         // chalkboards
         this.chalkboardButtons = [];
-        for (var i = 0; i < craftScreenRegions.chalkboards.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.chalkboards[i]);
+        for (var i = 0; i < craftScreenRegions.chalkboard.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.chalkboard[i]);
             this.chalkboardButtons.push(btn);
         }
 
         // refunds 
         this.refundButtons = [];
-        for (var i = 0; i < craftScreenRegions.refunds.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.refunds[i]);
+        for (var i = 0; i < craftScreenRegions.refund.length; i++) {
+            var btn = _buttonFromRegion(craftScreenRegions.refund[i]);
             this.refundButtons.push(btn);
         }
 
@@ -171,28 +171,28 @@ exports = Class(ui.ImageView, function (supr) {
 
 
 var craftScreenRegions = {
-colors: [
+color: [
     {item: c.COLOR_WHITE, y:148, x:40, width:48, height:60},
     {item: c.COLOR_RED, y:230, x:40, width:48, height:60},
     {item: c.COLOR_BLUE, y:312, x:40, width:48, height:60},
     {item: c.COLOR_YELLOW, y:394, x:40, width:48, height:60},
     {item: c.COLOR_BLACK, y:476, x:40, width:48, height:60}
     ],
-colorCounts: [
+colorCount: [
     {item: c.COLOR_WHITE, y:208, x:40, width:48, height:22},
     {item: c.COLOR_RED, y:290, x:40, width:48, height:22},
     {item: c.COLOR_BLUE, y:372, x:40, width:48, height:22},
     {item: c.COLOR_YELLOW, y:454, x:40, width:48, height:22},
     {item: c.COLOR_BLACK, y:536, x:40, width:48, height:22}
     ],
-garments: [
+garment: [
     {item: c.GARMENT_HAT, y:148, x:930, width:58, height:60},
     {item: c.GARMENT_MITTEN, y:230, x:930, width:58, height:60},
     {item: c.GARMENT_SOCK, y:312, x:930, width:58, height:60},
     {item: c.GARMENT_SCARF, y:394, x:930, width:58, height:60},
     {item: c.GARMENT_SWEATER, y:476, x:930, width:58, height:60}
     ],
-costs: [
+cost: [
     {item: {_1: null}, y:152, x:168, width:48, height:50},
 
     {item: {_1: null}, y:152, x:300, width:48, height:50},
@@ -207,7 +207,7 @@ costs: [
     {item: {_1: null}, y:152, x:780, width:48, height:50},
     {item: {_2: null}, y:152, x:836, width:48, height:50}
     ],
-craftCounts: [
+craftCount: [
     {item: {_1: null}, y:330, x:144, width:96, height:32},
 
     {item: {_1: null}, y:330, x:304, width:96, height:32},
@@ -218,14 +218,14 @@ craftCounts: [
 
     {item: {_1: null}, y:330, x:784, width:96, height:32}
     ],
-chalkboards: [
+chalkboard: [
     {y:378, x:148, width:88, height:54},
     {y:378, x:308, width:88, height:54},
     {y:378, x:468, width:88, height:54},
     {y:378, x:628, width:88, height:54},
     {y:378, x:788, width:88, height:54}
     ],
-refunds: [
+refund: [
     {y:448, x:144, width:96, height:32},
     {y:448, x:304, width:96, height:32},
     {y:448, x:464, width:96, height:32},
