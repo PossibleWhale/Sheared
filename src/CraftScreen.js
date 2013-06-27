@@ -139,7 +139,7 @@ exports = Class(ui.ImageView, function (supr) {
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', function () {
-            GC.app.rootView.pop();
+            GC.app.rootView.popAll();
         });
         this.totalButton = _buttonFromRegion(craftScreenRegions.total);
         this.totalButton.setText("Total: $$$");
