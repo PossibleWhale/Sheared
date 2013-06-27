@@ -21,11 +21,16 @@ exports = Class(TextView, function (supr) {
 
     this.run = function () {
         this.interval = setInterval(bind(this, function () {
+            var superview = this.getSuperview();
+            if (!superview) {
+                this.stop();
+                return;
+            }
             this.time -= 1;
             this.setText(this.time);
             if (this.time <= 0) {
                 this.stop();
-                this.getSuperview().timeOver();
+                superview.timeOver();
             }
         }), 1000);
     };
