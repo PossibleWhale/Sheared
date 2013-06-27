@@ -42,12 +42,19 @@ exports = Class(ImageView, function (supr) {
             width: 1024,
             height: 576,
             image: 'resources/images/day-' + (this.day+1) + '.png'
+        }),
+        continueButton = new View({
+            x: 392,
+            y: 418,
+            width: 240,
+            height: 54
         });
 
+        dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
         animate(dayIntro).now({x: 0});
 
-        dayIntro.on('InputSelect', bind(this, function(evt) {
+        continueButton.on('InputSelect', bind(this, function(evt) {
             evt.cancel();
             animate(dayIntro).now({x: -1024}).then(bind(this, function () {
                 dayIntro.removeFromSuperview();
