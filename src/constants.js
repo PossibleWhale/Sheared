@@ -2,6 +2,12 @@
 
 var imagePath = 'resources/images/';
 
+
+// Given rarity R, value V of the corresponding wool is:
+//
+//    V = 0.20 / R
+//
+
 exports = {
     COLOR_NONE: null,
 
@@ -9,63 +15,58 @@ exports = {
         label: 'white',
         eweImage: imagePath + 'ewe-white.png',
         ramImage: imagePath + 'ram-white.png',
-        rarity: 2.00
+        rarity: 1.00
     },
     COLOR_RED: {
         label: 'red',
         eweImage: imagePath + 'ewe-red.png',
         ramImage: imagePath + 'ram-red.png',
-        rarity: 1.00
+        rarity: 0.57
     },
     COLOR_BLUE: {
         label: 'blue',
         eweImage: imagePath + 'ewe-blue.png',
         ramImage: imagePath + 'ram-blue.png',
-        rarity: 1.00
+        rarity: 0.57
     },
     COLOR_YELLOW: {
         label: 'yellow',
         eweImage: imagePath + 'ewe-yellow.png',
         ramImage: imagePath + 'ram-yellow.png',
-        rarity: 1.00
+        rarity: 0.57
     },
     COLOR_BLACK: {
         label: 'black',
         eweImage: imagePath + 'ewe-black.png',
         ramImage: imagePath + 'ram-black.png',
-        rarity: 0.50
+        rarity: 0.40
     },
 
     GARMENT_NAKED: null,
 
-    GARMENT_YARN: {
-        label: 'yarn', 
-        cost: {fringe: 0, body: 1},
-        price: 1.00
-    },
     GARMENT_HAT: {
         label: 'hat', 
-        cost: {fringe: 1, body: 5},
+        cost: {contrast: 2, main: 10},
         price: 6.00
     },
     GARMENT_SOCK: {
         label: 'sock', 
-        cost: {fringe: 5, body: 13},
+        cost: {contrast: 10, main: 26},
         price: 18.00
     },
     GARMENT_SCARF: {
         label: 'scarf', 
-        cost: {fringe: 7, body: 17},
+        cost: {contrast: 14, main: 34},
         price: 24.00
     },
     GARMENT_MITTEN: {
         label: 'mitten', 
-        cost: {fringe: 3, body: 9},
+        cost: {contrast: 6, main: 18},
         price: 12.00
     },
     GARMENT_SWEATER: {
         label: 'sweater', 
-        cost: {fringe: 9, body: 21},
+        cost: {contrast: 18, main: 42},
         price: 30.00
     }
 };
@@ -84,7 +85,7 @@ exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
 exports.colorsByLabel = indexByLabel(exports.colors);
 
-exports.garments = [exports.GARMENT_YARN, exports.GARMENT_HAT, exports.GARMENT_SOCK,
+exports.garments = [exports.GARMENT_HAT, exports.GARMENT_SOCK,
     exports.GARMENT_SCARF, exports.GARMENT_MITTEN, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
 
@@ -94,7 +95,10 @@ exports.laneSize = 52;
 exports.days = [];
 for (var i = 0; i < 7; i++) {
     exports.days.push({
-        sheepFrequency: (1.5 - (i * 1/6))*500, // delay between sheep spawns
-        ramRarity: 0.3 // TODO make it vary
+      // delay between sheep spawns
+        sheepFrequency: (1.5 - (i * 1/6))*500,
+
+      // TODO make it vary
+        ramRarity: 0.3
     });
 }
