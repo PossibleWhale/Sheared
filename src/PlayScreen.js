@@ -83,6 +83,7 @@ exports = Class(ImageView, function (supr) {
         var i = this.sheep.length;
 
         this.bladeOut = false;
+        this.clipper.reloadBlade();
         while (i--) {
             clearInterval(this.sheep[i].interval);
         }
