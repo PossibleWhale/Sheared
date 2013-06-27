@@ -71,4 +71,37 @@ exports = Class(ImageView, function (supr) {
             this.setImage('resources/images/clipper-' + this.health + '-regular.png');
         }
     };
+
+    this.emitDiamonds = function () {
+        var superview = this.getSuperview();
+        if (!this.isDiamond || !superview) {
+            return;
+        }
+
+        var particleObjects = superview.particleEngine.obtainParticleArray(1), i;
+        for (i = 0; i < particleObjects.length; i++) {
+            var pObj = particleObjects[i];
+            pObj.x = this.style.x + this.style.width/2;
+            pObj.y = this.style.y + this.style.height/2;
+            pObj.dx = Math.random() * 100;
+            pObj.dy = Math.random() * 100;
+            if (Math.random() > 0.5) {
+                pObj.dx *= -1;
+            }
+            if (Math.random() > 0.5) {
+                pObj.dy *= -1;
+            }
+            pObj.dr = Math.random() * Math.PI/2;
+            pObj.width = 60;
+            pObj.height = 60;
+            pObj.scale = 0.1;
+            pObj.dscale = 0.4;
+            pObj.opacity = 1;
+            pObj.dopacity = -1;
+            pObj.image = 'resources/images/diamond.png';
+        }
+        superview.particleEngine.emitParticles(particleObjects);
+
+
+    };
 });

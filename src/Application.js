@@ -96,6 +96,9 @@ exports = Class(GC.Application, function () {
         });
 
         this.engine.on('Tick', bind(this, function (dt) {
+            if (playScreen && playScreen.clipper) {
+                playScreen.clipper.emitDiamonds();
+            }
             playScreen.particleEngine.runTick(dt);
         }));
 

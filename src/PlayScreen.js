@@ -200,6 +200,9 @@ function playGame () {
 }
 
 function spawnSheep () {
+    if (this.timer.time <= 3) {
+        return;
+    }
     var sheep, r = Math.random();
     if (r > constants.days[this.day].ramRarity) {
         sheep = new Sheep({
