@@ -1,6 +1,7 @@
 "use strict";
 
 var imagePath = 'resources/images/';
+var numDays = 5;
 
 
 // Given rarity R, value V of the corresponding wool is:
@@ -93,7 +94,7 @@ exports.fenceSize = 80;
 exports.laneSize = 52;
 
 exports.days = [];
-for (var i = 0; i < 7; i++) {
+for (var i = 0; i < numDays; i++) {
     exports.days.push({
       // delay between sheep spawns
         sheepFrequency: (1.5 - (i * 1/6))*500,

@@ -162,8 +162,9 @@ exports = Class(ImageView, function (supr) {
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
-                if (this.day > 6) {
+                if (this.day >= constants.days.length ) {
                     this.getSuperview().emit('titleScreen:craft');
+                    this.getSuperview().emit('playscreen:end');
                 } else {
                     this.build();
                 }
