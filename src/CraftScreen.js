@@ -16,6 +16,7 @@ exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
 // GC.debug = true;
         this.background = new Image({url: "resources/images/craft.png"});
+        this.buttons = {};
 
         opts = merge(opts, {
             autosize: true,
@@ -43,8 +44,8 @@ exports = Class(ui.ImageView, function (supr) {
          * reset crafting state
          */
         this.startCrafting = bind(this, function() {
-            for (var i = 0; i < this.colorCountButtons.length; i++) {
-                var btn = this.colorCountButtons[i];
+            for (var i = 0; i < this.buttons.colorCount.length; i++) {
+                var btn = this.buttons.colorCount[i];
                 var color = btn.getOpts().item;
 
 // if (GC.debug) {
@@ -105,59 +106,34 @@ exports = Class(ui.ImageView, function (supr) {
             return new Button(opts);
         });
 
+        // load up alllll dem buttons
+        var kinds = ["color", "colorCount", "garment", "cost", "craftCount",
+            "chalkboard", "refund"];
+        for (var i = 0; i < kinds.length; i++) {
+            var k = kinds[i];
+            var regions = craftScreenRegions[k];
+            this.buttons[k] = [];
+            for (var j = 0; j < regions.length; j++) {
+                var region = regions[j];
+                var btn = _buttonFromRegion(region);
+                this.buttons[k].push(btn);
+            }
+        }
+
         // color buttons
-        this.colorButtons = [];
-        this.colorCountButtons = [];
-        for (var i = 0; i < craftScreenRegions.color.length; i++) {
-            var region = craftScreenRegions.color[i];
-            var btn = _buttonFromRegion(region);
+        for (var i = 0; i < this.buttons.color.length; i++) {
+            var btn = this.buttons.color[i];
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
-            this.colorButtons.push(btn);
-
-            var region2 = craftScreenRegions.colorCount[i];
-            var btn2 = _buttonFromRegion(region2);
-            this.colorCountButtons.push(btn2);
         }
 
         // garment buttons
-        this.garmentButtons = [];
-        for (var i = 0; i < craftScreenRegions.garment.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.garment[i]);
+        for (var i = 0; i < this.buttons.garment.length; i++) {
+            var btn = this.buttons.garment[i];
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
-
-            this.garmentButtons.push(btn);
-        }
-
-        // cost buttons
-        this.costButtons = [];
-        for (var i = 0; i < craftScreenRegions.cost.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.cost[i]);
-            this.costButtons.push(btn);
-        }
-
-        // craft count buttons
-        this.craftCountButtons = [];
-        for (var i = 0; i < craftScreenRegions.craftCount.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.craftCount[i]);
-            this.craftCountButtons.push(btn);
-        }
-
-        // chalkboards
-        this.chalkboardButtons = [];
-        for (var i = 0; i < craftScreenRegions.chalkboard.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.chalkboard[i]);
-            this.chalkboardButtons.push(btn);
-        }
-
-        // refunds 
-        this.refundButtons = [];
-        for (var i = 0; i < craftScreenRegions.refund.length; i++) {
-            var btn = _buttonFromRegion(craftScreenRegions.refund[i]);
-            this.refundButtons.push(btn);
         }
 
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
