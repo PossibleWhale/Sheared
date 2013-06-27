@@ -227,7 +227,7 @@ function spawnDiamond () {
 }
 
 function launchBlade () {
-    if (this.bladeOut || this.timer.time === 0) {
+    if (this.bladeOut || (this.timer && this.timer.time === 0)) {
         return;
     }
     var blade = new Blade({
