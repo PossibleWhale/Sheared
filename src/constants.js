@@ -10,7 +10,7 @@ var numDays = 5;
 //
 
 exports = {
-    COLOR_NONE: null,
+    COLOR_NONE: {label: 'none'},
 
     COLOR_WHITE: {
         label: 'white',
@@ -43,7 +43,7 @@ exports = {
         rarity: 0.40
     },
 
-    GARMENT_NAKED: null,
+    GARMENT_NAKED: {label: 'naked'},
 
     GARMENT_HAT: {
         label: 'hat', 

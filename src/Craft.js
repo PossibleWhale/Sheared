@@ -2,10 +2,14 @@
 
 import src.constants as c;
 
-exports = function Craft(garment, base, trim, monogram) {
-    this.colors.base = base || c.COLOR_NONE;
-    this.colors.trim = trim || c.COLOR_NONE;
+exports = function Craft(garment, main, contrast, monogram) {
+    this.colors.main = main || c.COLOR_NONE;
+    this.colors.contrast = contrast || c.COLOR_NONE;
     this.garment = garment || c.GARMENT_NAKED;
     this.monogram = monogram || '';
+
+    this.toMotif = bind(this, function () {
+        return this.garment.label + '|' + this.colors.main.label + '|' + this.colors.contrast.label;
+    });
 };
 
