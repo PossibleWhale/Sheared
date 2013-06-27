@@ -7,5 +7,9 @@ exports = function Craft(garment, main, contrast, monogram) {
     this.colors.contrast = contrast || c.COLOR_NONE;
     this.garment = garment || c.GARMENT_NAKED;
     this.monogram = monogram || '';
+
+    this.toMotif = bind(this, function () {
+        return this.garment.label + '|' + this.colors.main.label + '|' + this.colors.contrast.label;
+    });
 };
 
