@@ -137,8 +137,14 @@ exports = Class(ui.ImageView, function (supr) {
         }
 
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
+        this.finishButton.setText("Finish");
+        this.finishButton.on('InputSelect', function () {
+            GC.app.rootView.pop();
+        });
         this.totalButton = _buttonFromRegion(craftScreenRegions.total);
+        this.totalButton.setText("Total: $$$");
         this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
+        this.shopNameButton.setText("$SHOP_NAME");
 
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);

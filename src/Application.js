@@ -44,6 +44,7 @@ exports = Class(GC.Application, function () {
             clip: true,
             backgroundColor: '#37B34A'
         });
+        this.rootView = rootView;
 
         var titleScreen = new TitleScreen(),
             craftScreen = new CraftScreen(),
