@@ -25,8 +25,8 @@ exports = Class(Emitter, function Player(supr) {
             localStorage['wool.' + color] = parseInt(localStorage['wool.' + color]) + (amt || 1);
         });
 
-        this.addCraft = bind(this, function (garment, base, trim) {
-            this.inventory.addCraft(garment, base, trim);
+        this.addCraft = bind(this, function (garment, main, contrast) {
+            this.inventory.addCraft(garment, main, contrast);
             // TODO local storage
         });
 
