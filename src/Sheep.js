@@ -68,6 +68,7 @@ exports = Class(ImageView, function (supr) {
             pObj.height = 60;
             pObj.scale = 0.5;
             pObj.dscale = 0.5;
+            pObj.opacity = 1;
             pObj.dopacity = -1;
             pObj.image = 'resources/images/particle-' + this.color.label + '.png';
         }
@@ -76,7 +77,7 @@ exports = Class(ImageView, function (supr) {
 
     this.emitDust = function () {
         var superview = this.getSuperview(),
-            particleObjects = superview.particleEngine.obtainParticleArray(1), i;
+            particleObjects = superview.particleEngine.obtainParticleArray(this.stepSize/10), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x;
@@ -94,7 +95,11 @@ exports = Class(ImageView, function (supr) {
             pObj.dscale = 0.4;
             pObj.opacity = 0.7;
             pObj.dopacity = -0.7;
-            pObj.image = 'resources/images/particle-dirt.png';
+            if (Math.random() > 0.5) {
+                pObj.image = 'resources/images/particle-tan.png';
+            } else {
+                pObj.image = 'resources/images/particle-brown.png';
+            }
         }
         superview.particleEngine.emitParticles(particleObjects);
     };
