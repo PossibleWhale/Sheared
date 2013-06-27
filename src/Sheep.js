@@ -45,8 +45,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.emitWool = function () {
-        var superview = this.getSuperview(),
-            particleObjects = superview.particleEngine.obtainParticleArray(this.bolts), i;
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
+
+        var particleObjects = superview.particleEngine.obtainParticleArray(this.bolts), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x;
@@ -76,8 +80,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.emitDust = function () {
-        var superview = this.getSuperview(),
-            particleObjects = superview.particleEngine.obtainParticleArray(this.stepSize/10), i;
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
+
+        var particleObjects = superview.particleEngine.obtainParticleArray(this.stepSize/10), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x;
