@@ -89,13 +89,16 @@ exports = Class(GC.Application, function () {
         });
 
         /* When the game screen has signalled that the game is over,
-         * show the title screen so that the user may play the game again.
+         * reset the play screen so we can play again
          */
-        rootView.on('gamescreen:end', function () {
-            _back();
+        rootView.on('playscreen:end', function () {
+            playScreen = new PlayScreen();
         });
 
         this.engine.on('Tick', bind(this, function (dt) {
+            if (playScreen && playScreen.clipper) {
+                playScreen.clipper.emitDiamonds();
+            }
             playScreen.particleEngine.runTick(dt);
         }));
 

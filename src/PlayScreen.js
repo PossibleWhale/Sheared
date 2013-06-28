@@ -7,6 +7,7 @@ import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Diamond as Diamond;
+import src.Battery as Battery;
 import src.Player as Player;
 import src.Inventory as Inventory;
 import src.constants as constants;
@@ -93,8 +94,12 @@ exports = Class(ImageView, function (supr) {
         if (this.diamond) {
             clearInterval(this.diamond.interval);
         }
+        if (this.battery) {
+            clearInterval(this.battery.interval);
+        }
         clearInterval(this.interval);
         clearInterval(this.diamondInterval);
+        clearInterval(this.batteryInterval);
 
         this.removeAllSubviews();
         this.removeAllListeners();
@@ -137,22 +142,46 @@ exports = Class(ImageView, function (supr) {
             width: 240,
             height: 54
         });
+        var woolCounts = [];
         for (i = 0; i < constants.colors.length; i++) {
-            resultsScreen.addSubview(new TextView({
+            woolCounts.push(new TextView({
                 x: 72 + 196*i,
                 y: 337,
                 width: 96,
                 height: 48,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
-                text: '' + this.dailyInventory.wool[constants.colors[i].label],
+                text: '0',// + this.dailyInventory.wool[constants.colors[i].label],
                 size: 128,
                 autoFontSize: true,
                 color: '#FFFFFF',
                 strokeWidth: 4,
                 strokeColor: '#000000'
             }));
+            resultsScreen.addSubview(woolCounts[i]);
         }
+        // animate the counts up to however many of each color were collected
+        this.particleEngine = new ParticleEngine({
+            superview: this,
+            width: 1024,
+            height: 576
+        });
+        for (i = 0; i < woolCounts.length; i++) {
+            woolCounts[i].maxCount = this.dailyInventory.wool[constants.colors[i].label];
+            woolCounts[i].particleEngine = this.particleEngine;
+            woolCounts[i].woolColor = constants.colors[i].label;
+            woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
+                var count = parseInt(this.getText());
+                // if we're finished counting up, clear interval and show a burst of wool
+                if (count === this.maxCount) {
+                    clearInterval(this.interval);
+                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor, this.particleEngine);
+                    return;
+                }
+                this.setText('' + (count + 1));
+            }), 100);
+        }
+
         resultsScreen.addSubview(continueButton);
         this.addSubview(resultsScreen);
         animate(resultsScreen).now({x: 0});
@@ -162,8 +191,9 @@ exports = Class(ImageView, function (supr) {
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
-                if (this.day > 6) {
+                if (this.day >= constants.days.length ) {
                     this.getSuperview().emit('titleScreen:craft');
+                    this.getSuperview().emit('playscreen:end');
                 } else {
                     this.build();
                 }
@@ -187,6 +217,7 @@ function playGame () {
     this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
     this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
+    this.batteryInterval = setInterval(spawnBattery.bind(this), 15000);
 
     this.timer = new Timer({
         x: 0,
@@ -199,16 +230,19 @@ function playGame () {
 }
 
 function spawnSheep () {
+    if (this.timer.time <= 3) {
+        return;
+    }
     var sheep, r = Math.random();
     if (r > constants.days[this.day].ramRarity) {
         sheep = new Sheep({
             x: 1024,
-            y: randomLaneCoord(8)
+            y: randomLaneCoord(8) - 5
         });
     } else {
         sheep = new Ram({
             x: 1024,
-            y: randomLaneCoord(7)
+            y: randomLaneCoord(7) - 5
         });
     }
 
@@ -227,6 +261,16 @@ function spawnDiamond () {
     this.diamond.run();
 }
 
+function spawnBattery () {
+    this.battery = new Battery({
+        x: 1024,
+        y: randomLaneCoord(8)
+    });
+
+    this.addSubview(this.battery);
+    this.battery.run();
+}
+
 function launchBlade () {
     if (this.bladeOut || (this.timer && this.timer.time === 0)) {
         return;
@@ -240,7 +284,7 @@ function launchBlade () {
     this.clipper.setImage('resources/images/clipper-' + this.clipper.health + '-none.png');
     blade.run();
     this.player.bladeFired(blade.isDiamond);
-};
+}
 
 // return a random y-coordinate for the lane
 function randomLaneCoord (numLanes) {
@@ -249,4 +293,32 @@ function randomLaneCoord (numLanes) {
 
 function laneCoord (index) {
     return (index * constants.laneSize) + constants.fenceSize;
+}
+
+function emitWool (x, y, numBolts, color, particleEngine) {
+    var particleObjects = particleEngine.obtainParticleArray(numBolts), i;
+    for (i = 0; i < particleObjects.length; i++) {
+        var pObj = particleObjects[i];
+        pObj.x = x-30;
+        pObj.y = y-30;
+        pObj.dx = Math.random() * 300;
+        pObj.dy = Math.random() * 300;
+        if (Math.random() > 0.5) {
+            pObj.dx *= -1;
+        }
+        if (Math.random() > 0.5) {
+            pObj.dy *= -1;
+        }
+        pObj.dr = Math.random() * Math.PI / 4;
+        pObj.ax = 30;
+        pObj.ay = 30;
+        pObj.width = 60;
+        pObj.height = 60;
+        pObj.scale = 1;
+        pObj.dscale = 0.5;
+        pObj.opacity = 1;
+        pObj.dopacity = -1;
+        pObj.image = 'resources/images/particle-' + color + '.png';
+    }
+    particleEngine.emitParticles(particleObjects);
 }
