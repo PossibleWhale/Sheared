@@ -94,8 +94,12 @@ exports = Class(ImageView, function (supr) {
         if (this.diamond) {
             clearInterval(this.diamond.interval);
         }
+        if (this.battery) {
+            clearInterval(this.battery.interval);
+        }
         clearInterval(this.interval);
         clearInterval(this.diamondInterval);
+        clearInterval(this.batteryInterval);
 
         this.removeAllSubviews();
         this.removeAllListeners();
