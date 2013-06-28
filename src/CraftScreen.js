@@ -106,7 +106,7 @@ exports = Class(ui.ImageView, function (supr) {
 
         // load up alllll dem buttons
         var kinds = ["color", "colorCount", "garment", "cost", "craftCount",
-            "chalkboard", "refund"];
+            "craftBuy", "chalkboard", "refund"];
         for (var i = 0; i < kinds.length; i++) {
             var k = kinds[i];
             var regions = craftScreenRegions[k];
@@ -193,6 +193,13 @@ craftCount: [
     {item: {_1: null}, y:330, x:464, width:96, height:32},
     {item: {_1: null}, y:330, x:624, width:96, height:32},
     {item: {_1: null}, y:330, x:784, width:96, height:32}
+    ],
+craftBuy: [
+    {item: {_1: null}, y:224, x:144, width:96, height:96},
+    {item: {_1: null}, y:224, x:304, width:96, height:96},
+    {item: {_1: null}, y:224, x:464, width:96, height:96},
+    {item: {_1: null}, y:224, x:624, width:96, height:96},
+    {item: {_1: null}, y:224, x:784, width:96, height:96}
     ],
 chalkboard: [
     {y:378, x:148, width:88, height:54},
