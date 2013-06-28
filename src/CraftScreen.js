@@ -2,14 +2,14 @@
  * Crafting booth
  */
 
-"use strict";
-
 import ui.View;
 import ui.ImageView;
 import ui.resource.Image as Image;
 
 import src.constants as c;
 import src.Button as Button;
+import src.Inventory as Inventory;
+import src.util as util;
 
 
 exports = Class(ui.ImageView, function (supr) {
@@ -27,6 +27,8 @@ exports = Class(ui.ImageView, function (supr) {
 
         this.selectedGarment = c.GARMENT_HAT;
         this.selectedColor = c.COLOR_WHITE;
+        this.playerInventory = null;
+        this.sessionInventory = null;
 
         // user selected a new color
         this.setColor = bind(this, function(color) {
@@ -89,10 +91,6 @@ exports = Class(ui.ImageView, function (supr) {
             _cleanUI();
         });
 
-        this.build();
-    };
-
-    this.build = function() {
         this.on('craft:start', this.startCrafting);
 
         this.uiLayer = new ui.View({superview: this, canHandleEvents: false});
@@ -144,7 +142,7 @@ exports = Class(ui.ImageView, function (supr) {
         this.totalButton = _buttonFromRegion(craftScreenRegions.total);
         this.totalButton.setText("Total: $$$");
         this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
-        this.shopNameButton.setText("$SHOP_NAME");
+        this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
 
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);
@@ -191,13 +189,9 @@ cost: [
     ],
 craftCount: [
     {item: {_1: null}, y:330, x:144, width:96, height:32},
-
     {item: {_1: null}, y:330, x:304, width:96, height:32},
-
     {item: {_1: null}, y:330, x:464, width:96, height:32},
-
     {item: {_1: null}, y:330, x:624, width:96, height:32},
-
     {item: {_1: null}, y:330, x:784, width:96, height:32}
     ],
 chalkboard: [
