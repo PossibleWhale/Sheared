@@ -7,6 +7,7 @@ import src.Ram as Ram;
 import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Diamond as Diamond;
+import src.Battery as Battery;
 import src.Player as Player;
 import src.Inventory as Inventory;
 import src.constants as constants;
@@ -212,6 +213,7 @@ function playGame () {
     this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
     this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
+    this.batteryInterval = setInterval(spawnBattery.bind(this), 15000);
 
     this.timer = new Timer({
         x: 0,
@@ -231,12 +233,12 @@ function spawnSheep () {
     if (r > constants.days[this.day].ramRarity) {
         sheep = new Sheep({
             x: 1024,
-            y: randomLaneCoord(8)
+            y: randomLaneCoord(8) - 5
         });
     } else {
         sheep = new Ram({
             x: 1024,
-            y: randomLaneCoord(7)
+            y: randomLaneCoord(7) - 5
         });
     }
 
@@ -253,6 +255,16 @@ function spawnDiamond () {
 
     this.addSubview(this.diamond);
     this.diamond.run();
+}
+
+function spawnBattery () {
+    this.battery = new Battery({
+        x: 1024,
+        y: randomLaneCoord(8)
+    });
+
+    this.addSubview(this.battery);
+    this.battery.run();
 }
 
 function launchBlade () {

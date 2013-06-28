@@ -3,7 +3,8 @@ import src.Pickup as Pickup;
 exports = Class(Pickup, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/diamond.png'
+            // TODO use real battery image
+            image: 'resources/images/particle-red.png'
         });
 
         supr(this, 'init', [opts]);
@@ -11,7 +12,7 @@ exports = Class(Pickup, function (supr) {
 
     this.apply = function () {
         var superview = this.getSuperview();
-        superview.clipper.becomeDiamond();
-        superview.player.collectedDiamond();
+        superview.clipper.increaseHealth(1);
     };
 });
+

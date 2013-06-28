@@ -1,6 +1,8 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
 
+var maxHealth = 5;
+
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
@@ -14,7 +16,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
-        this.health = 5;
+        this.health = maxHealth;
         this.isDiamond = false;
         this.on('InputStart', bind(this, function (evt) {
             this.startDrag({
@@ -44,12 +46,24 @@ exports = Class(ImageView, function (supr) {
         this.health -= 1;
         if (this.health > 0) {
             if (this.isDiamond) {
-                this.setImage('resources/images/clipper-' + this.health + '-regular.png');
-            } else {
                 this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+            } else {
+                this.setImage('resources/images/clipper-' + this.health + '-regular.png');
             }
         } else {
             this.getSuperview().gameOver();
+        }
+    };
+
+    this.increaseHealth = function (amt) {
+        if (this.health === maxHealth) {
+            return;
+        }
+        this.health += amt;
+        if (this.isDiamond) {
+            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+        } else {
+            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
         }
     };
 
@@ -98,7 +112,7 @@ exports = Class(ImageView, function (supr) {
             pObj.dscale = 0.4;
             pObj.opacity = 1;
             pObj.dopacity = -1;
-            pObj.image = 'resources/images/diamond.png';
+            pObj.image = 'resources/images/particle-diamond.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
 
