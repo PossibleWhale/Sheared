@@ -1,26 +1,44 @@
-"use strict";
-
 import src.constants as c;
 import event.Emitter as Emitter;
+import GCDataSource;
+
+
+var wools = [
+    {color: c.COLOR_WHITE.label, count: 0},
+    {color: c.COLOR_RED.label, count: 0},
+    {color: c.COLOR_BLUE.label, count: 0},
+    {color: c.COLOR_YELLOW.label, count: 0},
+    {color: c.COLOR_BLACK.label, count: 0}
+];
+
+var crafts = [
+    {motif: 'naked|none|none', count: 0}
+];
 
 exports = Class(Emitter, function Inventory(supr) {
     this.init = function () {
         supr(this, 'init', arguments);
-        this.wool = {};
-        this.wool[c.COLOR_WHITE.label] = 0;
-        this.wool[c.COLOR_RED.label] = 0;
-        this.wool[c.COLOR_BLUE.label] = 0;
-        this.wool[c.COLOR_YELLOW.label] = 0;
-        this.wool[c.COLOR_BLACK.label] = 0;
+
+        this.wool = new GCDataSource({key: 'color'});
+        this.wool.add(wools);
+        this.wool.on('Update', function (clabel, item) {
+            this.emit('inventory:colorUpdate', clabel, item);
+        });
  
-        this._crafts = [];
+        this.crafts = new GCDataSource({key: 'motif'});
+        this.crafts.add(crafts);
+        this.crafts.on('Update', function (motif, item) {
+            this.emit('inventory:craftUpdate', motif, item);
+        });
 
         this.addWool = bind(this, function (color, amt) {
             if (! typeof color === 'string') {
-                color = color.label;
+                clabel = color.label;
+            } else {
+                clabel = color;
             }
-            this.wool[color] += (amt || 1);
-            this.emit('inventory:woolAdded', color, amt);
+            var old = this.wool.get(clabel);
+            this.wool.add({color: clabel, count: old + (amt || 1)});
         });
 
         this.addCraft = bind(this, function (garment, main, contrast) {
@@ -37,4 +55,31 @@ exports = Class(Emitter, function Inventory(supr) {
             this.emit('inventory:craftAdded', garment, main, contrast);
         });
     };
+
+    /*
+     * make a copy of the inventory so i can make temp modifications to it
+     */
+    this.copy = function () {
+        return this;
+
+        var ret = new Inventory();
+
+        ret.wool.fromJSON(this.wool.toJSON());
+        ret.crafts.fromJSON(this.crafts.toJSON());
+
+        return ret;
+    };
+
+    /*
+     * load the data of this inventory from another inventory
+     */
+    this.merge = bind(this, function (other) {
+        return this;
+
+        this.wool.clear();
+        this.crafts.clear();
+        this.wool.fromJSON(other.wool.toJSON());
+        this.crafts.fromJSON(other.crafts.toJSON());
+        return this;
+    });
 });

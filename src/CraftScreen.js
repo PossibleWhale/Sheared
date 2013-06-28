@@ -14,7 +14,7 @@ import src.util as util;
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
-// GC.debug = true;
+GC.debug = true;
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
 
@@ -46,6 +46,10 @@ exports = Class(ui.ImageView, function (supr) {
          * reset crafting state
          */
         this.startCrafting = bind(this, function() {
+
+            this.playerInventory = GC.app.player.inventory;
+            this.sessionInventory = this.playerInventory.copy();
+
             for (var i = 0; i < this.buttons.colorCount.length; i++) {
                 var btn = this.buttons.colorCount[i];
                 var color = btn.getOpts().item;
