@@ -15,7 +15,7 @@ var crafts = [
     {motif: 'naked|none|none', count: 0}
 ];
 
-exports = Class(Emitter, function Inventory(supr) {
+exports = Class(Emitter, function Inventory_(supr) {
     this.init = function () {
         supr(this, 'init', arguments);
 
@@ -54,32 +54,29 @@ exports = Class(Emitter, function Inventory(supr) {
             this._crafts.push(new Craft(garment, main, contrast));
             this.emit('inventory:craftAdded', garment, main, contrast);
         });
+
+        /*
+         * make a copy of the inventory so i can make temp modifications to it
+         */
+        this.copy = bind(this, function () {
+            import src.Inventory as Inventory;
+            var ret = new Inventory();
+
+            ret.wool.fromJSON(this.wool.toJSON());
+            ret.crafts.fromJSON(this.crafts.toJSON());
+
+            return ret;
+        });
+
+        /*
+         * load the data of this inventory from another inventory
+         */
+        this.merge = bind(this, function (other) {
+            this.wool.clear();
+            this.crafts.clear();
+            this.wool.fromJSON(other.wool.toJSON());
+            this.crafts.fromJSON(other.crafts.toJSON());
+            return this;
+        });
     };
-
-    /*
-     * make a copy of the inventory so i can make temp modifications to it
-     */
-    this.copy = function () {
-        return this;
-
-        var ret = new Inventory();
-
-        ret.wool.fromJSON(this.wool.toJSON());
-        ret.crafts.fromJSON(this.crafts.toJSON());
-
-        return ret;
-    };
-
-    /*
-     * load the data of this inventory from another inventory
-     */
-    this.merge = bind(this, function (other) {
-        return this;
-
-        this.wool.clear();
-        this.crafts.clear();
-        this.wool.fromJSON(other.wool.toJSON());
-        this.crafts.fromJSON(other.crafts.toJSON());
-        return this;
-    });
 });

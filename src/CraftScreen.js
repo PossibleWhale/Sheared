@@ -49,15 +49,12 @@ GC.debug = true;
 
             this.playerInventory = GC.app.player.inventory;
             this.sessionInventory = this.playerInventory.copy();
+            var si = this.sessionInventory;
 
             for (var i = 0; i < this.buttons.colorCount.length; i++) {
                 var btn = this.buttons.colorCount[i];
                 var color = btn.getOpts().item;
-
-// if (GC.debug) {
-//     GC.app.player.inventory.wool[color.label] = 100;
-// }
-                btn.setText(GC.app.player.inventory.wool[color.label]);
+                btn.setText(si.wool[color.label]);
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
