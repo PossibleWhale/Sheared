@@ -189,6 +189,9 @@ exports = Class(ImageView, function (supr) {
         continueButton.on('InputSelect', bind(this, function (evt) {
             evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
+                for (i = 0; i < woolCounts.length; i++) {
+                    woolCounts[i].particleEngine.removeFromSuperview();
+                }
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
                 if (this.day >= constants.days.length ) {
