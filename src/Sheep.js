@@ -1,6 +1,8 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
+import ui.View as View;
 import math.geom.intersect as intersect;
+import math.geom.Rect as Rect;
 
 var stepFrequency = 50; // step every x milliseconds
 
@@ -10,7 +12,8 @@ exports = Class(ImageView, function (supr) {
 
         opts = merge(opts, {
             image: color.eweImage,
-            autoSize: true
+            width: 108,
+            height: 82
         });
 
         supr(this, 'init', [opts]);
@@ -22,6 +25,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.run = function () {
+
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
 
@@ -30,7 +34,12 @@ exports = Class(ImageView, function (supr) {
 
             if (this.style.x < -1*this.style.width) {
                 this.die()
-            } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
+            } else if (intersect.rectAndRect(new Rect({
+                x: this.style.x + 5,
+                y: this.style.y + 5,
+                width: this.style.width - 10,
+                height: this.style.height - 10}), superview.clipper.style)) {
+
                 superview.clipper.decreaseHealth();
                 this.die();
             }
@@ -88,7 +97,7 @@ exports = Class(ImageView, function (supr) {
         var particleObjects = superview.particleEngine.obtainParticleArray(this.stepSize/10), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
-            pObj.x = this.style.x;
+            pObj.x = this.style.x + 5;
             pObj.y = this.style.y + this.style.height/2;
             pObj.dx = Math.random() * 100;
             pObj.dy = Math.random() * -100;
