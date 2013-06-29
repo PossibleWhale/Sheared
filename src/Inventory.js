@@ -41,18 +41,12 @@ exports = Class(Emitter, function Inventory_(supr) {
             this.wool.add({color: clabel, count: old + (amt || 1)});
         });
 
-        this.addCraft = bind(this, function (garment, main, contrast) {
-            if (typeof garment === 'string') {
-                garment = c.garmentsByLabel[garment];
-            }
-            if (typeof main === 'string') {
-                main = c.colorsByLabel[main];
-            }
-            if (typeof contrast === 'string') {
-                contrast = c.colorsByLabel[contrast];
-            }
-            this._crafts.push(new Craft(garment, main, contrast));
-            this.emit('inventory:craftAdded', garment, main, contrast);
+        this.addCraft = bind(this, function (craft) {
+            var motif = craft.toMotif();
+            var oldCraft = this.crafts.get(motif);
+            var oldCount = oldCraft ? oldCraft.count : 0;
+            this.crafts.add({motif: motif, count: oldCount + 1});
+            this.emit('inventory:craftAdded', craft);
         });
 
         /*
