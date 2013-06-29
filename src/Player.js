@@ -18,11 +18,12 @@ exports = Class(Emitter, function Player(supr) {
         loadStats(this.ramsSheared, 'rams.');
 
         this.deduct = bind(this, function (color) {
+            // TODO
         });
 
-        this.addWool = bind(this, function (color, amt) {
-            this.inventory.addWool(color, amt);
-            localStorage['wool.' + color] = parseInt(localStorage['wool.' + color]) + (amt || 1);
+        this.addWool = bind(this, function (clabel, amt) {
+            this.inventory.addWool(clabel, amt);
+            localStorage['wool.' + clabel] = parseInt(localStorage['wool.' + clabel]) + (amt || 1);
         });
 
         this.addCraft = bind(this, function (garment, main, contrast) {
@@ -34,7 +35,7 @@ exports = Class(Emitter, function Player(supr) {
         this.addInventory = function (other) {
             var i = c.colors.length;
             while (i--) {
-                this.addWool(c.colors[i].label, other.wool[c.colors[i].label]);
+                this.addWool(c.colors[i].label, other.wool.get(c.colors[i].label));
             }
         };
 

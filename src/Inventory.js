@@ -78,5 +78,17 @@ exports = Class(Emitter, function Inventory_(supr) {
             this.crafts.fromJSON(other.crafts.toJSON());
             return this;
         });
+
+        /*
+         * Hack! given obj with a key for each color, load it into this.wool
+         * GCDataSource
+         */
+        this.loadWool = bind(this, function (obj) {
+            var _tmpArr = [];
+            for (var k in obj) {
+                _tmpArr.push({'color': k, 'count': obj[k]});
+            }
+            this.inventory.wool.add(_tmpArr);
+        });
     };
 });
