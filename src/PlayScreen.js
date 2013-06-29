@@ -123,6 +123,7 @@ exports = Class(ImageView, function (supr) {
         this.addSubview(gameOverScreen);
         gameOverScreen.on('InputSelect', bind(this, function () {
             this.getSuperview().emit('titleScreen:craft');
+            this.getSuperview().emit('playscreen:end');
         }));
     };
 
