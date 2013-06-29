@@ -105,7 +105,7 @@ exports.days = [];
 for (var i = 0; i < numDays; i++) {
     exports.days.push({
       // delay between sheep spawns
-        sheepFrequency: (1.5 - (i * 1/6))*500,
+        sheepFrequency: (2 - (i * 1/6))*500,
 
       // TODO make it vary
         ramRarity: 0.3
