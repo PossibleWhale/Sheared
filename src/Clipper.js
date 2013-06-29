@@ -79,6 +79,9 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.reloadBlade = function () {
+        if (this.health <= 0) {
+            return;
+        }
         if (this.isDiamond) {
             this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
         } else {
