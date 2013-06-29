@@ -78,6 +78,26 @@ exports = Class(ImageView, function (supr) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
         sheep.removeFromSuperview();
     };
+    
+    this.spawnDiamond = function () {
+        this.diamond = new Diamond({
+            x: 1024,
+            y: randomLaneCoord(8)
+        });
+
+        this.addSubview(this.diamond);
+        this.diamond.run();
+    };
+
+    this.spawnBattery = function () {
+        this.battery = new Battery({
+            x: 1024,
+            y: randomLaneCoord(8)
+        });
+
+        this.addSubview(this.battery);
+        this.battery.run();
+    };
 
     this.endDay = function () {
         var i = this.sheep.length;
@@ -97,8 +117,6 @@ exports = Class(ImageView, function (supr) {
             clearInterval(this.battery.interval);
         }
         clearInterval(this.interval);
-        clearInterval(this.diamondInterval);
-        clearInterval(this.batteryInterval);
 
         this.removeAllSubviews();
         this.removeAllListeners();
@@ -219,8 +237,6 @@ function playGame () {
 
     this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
-    this.diamondInterval = setInterval(spawnDiamond.bind(this), 10000);
-    this.batteryInterval = setInterval(spawnBattery.bind(this), 15000);
 
     this.timer = new Timer({
         x: 0,
@@ -254,26 +270,6 @@ function spawnSheep () {
     this.addSubview(sheep);
     this.sheep.push(sheep);
     sheep.run();
-}
-
-function spawnDiamond () {
-    this.diamond = new Diamond({
-        x: 1024,
-        y: randomLaneCoord(8)
-    });
-
-    this.addSubview(this.diamond);
-    this.diamond.run();
-}
-
-function spawnBattery () {
-    this.battery = new Battery({
-        x: 1024,
-        y: randomLaneCoord(8)
-    });
-
-    this.addSubview(this.battery);
-    this.battery.run();
 }
 
 function launchBlade () {

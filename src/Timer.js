@@ -17,6 +17,13 @@ exports = Class(TextView, function (supr) {
         supr(this, 'init', [opts]);
 
         this.time = initialTime;
+
+        this.diamondTime1 = Math.floor(Math.random() * 10) + 5;
+        this.diamondTime2 = this.diamondTime1 + Math.floor(Math.random() * 5) + 10;
+        this.diamondTime3 = this.diamondTime2 + Math.floor(Math.random() * 5) + 10;
+
+        this.batteryTime1 = Math.floor(Math.random() * 20) + 10;
+        this.batteryTime2 = this.batteryTime1 + Math.floor(Math.random() * 10) + 10;
     };
 
     this.run = function () {
@@ -32,6 +39,16 @@ exports = Class(TextView, function (supr) {
                 this.stop();
                 superview.timeOver();
             }
+            if (this.time === this.diamondTime1 ||
+                this.time === this.diamondTime2 ||
+                this.time === this.diamondTime3) {
+                superview.spawnDiamond();
+            }
+            if (this.time === this.batteryTime1 ||
+                this.time === this.batteryTime2) {
+                superview.spawnBattery();
+            }
+            
         }), 1000);
     };
 
