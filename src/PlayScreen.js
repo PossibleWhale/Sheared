@@ -64,7 +64,6 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.on('play:start', bind(this, playGame));
-        this.on('InputSelect', bind(this, launchBlade));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -231,6 +230,8 @@ function playGame () {
     });
     this.addSubview(this.timer);
     this.timer.run();
+
+    this.on('InputSelect', bind(this, launchBlade));
 }
 
 function spawnSheep () {

@@ -56,6 +56,27 @@ exports = Class(ImageView, function (supr) {
                             superview.player.hitWithBlade(this.isDiamond);
                             sheep[i].emitWool();
                             sheep[i].die();
+                        } else {
+                            var particleObjects = superview.particleEngine.obtainParticleArray(1);
+                            var pObj = particleObjects[0];
+                            pObj.x = this.style.x;
+                            pObj.y = this.style.y;
+                            pObj.dx = -400;
+                            pObj.dy = 400;
+                            pObj.ddx = 400;
+                            pObj.ddy = 400;
+                            pObj.dr = -1 * Math.PI;
+                            pObj.ax = 30;
+                            pObj.ay = 30;
+                            pObj.width = 60;
+                            pObj.height = 60;
+                            pObj.scale = 1;
+                            pObj.dscale = 3;
+                            pObj.opacity = 0.7;
+                            pObj.dopacity = -0.7;
+                            pObj.image = 'resources/images/particle-blade.png';
+                            superview.particleEngine.emitParticles(particleObjects);
+
                         }
                         clearInterval(interval);
                         this.removeFromSuperview();
