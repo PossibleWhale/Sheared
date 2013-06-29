@@ -168,7 +168,7 @@ exports = Class(ImageView, function (supr) {
             height: 576
         });
         for (i = 0; i < woolCounts.length; i++) {
-            woolCounts[i].maxCount = this.dailyInventory.wool.get(constants.colors[i].label);
+            woolCounts[i].maxCount = this.dailyInventory.wool.get(constants.colors[i].label).count;
             woolCounts[i].particleEngine = this.particleEngine;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {

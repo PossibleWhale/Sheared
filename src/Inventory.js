@@ -37,7 +37,7 @@ exports = Class(Emitter, function Inventory_(supr) {
             } else {
                 clabel = color;
             }
-            var old = this.wool.get(clabel);
+            var old = this.wool.get(clabel).count;
             this.wool.add({color: clabel, count: old + (amt || 1)});
         });
 
