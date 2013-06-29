@@ -1,6 +1,7 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
+import math.geom.Rect as Rect;
 import src.Player as Player;
 
 var stepSize = 20,
@@ -42,7 +43,13 @@ exports = Class(ImageView, function (supr) {
                 superview.clipper.reloadBlade();
             } else {
                 while (i--) {
-                    if (intersect.rectAndRect(sheep[i].style, this.style)) {
+                    var rect = new Rect({
+                        x: sheep[i].style.x + 5,
+                        y: sheep[i].style.y + 5,
+                        width: sheep[i].style.width - 10,
+                        height: sheep[i].style.height - 10
+                    });
+                    if (intersect.rectAndRect(rect, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
                             inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
