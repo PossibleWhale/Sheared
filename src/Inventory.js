@@ -88,7 +88,7 @@ exports = Class(Emitter, function Inventory_(supr) {
             for (var k in obj) {
                 _tmpArr.push({'color': k, 'count': obj[k]});
             }
-            this.inventory.wool.add(_tmpArr);
+            this.wool.add(_tmpArr);
         });
     };
 });

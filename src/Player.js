@@ -9,7 +9,9 @@ exports = Class(Emitter, function Player(supr) {
         supr(this, 'init', arguments);
 
         this.inventory = new Inventory();
-        loadStats(this.inventory.wool, 'wool.');
+        var _tmpWool = {};
+        loadStats(_tmpWool, 'wool.');
+        this.inventory.loadWool(_tmpWool);
 
         this.ewesSheared = {};
         loadStats(this.ewesSheared, 'ewes.');

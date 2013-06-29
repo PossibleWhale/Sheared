@@ -151,7 +151,7 @@ exports = Class(ImageView, function (supr) {
                 height: 48,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
-                text: '0',// + this.dailyInventory.wool[constants.colors[i].label],
+                text: '0',// + this.dailyInventory.wool.get(constants.colors[i].label),
                 size: 128,
                 autoFontSize: true,
                 color: '#FFFFFF',
@@ -167,7 +167,7 @@ exports = Class(ImageView, function (supr) {
             height: 576
         });
         for (i = 0; i < woolCounts.length; i++) {
-            woolCounts[i].maxCount = this.dailyInventory.wool[constants.colors[i].label];
+            woolCounts[i].maxCount = this.dailyInventory.wool.get(constants.colors[i].label);
             woolCounts[i].particleEngine = this.particleEngine;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
