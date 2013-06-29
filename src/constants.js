@@ -1,16 +1,13 @@
-"use strict";
-
 var imagePath = 'resources/images/';
 var numDays = 5;
 
 
-// Given rarity R, value V of the corresponding wool is:
-//
-//    V = 0.20 / R
-//
-
 exports = {
     COLOR_NONE: {label: 'none'},
+
+    // Given rarity R, value V of the corresponding wool is:
+    //
+    //    V = 0.20 / R
 
     COLOR_WHITE: {
         label: 'white',
@@ -69,7 +66,18 @@ exports = {
         label: 'sweater', 
         cost: {contrast: 18, main: 42},
         price: 30.00
-    }
+    },
+
+    SHOP_NAMES: [
+        "On the Lamb",
+        "Shear Elegance",
+        "Yarn Ever Gonna Believe It",
+        "Knit Picky",
+        "Wool Gathering",
+        "Purls Before Swine",
+        "All's Wool That Ends Wool",
+        "I Yarn for You"
+    ]
 };
 
 // build a mapping for looking up each kind of object
