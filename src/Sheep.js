@@ -18,7 +18,7 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.stepSize = (Math.random() * 20) + 10;
+        this.stepSize = (Math.random() * 15) + 10;
         this.color = color;
         this.bolts = 1;
         this.isRam = false;
