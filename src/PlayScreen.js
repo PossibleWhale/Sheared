@@ -251,7 +251,7 @@ function playGame () {
 }
 
 function spawnSheep () {
-    if (this.timer.time <= 3) {
+    if (this.timer.time <= 2) {
         return;
     }
     var sheep, r = Math.random();
