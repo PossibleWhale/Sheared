@@ -10,6 +10,7 @@ import src.constants as c;
 import src.Button as Button;
 import src.Inventory as Inventory;
 import src.util as util;
+import src.Craft as Craft;
 
 
 exports = Class(ui.ImageView, function (supr) {
@@ -29,6 +30,8 @@ GC.debug = true;
         this.selectedColor = c.COLOR_WHITE;
         this.playerInventory = null;
         this.sessionInventory = null;
+
+        var craftScreen = this;
 
         // user selected a new color
         this.setColor = bind(this, function(color) {
@@ -135,6 +138,21 @@ GC.debug = true;
             });
         }
 
+        // buy garment
+        var i = this.buttons.craftBuy.length;
+        while (i--) {
+            var btn = this.buttons.craftBuy[i];
+            btn.getOpts().contrastIndex = i;
+            btn.on('InputSelect', function () {
+                var main = craftScreen.selectedColor;
+                var contrast = colorPairings[main.label][this.getOpts().contrastIndex];
+                var garment = craftScreen.selectedGarment;
+                var craft = new Craft(garment, main, contrast);
+                craftScreen.sessionInventory.addCraft(craft);
+                console.log('bought ' + craft.toMotif());
+            });
+        }
+
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', function () {
@@ -150,6 +168,16 @@ GC.debug = true;
     };
 });
 
+
+// this is how the buttons along the top of the craft screen are colored
+// depending on the base color you selected
+var colorPairings = {
+    white: [c.COLOR_WHITE, c.COLOR_RED, c.COLOR_BLUE, c.COLOR_YELLOW, c.COLOR_BLACK],
+    red: [c.COLOR_RED, c.COLOR_WHITE, c.COLOR_BLUE, c.COLOR_YELLOW, c.COLOR_BLACK],
+    blue: [c.COLOR_BLUE, c.COLOR_WHITE, c.COLOR_RED, c.COLOR_YELLOW, c.COLOR_BLACK],
+    yellow: [c.COLOR_YELLOW, c.COLOR_WHITE, c.COLOR_RED, c.COLOR_BLUE, c.COLOR_BLACK],
+    black: [c.COLOR_BLACK, c.COLOR_WHITE, c.COLOR_RED, c.COLOR_BLUE, c.COLOR_YELLOW]
+};
 
 var craftScreenRegions = {
 color: [
