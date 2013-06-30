@@ -40,6 +40,7 @@ exports = Class(ImageView, function (supr) {
                 width: this.style.width - 10,
                 height: this.style.height - 10}), superview.clipper.style)) {
 
+                superview.clipper.emitSparks();
                 superview.clipper.decreaseHealth();
                 this.die();
             }
@@ -110,12 +111,12 @@ exports = Class(ImageView, function (supr) {
             pObj.height = 60;
             pObj.scale = 0.1;
             pObj.dscale = 0.4;
-            pObj.opacity = 0.7;
-            pObj.dopacity = -0.7;
+            pObj.opacity = 1;
+            pObj.dopacity = -1;
             if (Math.random() > 0.5) {
-                pObj.image = 'resources/images/particle-tan.png';
+                pObj.image = 'resources/images/particle-grass-1.png';
             } else {
-                pObj.image = 'resources/images/particle-brown.png';
+                pObj.image = 'resources/images/particle-grass-2.png';
             }
         }
         superview.particleEngine.emitParticles(particleObjects);

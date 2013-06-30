@@ -118,7 +118,33 @@ exports = Class(ImageView, function (supr) {
             pObj.image = 'resources/images/particle-diamond.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
+    };
 
+    this.emitSparks = function () {
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
 
+        var particleObjects = superview.particleEngine.obtainParticleArray(5), i;
+        for (i = 0; i < particleObjects.length; i++) {
+            var pObj = particleObjects[i];
+            var yDiff;
+            if (i < 2) {
+                yDiff = (i+1) * 10;
+            } else if (i > 2) {
+                yDiff = (i-1) * -10;
+            } else {
+                yDiff = 0;
+            }
+            pObj.x = this.style.x + this.style.width + 10;
+            pObj.y = this.style.y + this.style.height/2 + yDiff;
+            pObj.r = -1 * i * Math.PI/4;
+            pObj.width = 2;
+            pObj.height = 28;
+            pObj.ttl = 300;
+            pObj.image = 'resources/images/particle-spark.png';
+        }
+        superview.particleEngine.emitParticles(particleObjects);
     };
 });
