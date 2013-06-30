@@ -1,21 +1,31 @@
 import src.constants as constants;
 import ui.ImageView as ImageView;
+import ui.View as View;
 
 var maxHealth = 5;
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/clipper-5-regular.png',
-            autoSize: true
+            width: 229,
+            height: 82
         });
 
         supr(this, 'init', [opts]);
-
         this.build();
     };
 
     this.build = function () {
+        this.marginSize = 20;
+
+        this.clipperBox = new ImageView({
+            image: 'resources/images/clipper-5-regular.png',
+            x: this.marginSize,
+            y: this.marginSize,
+            autoSize: true
+        });
+        this.addSubview(this.clipperBox);
+
         this.health = maxHealth;
         this.isDiamond = false;
         this.on('InputStart', bind(this, function (evt) {
@@ -24,22 +34,28 @@ exports = Class(ImageView, function (supr) {
             });
         }));
 
-        this.on('DragStart', function (dragEvt) {
+        this.on('DragStart', bind(this, function (dragEvt) {
             this.dragOffset = {
                 x: dragEvt.srcPt.x - this.style.x,
                 y: dragEvt.srcPt.y - this.style.y
             };
-        });
+        }));
 
         this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
             var y = dragEvt.srcPt.y - this.dragOffset.y;
 
             this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
 
-            if (y > constants.fenceSize && y < 576 - constants.fenceSize - this.style.height) { 
+            if (y+this.marginSize > constants.fenceSize &&
+                y-this.marginSize < 576 - constants.fenceSize - this.style.height) {
+
                 this.style.y = y;
             }
         }));
+    };
+
+    this.setImage = function (img) {
+        this.clipperBox.setImage(img);
     };
 
     this.decreaseHealth = function () {
@@ -140,12 +156,11 @@ exports = Class(ImageView, function (supr) {
             pObj.x = this.style.x + this.style.width + 10;
             pObj.y = this.style.y + this.style.height/2 + yDiff;
             pObj.r = -1 * i * Math.PI/4;
-            pObj.width = 31;
-            pObj.height = 52;
-            pObj.scale = 0.5;
-            pObj.opacity = 0.5;
+            pObj.width = 2;
+            pObj.height = 28;
+            pObj.scale = 1;
             pObj.ttl = 300;
-            pObj.image = 'resources/images/particle-bolt.png';
+            pObj.image = 'resources/images/particle-spark.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
     };

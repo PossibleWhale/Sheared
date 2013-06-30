@@ -35,10 +35,16 @@ exports = Class(ImageView, function (supr) {
             if (this.style.x < -1*this.style.width) {
                 this.die()
             } else if (intersect.rectAndRect(new Rect({
-                x: this.style.x + 5,
-                y: this.style.y + 5,
-                width: this.style.width - 10,
-                height: this.style.height - 10}), superview.clipper.style)) {
+                    x: this.style.x + 5,
+                    y: this.style.y + 5,
+                    width: this.style.width - 10,
+                    height: this.style.height - 10}), //superview.clipper.clipperBox.style)) {
+                new Rect({
+                    x: superview.clipper.style.x + superview.clipper.marginSize,
+                    y: superview.clipper.style.y + superview.clipper.marginSize,
+                    width: superview.clipper.clipperBox.style.width,
+                    height: superview.clipper.clipperBox.style.height
+                }))) {
 
                 superview.clipper.emitSparks();
                 superview.clipper.decreaseHealth();
