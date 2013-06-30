@@ -140,10 +140,12 @@ exports = Class(ImageView, function (supr) {
             pObj.x = this.style.x + this.style.width + 10;
             pObj.y = this.style.y + this.style.height/2 + yDiff;
             pObj.r = -1 * i * Math.PI/4;
-            pObj.width = 2;
-            pObj.height = 28;
+            pObj.width = 31;
+            pObj.height = 52;
+            pObj.scale = 0.5;
+            pObj.opacity = 0.5;
             pObj.ttl = 300;
-            pObj.image = 'resources/images/particle-spark.png';
+            pObj.image = 'resources/images/particle-bolt.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
     };
