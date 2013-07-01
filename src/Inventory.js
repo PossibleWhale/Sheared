@@ -23,15 +23,15 @@ exports = Class(Emitter, function Inventory_(supr) {
 
         this.wool = new GCDataSource({key: 'color'});
         this.wool.add(wools);
-        this.wool.on('Update', function (clabel, item) {
+        this.wool.on('Update', bind(this, function (clabel, item) {
             this.emit('inventory:colorUpdate', clabel, item);
-        });
+        }));
  
         this.crafts = new GCDataSource({key: 'motif'});
         this.crafts.add(crafts);
-        this.crafts.on('Update', function (motif, item) {
+        this.crafts.on('Update', bind(this, function (motif, item) {
             this.emit('inventory:craftUpdate', motif, item);
-        });
+        }));
 
         this.addWool = bind(this, function (color, amt) {
             if (! typeof color === 'string') {

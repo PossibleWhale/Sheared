@@ -19,10 +19,6 @@ exports = Class(Emitter, function Player(supr) {
         this.ramsSheared = {};
         loadStats(this.ramsSheared, 'rams.');
 
-        this.deduct = bind(this, function (color) {
-            // TODO
-        });
-
         this.addWool = bind(this, function (clabel, amt) {
             this.inventory.addWool(clabel, amt);
             localStorage['wool.' + clabel] = parseInt(localStorage['wool.' + clabel]) + (amt || 1);
