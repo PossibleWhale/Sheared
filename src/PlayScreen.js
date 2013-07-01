@@ -12,6 +12,7 @@ import src.Player as Player;
 import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
+import src.InfiniteTimer as InfiniteTimer;
 import ui.TextView as TextView;
 import ui.ParticleEngine as ParticleEngine;
 
@@ -24,6 +25,7 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
         this.day = 0;
+        this.infiniteMode = false;
         this.build();
     };
 
@@ -36,6 +38,8 @@ exports = Class(ImageView, function (supr) {
 
         this.sheep = [];
         this.dailyInventory = new Inventory();
+
+        this.on('play:start', bind(this, playGame));
 
         var dayIntro = new ImageView({
             x: 1024,
@@ -62,8 +66,6 @@ exports = Class(ImageView, function (supr) {
                 this.emit('play:start');
             }));
         }));
-
-        this.on('play:start', bind(this, playGame));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -238,12 +240,16 @@ function playGame () {
     this.player = GC.app.player;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
 
-    this.timer = new Timer({
-        x: 0,
-        y: 0,
-        width: 1024,
-        height: constants.fenceSize
-    });
+    if (this.infiniteMode) {
+        this.timer = new InfiniteTimer();
+    } else {
+        this.timer = new Timer({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: constants.fenceSize
+        });
+    }
     this.addSubview(this.timer);
     this.timer.run();
 
@@ -251,7 +257,7 @@ function playGame () {
 }
 
 function spawnSheep () {
-    if (this.timer.time <= 2) {
+    if (!this.infiniteMode && this.timer.time <= 2) {
         return;
     }
     var sheep, r = Math.random();
@@ -277,8 +283,8 @@ function launchBlade () {
         return;
     }
     var blade = new Blade({
-        x: this.clipper.style.x + this.clipper.style.width,
-        y: this.clipper.style.y + 3
+        x: this.clipper.style.x + this.clipper.style.width + this.clipper.marginSize,
+        y: this.clipper.style.y + 3 + this.clipper.marginSize
     });
     this.addSubview(blade);
     this.bladeOut = true;

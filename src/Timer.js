@@ -54,5 +54,5 @@ exports = Class(TextView, function (supr) {
 
     this.stop = function () {
         clearInterval(this.interval);
-    }
+    };
 });
