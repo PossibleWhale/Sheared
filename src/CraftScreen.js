@@ -15,7 +15,6 @@ import src.Craft as Craft;
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
-GC.debug = true;
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
 
