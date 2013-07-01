@@ -1,6 +1,8 @@
-import src.constants as c;
 import event.Emitter as Emitter;
 import GCDataSource;
+
+import src.constants as c;
+import src.Craft as Craft;
 
 
 var wools = [
@@ -21,32 +23,36 @@ exports = Class(Emitter, function Inventory_(supr) {
 
         this.wool = new GCDataSource({key: 'color'});
         this.wool.add(wools);
-        this.wool.on('Update', function (clabel, item) {
-            this.emit('inventory:colorUpdate', clabel, item);
-        });
+        this.wool.on('Update', bind(this, function (clabel, item) {
+            this.emit('inventory:woolUpdate', clabel, item);
+        }));
  
         this.crafts = new GCDataSource({key: 'motif'});
         this.crafts.add(crafts);
-        this.crafts.on('Update', function (motif, item) {
+        this.crafts.on('Update', bind(this, function (motif, item) {
             this.emit('inventory:craftUpdate', motif, item);
-        });
+        }));
 
         this.addWool = bind(this, function (color, amt) {
-            if (! typeof color === 'string') {
-                clabel = color.label;
-            } else {
+            if (typeof color === 'string') {
                 clabel = color;
+            } else {
+                clabel = color.label;
             }
             var old = this.wool.get(clabel).count;
             this.wool.add({color: clabel, count: old + (amt || 1)});
         });
 
-        this.addCraft = bind(this, function (craft) {
-            var motif = craft.toMotif();
-            var oldCraft = this.crafts.get(motif);
-            var oldCount = oldCraft ? oldCraft.count : 0;
-            this.crafts.add({motif: motif, count: oldCount + 1});
-            this.emit('inventory:craftAdded', craft);
+        this.addCraft = bind(this, function (craft, amt) {
+            var motif, oldCraft, oldCount;
+            if (typeof craft === 'string') {
+                motif = craft;
+            } else {
+                motif = craft.toMotif();
+            }
+            oldCraft = this.crafts.get(motif);
+            oldCount = oldCraft ? oldCraft.count : 0;
+            this.crafts.add({motif: motif, count: oldCount + (amt || 1)});
         });
 
         /*
@@ -63,21 +69,25 @@ exports = Class(Emitter, function Inventory_(supr) {
         });
 
         /*
-         * load the data of this inventory from another inventory
+         * add to the data of this inventory from another inventory
          */
-        this.merge = bind(this, function (other) {
-            this.wool.clear();
-            this.crafts.clear();
-            this.wool.fromJSON(other.wool.toJSON());
-            this.crafts.fromJSON(other.crafts.toJSON());
+        this.mergeCounts = bind(this, function (other) {
+            other.wool.forEach(function (otherWool, index) {
+                this.addWool(otherWool.color, otherWool.count);
+            }, this);
+
+            other.crafts.forEach(function (otherCraft, index) {
+                this.addCraft(otherCraft.motif, otherCraft.count);
+            }, this);
+
             return this;
         });
 
         /*
-         * Hack! given obj with a key for each color, load it into this.wool
+         * given obj with a key for each color, load it into this.wool
          * GCDataSource
          */
-        this.loadWool = bind(this, function (obj) {
+        this.loadWoolHack = bind(this, function (obj) {
             var _tmpArr = [];
             for (var k in obj) {
                 _tmpArr.push({'color': k, 'count': obj[k]});

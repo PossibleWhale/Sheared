@@ -8,7 +8,6 @@ import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Diamond as Diamond;
 import src.Battery as Battery;
-import src.Player as Player;
 import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
