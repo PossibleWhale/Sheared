@@ -142,25 +142,27 @@ exports = Class(View, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(5), i;
+        var particleObjects = superview.particleEngine.obtainParticleArray(30), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
-            var yDiff;
-            if (i < 2) {
-                yDiff = (i+1) * 10;
-            } else if (i > 2) {
-                yDiff = (i-1) * -10;
+            pObj.x = this.style.x + this.style.width/2;
+            pObj.y = this.style.y + this.style.height/2;
+            pObj.dx = Math.random() * 300;
+            pObj.dy = Math.random() * 200;
+            if (Math.random() > 0.5) {
+                pObj.dx *= -1;
             } else {
-                yDiff = 0;
+                pObj.dy *= -1;
             }
-            pObj.x = this.style.x + this.style.width + 10;
-            pObj.y = this.style.y + this.style.height/2 + yDiff;
-            pObj.r = -1 * i * Math.PI/4;
-            pObj.width = 2;
-            pObj.height = 28;
+            pObj.r = Math.random() * 2 * Math.PI;
+            pObj.width = 31;
+            pObj.height = 52;
             pObj.scale = 1;
+            pObj.dscale = -1;
             pObj.ttl = 300;
-            pObj.image = 'resources/images/particle-spark.png';
+            pObj.opacity = 0.5;
+            pObj.dopacity = -0.5;
+            pObj.image = 'resources/images/particle-bolt.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
     };
