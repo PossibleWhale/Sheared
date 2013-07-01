@@ -96,6 +96,17 @@ GC.debug = true;
             _cleanUI();
         });
 
+        // user tries to buy a craft by clicking on a craft button
+        this.buyCraft = bind(this, function (btn) {
+            console.dir(arguments);
+            var main = this.selectedColor;
+            var contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
+            var garment = this.selectedGarment;
+            var craft = new Craft(garment, main, contrast);
+            this.sessionInventory.addCraft(craft);
+            console.log('bought ' + craft.toMotif());
+        });
+
         this.on('craft:start', this.startCrafting);
 
         this.uiLayer = new ui.View({superview: this, canHandleEvents: false});
@@ -144,14 +155,12 @@ GC.debug = true;
         while (i--) {
             var btn = this.buttons.craftBuy[i];
             btn.getOpts().contrastIndex = i;
-            btn.on('InputSelect', function () {
-                var main = craftScreen.selectedColor;
-                var contrast = colorPairings[main.label][this.getOpts().contrastIndex];
-                var garment = craftScreen.selectedGarment;
-                var craft = new Craft(garment, main, contrast);
-                craftScreen.sessionInventory.addCraft(craft);
-                console.log('bought ' + craft.toMotif());
-            });
+            var me = this;
+            btn.on('InputSelect', (function (_btn) {
+                return function () {
+                    me.buyCraft(_btn);
+                };
+            })(btn));
         }
 
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
