@@ -131,7 +131,7 @@ exports = Class(View, function (supr) {
             pObj.dscale = 0.4;
             pObj.opacity = 1;
             pObj.dopacity = -1;
-            pObj.image = 'resources/images/particle-diamond.png';
+            pObj.image = 'resources/images/diamond.png';
         }
         superview.particleEngine.emitParticles(particleObjects);
     };
