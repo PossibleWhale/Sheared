@@ -35,10 +35,11 @@ exports = Class(Emitter, function Player(supr) {
 
         // add all the wool from another inventory to this one
         this.addInventory = function (other) {
-            var i = c.colors.length;
-            while (i--) {
-                this.addWool(c.colors[i].label, other.wool.get(c.colors[i].label));
-            }
+            this.inventory.mergeCounts(other);
+            this.inventory.wool.forEach(function (item, index) {
+                var clabel = item.color.label;
+                localStorage['wool.' + clabel] = item.count;
+            });
         };
 
         this.shearedSheep = function (sheep) {

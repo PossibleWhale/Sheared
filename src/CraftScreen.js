@@ -57,7 +57,8 @@ GC.debug = true;
             for (var i = 0; i < this.buttons.colorCount.length; i++) {
                 var btn = this.buttons.colorCount[i];
                 var color = btn.getOpts().item;
-                btn.setText(si.wool.get(color.label).count);
+                var count = si.wool.get(color.label).count;
+                btn.setText(count);
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
