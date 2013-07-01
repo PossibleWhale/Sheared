@@ -11,7 +11,7 @@ exports = Class(Emitter, function Player(supr) {
         this.inventory = new Inventory();
         var _tmpWool = {};
         loadStats(_tmpWool, 'wool.');
-        this.inventory.loadWool(_tmpWool);
+        this.inventory.loadWoolHack(_tmpWool);
 
         this.ewesSheared = {};
         loadStats(this.ewesSheared, 'ewes.');

@@ -50,8 +50,13 @@ GC.debug = true;
          */
         this.startCrafting = bind(this, function() {
 
+// if (!GC.app.woolhack) {
+// GC.app.woolhack = true;
+// GC.app.player.inventory.wool.add({color: 'white', count: 100});
+// }
             this.playerInventory = GC.app.player.inventory;
             this.sessionInventory = this.playerInventory.copy();
+
             var si = this.sessionInventory;
 
             for (var i = 0; i < this.buttons.colorCount.length; i++) {
@@ -62,6 +67,18 @@ GC.debug = true;
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
+
+            si.on('inventory:woolUpdate', bind(this, function (clabel, item) {
+                var i = c.colors.length;
+                while (i--) {
+                    var btn = this.buttons.colorCount[i];
+                    if (btn.getOpts().item.label === item.color) {
+                        btn.setText(item.count);
+                        break;
+                    }
+                }
+            }));
+
         });
 
         /*
@@ -98,13 +115,22 @@ GC.debug = true;
 
         // user tries to buy a craft by clicking on a craft button
         this.buyCraft = bind(this, function (btn) {
-            console.dir(arguments);
-            var main = this.selectedColor;
-            var contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
-            var garment = this.selectedGarment;
-            var craft = new Craft(garment, main, contrast);
-            this.sessionInventory.addCraft(craft);
-            console.log('bought ' + craft.toMotif());
+            var main = this.selectedColor, 
+                garment = this.selectedGarment, 
+                contrast, craft, costs,
+                si = this.sessionInventory;
+            contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
+            craft = new Craft(garment, main, contrast);
+            costs = craft.cost();
+
+            if (si.wool.get(main.label).count >= costs[0].amount &&
+                si.wool.get(contrast.label).count >= costs[1].amount) {
+
+                si.addCraft(craft);
+                si.addWool(main, -1 * costs[0].amount);
+                si.addWool(contrast, -1 * costs[1].amount);
+
+            }
         });
 
         this.on('craft:start', this.startCrafting);
@@ -165,9 +191,11 @@ GC.debug = true;
 
         this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
         this.finishButton.setText("Finish");
-        this.finishButton.on('InputSelect', function () {
+        this.finishButton.on('InputSelect', bind(this, function () {
+            GC.app.player.inventory = this.sessionInventory.copy();
+            // TODO - localStorage
             GC.app.rootView.popAll();
-        });
+        }));
         this.totalButton = _buttonFromRegion(craftScreenRegions.total);
         this.totalButton.setText("Total: $$$");
         this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);

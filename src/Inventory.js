@@ -24,7 +24,7 @@ exports = Class(Emitter, function Inventory_(supr) {
         this.wool = new GCDataSource({key: 'color'});
         this.wool.add(wools);
         this.wool.on('Update', bind(this, function (clabel, item) {
-            this.emit('inventory:colorUpdate', clabel, item);
+            this.emit('inventory:woolUpdate', clabel, item);
         }));
  
         this.crafts = new GCDataSource({key: 'motif'});
@@ -34,10 +34,10 @@ exports = Class(Emitter, function Inventory_(supr) {
         }));
 
         this.addWool = bind(this, function (color, amt) {
-            if (! typeof color === 'string') {
-                clabel = color.label;
-            } else {
+            if (typeof color === 'string') {
                 clabel = color;
+            } else {
+                clabel = color.label;
             }
             var old = this.wool.get(clabel).count;
             this.wool.add({color: clabel, count: old + (amt || 1)});
@@ -84,10 +84,10 @@ exports = Class(Emitter, function Inventory_(supr) {
         });
 
         /*
-         * Hack! given obj with a key for each color, load it into this.wool
+         * given obj with a key for each color, load it into this.wool
          * GCDataSource
          */
-        this.loadWool = bind(this, function (obj) {
+        this.loadWoolHack = bind(this, function (obj) {
             var _tmpArr = [];
             for (var k in obj) {
                 _tmpArr.push({'color': k, 'count': obj[k]});
