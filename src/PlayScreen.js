@@ -147,7 +147,14 @@ exports = Class(ImageView, function (supr) {
 
     this.timeOver = function () {
         this.endDay();
+        this._showResults();
+    };
 
+    /* TODO make this work for both a time over and a game over.
+     * time over: show results, click continue to go to next day or craft if week is over (how it works now)
+     * game over: show results, click finish to craft.
+     */
+    this._showResults = function () {
         var i, resultsScreen = new ImageView({
             x: 1024,
             y: 0,
@@ -170,7 +177,7 @@ exports = Class(ImageView, function (supr) {
                 height: 48,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
-                text: '0',// + this.dailyInventory.wool.get(constants.colors[i].label),
+                text: '0',
                 size: 128,
                 autoFontSize: true,
                 color: '#FFFFFF',
@@ -221,7 +228,7 @@ exports = Class(ImageView, function (supr) {
                 }
             }));
         }));
-    };
+    }
 });
 
 function playGame () {

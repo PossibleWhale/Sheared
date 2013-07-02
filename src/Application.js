@@ -79,7 +79,6 @@ exports = Class(GC.Application, function () {
         });
 
         modeScreen.on('play:normal', function () {
-            console.log("got it");
             playScreen.infiniteMode = false;
             rootView.push(playScreen);
         });

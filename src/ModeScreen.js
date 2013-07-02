@@ -38,7 +38,6 @@ exports = Class(ui.ImageView, function (supr) {
         });
 
         normalButton.on('InputSelect', bind(this, function () {
-            console.log("normal");
             this.emit('play:normal');
         }));
 
