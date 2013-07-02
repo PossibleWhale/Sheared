@@ -263,6 +263,7 @@ function playGame () {
         superview: this,
         x: 0,
         y: 0,
+        zIndex: 1,
         width: 1024/2,
         height: 576
     });
@@ -271,6 +272,7 @@ function playGame () {
         superview: this,
         x: 1024/2,
         y: 0,
+        zIndex: 1,
         width: 1024/2,
         height: 576
     });
