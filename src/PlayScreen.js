@@ -260,6 +260,32 @@ function playGame () {
     this.timer.run();
 
     this.on('InputSelect', bind(this, launchBlade));
+
+    // set up dragging events for clipper
+    this.on('InputStart', bind(this, function (evt) {
+        this.startDrag({
+            inputStartEvt: evt
+        });
+    }));
+
+    this.on('DragStart', bind(this, function (dragEvt) {
+        this.dragOffset = {
+            x: dragEvt.srcPt.x - this.clipper.style.x,
+            y: dragEvt.srcPt.y - this.clipper.style.y
+        };
+    }));
+
+    this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
+        var y = dragEvt.srcPt.y - this.dragOffset.y;
+
+        this.clipper.style.x = dragEvt.srcPt.x - this.dragOffset.x;
+
+        if (y+this.clipper.marginSize > constants.fenceSize &&
+            y-this.clipper.marginSize < 576 - constants.fenceSize - this.clipper.style.height) {
+
+            this.clipper.style.y = y;
+        }
+    }));
 }
 
 function spawnSheep () {

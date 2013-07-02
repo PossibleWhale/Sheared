@@ -28,30 +28,6 @@ exports = Class(View, function (supr) {
 
         this.health = maxHealth;
         this.isDiamond = false;
-        this.on('InputStart', bind(this, function (evt) {
-            this.startDrag({
-                inputStartEvt: evt
-            });
-        }));
-
-        this.on('DragStart', bind(this, function (dragEvt) {
-            this.dragOffset = {
-                x: dragEvt.srcPt.x - this.style.x,
-                y: dragEvt.srcPt.y - this.style.y
-            };
-        }));
-
-        this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-            var y = dragEvt.srcPt.y - this.dragOffset.y;
-
-            this.style.x = dragEvt.srcPt.x - this.dragOffset.x;
-
-            if (y+this.marginSize > constants.fenceSize &&
-                y-this.marginSize < 576 - constants.fenceSize - this.style.height) {
-
-                this.style.y = y;
-            }
-        }));
     };
 
     this.setImage = function (img) {
