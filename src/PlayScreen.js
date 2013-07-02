@@ -279,25 +279,35 @@ function playGame () {
     }));
 
     this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-        var x = dragEvt.srcPt.x - this.dragOffset.x,
-            y = dragEvt.srcPt.y - this.dragOffset.y;
-
-        if (x + this.clipper.marginSize < 0) {
-            this.clipper.style.x = 0;
-        } else if (x - this.clipper.marginSize > 1024 - this.clipper.style.width) {
-            this.clipper.style.x = 1024 - this.clipper.style.width;
-        } else {
-            this.clipper.style.x = x;
-        }
-
-        if (y+this.clipper.marginSize < constants.fenceSize) {
-            this.clipper.style.y = constants.fenceSize;
-        } else if (y-this.clipper.marginSize > 576 - constants.fenceSize - this.clipper.style.height) {
-            this.clipper.style.y = 576 - constants.fenceSize - this.clipper.height;
-        } else {
-            this.clipper.style.y = y;
-        }
+        bind(this, clipperDrag)(dragEvt);
     }));
+
+    this.on("DragStop", bind(this, function (startEvt, dragEvt) {
+        bind(this, clipperDrag)(dragEvt);
+    }));
+}
+
+function clipperDrag(dragEvt) {
+    var x = dragEvt.srcPt.x - this.dragOffset.x,
+        y = dragEvt.srcPt.y - this.dragOffset.y;
+
+    // confine x-movement to 0-1024
+    if (x + this.clipper.marginSize < 0) {
+        this.clipper.style.x = 0;
+    } else if (x - this.clipper.marginSize > 1024 - this.clipper.style.width) {
+        this.clipper.style.x = 1024 - this.clipper.style.width;
+    } else {
+        this.clipper.style.x = x;
+    }
+
+    // confine y-movement to within fence
+    if (y+this.clipper.marginSize < constants.fenceSize) {
+        this.clipper.style.y = constants.fenceSize;
+    } else if (y-this.clipper.marginSize > 576 - constants.fenceSize - this.clipper.style.height) {
+        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.height;
+    } else {
+        this.clipper.style.y = y;
+    }
 }
 
 function spawnSheep () {
