@@ -259,33 +259,70 @@ function playGame () {
     this.addSubview(this.timer);
     this.timer.run();
 
-    this.on('InputSelect', bind(this, launchBlade));
+    var leftSide = new View({
+        superview: this,
+        x: 0,
+        y: 0,
+        width: 1024/2,
+        height: 576
+    });
+
+    var rightSide = new View({
+        superview: this,
+        x: 1024/2,
+        y: 0,
+        width: 1024/2,
+        height: 576
+    });
+
+    rightSide.on('InputSelect', bind(this, function (evt) {
+        bind(this, launchBlade)();
+    }));
 
     // set up dragging events for clipper
-    this.on('InputStart', bind(this, function (evt) {
-        this.startDrag({
+    leftSide.on('InputStart', bind(this, function (evt) {
+        leftSide.startDrag({
             inputStartEvt: evt
         });
     }));
 
-    this.on('DragStart', bind(this, function (dragEvt) {
+    leftSide.on('DragStart', bind(this, function (dragEvt) {
         this.dragOffset = {
             x: dragEvt.srcPt.x - this.clipper.style.x,
             y: dragEvt.srcPt.y - this.clipper.style.y
         };
     }));
 
-    this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-        var y = dragEvt.srcPt.y - this.dragOffset.y;
-
-        this.clipper.style.x = dragEvt.srcPt.x - this.dragOffset.x;
-
-        if (y+this.clipper.marginSize > constants.fenceSize &&
-            y-this.clipper.marginSize < 576 - constants.fenceSize - this.clipper.style.height) {
-
-            this.clipper.style.y = y;
-        }
+    leftSide.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
+        bind(this, clipperDrag)(dragEvt);
     }));
+
+    leftSide.on("DragStop", bind(this, function (startEvt, dragEvt) {
+        bind(this, clipperDrag)(dragEvt);
+    }));
+}
+
+function clipperDrag(dragEvt) {
+    var x = dragEvt.srcPt.x - this.dragOffset.x,
+        y = dragEvt.srcPt.y - this.dragOffset.y;
+
+    // confine x-movement to 0-1024
+    if (x < 0) {
+        this.clipper.style.x = 0;
+    } else if (x > 1024/2 - this.clipper.style.width) {
+        this.clipper.style.x = 1024/2 - this.clipper.style.width;
+    } else {
+        this.clipper.style.x = x;
+    }
+
+    // confine y-movement to within fence
+    if (y < constants.fenceSize) {
+        this.clipper.style.y = constants.fenceSize;
+    } else if (y > 576 - constants.fenceSize - this.clipper.style.height) {
+        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.style.height;
+    } else {
+        this.clipper.style.y = y;
+    }
 }
 
 function spawnSheep () {
