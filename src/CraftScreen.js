@@ -44,6 +44,53 @@ exports = Class(ImageView, function (supr) {
             this.emit('craftScreen:changeGarment');
         });
 
+        this.defaultButtonFactory = bind(this, function (region) {
+            var commonOpts, opts, btn;
+            commonOpts = {clip: true, superview: this};
+            opts = merge(merge({}, commonOpts), region);
+            btn = new Button(opts);
+            return btn;
+        });
+
+        // color buttons
+        this.colorFactory = bind(this, function (region) {
+            var btn = this.defaultButtonFactory(region);
+            btn.on('InputSelect', function () {
+                this.getSuperview().setColor(this.getOpts().item);
+            });
+            return btn;
+        });
+
+        // garment buttons
+        this.garmentFactory = bind(this, function (region) {
+            var btn = this.defaultButtonFactory(region);
+            btn.on('InputSelect', function () {
+                this.getSuperview().setGarment(this.getOpts().item);
+            });
+            return btn;
+        });
+
+        // buy garment
+        this.craftBuyFactory = bind(this, function (region, i) {
+            var me = this, btn;
+            btn = this.defaultButtonFactory(region);
+            btn.getOpts().contrastIndex = i;
+
+            btn.imageLayer = new ImageView({
+                superview: btn,
+                width: btn.style.width,
+                height: btn.style.height
+            });
+
+            me = this;
+            btn.on('InputSelect', (function (_btn) {
+                return function () {
+                    me.buyCraft(_btn);
+                };
+            })(btn));
+            return btn;
+        });
+
         /*
          * reset crafting state
          */
@@ -52,26 +99,30 @@ exports = Class(ImageView, function (supr) {
 // if (!GC.app.woolhack) {
 // GC.app.woolhack = true;
 // GC.app.player.inventory.wool.add({color: 'white', count: 100});
+// GC.app.player.inventory.wool.add({color: 'red', count: 100});
+// GC.app.player.inventory.wool.add({color: 'yellow', count: 100});
+// GC.app.player.inventory.wool.add({color: 'blue', count: 100});
+// GC.app.player.inventory.wool.add({color: 'black', count: 100});
 // }
             this.playerInventory = GC.app.player.inventory;
 
             this.sessionInventory = this.playerInventory.copy();
 
-            var si = this.sessionInventory;
+            var si = this.sessionInventory, btn, color, count, i;
 
-            for (var i = 0; i < this.buttons.colorCount.length; i++) {
-                var btn = this.buttons.colorCount[i];
-                var color = btn.getOpts().item;
-                var count = si.wool.get(color.label).count;
+            for (i = 0; i < this.buttons.colorCount.length; i++) {
+                btn = this.buttons.colorCount[i];
+                color = btn.getOpts().item;
+                count = si.wool.get(color.label).count;
                 btn.setText(count);
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
 
             si.on('inventory:woolUpdate', bind(this, function (clabel, item) {
-                var i = c.colors.length;
+                i = c.colors.length;
                 while (i--) {
-                    var btn = this.buttons.colorCount[i];
+                    btn = this.buttons.colorCount[i];
                     if (btn.getOpts().item.label === item.color) {
                         btn.setText(item.count);
                         break;
@@ -81,26 +132,32 @@ exports = Class(ImageView, function (supr) {
 
         });
 
-        /*
-         * Retrieve the resource filename corresponding to the current
-         * craftstand state
-         */
-        var _lookupUIResource = bind(this, function () {
-            var garment = this.selectedGarment, color = this.selectedColor;
-            return 'resources/images/craft-' + garment.label + '-' + color.label + '.png';
-        });
 
         var uiImageOpts = bind(this, function () {
             return {superview: this.uiLayer, width: 1024, height: 576, canHandleEvents: false};
         });
 
+        this.updateCraftBuyButtons = bind(this, function () {
+            var i, res, contrast, garment, main;
+            garment = this.selectedGarment, main = this.selectedColor;
+
+            i = colorPairings[main.label].length;
+            while (i--) {
+                contrast = colorPairings[main.label][i];
+
+                // TODO - check wool amounts and possibly disable
+                res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
+
+                this.buttons.craftBuy[i].imageLayer.setImage(new Image({url: res}));
+            }
+
+        });
         /*
          * reset the UI to the view corresponding to the current state
          */
         var _cleanUI = bind(this, function() {
-            var res = _lookupUIResource();
+            this.updateCraftBuyButtons();
             this.uiLayer.removeAllSubviews();
-            new ui.ImageView(merge({image: res}, uiImageOpts()));
         });
 
         // clear out the ui image and replace it when color changes
@@ -137,68 +194,32 @@ exports = Class(ImageView, function (supr) {
 
         this.uiLayer = new ui.View({superview: this, canHandleEvents: false});
 
-        /*
-         * convenience for doing this complicated merge
-         */
-        var _buttonFromRegion = bind(this, function (region) {
-            var commonOpts = {clip: true, superview: this};
-            var opts = merge(merge({}, commonOpts), region);
-            return new Button(opts);
-        });
-
         // load up alllll dem buttons
         var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
             "craftBuy", "chalkboard", "refund"];
-        for (var i = 0; i < kinds.length; i++) {
-            var k = kinds[i];
-            var regions = craftScreenRegions[k];
+        for (kk = 0; kk < kinds.length; kk++) {
+            var k = kinds[kk], factory, regions, j, region, btn;
+
+            regions = craftScreenRegions[k];
+            factory = bind(this, this[regions.factory] || this.defaultButtonFactory);
             this.buttons[k] = [];
-            for (var j = 0; j < regions.length; j++) {
-                var region = regions[j];
-                var btn = _buttonFromRegion(region);
-                this.buttons[k].push(btn);
+            for (j = 0; j < regions.length; j++) {
+                this.buttons[k].push(factory(regions[j], j));
             }
         }
 
-        // color buttons
-        for (var i = 0; i < this.buttons.color.length; i++) {
-            var btn = this.buttons.color[i];
-            btn.on('InputSelect', function () {
-                this.getSuperview().setColor(this.getOpts().item);
-            });
-        }
-
-        // garment buttons
-        for (var i = 0; i < this.buttons.garment.length; i++) {
-            var btn = this.buttons.garment[i];
-            btn.on('InputSelect', function () {
-                this.getSuperview().setGarment(this.getOpts().item);
-            });
-        }
-
-        // buy garment
-        var i = this.buttons.craftBuy.length;
-        while (i--) {
-            var btn = this.buttons.craftBuy[i];
-            btn.getOpts().contrastIndex = i;
-            var me = this;
-            btn.on('InputSelect', (function (_btn) {
-                return function () {
-                    me.buyCraft(_btn);
-                };
-            })(btn));
-        }
-
-        this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
+        this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();
             // TODO - localStorage
             GC.app.rootView.popAll();
         }));
-        this.totalButton = _buttonFromRegion(craftScreenRegions.total);
+
+        this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
         this.totalButton.setText("Total: ");
-        this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
+
+        this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
 
         this.on('craftScreen:changeColor', this.changeColor);
