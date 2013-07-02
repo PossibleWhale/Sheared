@@ -26,6 +26,13 @@ var boundsWidth = 1024,
  * exported and instantiated when the game is run.
  */
 exports = Class(GC.Application, function () {
+
+    this.localConfig = {};
+    var _localConfig = CACHE['resources/conf/localconfig.json'];
+    if (_localConfig) {
+        merge(this.localConfig, JSON.parse(_localConfig));
+    }
+
     /* Run after the engine is created and the scene graph is in
      * place, but before the resources have been loaded.
      */

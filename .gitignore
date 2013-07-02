@@ -6,3 +6,4 @@ resources/icons/metadata.json
 resources/splash/metadata.json
 sdk
 hs_err_*.log
+resources/conf/localconfig.json
