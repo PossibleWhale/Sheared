@@ -5,7 +5,7 @@ exports = Class(View, function (supr) {
         supr(this, 'init', [opts]);
         this.time = 0;
         this.diamondTime = Math.floor(Math.random() * 10) + 5;
-        this.batteryTime = Math.floor(Math.random() * 20) + 10;
+        this.batteryTime = Math.floor(Math.random() * 120) + 30;
     };
 
     this.run = function () {
@@ -22,7 +22,7 @@ exports = Class(View, function (supr) {
             }
             if (this.time === this.batteryTime) {
                 superview.spawnBattery();
-                this.batteryTime += Math.floor(Math.random() * 20) + 10;
+                this.batteryTime += Math.floor(Math.random() * 120) + 30;
             }
             
         }), 1000);
