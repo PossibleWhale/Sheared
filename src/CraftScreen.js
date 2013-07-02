@@ -54,6 +54,7 @@ exports = Class(ui.ImageView, function (supr) {
 // GC.app.player.inventory.wool.add({color: 'white', count: 100});
 // }
             this.playerInventory = GC.app.player.inventory;
+
             this.sessionInventory = this.playerInventory.copy();
 
             var si = this.sessionInventory;
@@ -146,7 +147,7 @@ exports = Class(ui.ImageView, function (supr) {
         });
 
         // load up alllll dem buttons
-        var kinds = ["color", "colorCount", "garment", "cost", "craftCount",
+        var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
             "craftBuy", "chalkboard", "refund"];
         for (var i = 0; i < kinds.length; i++) {
             var k = kinds[i];
@@ -196,7 +197,7 @@ exports = Class(ui.ImageView, function (supr) {
             GC.app.rootView.popAll();
         }));
         this.totalButton = _buttonFromRegion(craftScreenRegions.total);
-        this.totalButton.setText("Total: $$$");
+        this.totalButton.setText("Total: ");
         this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
 
@@ -218,25 +219,25 @@ var colorPairings = {
 
 var craftScreenRegions = {
 color: [
-    {item: c.COLOR_WHITE, y:148, x:40, width:48, height:60},
-    {item: c.COLOR_RED, y:230, x:40, width:48, height:60},
-    {item: c.COLOR_BLUE, y:312, x:40, width:48, height:60},
-    {item: c.COLOR_YELLOW, y:394, x:40, width:48, height:60},
-    {item: c.COLOR_BLACK, y:476, x:40, width:48, height:60}
+    {item: c.COLOR_WHITE, y:146, x:34, width:58, height:66},
+    {item: c.COLOR_RED, y:228, x:34, width:58, height:66},
+    {item: c.COLOR_BLUE, y:310, x:34, width:58, height:66},
+    {item: c.COLOR_YELLOW, y:392, x:34, width:58, height:66},
+    {item: c.COLOR_BLACK, y:474, x:34, width:58, height:66}
     ],
 colorCount: [
-    {item: c.COLOR_WHITE, y:208, x:40, width:48, height:22},
-    {item: c.COLOR_RED, y:290, x:40, width:48, height:22},
-    {item: c.COLOR_BLUE, y:372, x:40, width:48, height:22},
-    {item: c.COLOR_YELLOW, y:454, x:40, width:48, height:22},
-    {item: c.COLOR_BLACK, y:536, x:40, width:48, height:22}
+    {item: c.COLOR_WHITE, y:192, x:34, width:58, height:22},
+    {item: c.COLOR_RED, y:274, x:34, width:58, height:22},
+    {item: c.COLOR_BLUE, y:356, x:34, width:58, height:22},
+    {item: c.COLOR_YELLOW, y:438, x:34, width:58, height:22},
+    {item: c.COLOR_BLACK, y:520, x:34, width:58, height:22}
     ],
 garment: [
-    {item: c.GARMENT_HAT, y:148, x:930, width:58, height:60},
-    {item: c.GARMENT_MITTEN, y:230, x:930, width:58, height:60},
-    {item: c.GARMENT_SOCK, y:312, x:930, width:58, height:60},
-    {item: c.GARMENT_SCARF, y:394, x:930, width:58, height:60},
-    {item: c.GARMENT_SWEATER, y:476, x:930, width:58, height:60}
+    {item: c.GARMENT_HAT, y:146, x:930, width:60, height:66},
+    {item: c.GARMENT_MITTEN, y:228, x:930, width:60, height:66},
+    {item: c.GARMENT_SOCK, y:310, x:930, width:60, height:66},
+    {item: c.GARMENT_SCARF, y:392, x:930, width:60, height:66},
+    {item: c.GARMENT_SWEATER, y:474, x:930, width:60, height:66}
     ],
 cost: [
     {item: {_1: null}, y:152, x:168, width:48, height:50},
@@ -254,32 +255,32 @@ cost: [
     {item: {_2: null}, y:152, x:836, width:48, height:50}
     ],
 craftCount: [
-    {item: {_1: null}, y:330, x:144, width:96, height:32},
-    {item: {_1: null}, y:330, x:304, width:96, height:32},
-    {item: {_1: null}, y:330, x:464, width:96, height:32},
-    {item: {_1: null}, y:330, x:624, width:96, height:32},
-    {item: {_1: null}, y:330, x:784, width:96, height:32}
+    {item: {_1: null}, y:328, x:142, width:98, height:32},
+    {item: {_1: null}, y:328, x:302, width:98, height:32},
+    {item: {_1: null}, y:328, x:462, width:98, height:32},
+    {item: {_1: null}, y:328, x:622, width:98, height:32},
+    {item: {_1: null}, y:328, x:782, width:98, height:32}
     ],
 craftBuy: [
-    {item: {_1: null}, y:224, x:144, width:96, height:96},
-    {item: {_1: null}, y:224, x:304, width:96, height:96},
-    {item: {_1: null}, y:224, x:464, width:96, height:96},
-    {item: {_1: null}, y:224, x:624, width:96, height:96},
-    {item: {_1: null}, y:224, x:784, width:96, height:96}
+    {item: {_1: null}, y:224, x:142, width:98, height:96},
+    {item: {_1: null}, y:224, x:302, width:98, height:96},
+    {item: {_1: null}, y:224, x:462, width:98, height:96},
+    {item: {_1: null}, y:224, x:622, width:98, height:96},
+    {item: {_1: null}, y:224, x:782, width:98, height:96}
     ],
 chalkboard: [
-    {y:378, x:148, width:88, height:54},
-    {y:378, x:308, width:88, height:54},
-    {y:378, x:468, width:88, height:54},
-    {y:378, x:628, width:88, height:54},
-    {y:378, x:788, width:88, height:54}
+    {y:376, x:148, width:88, height:54},
+    {y:376, x:308, width:88, height:54},
+    {y:376, x:468, width:88, height:54},
+    {y:376, x:628, width:88, height:54},
+    {y:376, x:788, width:88, height:54}
     ],
 refund: [
-    {y:448, x:144, width:96, height:32},
-    {y:448, x:304, width:96, height:32},
-    {y:448, x:464, width:96, height:32},
-    {y:448, x:624, width:96, height:32},
-    {y:448, x:784, width:96, height:32}
+    {y:442, x:144, width:96, height:44},
+    {y:442, x:304, width:96, height:44},
+    {y:442, x:464, width:96, height:44},
+    {y:442, x:624, width:96, height:44},
+    {y:442, x:784, width:96, height:44}
     ],
 finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
