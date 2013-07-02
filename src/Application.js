@@ -9,6 +9,7 @@ import ui.StackView as StackView;
 import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
+import src.ModeScreen as ModeScreen;
 import src.Button as Button;
 import src.Player as Player;
 
@@ -48,7 +49,8 @@ exports = Class(GC.Application, function () {
 
         var titleScreen = new TitleScreen(),
             craftScreen = new CraftScreen(),
-            playScreen = new PlayScreen();
+            playScreen = new PlayScreen(),
+            modeScreen = new ModeScreen();
 
 
         rootView.push(titleScreen);
@@ -71,17 +73,29 @@ exports = Class(GC.Application, function () {
         }
         var craftButton = new Button(cbOpts);
 
-        rootView.on('titleScreen:play', function () {
-            rootView.push(playScreen);
-        });
-
         rootView.on('titleScreen:craft', function () {
             rootView.push(craftScreen);
             craftScreen.emit('craft:start');
         });
 
+        modeScreen.on('play:normal', function () {
+            console.log("got it");
+            playScreen.infiniteMode = false;
+            rootView.push(playScreen);
+        });
+
+        modeScreen.on('play:infinite', function () {
+            playScreen.infiniteMode = true;
+            rootView.push(playScreen);
+        });
+
+        modeScreen.on('play:back', function () {
+            rootView.pop();
+        });
+
         playButton.on('InputSelect', function () {
-            rootView.emit('titleScreen:play');
+            //rootView.emit('titleScreen:play');
+            rootView.push(modeScreen);
         });
 
         craftButton.on('InputSelect', function () {
