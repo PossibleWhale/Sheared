@@ -3,7 +3,7 @@
  */
 
 import ui.View;
-import ui.ImageView;
+import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
 
 import src.constants as c;
@@ -13,7 +13,7 @@ import src.util as util;
 import src.Craft as Craft;
 
 
-exports = Class(ui.ImageView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
@@ -226,11 +226,11 @@ color: [
     {item: c.COLOR_BLACK, y:474, x:34, width:58, height:66}
     ],
 colorCount: [
-    {item: c.COLOR_WHITE, y:192, x:34, width:58, height:22},
-    {item: c.COLOR_RED, y:274, x:34, width:58, height:22},
-    {item: c.COLOR_BLUE, y:356, x:34, width:58, height:22},
-    {item: c.COLOR_YELLOW, y:438, x:34, width:58, height:22},
-    {item: c.COLOR_BLACK, y:520, x:34, width:58, height:22}
+    {item: c.COLOR_WHITE, y:192, x:34, width:58, height:20},
+    {item: c.COLOR_RED, y:274, x:34, width:58, height:20},
+    {item: c.COLOR_BLUE, y:356, x:34, width:58, height:20},
+    {item: c.COLOR_YELLOW, y:438, x:34, width:58, height:20},
+    {item: c.COLOR_BLACK, y:520, x:34, width:58, height:20}
     ],
 garment: [
     {item: c.GARMENT_HAT, y:146, x:930, width:60, height:66},
@@ -286,3 +286,7 @@ finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
 shopName: {y:78, x:136, width:750, height:44}
 }
+
+craftScreenRegions.color.factory = 'colorFactory';
+craftScreenRegions.garment.factory = 'garmentFactory';
+craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
