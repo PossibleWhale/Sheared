@@ -1,10 +1,12 @@
+import animate;
 import src.constants as constants;
 import ui.ImageView as ImageView;
 import ui.View as View;
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
-var stepFrequency = 50; // step every x milliseconds
+var stepFrequency = 50, // step every x milliseconds
+    rotation = Math.PI * 48;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -13,7 +15,9 @@ exports = Class(ImageView, function (supr) {
         opts = merge(opts, {
             image: color.eweImage,
             width: 108,
-            height: 82
+            height: 82,
+            anchorX: 108/2,
+            anchorY: 82/2
         });
 
         supr(this, 'init', [opts]);
@@ -25,7 +29,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.run = function () {
-
+        bind(this, continuousAnimate)();
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
 
@@ -143,4 +147,9 @@ function randomColor () {
             return constants.colors[i];
         }
     }
+}
+
+function continuousAnimate() {
+    animate(this).clear().now({r: -1 * rotation}, 100/this.stepSize, animate.easeIn)
+        .then({r: rotation}, 100/this.stepSize, animate.easeIn).then(continuousAnimate.bind(this));
 }
