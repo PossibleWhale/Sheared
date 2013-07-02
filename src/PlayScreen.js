@@ -147,7 +147,14 @@ exports = Class(ImageView, function (supr) {
 
     this.timeOver = function () {
         this.endDay();
+        this._showResults();
+    };
 
+    /* TODO make this work for both a time over and a game over.
+     * time over: show results, click continue to go to next day or craft if week is over (how it works now)
+     * game over: show results, click finish to craft.
+     */
+    this._showResults = function () {
         var i, resultsScreen = new ImageView({
             x: 1024,
             y: 0,
@@ -170,7 +177,7 @@ exports = Class(ImageView, function (supr) {
                 height: 48,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
-                text: '0',// + this.dailyInventory.wool.get(constants.colors[i].label),
+                text: '0',
                 size: 128,
                 autoFontSize: true,
                 color: '#FFFFFF',
@@ -221,7 +228,7 @@ exports = Class(ImageView, function (supr) {
                 }
             }));
         }));
-    };
+    }
 });
 
 function playGame () {
@@ -253,6 +260,32 @@ function playGame () {
     this.timer.run();
 
     this.on('InputSelect', bind(this, launchBlade));
+
+    // set up dragging events for clipper
+    this.on('InputStart', bind(this, function (evt) {
+        this.startDrag({
+            inputStartEvt: evt
+        });
+    }));
+
+    this.on('DragStart', bind(this, function (dragEvt) {
+        this.dragOffset = {
+            x: dragEvt.srcPt.x - this.clipper.style.x,
+            y: dragEvt.srcPt.y - this.clipper.style.y
+        };
+    }));
+
+    this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
+        var y = dragEvt.srcPt.y - this.dragOffset.y;
+
+        this.clipper.style.x = dragEvt.srcPt.x - this.dragOffset.x;
+
+        if (y+this.clipper.marginSize > constants.fenceSize &&
+            y-this.clipper.marginSize < 576 - constants.fenceSize - this.clipper.style.height) {
+
+            this.clipper.style.y = y;
+        }
+    }));
 }
 
 function spawnSheep () {
