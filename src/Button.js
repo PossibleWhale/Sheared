@@ -6,6 +6,7 @@
 
 import ui.TextView;
 import src.constants as constants;
+import src.debughack as dh;
 
 var colors = constants.colors;
 
@@ -13,6 +14,7 @@ var colors = constants.colors;
 // background, anyway
 exports = Class(ui.TextView, function (supr) {
     this.init = function (opts) {
+        dh.pre_initButton(opts);
         var defaults = {
                 size: 128,
                 strokeWidth: 4,
@@ -23,12 +25,6 @@ exports = Class(ui.TextView, function (supr) {
                                 * opts take precedence
                                 */
         opts = defaults;
-        if (GC.debug) {
-            merge(opts, {
-                backgroundColor: '#c6c',
-                opacity: 0.4
-            });
-        }
         supr(this, 'init', [opts]);
     };
 });

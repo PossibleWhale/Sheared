@@ -2,6 +2,9 @@ import device;
 import animate;
 import ui.View as View;
 import ui.ImageView as ImageView;
+import ui.TextView as TextView;
+import ui.ParticleEngine as ParticleEngine;
+
 import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Clipper as Clipper;
@@ -12,8 +15,7 @@ import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
 import src.InfiniteTimer as InfiniteTimer;
-import ui.TextView as TextView;
-import ui.ParticleEngine as ParticleEngine;
+
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -68,10 +70,14 @@ exports = Class(ImageView, function (supr) {
 
         // for playtesting purposes..
         if (device.name === 'browser') {
-            var onKey = function (e) {
-                launchBlade();
-            };
-            document.addEventListener('keydown', bind(this, launchBlade), false);
+            if (!this.onKey) {
+                this.onKey = bind(this, function () {
+                    if (this.clipper) {
+                        launchBlade.apply(this);
+                    }
+                });
+                document.addEventListener('keydown', this.onKey, false);
+            }
         }
     };
 
