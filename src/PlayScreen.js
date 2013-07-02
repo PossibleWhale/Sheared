@@ -319,7 +319,7 @@ function clipperDrag(dragEvt) {
     if (y < constants.fenceSize) {
         this.clipper.style.y = constants.fenceSize;
     } else if (y > 576 - constants.fenceSize - this.clipper.style.height) {
-        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.height;
+        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.style.height;
     } else {
         this.clipper.style.y = y;
     }

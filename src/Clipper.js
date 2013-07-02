@@ -4,11 +4,11 @@ import ui.View as View;
 
 var maxHealth = 5;
 
-exports = Class(View, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            width: 229,
-            height: 82
+            image: 'resources/images/clipper-5-regular.png',
+            autoSize: true
         });
 
         supr(this, 'init', [opts]);
@@ -16,22 +16,18 @@ exports = Class(View, function (supr) {
     };
 
     this.build = function () {
-        this.marginSize = 20;
+        this.marginSize = 10;
 
-        this.clipperBox = new ImageView({
-            image: 'resources/images/clipper-5-regular.png',
+        this.clipperBox = new View({
             x: this.marginSize,
             y: this.marginSize,
-            autoSize: true
+            width: this.style.width - 2*this.marginSize,
+            height: this.style.height - 2*this.marginSize
         });
         this.addSubview(this.clipperBox);
 
         this.health = maxHealth;
         this.isDiamond = false;
-    };
-
-    this.setImage = function (img) {
-        this.clipperBox.setImage(img);
     };
 
     this.decreaseHealth = function () {
