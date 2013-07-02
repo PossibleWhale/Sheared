@@ -45,6 +45,7 @@ exports = Class(ImageView, function (supr) {
             this.emit('craftScreen:changeGarment');
         });
 
+        // creates a button on one of the regions defined at the bottom
         this.defaultButtonFactory = bind(this, function (region) {
             var commonOpts, opts, btn;
             commonOpts = {clip: true, superview: this};
@@ -71,11 +72,11 @@ exports = Class(ImageView, function (supr) {
             return btn;
         });
 
-        // buy garment
+        // buy garment buttons
         this.craftBuyFactory = bind(this, function (region, i) {
             var me = this, btn;
             btn = this.defaultButtonFactory(region);
-            btn.getOpts().contrastIndex = i;
+            btn.updateOpts({contrastIndex: i});
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -125,7 +126,7 @@ exports = Class(ImageView, function (supr) {
             }));
 
         });
-
+        this.on('craft:start', this.startCrafting);
 
         this.updateCraftBuyButtons = bind(this, function () {
             var i, res, contrast, garment, main, costs, si, cbbtn;
@@ -191,8 +192,6 @@ exports = Class(ImageView, function (supr) {
             }
             _cleanUI();
         });
-
-        this.on('craft:start', this.startCrafting);
 
         var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
         gp.imageLayer = new ImageView({width: gp.style.width, height: gp.style.height, superview: gp});
