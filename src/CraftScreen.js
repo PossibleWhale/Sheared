@@ -11,6 +11,7 @@ import src.Button as Button;
 import src.Inventory as Inventory;
 import src.util as util;
 import src.Craft as Craft;
+import src.debughack as dh;
 
 
 exports = Class(ImageView, function (supr) {
@@ -95,15 +96,8 @@ exports = Class(ImageView, function (supr) {
          * reset crafting state
          */
         this.startCrafting = bind(this, function() {
+            dh.pre_startCrafting();
 
-// if (!GC.app.woolhack) {
-// GC.app.woolhack = true;
-// GC.app.player.inventory.wool.add({color: 'white', count: 100});
-// GC.app.player.inventory.wool.add({color: 'red', count: 100});
-// GC.app.player.inventory.wool.add({color: 'yellow', count: 100});
-// GC.app.player.inventory.wool.add({color: 'blue', count: 100});
-// GC.app.player.inventory.wool.add({color: 'black', count: 100});
-// }
             this.playerInventory = GC.app.player.inventory;
 
             this.sessionInventory = this.playerInventory.copy();
