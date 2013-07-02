@@ -269,6 +269,7 @@ function playGame () {
         superview: this,
         x: 0,
         y: 0,
+        zIndex: 1,
         width: 1024/2,
         height: 576
     });
@@ -277,6 +278,7 @@ function playGame () {
         superview: this,
         x: 1024/2,
         y: 0,
+        zIndex: 1,
         width: 1024/2,
         height: 576
     });
@@ -358,8 +360,8 @@ function launchBlade () {
         return;
     }
     var blade = new Blade({
-        x: this.clipper.style.x + this.clipper.style.width + this.clipper.marginSize,
-        y: this.clipper.style.y + 3 + this.clipper.marginSize
+        x: this.clipper.style.x + this.clipper.style.width,
+        y: this.clipper.style.y + 3
     });
     this.addSubview(blade);
     this.bladeOut = true;
