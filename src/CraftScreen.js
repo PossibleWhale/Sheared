@@ -3,7 +3,7 @@
  */
 
 import ui.View;
-import ui.ImageView;
+import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
 
 import src.constants as c;
@@ -13,7 +13,7 @@ import src.util as util;
 import src.Craft as Craft;
 
 
-exports = Class(ui.ImageView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
@@ -44,6 +44,53 @@ exports = Class(ui.ImageView, function (supr) {
             this.emit('craftScreen:changeGarment');
         });
 
+        this.defaultButtonFactory = bind(this, function (region) {
+            var commonOpts, opts, btn;
+            commonOpts = {clip: true, superview: this};
+            opts = merge(merge({}, commonOpts), region);
+            btn = new Button(opts);
+            return btn;
+        });
+
+        // color buttons
+        this.colorFactory = bind(this, function (region) {
+            var btn = this.defaultButtonFactory(region);
+            btn.on('InputSelect', function () {
+                this.getSuperview().setColor(this.getOpts().item);
+            });
+            return btn;
+        });
+
+        // garment buttons
+        this.garmentFactory = bind(this, function (region) {
+            var btn = this.defaultButtonFactory(region);
+            btn.on('InputSelect', function () {
+                this.getSuperview().setGarment(this.getOpts().item);
+            });
+            return btn;
+        });
+
+        // buy garment
+        this.craftBuyFactory = bind(this, function (region, i) {
+            var me = this, btn;
+            btn = this.defaultButtonFactory(region);
+            btn.getOpts().contrastIndex = i;
+
+            btn.imageLayer = new ImageView({
+                superview: btn,
+                width: btn.style.width,
+                height: btn.style.height
+            });
+
+            me = this;
+            btn.on('InputSelect', (function (_btn) {
+                return function () {
+                    me.buyCraft(_btn);
+                };
+            })(btn));
+            return btn;
+        });
+
         /*
          * reset crafting state
          */
@@ -52,25 +99,30 @@ exports = Class(ui.ImageView, function (supr) {
 // if (!GC.app.woolhack) {
 // GC.app.woolhack = true;
 // GC.app.player.inventory.wool.add({color: 'white', count: 100});
+// GC.app.player.inventory.wool.add({color: 'red', count: 100});
+// GC.app.player.inventory.wool.add({color: 'yellow', count: 100});
+// GC.app.player.inventory.wool.add({color: 'blue', count: 100});
+// GC.app.player.inventory.wool.add({color: 'black', count: 100});
 // }
             this.playerInventory = GC.app.player.inventory;
+
             this.sessionInventory = this.playerInventory.copy();
 
-            var si = this.sessionInventory;
+            var si = this.sessionInventory, btn, color, count, i;
 
-            for (var i = 0; i < this.buttons.colorCount.length; i++) {
-                var btn = this.buttons.colorCount[i];
-                var color = btn.getOpts().item;
-                var count = si.wool.get(color.label).count;
+            for (i = 0; i < this.buttons.colorCount.length; i++) {
+                btn = this.buttons.colorCount[i];
+                color = btn.getOpts().item;
+                count = si.wool.get(color.label).count;
                 btn.setText(count);
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
 
             si.on('inventory:woolUpdate', bind(this, function (clabel, item) {
-                var i = c.colors.length;
+                i = c.colors.length;
                 while (i--) {
-                    var btn = this.buttons.colorCount[i];
+                    btn = this.buttons.colorCount[i];
                     if (btn.getOpts().item.label === item.color) {
                         btn.setText(item.count);
                         break;
@@ -80,26 +132,39 @@ exports = Class(ui.ImageView, function (supr) {
 
         });
 
-        /*
-         * Retrieve the resource filename corresponding to the current
-         * craftstand state
-         */
-        var _lookupUIResource = bind(this, function () {
-            var garment = this.selectedGarment, color = this.selectedColor;
-            return 'resources/images/craft-' + garment.label + '-' + color.label + '.png';
+
+        this.updateCraftBuyButtons = bind(this, function () {
+            var i, res, contrast, garment, main, costs, si, cbbtn;
+            garment = this.selectedGarment, main = this.selectedColor;
+            si = this.sessionInventory;
+
+            i = colorPairings[main.label].length;
+            while (i--) {
+                cbbtn = this.buttons.craftBuy[i];
+                contrast = colorPairings[main.label][i];
+
+                costs = new Craft(garment, main, contrast).cost();
+                res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
+                if (costs[0].amount > si.wool.get(main.label).count || costs[1].amount > si.wool.get(contrast.label).count) {
+                    cbbtn.updateOpts({opacity: 0.3});
+                } else {
+                    cbbtn.updateOpts({opacity: 1.0});
+                }
+
+                cbbtn.imageLayer.setImage(new Image({url: res}));
+            }
         });
 
-        var uiImageOpts = bind(this, function () {
-            return {superview: this.uiLayer, width: 1024, height: 576, canHandleEvents: false};
+        this.updateGarmentPattern = bind(this, function () {
+            this.garmentPattern.imageLayer.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
         });
 
         /*
          * reset the UI to the view corresponding to the current state
          */
         var _cleanUI = bind(this, function() {
-            var res = _lookupUIResource();
-            this.uiLayer.removeAllSubviews();
-            new ui.ImageView(merge({image: res}, uiImageOpts()));
+            this.updateCraftBuyButtons();
+            this.updateGarmentPattern();
         });
 
         // clear out the ui image and replace it when color changes
@@ -130,74 +195,40 @@ exports = Class(ui.ImageView, function (supr) {
                 si.addWool(contrast, -1 * costs[1].amount);
 
             }
+            _cleanUI();
         });
 
         this.on('craft:start', this.startCrafting);
 
-        this.uiLayer = new ui.View({superview: this, canHandleEvents: false});
-
-        /*
-         * convenience for doing this complicated merge
-         */
-        var _buttonFromRegion = bind(this, function (region) {
-            var commonOpts = {clip: true, superview: this};
-            var opts = merge(merge({}, commonOpts), region);
-            return new Button(opts);
-        });
+        var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
+        gp.imageLayer = new ImageView({width: gp.style.width, height: gp.style.height, superview: gp});
 
         // load up alllll dem buttons
-        var kinds = ["color", "colorCount", "garment", "cost", "craftCount",
+        var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
             "craftBuy", "chalkboard", "refund"];
-        for (var i = 0; i < kinds.length; i++) {
-            var k = kinds[i];
-            var regions = craftScreenRegions[k];
+        for (kk = 0; kk < kinds.length; kk++) {
+            var k = kinds[kk], factory, regions, j, region, btn;
+
+            regions = craftScreenRegions[k];
+            factory = bind(this, this[regions.factory] || this.defaultButtonFactory);
             this.buttons[k] = [];
-            for (var j = 0; j < regions.length; j++) {
-                var region = regions[j];
-                var btn = _buttonFromRegion(region);
-                this.buttons[k].push(btn);
+            for (j = 0; j < regions.length; j++) {
+                this.buttons[k].push(factory(regions[j], j));
             }
         }
 
-        // color buttons
-        for (var i = 0; i < this.buttons.color.length; i++) {
-            var btn = this.buttons.color[i];
-            btn.on('InputSelect', function () {
-                this.getSuperview().setColor(this.getOpts().item);
-            });
-        }
-
-        // garment buttons
-        for (var i = 0; i < this.buttons.garment.length; i++) {
-            var btn = this.buttons.garment[i];
-            btn.on('InputSelect', function () {
-                this.getSuperview().setGarment(this.getOpts().item);
-            });
-        }
-
-        // buy garment
-        var i = this.buttons.craftBuy.length;
-        while (i--) {
-            var btn = this.buttons.craftBuy[i];
-            btn.getOpts().contrastIndex = i;
-            var me = this;
-            btn.on('InputSelect', (function (_btn) {
-                return function () {
-                    me.buyCraft(_btn);
-                };
-            })(btn));
-        }
-
-        this.finishButton = _buttonFromRegion(craftScreenRegions.finish);
+        this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();
             // TODO - localStorage
             GC.app.rootView.popAll();
         }));
-        this.totalButton = _buttonFromRegion(craftScreenRegions.total);
-        this.totalButton.setText("Total: $$$");
-        this.shopNameButton = _buttonFromRegion(craftScreenRegions.shopName);
+
+        this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
+        this.totalButton.setText("Total: ");
+
+        this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
 
         this.on('craftScreen:changeColor', this.changeColor);
@@ -218,25 +249,25 @@ var colorPairings = {
 
 var craftScreenRegions = {
 color: [
-    {item: c.COLOR_WHITE, y:148, x:40, width:48, height:60},
-    {item: c.COLOR_RED, y:230, x:40, width:48, height:60},
-    {item: c.COLOR_BLUE, y:312, x:40, width:48, height:60},
-    {item: c.COLOR_YELLOW, y:394, x:40, width:48, height:60},
-    {item: c.COLOR_BLACK, y:476, x:40, width:48, height:60}
+    {item: c.COLOR_WHITE, y:146, x:34, width:58, height:66},
+    {item: c.COLOR_RED, y:228, x:34, width:58, height:66},
+    {item: c.COLOR_BLUE, y:310, x:34, width:58, height:66},
+    {item: c.COLOR_YELLOW, y:392, x:34, width:58, height:66},
+    {item: c.COLOR_BLACK, y:474, x:34, width:58, height:66}
     ],
 colorCount: [
-    {item: c.COLOR_WHITE, y:208, x:40, width:48, height:22},
-    {item: c.COLOR_RED, y:290, x:40, width:48, height:22},
-    {item: c.COLOR_BLUE, y:372, x:40, width:48, height:22},
-    {item: c.COLOR_YELLOW, y:454, x:40, width:48, height:22},
-    {item: c.COLOR_BLACK, y:536, x:40, width:48, height:22}
+    {item: c.COLOR_WHITE, y:192, x:34, width:58, height:20},
+    {item: c.COLOR_RED, y:274, x:34, width:58, height:20},
+    {item: c.COLOR_BLUE, y:356, x:34, width:58, height:20},
+    {item: c.COLOR_YELLOW, y:438, x:34, width:58, height:20},
+    {item: c.COLOR_BLACK, y:520, x:34, width:58, height:20}
     ],
 garment: [
-    {item: c.GARMENT_HAT, y:148, x:930, width:58, height:60},
-    {item: c.GARMENT_MITTEN, y:230, x:930, width:58, height:60},
-    {item: c.GARMENT_SOCK, y:312, x:930, width:58, height:60},
-    {item: c.GARMENT_SCARF, y:394, x:930, width:58, height:60},
-    {item: c.GARMENT_SWEATER, y:476, x:930, width:58, height:60}
+    {item: c.GARMENT_HAT, y:146, x:930, width:60, height:66},
+    {item: c.GARMENT_MITTEN, y:228, x:930, width:60, height:66},
+    {item: c.GARMENT_SOCK, y:310, x:930, width:60, height:66},
+    {item: c.GARMENT_SCARF, y:392, x:930, width:60, height:66},
+    {item: c.GARMENT_SWEATER, y:474, x:930, width:60, height:66}
     ],
 cost: [
     {item: {_1: null}, y:152, x:168, width:48, height:50},
@@ -254,34 +285,39 @@ cost: [
     {item: {_2: null}, y:152, x:836, width:48, height:50}
     ],
 craftCount: [
-    {item: {_1: null}, y:330, x:144, width:96, height:32},
-    {item: {_1: null}, y:330, x:304, width:96, height:32},
-    {item: {_1: null}, y:330, x:464, width:96, height:32},
-    {item: {_1: null}, y:330, x:624, width:96, height:32},
-    {item: {_1: null}, y:330, x:784, width:96, height:32}
+    {item: {_1: null}, y:328, x:142, width:98, height:32},
+    {item: {_1: null}, y:328, x:302, width:98, height:32},
+    {item: {_1: null}, y:328, x:462, width:98, height:32},
+    {item: {_1: null}, y:328, x:622, width:98, height:32},
+    {item: {_1: null}, y:328, x:782, width:98, height:32}
     ],
 craftBuy: [
-    {item: {_1: null}, y:224, x:144, width:96, height:96},
-    {item: {_1: null}, y:224, x:304, width:96, height:96},
-    {item: {_1: null}, y:224, x:464, width:96, height:96},
-    {item: {_1: null}, y:224, x:624, width:96, height:96},
-    {item: {_1: null}, y:224, x:784, width:96, height:96}
+    {item: {_1: null}, y:224, x:142, width:98, height:96},
+    {item: {_1: null}, y:224, x:302, width:98, height:96},
+    {item: {_1: null}, y:224, x:462, width:98, height:96},
+    {item: {_1: null}, y:224, x:622, width:98, height:96},
+    {item: {_1: null}, y:224, x:782, width:98, height:96}
     ],
 chalkboard: [
-    {y:378, x:148, width:88, height:54},
-    {y:378, x:308, width:88, height:54},
-    {y:378, x:468, width:88, height:54},
-    {y:378, x:628, width:88, height:54},
-    {y:378, x:788, width:88, height:54}
+    {y:376, x:148, width:88, height:54},
+    {y:376, x:308, width:88, height:54},
+    {y:376, x:468, width:88, height:54},
+    {y:376, x:628, width:88, height:54},
+    {y:376, x:788, width:88, height:54}
     ],
 refund: [
-    {y:448, x:144, width:96, height:32},
-    {y:448, x:304, width:96, height:32},
-    {y:448, x:464, width:96, height:32},
-    {y:448, x:624, width:96, height:32},
-    {y:448, x:784, width:96, height:32}
+    {y:442, x:144, width:96, height:44},
+    {y:442, x:304, width:96, height:44},
+    {y:442, x:464, width:96, height:44},
+    {y:442, x:624, width:96, height:44},
+    {y:442, x:784, width:96, height:44}
     ],
 finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
-shopName: {y:78, x:136, width:750, height:44}
+shopName: {y:78, x:136, width:750, height:44},
+garmentPattern: {x: 0, y: 0, width: 1024, height: 576}
 }
+
+craftScreenRegions.color.factory = 'colorFactory';
+craftScreenRegions.garment.factory = 'garmentFactory';
+craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
