@@ -352,8 +352,8 @@ function launchBlade () {
         return;
     }
     var blade = new Blade({
-        x: this.clipper.style.x + this.clipper.style.width + this.clipper.marginSize,
-        y: this.clipper.style.y + 3 + this.clipper.marginSize
+        x: this.clipper.style.x + this.clipper.style.width,
+        y: this.clipper.style.y + 3
     });
     this.addSubview(blade);
     this.bladeOut = true;
