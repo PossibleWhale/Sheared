@@ -14,7 +14,6 @@ var colors = constants.colors;
 // background, anyway
 exports = Class(ui.TextView, function (supr) {
     this.init = function (opts) {
-        dh.pre_initButton(opts);
         var defaults = {
                 size: 128,
                 strokeWidth: 4,
@@ -26,5 +25,7 @@ exports = Class(ui.TextView, function (supr) {
                                 */
         opts = defaults;
         supr(this, 'init', [opts]);
+
+        dh.post_initButton(this, opts);
     };
 });
