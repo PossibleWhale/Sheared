@@ -13,8 +13,6 @@ import src.ModeScreen as ModeScreen;
 import src.Button as Button;
 import src.Player as Player;
 
-GC.debug = false;
-
 
 // DO NOT QUESTION THIS MATH
 var boundsWidth = 1024,
