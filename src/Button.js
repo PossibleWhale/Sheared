@@ -4,8 +4,6 @@
 
 "use strict";
 
-import ui.View;
-import ui.ImageView;
 import ui.TextView;
 import src.constants as constants;
 
