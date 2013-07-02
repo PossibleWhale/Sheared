@@ -133,31 +133,38 @@ exports = Class(ImageView, function (supr) {
         });
 
 
-        var uiImageOpts = bind(this, function () {
-            return {superview: this.uiLayer, width: 1024, height: 576, canHandleEvents: false};
-        });
-
         this.updateCraftBuyButtons = bind(this, function () {
-            var i, res, contrast, garment, main;
+            var i, res, contrast, garment, main, costs, si, cbbtn;
             garment = this.selectedGarment, main = this.selectedColor;
+            si = this.sessionInventory;
 
             i = colorPairings[main.label].length;
             while (i--) {
+                cbbtn = this.buttons.craftBuy[i];
                 contrast = colorPairings[main.label][i];
 
-                // TODO - check wool amounts and possibly disable
+                costs = new Craft(garment, main, contrast).cost();
                 res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
+                if (costs[0].amount > si.wool.get(main.label).count || costs[1].amount > si.wool.get(contrast.label).count) {
+                    cbbtn.updateOpts({opacity: 0.3});
+                } else {
+                    cbbtn.updateOpts({opacity: 1.0});
+                }
 
-                this.buttons.craftBuy[i].imageLayer.setImage(new Image({url: res}));
+                cbbtn.imageLayer.setImage(new Image({url: res}));
             }
-
         });
+
+        this.updateGarmentPattern = bind(this, function () {
+            this.garmentPattern.imageLayer.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
+        });
+
         /*
          * reset the UI to the view corresponding to the current state
          */
         var _cleanUI = bind(this, function() {
             this.updateCraftBuyButtons();
-            this.uiLayer.removeAllSubviews();
+            this.updateGarmentPattern();
         });
 
         // clear out the ui image and replace it when color changes
@@ -188,11 +195,13 @@ exports = Class(ImageView, function (supr) {
                 si.addWool(contrast, -1 * costs[1].amount);
 
             }
+            _cleanUI();
         });
 
         this.on('craft:start', this.startCrafting);
 
-        this.uiLayer = new ui.View({superview: this, canHandleEvents: false});
+        var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
+        gp.imageLayer = new ImageView({width: gp.style.width, height: gp.style.height, superview: gp});
 
         // load up alllll dem buttons
         var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
@@ -305,7 +314,8 @@ refund: [
     ],
 finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
-shopName: {y:78, x:136, width:750, height:44}
+shopName: {y:78, x:136, width:750, height:44},
+garmentPattern: {x: 0, y: 0, width: 1024, height: 576}
 }
 
 craftScreenRegions.color.factory = 'colorFactory';
