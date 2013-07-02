@@ -259,30 +259,45 @@ function playGame () {
     this.addSubview(this.timer);
     this.timer.run();
 
-    this.on('InputSelect', bind(this, function (evt) {
-        evt.cancel();
+    var leftSide = new View({
+        superview: this,
+        x: 0,
+        y: 0,
+        width: 1024/2,
+        height: 576
+    });
+
+    var rightSide = new View({
+        superview: this,
+        x: 1024/2,
+        y: 0,
+        width: 1024/2,
+        height: 576
+    });
+
+    rightSide.on('InputSelect', bind(this, function (evt) {
         bind(this, launchBlade)();
     }));
 
     // set up dragging events for clipper
-    this.on('InputStart', bind(this, function (evt) {
-        this.startDrag({
+    leftSide.on('InputStart', bind(this, function (evt) {
+        leftSide.startDrag({
             inputStartEvt: evt
         });
     }));
 
-    this.on('DragStart', bind(this, function (dragEvt) {
+    leftSide.on('DragStart', bind(this, function (dragEvt) {
         this.dragOffset = {
             x: dragEvt.srcPt.x - this.clipper.style.x,
             y: dragEvt.srcPt.y - this.clipper.style.y
         };
     }));
 
-    this.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
+    leftSide.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
         bind(this, clipperDrag)(dragEvt);
     }));
 
-    this.on("DragStop", bind(this, function (startEvt, dragEvt) {
+    leftSide.on("DragStop", bind(this, function (startEvt, dragEvt) {
         bind(this, clipperDrag)(dragEvt);
     }));
 }
@@ -292,18 +307,18 @@ function clipperDrag(dragEvt) {
         y = dragEvt.srcPt.y - this.dragOffset.y;
 
     // confine x-movement to 0-1024
-    if (x + this.clipper.marginSize < 0) {
+    if (x < 0) {
         this.clipper.style.x = 0;
-    } else if (x - this.clipper.marginSize > 1024 - this.clipper.style.width) {
-        this.clipper.style.x = 1024 - this.clipper.style.width;
+    } else if (x > 1024/2 - this.clipper.style.width) {
+        this.clipper.style.x = 1024/2 - this.clipper.style.width;
     } else {
         this.clipper.style.x = x;
     }
 
     // confine y-movement to within fence
-    if (y+this.clipper.marginSize < constants.fenceSize) {
+    if (y < constants.fenceSize) {
         this.clipper.style.y = constants.fenceSize;
-    } else if (y-this.clipper.marginSize > 576 - constants.fenceSize - this.clipper.style.height) {
+    } else if (y > 576 - constants.fenceSize - this.clipper.style.height) {
         this.clipper.style.y = 576 - constants.fenceSize - this.clipper.height;
     } else {
         this.clipper.style.y = y;
