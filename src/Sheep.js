@@ -6,7 +6,7 @@ import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
 var stepFrequency = 50, // step every x milliseconds
-    rotation = Math.PI * 48;
+    rotation = Math.PI / 32;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -29,7 +29,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.run = function () {
-        bind(this, continuousAnimate)();
+        this.continuousAnimate();
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
 
@@ -55,6 +55,11 @@ exports = Class(ImageView, function (supr) {
                 this.die();
             }
         }), stepFrequency);
+    };
+
+    this.continuousAnimate = function () {
+        animate(this).clear().now({r: -1 * rotation}, 10000/this.stepSize, animate.easeIn)
+            .then({r: rotation}, 10000/this.stepSize, animate.easeIn).then(this.continuousAnimate.bind(this));
     };
 
     this.die = function () {
@@ -147,9 +152,4 @@ function randomColor () {
             return constants.colors[i];
         }
     }
-}
-
-function continuousAnimate() {
-    animate(this).clear().now({r: -1 * rotation}, 100/this.stepSize, animate.easeIn)
-        .then({r: rotation}, 100/this.stepSize, animate.easeIn).then(continuousAnimate.bind(this));
 }
