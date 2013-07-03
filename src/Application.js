@@ -12,6 +12,7 @@ import src.PlayScreen as PlayScreen;
 import src.ModeScreen as ModeScreen;
 import src.Button as Button;
 import src.Player as Player;
+import src.Audio as Audio;
 
 
 // DO NOT QUESTION THIS MATH
@@ -122,6 +123,7 @@ exports = Class(GC.Application, function () {
 
         GC.hidePreloader();
 
+        this.audio = new Audio();
     };
 
     /* Executed after the asset resources have been loaded.

@@ -250,6 +250,7 @@ function playGame () {
     this.addSubview(this.clipper);
 
     this.player = GC.app.player;
+    this.audio = GC.app.audio;
     this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
 
     if (this.infiniteMode) {

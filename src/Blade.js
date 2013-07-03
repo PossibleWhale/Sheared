@@ -51,6 +51,7 @@ exports = Class(ImageView, function (supr) {
                     });
                     if (intersect.rectAndRect(rect, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
+                            superview.audio.playShear();
                             inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
                             superview.player.hitWithBlade(this.isDiamond);
