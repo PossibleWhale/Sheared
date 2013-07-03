@@ -44,28 +44,23 @@ exports = {
 
     GARMENT_HAT: {
         label: 'hat', 
-        cost: {contrast: 2, main: 10},
-        price: 6.00
+        cost: {contrast: 2, main: 10}
     },
     GARMENT_SOCK: {
         label: 'sock', 
-        cost: {contrast: 10, main: 26},
-        price: 18.00
+        cost: {contrast: 10, main: 26}
     },
     GARMENT_SCARF: {
         label: 'scarf', 
-        cost: {contrast: 14, main: 34},
-        price: 24.00
+        cost: {contrast: 14, main: 34}
     },
     GARMENT_MITTEN: {
         label: 'mitten', 
-        cost: {contrast: 6, main: 18},
-        price: 12.00
+        cost: {contrast: 6, main: 18}
     },
     GARMENT_SWEATER: {
         label: 'sweater', 
-        cost: {contrast: 18, main: 42},
-        price: 30.00
+        cost: {contrast: 18, main: 42}
     },
 
     SHOP_NAMES: [
