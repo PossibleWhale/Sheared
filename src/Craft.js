@@ -41,12 +41,16 @@ exports = Class(Emitter, function (supr) {
             return ret;
         });
 
-        this.formatDollars = bind(this, function (count) {
+        this.dollars = bind(this, function (count) {
             if (count === undefined) {
                 count = 1;
             }
             costs = this.cost();
-            return (count * (costs[0].dollars + costs[1].dollars)).toFixed(2);
+            return (count * (costs[0].dollars + costs[1].dollars));
+        });
+
+        this.formatDollars = bind(this, function (count) {
+            return this.dollars(count).toFixed(2);
         });
     }
 });

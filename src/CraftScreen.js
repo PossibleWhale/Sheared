@@ -18,6 +18,7 @@ exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
+        this.total = 0;
 
         opts = merge(opts, {
             autosize: true,
@@ -140,6 +141,15 @@ exports = Class(ImageView, function (supr) {
         });
         this.on('craft:start', this.startCrafting);
 
+        this.on('craft:addDollars', function (amount) {
+            this.total += amount;
+            _cleanUI();
+        });
+
+        this.updateTotal = bind(this, function () {
+            this.totalButton.setText('Total: $' + this.total.toFixed(2));
+        });
+
         /* 
          * update both the craft counts boxes, and the chalkboards, based on
          * current selections and inventory
@@ -195,6 +205,7 @@ exports = Class(ImageView, function (supr) {
             this.updateCraftBuyButtons();
             this.updateGarmentPattern();
             this.updateCraftCounts();
+            this.updateTotal();
         });
 
         // clear out the ui image and replace it when color changes
@@ -221,6 +232,7 @@ exports = Class(ImageView, function (supr) {
                 si.woolCountOf(contrast) >= costs[1].amount) {
 
                 si.addCraft(craft);
+                this.emit('craft:addDollars', craft.dollars());
                 si.addWool(main, -1 * costs[0].amount);
                 si.addWool(contrast, -1 * costs[1].amount);
 
@@ -254,7 +266,7 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
-        this.totalButton.setText("Total: ");
+        this.totalButton.setText("Total: $0.00");
 
         this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
