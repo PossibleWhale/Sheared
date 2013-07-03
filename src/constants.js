@@ -71,7 +71,11 @@ exports = {
         "Wool Gathering",
         "Purls Before Swine",
         "All's Wool That Ends Wool",
-        "I Yarn for You"
+        "I Yarn for You",
+        "Yarn's Revenge",
+        "Where's Wooly?",
+        "Woolpower",
+        "Knit in Shining Armor"
     ]
 };
 
