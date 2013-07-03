@@ -11,7 +11,7 @@ exports = Class(function () {
         var i, name;
         for (i = 1; i <= numShears; i++) {
             name = 'shear-0' + i;
-            this.audio.addSound(name, {
+            this.audioPlayer.addSound(name, {
                 path: name + '.mp3'
             });
         }
@@ -19,6 +19,6 @@ exports = Class(function () {
 
     this.playShear = function () {
         var index = Math.floor(Math.random() * numShears) + 1;
-        this.audio.play('shear-0' + index);
+        this.audioPlayer.play('shear-0' + index);
     };
 });
