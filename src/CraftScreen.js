@@ -109,11 +109,12 @@ exports = Class(ImageView, function (supr) {
         this.startCrafting = bind(this, function() {
             dh.pre_startCrafting();
 
+            var si, btn, color, count, i, money;
+
             this.playerInventory = GC.app.player.inventory;
 
             this.sessionInventory = this.playerInventory.copy();
-
-            var si = this.sessionInventory, btn, color, count, i, lookup;
+            si = this.sessionInventory;
 
             for (i = 0; i < this.buttons.colorCount.length; i++) {
                 btn = this.buttons.colorCount[i];
@@ -121,18 +122,7 @@ exports = Class(ImageView, function (supr) {
                 count = si.woolCountOf(color);
                 btn.setText(count);
             }
-            for (i = 0; i < this.buttons.craftCount.length; i++) {
-                btn = this.buttons.craftCount[i];
-                ci = btn.getOpts().contrastIndex;
-                motif = new Craft(this.selectedGarment, this.selectedColor,
-                    colorPairings[this.selectedColor.label][i]).toMotif();
-                lookup = si.crafts.get(motif);
-                if (lookup) {
-                    count = lookup.count;
-                } else {
-                    count = 0;
-                }
-            }
+
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
 
@@ -150,15 +140,25 @@ exports = Class(ImageView, function (supr) {
         });
         this.on('craft:start', this.startCrafting);
 
+        /* 
+         * update both the craft counts boxes, and the chalkboards, based on
+         * current selections and inventory
+         */
         this.updateCraftCounts = bind(this, function () {
-            var btn, i, si = this.sessionInventory, contrast, motif;
+            var boardTotal, btn, i, si = this.sessionInventory, contrast, motif;
             i = this.buttons.craftCount.length;
             while (i--) {
-                btn = this.buttons.craftCount[i];
+                btn1 = this.buttons.craftCount[i];
+                btn2 = this.buttons.chalkboard[i];
                 contrast = colorPairings[this.selectedColor.label][i];
-                motif = new Craft(this.selectedGarment, this.selectedColor, contrast).toMotif();
+
+                craft = new Craft(this.selectedGarment, this.selectedColor, contrast);
+
+                motif = craft.toMotif();
                 count = si.craftCountOf(motif);
-                btn.setText(count);
+                btn1.setText(count);
+
+                btn2.setText('$' + craft.formatDollars(count));
             }
         });
 

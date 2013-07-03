@@ -26,9 +26,27 @@ exports = Class(Emitter, function (supr) {
         // return 2-array of [main, contrast] as objects
         this.cost = bind(this, function () {
             var ret = [];
-            ret.push({color: this.colors.main, amount: this.garment.cost.main});
-            ret.push({color: this.colors.contrast, amount: this.garment.cost.contrast});
+            vMainWool = 0.2 / this.colors.main.rarity;
+            vContrastWool = 0.2 / this.colors.contrast.rarity;
+
+            ret.push({color: this.colors.main,
+                amount: this.garment.cost.main,
+                dollars: this.garment.cost.main * vMainWool
+            });
+
+            ret.push({color: this.colors.contrast,
+                amount: this.garment.cost.contrast,
+                dollars: this.garment.cost.contrast * vContrastWool
+            });
             return ret;
+        });
+
+        this.formatDollars = bind(this, function (count) {
+            if (count === undefined) {
+                count = 1;
+            }
+            costs = this.cost();
+            return (count * (costs[0].dollars + costs[1].dollars)).toFixed(2);
         });
     }
 });
