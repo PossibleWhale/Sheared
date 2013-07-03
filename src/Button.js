@@ -27,9 +27,9 @@ exports = Class(ui.TextView, function (supr) {
         supr(this, 'init', [opts]);
 
         dh.post_initButton(this, opts);
-    };
 
-    this.on('InputSelect', function () {
-        GC.app.audio.playButton();
-    });
+        this.on('InputSelect', function () {
+            GC.app.audio.playButton();
+        });
+    };
 });
