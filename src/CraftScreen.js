@@ -98,7 +98,8 @@ exports = Class(ImageView, function (supr) {
         this.craftBuyFactory = bind(this, function (region, i) {
             var me = this, btn;
             btn = this.defaultButtonFactory(region);
-            btn.updateOpts({contrastIndex: i});
+            btn.updateOpts({anchorX: btn.getOpts().width / 2,
+                contrastIndex: i});
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -111,8 +112,18 @@ exports = Class(ImageView, function (supr) {
                     me.buyCraft(_btn);
                 };
             })(btn));
+
+            this.animateCraft(btn);
+
             return btn;
         });
+
+        this.animateCraft = bind(this, function (btn) {
+            var stepSize = (Math.random() * 15) + 10;
+            animate(btn).clear().now({r: -1 * c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn)
+                .then({r: c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn).then(this.animateCraft.bind(this, btn));
+        });
+
 
         // craftCount fields
         this.craftCountFactory = bind(this, function (region, i) {

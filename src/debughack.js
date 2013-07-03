@@ -59,7 +59,7 @@ var Hax = function () {
         });
     };
 
-    this.pre_initButton = debugWrap(this.pre_initButton);
+    this.post_initButton = debugWrap(this.post_initButton);
     this.pre_startCrafting = debugWrap(this.pre_startCrafting);
 };
 
