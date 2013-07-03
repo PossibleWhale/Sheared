@@ -42,6 +42,14 @@ var Hax = function () {
         }
     };
 
+    /*
+     * Make the timer shorter
+     */
+    this.post_initTimer = function (timer) {
+        timer.time = 10;
+        timer.updateOpts({text: timer.time});
+    };
+
     var _args, debugWrap = function (fn) {
         return bind(this, function () {
             _args = arguments;

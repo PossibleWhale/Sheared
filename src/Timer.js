@@ -1,5 +1,8 @@
 import ui.TextView as TextView;
 
+import src.debughack as dh;
+
+
 exports = Class(TextView, function (supr) {
     this.init = function (opts) {
         var initialTime = 30;
@@ -24,6 +27,8 @@ exports = Class(TextView, function (supr) {
 
         this.batteryTime1 = Math.floor(Math.random() * 20) + 10;
         this.batteryTime2 = this.batteryTime1 + Math.floor(Math.random() * 10) + 10;
+
+        dh.post_initTimer(this);
     };
 
     this.run = function () {
