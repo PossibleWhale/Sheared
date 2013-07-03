@@ -183,10 +183,11 @@ exports = Class(ImageView, function (supr) {
                 contrast = colorPairings[main.label][i];
 
                 costs = new Craft(garment, main, contrast).cost();
-                res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
                 if (costs[0].amount > si.woolCountOf(main) || costs[1].amount > si.woolCountOf(contrast)) {
-                    cbbtn.updateOpts({opacity: 0.3});
+                    res = 'resources/images/' + garment.label + '-disabled.png';
+                    cbbtn.updateOpts({opacity: 0.9});
                 } else {
+                    res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
                     cbbtn.updateOpts({opacity: 1.0});
                 }
 
@@ -245,7 +246,7 @@ exports = Class(ImageView, function (supr) {
 
         // load up alllll dem buttons
         var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
-            "craftBuy", "chalkboard", "refund"];
+            "craftBuy", "chalkboard", "recycle"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, regions, j, region, btn;
 
@@ -345,7 +346,7 @@ chalkboard: [
     {y:376, x:628, width:88, height:54},
     {y:376, x:788, width:88, height:54}
     ],
-refund: [
+recycle: [
     {y:442, x:144, width:96, height:44},
     {y:442, x:304, width:96, height:44},
     {y:442, x:464, width:96, height:44},
@@ -362,3 +363,4 @@ craftScreenRegions.color.factory = 'colorFactory';
 craftScreenRegions.garment.factory = 'garmentFactory';
 craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
 craftScreenRegions.craftCount.factory = 'craftCountFactory';
+craftScreenRegions.recycle.factory = 'recycleFactory';
