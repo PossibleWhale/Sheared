@@ -15,6 +15,7 @@ import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
 import src.InfiniteTimer as InfiniteTimer;
+import src.Button as Button;
 
 
 exports = Class(ImageView, function (supr) {
@@ -49,7 +50,7 @@ exports = Class(ImageView, function (supr) {
             height: 576,
             image: 'resources/images/day-' + (this.day+1) + '.png'
         }),
-        continueButton = new View({
+        continueButton = new Button({
             x: 392,
             y: 418,
             width: 240,
@@ -151,7 +152,7 @@ exports = Class(ImageView, function (supr) {
             height: 576,
             image: 'resources/images/results.png'
         }),
-        continueButton = new View({
+        continueButton = new Button({
             x: 392,
             y: 418,
             width: 240,
