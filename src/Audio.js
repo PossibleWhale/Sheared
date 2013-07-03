@@ -16,7 +16,7 @@ exports = Class(function () {
                 'baa-01': {},
                 'baa-02': {},
                 'baa-03': {},
-                'button-01' : {},
+                'button-01': {},
                 'play-01': {background: true},
                 'play-02': {background: true},
                 'play-5-seconds-remaining': {}
@@ -52,11 +52,15 @@ exports = Class(function () {
     };
 
     this.playButton = function () {
-        this.audioPlayer.play('buttton-01');
+        this.audioPlayer.play('button-01');
     };
 
     this.playMusic = function () {
         this.audioPlayer.play('play-01');
+    };
+
+    this.stopMusic = function () {
+        this.audioPlayer.stop('play-01');
     };
 
     this.playCountdown = function () {
