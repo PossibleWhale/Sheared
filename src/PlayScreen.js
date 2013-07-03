@@ -134,34 +134,16 @@ exports = Class(ImageView, function (supr) {
 
     this.gameOver = function () {
         this.endDay();
-
-        var gameOverScreen = new TextView({
-            x: 0,
-            y: 0,
-            width: 1024,
-            height: 576,
-            text: 'You lost',
-            size: 42,
-            color: '#FFFFFF',
-            backgroundColor: '#000000'
-        });
-        this.addSubview(gameOverScreen);
-        gameOverScreen.on('InputSelect', bind(this, function () {
-            this.getSuperview().emit('titleScreen:craft');
-            this.getSuperview().emit('playscreen:end');
-        }));
+        this._showResults(false);
     };
 
     this.timeOver = function () {
         this.endDay();
-        this._showResults();
+        this._showResults(true);
     };
 
-    /* TODO make this work for both a time over and a game over.
-     * time over: show results, click continue to go to next day or craft if week is over (how it works now)
-     * game over: show results, click finish to craft.
-     */
-    this._showResults = function () {
+    this._showResults = function (finishedDay) {
+        // TODO if !finishedDay, show a different results image indicating they lost
         var i, resultsScreen = new ImageView({
             x: 1024,
             y: 0,
@@ -227,11 +209,13 @@ exports = Class(ImageView, function (supr) {
                 }
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
-                if (this.day >= constants.days.length ) {
+                if (this.day >= constants.days.length || !finishedDay) {
                     this.getSuperview().emit('titleScreen:craft');
                     this.getSuperview().emit('playscreen:end');
-                    this.player.completedWeek();
-                } else {
+                    if (finishedDay) {
+                        this.player.completedWeek();
+                    }
+                } else if (finishedDay) {
                     this.build();
                 }
             }));
