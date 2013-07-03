@@ -398,11 +398,11 @@ chalkboard: [
     {y:376, x:788, width:88, height:54}
     ],
 recycle: [
-    {y:442, x:144, width:96, height:44},
-    {y:442, x:304, width:96, height:44},
-    {y:442, x:464, width:96, height:44},
-    {y:442, x:624, width:96, height:44},
-    {y:442, x:784, width:96, height:44}
+    {y:442, x:144, width:96, height:45},
+    {y:442, x:304, width:96, height:45},
+    {y:442, x:464, width:96, height:45},
+    {y:442, x:624, width:96, height:45},
+    {y:442, x:784, width:96, height:45}
     ],
 finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
