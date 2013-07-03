@@ -79,11 +79,10 @@ exports = Class(ImageView, function (supr) {
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({contrastIndex: i});
 
-            var img = new Image({url: 'resources/images/craft-recycle.png'});
             btn.imageLayer = new ImageView({
-                image: img,
                 superview: btn,
-                autoSize: true
+                autoSize: true,
+                x: 27
             });
 
             btn.on('InputSelect', (function (_btn) {
@@ -170,39 +169,63 @@ exports = Class(ImageView, function (supr) {
             this.totalButton.setText('Total: $' + this.total.toFixed(2));
         });
 
+        /*
+         * => new Craft() from current garment, current color, and an index
+         * into the craft buy control columns
+         */
+        this.craftByIndex = bind(this, function (contrastIndex) {
+            var contrast = colorPairings[this.selectedColor.label][contrastIndex];
+            return new Craft(this.selectedGarment, this.selectedColor, contrast);
+        });
+
         /* 
          * update both the craft counts boxes, and the chalkboards, based on
          * current selections and inventory
          */
         this.updateCraftCounts = bind(this, function () {
-            var boardTotal, btn, i, si = this.sessionInventory, contrast, motif;
+            var btn1, btn2, i, si = this.sessionInventory;
             i = this.buttons.craftCount.length;
             while (i--) {
                 btn1 = this.buttons.craftCount[i];
                 btn2 = this.buttons.chalkboard[i];
-                contrast = colorPairings[this.selectedColor.label][i];
 
-                craft = new Craft(this.selectedGarment, this.selectedColor, contrast);
+                currentCraft = this.craftByIndex(i);
+                count = si.craftCountOf(currentCraft);
 
-                motif = craft.toMotif();
-                count = si.craftCountOf(motif);
                 btn1.setText(count);
+                btn2.setText('$' + currentCraft.formatDollars(count));
+            }
+        });
 
-                btn2.setText('$' + craft.formatDollars(count));
+        this.updateRecycleButtons = bind(this, function () {
+            var i, btn, currentCraft, count, si;
+            si = this.sessionInventory;
+            i = this.buttons.recycle.length;
+            while(i--) {
+                btn = this.buttons.recycle[i];
+                currentCraft = this.craftByIndex(i);
+                count = si.craftCountOf(currentCraft);
+                if (count == 0) {
+                    btn.imageLayer.setImage(new Image({url: 'resources/images/craft-recycle-disabled.png'}));
+                } else {
+                    btn.imageLayer.setImage(new Image({url: 'resources/images/craft-recycle.png'}));
+                }
             }
         });
 
         this.updateCraftBuyButtons = bind(this, function () {
             var i, res, contrast, garment, main, costs, si, cbbtn;
-            garment = this.selectedGarment, main = this.selectedColor;
+            garment = this.selectedGarment;
+            main = this.selectedColor;
             si = this.sessionInventory;
 
             i = colorPairings[main.label].length;
             while (i--) {
                 cbbtn = this.buttons.craftBuy[i];
-                contrast = colorPairings[main.label][i];
+                currentCraft = this.craftByIndex(i);
+                costs = currentCraft.cost();
+                contrast = currentCraft.colors.contrast;
 
-                costs = new Craft(garment, main, contrast).cost();
                 if (costs[0].amount > si.woolCountOf(main) || costs[1].amount > si.woolCountOf(contrast)) {
                     res = 'resources/images/' + garment.label + '-disabled.png';
                     cbbtn.updateOpts({opacity: 0.9});
@@ -226,6 +249,7 @@ exports = Class(ImageView, function (supr) {
             this.updateCraftBuyButtons();
             this.updateGarmentPattern();
             this.updateCraftCounts();
+            this.updateRecycleButtons();
             this.updateTotal();
         });
 
@@ -250,7 +274,7 @@ exports = Class(ImageView, function (supr) {
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
-            if (si.craftCountOf(craft.toMotif()) > 0) {
+            if (si.craftCountOf(craft) > 0) {
                 si.addCraft(craft, -1);
                 this.emit('craft:addDollars', -craft.dollars());
                 si.addWool(main, costs[0].amount);

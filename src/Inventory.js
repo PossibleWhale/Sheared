@@ -55,8 +55,15 @@ exports = Class(Emitter, function Inventory_(supr) {
             this.crafts.add({motif: motif, count: oldCount + (amt || 1)});
         });
 
-        this.craftCountOf = bind(this, function (motif) {
-            var lookup = this.crafts.get(motif);
+        this.craftCountOf = bind(this, function (craft) {
+            var lookup;
+
+            if (typeof craft === 'string') {
+                lookup = this.crafts.get(craft);
+            } else {
+                lookup = this.crafts.get(craft.toMotif());
+            }
+
             if (lookup) {
                 return lookup.count;
             } else {
