@@ -67,6 +67,10 @@ exports = Class(Emitter, function Player(supr) {
                 incrementCounter('regularBladesFired');
             }
         };
+
+        this.completedWeek = function () {
+            localStorage['completedWeek'] = true;
+        };
     };
 });
 

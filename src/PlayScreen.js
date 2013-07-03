@@ -230,6 +230,7 @@ exports = Class(ImageView, function (supr) {
                 if (this.day >= constants.days.length ) {
                     this.getSuperview().emit('titleScreen:craft');
                     this.getSuperview().emit('playscreen:end');
+                    this.player.completedWeek();
                 } else {
                     this.build();
                 }

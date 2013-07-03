@@ -99,8 +99,11 @@ exports = Class(GC.Application, function () {
         });
 
         playButton.on('InputSelect', function () {
-            //rootView.emit('titleScreen:play');
-            rootView.push(modeScreen);
+            if (localStorage['completedWeek'] === 'true') {
+                rootView.push(modeScreen);
+            } else {
+                modeScreen.emit('play:normal');
+            }
         });
 
         craftButton.on('InputSelect', function () {
