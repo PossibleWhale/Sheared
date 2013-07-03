@@ -2,6 +2,7 @@
  * Crafting booth
  */
 
+import animate;
 import ui.View;
 import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
