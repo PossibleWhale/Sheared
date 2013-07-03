@@ -4,6 +4,7 @@
 
 import ui.View;
 import ui.ImageView as ImageView;
+import ui.TextView as TextView;
 import ui.resource.Image as Image;
 
 import src.constants as c;
@@ -303,8 +304,18 @@ exports = Class(ImageView, function (supr) {
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();
-            // TODO - localStorage
+            // TODO - localStorage here
+            this.emit('craft:finishScreen');
+        }));
+        this.on('craft:finishFinishScreen', bind(this, function () {
             GC.app.rootView.popAll();
+        }));
+        this.on('craft:finishScreen', bind(this, function () {
+            var finishView = new TextView({text: 'Finished crafting. Made $' + this.total.toFixed(2)});
+            finishView.on('InputSelect', bind(this, function () {
+                this.emit('craft:finishFinishScreen');
+            }));
+            GC.app.rootView.push(finishView);
         }));
 
         this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
