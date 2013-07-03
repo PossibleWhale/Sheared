@@ -2,17 +2,30 @@
  * various patches and patching utilites to make debugging simpler
  */
 import event.Emitter as Emitter;
+import ui.View as View;
 
 
 var Hax = function () {
     /*
      * make button outlines visible
      */
-    this.pre_initButton = function (opts) {
-        merge(opts, {
+    this.post_initButton = function (button, opts) {
+        var v, vopts, subs;
+        // pop all subviews so we can add them back on top
+        subs = button.getSubviews();
+        button.removeAllSubviews();
+
+        vopts = {
             backgroundColor: '#c6c',
-            opacity: 0.4
-        });
+            opacity: 0.2,
+            superview: button,
+            width: button.style.width,
+            height: button.style.height
+        };
+        v = new View(vopts);
+        for (var i = 0; i < subs.length; i++) {
+            button.addSubview(subs[i]);
+        }
     };
 
     /*
