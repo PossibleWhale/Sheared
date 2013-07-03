@@ -73,6 +73,27 @@ exports = Class(ImageView, function (supr) {
             return btn;
         });
 
+        // recycle buttons
+        this.recycleFactory = bind(this, function (region, i) {
+            var btn, me = this;
+            btn = this.defaultButtonFactory(region);
+            btn.updateOpts({contrastIndex: i});
+
+            var img = new Image({url: 'resources/images/craft-recycle.png'});
+            btn.imageLayer = new ImageView({
+                image: img,
+                superview: btn,
+                autoSize: true
+            });
+
+            btn.on('InputSelect', (function (_btn) {
+                return function () {
+                    me.recycleCraft(_btn);
+                };
+            })(btn));
+            return btn;
+        });
+
         // buy garment buttons
         this.craftBuyFactory = bind(this, function (region, i) {
             var me = this, btn;
@@ -85,7 +106,6 @@ exports = Class(ImageView, function (supr) {
                 height: btn.style.height
             });
 
-            me = this;
             btn.on('InputSelect', (function (_btn) {
                 return function () {
                     me.buyCraft(_btn);
@@ -216,6 +236,27 @@ exports = Class(ImageView, function (supr) {
 
         // clear out the ui image and replace it when garment changes
         this.changeGarment = bind(this, function () {
+            _cleanUI();
+        });
+
+        // put the wool back and deduct one crafted item. Only permit this for
+        // items crafted this session, not those crafted over a lifetime.
+        this.recycleCraft = bind(this, function (btn) {
+            var main = this.selectedColor, 
+                garment = this.selectedGarment, 
+                contrast, craft, costs,
+                si = this.sessionInventory;
+            contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
+            craft = new Craft(garment, main, contrast);
+            costs = craft.cost();
+
+            if (si.craftCountOf(craft.toMotif()) > 0) {
+                si.addCraft(craft, -1);
+                this.emit('craft:addDollars', -craft.dollars());
+                si.addWool(main, costs[0].amount);
+                si.addWool(contrast, costs[1].amount);
+            }
+
             _cleanUI();
         });
 
