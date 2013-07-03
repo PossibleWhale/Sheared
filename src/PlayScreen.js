@@ -109,6 +109,7 @@ exports = Class(ImageView, function (supr) {
     this.endDay = function () {
         var i = this.sheep.length;
 
+        this.audio.stopMusic();
         this.bladeOut = false;
         this.clipper.reloadBlade();
         while (i--) {
