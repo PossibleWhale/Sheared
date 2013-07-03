@@ -266,6 +266,8 @@ function playGame () {
     this.addSubview(this.timer);
     this.timer.run();
 
+    this.audio.playMusic();
+
     var leftSide = new View({
         superview: this,
         x: 0,

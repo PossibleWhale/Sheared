@@ -52,6 +52,7 @@ exports = Class(ImageView, function (supr) {
 
                 superview.clipper.emitSparks();
                 superview.clipper.decreaseHealth();
+                superview.audio.playCollision();
                 this.die();
             }
         }), stepFrequency);

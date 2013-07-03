@@ -28,4 +28,8 @@ exports = Class(ui.TextView, function (supr) {
 
         dh.post_initButton(this, opts);
     };
+
+    this.on('InputSelect', function () {
+        GC.app.audio.playButton();
+    });
 });

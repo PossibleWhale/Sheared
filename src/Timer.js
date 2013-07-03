@@ -48,6 +48,10 @@ exports = Class(TextView, function (supr) {
                 this.time === this.batteryTime2) {
                 superview.spawnBattery();
             }
+
+            if (this.time === 5) {
+                superview.audio.playCountdown();
+            }
             
         }), 1000);
     };

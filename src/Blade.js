@@ -52,6 +52,9 @@ exports = Class(ImageView, function (supr) {
                     if (intersect.rectAndRect(rect, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
                             superview.audio.playShear();
+                            if (Math.random() < 0.25) {
+                                superview.audio.playBaa();
+                            }
                             inventory.addWool(sheep[i].color.label, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
                             superview.player.hitWithBlade(this.isDiamond);
@@ -77,7 +80,7 @@ exports = Class(ImageView, function (supr) {
                             pObj.dopacity = -0.7;
                             pObj.image = 'resources/images/particle-blade.png';
                             superview.particleEngine.emitParticles(particleObjects);
-
+                            superview.audio.playRamHit();
                         }
                         clearInterval(interval);
                         this.removeFromSuperview();
