@@ -39,8 +39,8 @@ exports = Class(Emitter, function Inventory_(supr) {
             } else {
                 clabel = color.label;
             }
-            var old = this.wool.get(clabel).count;
-            this.wool.add({color: clabel, count: old + (amt || 1)});
+            var old = this.woolCountOf(color);
+            this.wool.add({color: color.label, count: old + (amt || 1)});
         });
 
         this.addCraft = bind(this, function (craft, amt) {
@@ -53,6 +53,24 @@ exports = Class(Emitter, function Inventory_(supr) {
             oldCraft = this.crafts.get(motif);
             oldCount = oldCraft ? oldCraft.count : 0;
             this.crafts.add({motif: motif, count: oldCount + (amt || 1)});
+        });
+
+        this.craftCountOf = bind(this, function (motif) {
+            var lookup = this.crafts.get(motif);
+            if (lookup) {
+                return lookup.count;
+            } else {
+                return 0;
+            }
+        });
+
+        this.woolCountOf = bind(this, function (color) {
+            if (typeof color === 'string') {
+                clabel = color;
+            } else {
+                clabel = color.label;
+            }
+            return this.wool.get(clabel).count;
         });
 
         /*

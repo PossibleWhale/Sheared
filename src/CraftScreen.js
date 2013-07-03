@@ -93,6 +93,16 @@ exports = Class(ImageView, function (supr) {
             return btn;
         });
 
+        // craftCount fields
+        this.craftCountFactory = bind(this, function (region, i) {
+            var screen = this, updateText, main, motif, contrast, btn;
+
+            btn = this.defaultButtonFactory(region);
+            btn.updateOpts({contrastIndex: i});
+
+            return btn;
+        });
+
         /*
          * reset crafting state
          */
@@ -103,13 +113,25 @@ exports = Class(ImageView, function (supr) {
 
             this.sessionInventory = this.playerInventory.copy();
 
-            var si = this.sessionInventory, btn, color, count, i;
+            var si = this.sessionInventory, btn, color, count, i, lookup;
 
             for (i = 0; i < this.buttons.colorCount.length; i++) {
                 btn = this.buttons.colorCount[i];
                 color = btn.getOpts().item;
-                count = si.wool.get(color.label).count;
+                count = si.woolCountOf(color);
                 btn.setText(count);
+            }
+            for (i = 0; i < this.buttons.craftCount.length; i++) {
+                btn = this.buttons.craftCount[i];
+                ci = btn.getOpts().contrastIndex;
+                motif = new Craft(this.selectedGarment, this.selectedColor,
+                    colorPairings[this.selectedColor.label][i]).toMotif();
+                lookup = si.crafts.get(motif);
+                if (lookup) {
+                    count = lookup.count;
+                } else {
+                    count = 0;
+                }
             }
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
@@ -128,6 +150,18 @@ exports = Class(ImageView, function (supr) {
         });
         this.on('craft:start', this.startCrafting);
 
+        this.updateCraftCounts = bind(this, function () {
+            var btn, i, si = this.sessionInventory, contrast, motif;
+            i = this.buttons.craftCount.length;
+            while (i--) {
+                btn = this.buttons.craftCount[i];
+                contrast = colorPairings[this.selectedColor.label][i];
+                motif = new Craft(this.selectedGarment, this.selectedColor, contrast).toMotif();
+                count = si.craftCountOf(motif);
+                btn.setText(count);
+            }
+        });
+
         this.updateCraftBuyButtons = bind(this, function () {
             var i, res, contrast, garment, main, costs, si, cbbtn;
             garment = this.selectedGarment, main = this.selectedColor;
@@ -140,7 +174,7 @@ exports = Class(ImageView, function (supr) {
 
                 costs = new Craft(garment, main, contrast).cost();
                 res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
-                if (costs[0].amount > si.wool.get(main.label).count || costs[1].amount > si.wool.get(contrast.label).count) {
+                if (costs[0].amount > si.woolCountOf(main) || costs[1].amount > si.woolCountOf(contrast)) {
                     cbbtn.updateOpts({opacity: 0.3});
                 } else {
                     cbbtn.updateOpts({opacity: 1.0});
@@ -160,6 +194,7 @@ exports = Class(ImageView, function (supr) {
         var _cleanUI = bind(this, function() {
             this.updateCraftBuyButtons();
             this.updateGarmentPattern();
+            this.updateCraftCounts();
         });
 
         // clear out the ui image and replace it when color changes
@@ -182,8 +217,8 @@ exports = Class(ImageView, function (supr) {
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
-            if (si.wool.get(main.label).count >= costs[0].amount &&
-                si.wool.get(contrast.label).count >= costs[1].amount) {
+            if (si.woolCountOf(main) >= costs[0].amount &&
+                si.woolCountOf(contrast) >= costs[1].amount) {
 
                 si.addCraft(craft);
                 si.addWool(main, -1 * costs[0].amount);
@@ -314,3 +349,4 @@ garmentPattern: {x: 0, y: 0, width: 1024, height: 576}
 craftScreenRegions.color.factory = 'colorFactory';
 craftScreenRegions.garment.factory = 'garmentFactory';
 craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
+craftScreenRegions.craftCount.factory = 'craftCountFactory';
