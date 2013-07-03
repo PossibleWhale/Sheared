@@ -4,7 +4,6 @@
 
 import ui.View;
 import ui.ImageView as ImageView;
-import ui.TextView as TextView;
 import ui.resource.Image as Image;
 
 import src.constants as c;
@@ -311,7 +310,7 @@ exports = Class(ImageView, function (supr) {
             GC.app.rootView.popAll();
         }));
         this.on('craft:finishScreen', bind(this, function () {
-            var finishView = new TextView({text: 'Finished crafting. Made $' + this.total.toFixed(2)});
+            var finishView = new Button({text: 'Finished crafting. Made $' + this.total.toFixed(2)});
             finishView.on('InputSelect', bind(this, function () {
                 this.emit('craft:finishFinishScreen');
             }));
