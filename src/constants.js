@@ -3,6 +3,8 @@ var numDays = 5;
 
 
 exports = {
+    WIGGLE_RADIANS: Math.PI / 32,
+
     COLOR_NONE: {label: 'none'},
 
     // Given rarity R, value V of the corresponding wool is:

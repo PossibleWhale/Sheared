@@ -5,8 +5,7 @@ import ui.View as View;
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
-var stepFrequency = 50, // step every x milliseconds
-    rotation = Math.PI / 32;
+var stepFrequency = 50; // step every x milliseconds
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -59,8 +58,8 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.continuousAnimate = function () {
-        animate(this).clear().now({r: -1 * rotation}, 10000/this.stepSize, animate.easeIn)
-            .then({r: rotation}, 10000/this.stepSize, animate.easeIn).then(this.continuousAnimate.bind(this));
+        animate(this).clear().now({r: -1 * constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
+            .then({r: constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn).then(this.continuousAnimate.bind(this));
     };
 
     this.die = function () {
