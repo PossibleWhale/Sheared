@@ -12,6 +12,7 @@ import ui.ImageView;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.ModeScreen as ModeScreen;
+import src.CreditsScreen as CreditsScreen;
 import src.Button as Button;
 
 
@@ -32,11 +33,12 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, rootView;
+            playScreen, modeScreen, rootView, creditsScreen;
 
         craftScreen = new CraftScreen();
         playScreen = new PlayScreen();
         modeScreen = new ModeScreen();
+        creditsScreen = new CreditsScreen();
 
         rootView = this.getSuperview();
 
@@ -77,7 +79,7 @@ exports = Class(ui.ImageView, function (supr) {
         howButton = new Button(howOpts);
 
         var credOpts = {
-            superview: titleScreen,
+            superview: this,
             x: 462,
             y: 484,
             width: 100,
