@@ -13,6 +13,7 @@ import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.ModeScreen as ModeScreen;
 import src.CreditsScreen as CreditsScreen;
+import src.TutorialScreen as TutorialScreen;
 import src.Button as Button;
 
 
@@ -33,12 +34,13 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, rootView, creditsScreen;
+            playScreen, modeScreen, rootView, creditsScreen, tutorialScreen;
 
         craftScreen = new CraftScreen();
         playScreen = new PlayScreen();
         modeScreen = new ModeScreen();
         creditsScreen = new CreditsScreen();
+        tutorialScreen = new TutorialScreen();
 
         rootView = this.getSuperview();
 
@@ -77,6 +79,10 @@ exports = Class(ui.ImageView, function (supr) {
             height: 74
         };
         howButton = new Button(howOpts);
+        howButton.on('InputSelect', function () {
+            tutorialScreen.build();
+            rootView.push(tutorialScreen);
+        });
 
         var credOpts = {
             superview: this,
@@ -86,6 +92,9 @@ exports = Class(ui.ImageView, function (supr) {
             height: 50
         }
         var creditsButton = new Button (credOpts);
+        creditsButton.on('InputSelect', function () {
+            rootView.push(creditsScreen);
+        });
         creditsScreen.on('credits:back', function () {
             rootView.pop();
         });
@@ -114,6 +123,10 @@ exports = Class(ui.ImageView, function (supr) {
         }));
 
         modeScreen.on('play:back', bind(this, function () {
+            rootView.pop();
+        }));
+
+        tutorialScreen.on('tutorial:back', bind(this, function () {
             rootView.pop();
         }));
 

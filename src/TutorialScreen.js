@@ -13,11 +13,11 @@ exports = Class(ui.StackView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
-
-        this.build();
     };
 
     this.build = function() {
+        this.page = 1;
+
         this.gestureView = new GestureView({
             x: 0,
             y: 0,
@@ -27,7 +27,8 @@ exports = Class(ui.StackView, function (supr) {
 
         this.menu = new ImageView({
             superview: this,
-            image: "resources/images/menu-instructions.png"
+            image: "resources/images/menu-instructions.png",
+            autoSize: true
         });
 
         var playButton = new Button({
@@ -46,7 +47,7 @@ exports = Class(ui.StackView, function (supr) {
             height: 320
         });
 
-        var backButton = new Button({
+        this.backButton = new Button({
             superview: this,
             x: 0,
             y: 496,
@@ -62,27 +63,53 @@ exports = Class(ui.StackView, function (supr) {
             this.craftTutorial();
         }));
 
-        backButton.on('InputSelect', bind(this, function () {
+        this.backButton.on('InputSelect', bind(this, function () {
             this.emit('tutorial:back');
+            this.popAll();
         }));
     };
 
     this.playTutorial = function () {
-        var tutorial = new ImageView({
-            image: 'resources/images/instructions-play-1.png'
-        });
-
-        this.push(tutorial); 
-        tutorial.addSubview(this.gestureView);
-
-        this.gestureView.on('Swipe', function (angle, direction, numFingers) {
-            console.log(direction);
-        });
+        this.imagePath = 'instructions-play-';
+        bind(this, instruct)(7);
     };
 
     this.craftTutorial = function () {
-        this.push(new ImageView({
-            image: 'resources/images/instructions-craft-1.png'
-        }));
+        this.imagePath = 'instructions-craft-';
+        bind(this, instruct)(4);
     };
 });
+
+function instruct (numPages) {
+    var tutorial = new ImageView({
+        image: 'resources/images/' + this.imagePath + '1.png',
+        autoSize: true
+    });
+
+    tutorial.addSubview(this.gestureView);
+    tutorial.addSubview(this.backButton);
+    this.push(tutorial);
+
+    this.gestureView.on('Swipe', bind(this, function (angle, direction, numFingers) {
+        var reverse = false;
+        if (direction === 'right' && this.page > 1) {
+            this.page -= 1;
+            reverse = true;
+        } else if (direction === 'left' && this.page < numPages) {
+            this.page += 1;
+        }
+
+        if (this.page >= 1 && this.page <= numPages) {
+            var next = new ImageView({
+                image: 'resources/images/' + this.imagePath + this.page + '.png',
+                autoSize: true
+            });
+            next.addSubview(this.gestureView);
+            next.addSubview(this.backButton);
+            if (reverse) {
+                this.pop();
+            }
+            this.push(next, false, reverse);
+        }
+    }));
+}
