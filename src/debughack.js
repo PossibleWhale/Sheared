@@ -60,6 +60,7 @@ var Hax = function () {
     };
 
     this.post_initButton = debugWrap(this.post_initButton);
+    this.post_initTimer = debugWrap(this.post_initTimer);
     this.pre_startCrafting = debugWrap(this.pre_startCrafting);
 };
 
