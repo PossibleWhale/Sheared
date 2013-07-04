@@ -76,6 +76,18 @@ exports = Class(ui.ImageView, function (supr) {
         };
         howButton = new Button(howOpts);
 
+        var credOpts = {
+            superview: titleScreen,
+            x: 462,
+            y: 484,
+            width: 100,
+            height: 50
+        }
+        var creditsButton = new Button (credOpts);
+        creditsScreen.on('credits:back', function () {
+            rootView.pop();
+        });
+
         muteOpts = {
             superview: this,
             x: 932,

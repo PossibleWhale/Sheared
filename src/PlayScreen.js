@@ -252,9 +252,9 @@ function playGame () {
     } else {
         this.timer = new Timer({
             x: 0,
-            y: 0,
+            y: 14,
             width: 1024,
-            height: constants.fenceSize
+            height: 40
         });
     }
     this.addSubview(this.timer);

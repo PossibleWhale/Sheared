@@ -37,5 +37,8 @@
 			"renderGloss": false
 		}
 	},
+        "ttf": [
+            "resources/fonts/delius.ttf"
+        ],
 	"sdkVersion": "release-0.1.26"
 }
