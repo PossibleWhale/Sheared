@@ -29,7 +29,7 @@ exports = Class(ui.TextView, function (supr) {
         dh.post_initButton(this, opts);
 
         this.on('InputSelect', function () {
-            if (!opts.silent) {
+            if (opts.click) {
                 GC.app.audio.playButton();
             }
         });

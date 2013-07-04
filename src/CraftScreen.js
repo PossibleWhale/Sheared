@@ -50,7 +50,7 @@ exports = Class(ImageView, function (supr) {
         // creates a button on one of the regions defined at the bottom
         this.defaultButtonFactory = bind(this, function (region) {
             var commonOpts, opts, btn;
-            commonOpts = {clip: true, superview: this, silent: true};
+            commonOpts = {clip: true, superview: this, click: false};
             opts = merge(merge({}, commonOpts), region);
             btn = new Button(opts);
             return btn;
@@ -59,7 +59,7 @@ exports = Class(ImageView, function (supr) {
         // color buttons
         this.colorFactory = bind(this, function (region) {
             var btn = this.defaultButtonFactory(region);
-            btn.updateOpts({silent: false});
+            btn.updateOpts({click: true});
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
@@ -69,7 +69,7 @@ exports = Class(ImageView, function (supr) {
         // garment buttons
         this.garmentFactory = bind(this, function (region) {
             var btn = this.defaultButtonFactory(region);
-            btn.updateOpts({silent: false});
+            btn.updateOpts({click: true});
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
@@ -80,7 +80,8 @@ exports = Class(ImageView, function (supr) {
         this.recycleFactory = bind(this, function (region, i) {
             var btn, me = this;
             btn = this.defaultButtonFactory(region);
-            btn.updateOpts({contrastIndex: i, silent: false});
+            btn.updateOpts({contrastIndex: i,
+                click: false}); // these have their own sound
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -90,6 +91,7 @@ exports = Class(ImageView, function (supr) {
 
             btn.on('InputSelect', (function (_btn) {
                 return function () {
+                    GC.app.audio.playRecycle();
                     me.recycleCraft(_btn);
                 };
             })(btn));
@@ -102,7 +104,7 @@ exports = Class(ImageView, function (supr) {
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({anchorX: btn.getOpts().width / 2,
                 contrastIndex: i,
-                silent: false});
+                click: false}); // these have their own noise
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -112,6 +114,7 @@ exports = Class(ImageView, function (supr) {
 
             btn.on('InputSelect', (function (_btn) {
                 return function () {
+                    GC.app.audio.playBuyGarment();
                     me.buyCraft(_btn);
                 };
             })(btn));
@@ -344,7 +347,7 @@ exports = Class(ImageView, function (supr) {
         }
 
         this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
-        this.finishButton.updateOpts({silent: false});
+        this.finishButton.updateOpts({click: true});
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();
