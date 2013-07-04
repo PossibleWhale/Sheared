@@ -11,6 +11,7 @@ exports = Class(TextView, function (supr) {
             color: '#FFFFFF',
             size: 128,
             autoFontSize: true,
+            fontFamily: 'delius',
             text: initialTime,
             horizontalAlign: 'center',
             strokeWidth: 4,
