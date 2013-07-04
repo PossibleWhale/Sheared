@@ -1,8 +1,8 @@
 import AudioManager;
 
-exports = Class(function () {
+exports = Class(AudioManager, function (supr) {
     this.init = function () {
-        this.audioPlayer = new AudioManager({
+        var opts = {
             path: 'resources/sounds',
             files: {
                 'pickup-battery': {},
@@ -21,49 +21,50 @@ exports = Class(function () {
                 'play-02': {background: true},
                 'play-5-seconds-remaining': {}
             }
-        });
+        };
+        supr(this, 'init', [opts]);
     };
 
     this.playShear = function () {
         var index = Math.floor(Math.random() * 3) + 1;
-        this.audioPlayer.play('shear-0' + index);
+        this.play('shear-0' + index);
     };
 
     this.playBattery = function () {
-        this.audioPlayer.play('pickup-battery');
+        this.play('pickup-battery');
     };
 
     this.playDiamond = function () {
-        this.audioPlayer.play('pickup-diamond');
+        this.play('pickup-diamond');
     };
 
     this.playCollision = function () {
         var index = Math.random() > 0.5 ? 1 : 2;
-        this.audioPlayer.play('collision-0' + index);
+        this.play('collision-0' + index);
     };
 
     this.playRamHit = function () {
-        this.audioPlayer.play('collision-regularblade-ram');
+        this.play('collision-regularblade-ram');
     };
 
     this.playBaa = function () {
         var index = Math.floor(Math.random() * 3) + 1;
-        this.audioPlayer.play('shear-0' + index);
+        this.play('shear-0' + index);
     };
 
     this.playButton = function () {
-        this.audioPlayer.play('button-01');
+        this.play('button-01');
     };
 
     this.playMusic = function () {
-        this.audioPlayer.play('play-01');
+        this.play('play-01');
     };
 
     this.stopMusic = function () {
-        this.audioPlayer.stop('play-01');
+        this.stop('play-01');
     };
 
     this.playCountdown = function () {
-        this.audioPlayer.play('play-5-seconds-remaining');
+        this.play('play-5-seconds-remaining');
     };
 });
