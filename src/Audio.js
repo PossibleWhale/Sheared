@@ -67,4 +67,13 @@ exports = Class(AudioManager, function (supr) {
     this.playCountdown = function () {
         this.play('play-5-seconds-remaining');
     };
+
+    this.playBuyGarment = function () {
+        var index = Math.floor(Math.random() * 4) + 1;
+        this.play('crafting-0' + index);
+    };
+
+    this.playRecycle = function () {
+        this.play('play-recycle');
+    };
 });

@@ -34,13 +34,14 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, rootView, creditsScreen, tutorialScreen;
+            playScreen, modeScreen, rootView, creditsScreen, credOpts, tutorialScreen;
 
         craftScreen = new CraftScreen();
-        playScreen = new PlayScreen();
         modeScreen = new ModeScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialScreen();
+
+        this.playScreen = new PlayScreen();
 
         rootView = this.getSuperview();
 
@@ -84,7 +85,7 @@ exports = Class(ui.ImageView, function (supr) {
             rootView.push(tutorialScreen);
         });
 
-        var credOpts = {
+        credOpts = {
             superview: this,
             x: 462,
             y: 484,
@@ -104,22 +105,23 @@ exports = Class(ui.ImageView, function (supr) {
             x: 932,
             y: 486,
             width: 80,
-            height: 80
+            height: 80,
+            click: false
         };
         muteButton = new Button(muteOpts);
-        muteButton.setText('<{=');
+        muteButton.setText('<(=');
         muteButton.on('InputSelect', bind(this, function () {
             GC.app.emit('audio:toggleMute', muteButton);
         }));
 
         modeScreen.on('play:normal', bind(this, function () {
-            playScreen.infiniteMode = false;
-            rootView.push(playScreen);
+            this.playScreen.infiniteMode = false;
+            rootView.push(this.playScreen);
         }));
 
         modeScreen.on('play:infinite', bind(this, function () {
-            playScreen.infiniteMode = true;
-            rootView.push(playScreen);
+            this.playScreen.infiniteMode = true;
+            rootView.push(this.playScreen);
         }));
 
         modeScreen.on('play:back', bind(this, function () {
@@ -143,16 +145,14 @@ exports = Class(ui.ImageView, function (supr) {
             craftScreen.emit('craft:start');
         }));
 
-        this.on('titleScreen:craft', bind(this, function () {
-            rootView.push(craftScreen);
-            craftScreen.emit('craft:start');
-        }));
-
         /* When the game screen has signalled that the game is over,
          * reset the play screen so we can play again
          */
-        playScreen.on('playscreen:end', bind(this, function () {
-            playScreen = new PlayScreen();
+        this.on('playscreen:end', bind(this, function () {
+            delete this.playScreen;
+            this.playScreen = new PlayScreen();
+            rootView.push(craftScreen);
+            craftScreen.emit('craft:start');
         }));
 
     };
