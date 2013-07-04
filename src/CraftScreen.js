@@ -50,7 +50,7 @@ exports = Class(ImageView, function (supr) {
         // creates a button on one of the regions defined at the bottom
         this.defaultButtonFactory = bind(this, function (region) {
             var commonOpts, opts, btn;
-            commonOpts = {clip: true, superview: this};
+            commonOpts = {clip: true, superview: this, silent: true};
             opts = merge(merge({}, commonOpts), region);
             btn = new Button(opts);
             return btn;
@@ -59,6 +59,7 @@ exports = Class(ImageView, function (supr) {
         // color buttons
         this.colorFactory = bind(this, function (region) {
             var btn = this.defaultButtonFactory(region);
+            btn.updateOpts({silent: false});
             btn.on('InputSelect', function () {
                 this.getSuperview().setColor(this.getOpts().item);
             });
@@ -68,6 +69,7 @@ exports = Class(ImageView, function (supr) {
         // garment buttons
         this.garmentFactory = bind(this, function (region) {
             var btn = this.defaultButtonFactory(region);
+            btn.updateOpts({silent: false});
             btn.on('InputSelect', function () {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
@@ -78,7 +80,7 @@ exports = Class(ImageView, function (supr) {
         this.recycleFactory = bind(this, function (region, i) {
             var btn, me = this;
             btn = this.defaultButtonFactory(region);
-            btn.updateOpts({contrastIndex: i});
+            btn.updateOpts({contrastIndex: i, silent: false});
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -99,7 +101,8 @@ exports = Class(ImageView, function (supr) {
             var me = this, btn;
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({anchorX: btn.getOpts().width / 2,
-                contrastIndex: i});
+                contrastIndex: i,
+                silent: false});
 
             btn.imageLayer = new ImageView({
                 superview: btn,
@@ -117,13 +120,6 @@ exports = Class(ImageView, function (supr) {
 
             return btn;
         });
-
-        this.animateCraft = bind(this, function (btn) {
-            var stepSize = (Math.random() * 15) + 10;
-            animate(btn).clear().now({r: -1 * c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn)
-                .then({r: c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn).then(this.animateCraft.bind(this, btn));
-        });
-
 
         // craftCount fields
         this.craftCountFactory = bind(this, function (region, i) {
@@ -171,6 +167,16 @@ exports = Class(ImageView, function (supr) {
 
         });
         this.on('craft:start', this.startCrafting);
+
+        /*
+         * animate a gentle swaying of the crafts
+         */
+        this.animateCraft = bind(this, function (btn) {
+            var stepSize = (Math.random() * 15) + 10;
+            animate(btn).clear().now({r: -1 * c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn)
+                .then({r: c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn).then(this.animateCraft.bind(this, btn));
+        });
+
 
         this.on('craft:addDollars', function (amount) {
             this.total += amount;
@@ -318,6 +324,8 @@ exports = Class(ImageView, function (supr) {
             _cleanUI();
         });
 
+        // The garment colors on the right update when you change color. This
+        // is a single image that overlays the entire screen.
         var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
         gp.imageLayer = new ImageView({width: gp.style.width, height: gp.style.height, superview: gp});
 
@@ -336,6 +344,7 @@ exports = Class(ImageView, function (supr) {
         }
 
         this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
+        this.finishButton.updateOpts({silent: false});
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();

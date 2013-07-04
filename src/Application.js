@@ -58,6 +58,9 @@ exports = Class(GC.Application, function () {
             if (muted) {
                 this.audio.setMuted(false);
                 btn.setText("<(=");
+                // manually play the click sound because sound is off when this
+                // event happens.
+                this.audio.playButton();
             } else {
                 this.audio.setMuted(true);
                 btn.setText("<() ");

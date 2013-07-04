@@ -96,7 +96,8 @@ exports = Class(ui.ImageView, function (supr) {
             x: 932,
             y: 486,
             width: 80,
-            height: 80
+            height: 80,
+            silent: true
         };
         muteButton = new Button(muteOpts);
         muteButton.setText('<(=');
