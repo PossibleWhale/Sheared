@@ -11,6 +11,7 @@ import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.ModeScreen as ModeScreen;
 import src.CreditsScreen as CreditsScreen;
+import src.TutorialScreen as TutorialScreen;
 import src.Button as Button;
 import src.Player as Player;
 import src.Audio as Audio;
@@ -58,7 +59,8 @@ exports = Class(GC.Application, function () {
             craftScreen = new CraftScreen(),
             playScreen = new PlayScreen(),
             modeScreen = new ModeScreen(),
-            creditsScreen = new CreditsScreen();
+            creditsScreen = new CreditsScreen(),
+            tutorialScreen = new TutorialScreen();
 
         rootView.push(titleScreen);
 
@@ -109,6 +111,10 @@ exports = Class(GC.Application, function () {
         });
 
         creditsScreen.on('credits:back', function () {
+            rootView.pop();
+        });
+
+        tutorialScreen.on('tutorial:back', function () {
             rootView.pop();
         });
 
