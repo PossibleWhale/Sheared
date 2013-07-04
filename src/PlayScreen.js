@@ -32,6 +32,13 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        GC.app.engine.on('Tick', bind(this, function (dt) {
+            if (this.clipper) {
+                this.clipper.emitDiamonds();
+            }
+            this.particleEngine.runTick(dt);
+        }));
+
         this.particleEngine = new ParticleEngine({
             superview: this,
             width: 1024,
@@ -211,8 +218,8 @@ exports = Class(ImageView, function (supr) {
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
                 if (this.day >= constants.days.length || !finishedDay) {
-                    this.getSuperview().emit('titleScreen:craft');
-                    this.getSuperview().emit('playscreen:end');
+                    GC.app.titleScreen.emit('titleScreen:craft');
+                    this.emit('playscreen:end');
                     if (finishedDay) {
                         this.player.completedWeek();
                     }

@@ -77,7 +77,8 @@ exports = {
         "Yarn's Revenge",
         "Where's Wooly?",
         "Woolpower",
-        "Knit in Shining Armor"
+        "Knit in Shining Armor",
+        "Wool of a Good Time"
     ]
 };
 
