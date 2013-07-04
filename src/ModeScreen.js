@@ -50,4 +50,3 @@ exports = Class(ui.ImageView, function (supr) {
         }));
     };
 });
-

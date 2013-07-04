@@ -10,6 +10,7 @@ import src.TitleScreen as TitleScreen;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.ModeScreen as ModeScreen;
+import src.CreditsScreen as CreditsScreen;
 import src.Button as Button;
 import src.Player as Player;
 import src.Audio as Audio;
@@ -56,8 +57,8 @@ exports = Class(GC.Application, function () {
         var titleScreen = new TitleScreen(),
             craftScreen = new CraftScreen(),
             playScreen = new PlayScreen(),
-            modeScreen = new ModeScreen();
-
+            modeScreen = new ModeScreen(),
+            creditsScreen = new CreditsScreen();
 
         rootView.push(titleScreen);
 
@@ -79,6 +80,15 @@ exports = Class(GC.Application, function () {
         }
         var craftButton = new Button(cbOpts);
 
+        var credOpts = {
+            superview: titleScreen,
+            x: 462,
+            y: 484,
+            width: 100,
+            height: 50
+        }
+        var creditsButton = new Button (credOpts);
+
         rootView.on('titleScreen:craft', function () {
             rootView.push(craftScreen);
             craftScreen.emit('craft:start');
@@ -98,6 +108,10 @@ exports = Class(GC.Application, function () {
             rootView.pop();
         });
 
+        creditsScreen.on('credits:back', function () {
+            rootView.pop();
+        });
+
         playButton.on('InputSelect', function () {
             if (localStorage['completedWeek'] === 'true') {
                 rootView.push(modeScreen);
@@ -108,6 +122,10 @@ exports = Class(GC.Application, function () {
 
         craftButton.on('InputSelect', function () {
             rootView.emit('titleScreen:craft');
+        });
+
+        creditsButton.on('InputSelect', function () {
+            rootView.push(creditsScreen);
         });
 
         /* When the game screen has signalled that the game is over,
