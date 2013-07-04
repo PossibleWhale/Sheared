@@ -57,10 +57,10 @@ exports = Class(GC.Application, function () {
             muted = this.audio.getMuted();
             if (muted) {
                 this.audio.setMuted(false);
-                btn.setText("<{=");
+                btn.setText("<(=");
             } else {
                 this.audio.setMuted(true);
-                btn.setText("<{ ");
+                btn.setText("<() ");
             }
         }));
 

@@ -218,8 +218,7 @@ exports = Class(ImageView, function (supr) {
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
                 if (this.day >= constants.days.length || !finishedDay) {
-                    GC.app.titleScreen.emit('titleScreen:craft');
-                    this.emit('playscreen:end');
+                    GC.app.titleScreen.emit('playscreen:end');
                     if (finishedDay) {
                         this.player.completedWeek();
                     }
