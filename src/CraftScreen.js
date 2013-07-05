@@ -201,7 +201,10 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.updateTotal = bind(this, function () {
-            this.totalButton.setText('Total: $' + this.total.toFixed(2));
+            // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
+            // -- it sometimes appears negative, most likely due to floating
+            // point error.
+            this.totalButton.setText('Total: $' + (this.total + 0.0001).toFixed(2));
         });
 
         /*
@@ -372,7 +375,10 @@ exports = Class(ImageView, function (supr) {
             GC.app.rootView.popAll();
         }));
         this.on('craft:finishScreen', bind(this, function () {
-            var finishView = new Button({text: 'Finished crafting. Made $' + this.total.toFixed(2)});
+            // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
+            // -- it sometimes appears negative, most likely due to floating
+            // point error.
+            var finishView = new Button({text: 'Finished crafting. Made $' + (0.0001 + this.total).toFixed(2)});
             finishView.on('InputSelect', bind(this, function () {
                 this.emit('craft:finishFinishScreen');
             }));
