@@ -38,6 +38,9 @@ exports = Class(GC.Application, function () {
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
 
+        // audio manager - must be created early so mute buttons work
+        this.audio = new Audio();
+
         //Add a new StackView to the root of the scene graph
         rootView = this.rootView = new StackView({
             superview: this.view,
@@ -50,22 +53,6 @@ exports = Class(GC.Application, function () {
         });
 
         this.titleScreen = new TitleScreen({superview: rootView});
-
-        // audio manager and audio toggles
-        this.audio = new Audio();
-        this.on('audio:toggleMute', bind(this, function (btn) {
-            muted = this.audio.getMuted();
-            if (muted) {
-                this.audio.setMuted(false);
-                btn.setText("<(=");
-                // manually play the click sound because sound is off when this
-                // event happens.
-                this.audio.playButton();
-            } else {
-                this.audio.setMuted(true);
-                btn.setText("<() ");
-            }
-        }));
 
         rootView.push(this.titleScreen);
 

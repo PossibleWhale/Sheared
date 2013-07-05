@@ -9,6 +9,7 @@ import ui.resource.Image as Image;
 
 import src.constants as c;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 import src.Inventory as Inventory;
 import src.util as util;
 import src.Craft as Craft;
@@ -170,6 +171,10 @@ exports = Class(ImageView, function (supr) {
 
         });
         this.on('craft:start', this.startCrafting);
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted();
+        }));
 
         /*
          * animate a gentle swaying of the crafts
@@ -370,6 +375,15 @@ exports = Class(ImageView, function (supr) {
 
         this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
+
+        muteOpts = {
+            superview: this,
+            x: 940,
+            y: 18,
+            width: 36,
+            height: 36
+        };
+        this.muteButton = new MuteButton(muteOpts);
 
         this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);

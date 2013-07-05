@@ -15,6 +15,7 @@ import src.ModeScreen as ModeScreen;
 import src.CreditsScreen as CreditsScreen;
 import src.TutorialScreen as TutorialScreen;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 
 
 /* The title screen is added to the scene graph when it becomes
@@ -105,14 +106,9 @@ exports = Class(ui.ImageView, function (supr) {
             x: 932,
             y: 486,
             width: 80,
-            height: 80,
-            click: false
+            height: 80
         };
-        muteButton = new Button(muteOpts);
-        muteButton.setText('<(=');
-        muteButton.on('InputSelect', bind(this, function () {
-            GC.app.emit('audio:toggleMute', muteButton);
-        }));
+        this.muteButton = new MuteButton(muteOpts);
 
         modeScreen.on('play:normal', bind(this, function () {
             this.playScreen.infiniteMode = false;
@@ -155,5 +151,8 @@ exports = Class(ui.ImageView, function (supr) {
             craftScreen.emit('craft:start');
         }));
 
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted();
+        }));
     };
 });

@@ -16,6 +16,7 @@ import src.constants as constants;
 import src.Timer as Timer;
 import src.InfiniteTimer as InfiniteTimer;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 
 
 exports = Class(ImageView, function (supr) {
@@ -32,6 +33,11 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        // anything that must happen when the screen appears goes here.
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted();
+        }));
+
         GC.app.engine.on('Tick', bind(this, function (dt) {
             if (this.clipper) {
                 this.clipper.emitDiamonds();
@@ -63,6 +69,17 @@ exports = Class(ImageView, function (supr) {
             width: 240,
             height: 54
         });
+
+        muteOpts = {
+            superview: this,
+            x: 942,
+            y: 20,
+            width: 32,
+            height: 32,
+            zIndex: 1000 // this must position above the clickable area of the screen
+        };
+        this.muteButton = new MuteButton(muteOpts);
+
 
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
