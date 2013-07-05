@@ -104,6 +104,7 @@ exports = Class(ImageView, function (supr) {
             var me = this, btn;
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({anchorX: btn.getOpts().width / 2,
+                anchorY: 8,
                 contrastIndex: i,
                 click: false}); // these have their own noise
 
@@ -180,9 +181,17 @@ exports = Class(ImageView, function (supr) {
          * animate a gentle swaying of the crafts
          */
         this.animateCraft = bind(this, function (btn) {
-            var stepSize = (Math.random() * 15) + 10;
-            animate(btn).clear().now({r: -1 * c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn)
-                .then({r: c.WIGGLE_RADIANS / 2}, 20000/stepSize, animate.easeIn).then(this.animateCraft.bind(this, btn));
+            var wiggle, stepSize = (Math.random() * 15) + 10;
+            // 50% of the time, stay put
+            var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
+            if (odd) {
+                wiggle = 0; 
+            } else {
+                wiggle = c.WIGGLE_RADIANS;
+            }
+            animate(btn).clear().now({r: -1 * wiggle / 2}, 20000 / stepSize, animate.easeIn
+                ).then({r: wiggle / 2}, 20000 / stepSize, animate.easeIn
+                ).then(this.animateCraft.bind(this, btn));
         });
 
 
