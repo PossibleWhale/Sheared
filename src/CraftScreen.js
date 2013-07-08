@@ -237,7 +237,7 @@ exports = Class(ImageView, function (supr) {
                 btn = this.buttons.recycle[i];
                 currentCraft = this.craftByIndex(i);
                 count = si.craftCountOf(currentCraft);
-                if (count == 0) {
+                if (count === 0) {
                     btn.setImage('resources/images/craft-recycle-disabled.png');
                 } else {
                     btn.setImage('resources/images/craft-recycle.png');
