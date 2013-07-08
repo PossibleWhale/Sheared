@@ -108,12 +108,6 @@ exports = Class(ImageView, function (supr) {
                 contrastIndex: i,
                 click: false}); // these have their own noise
 
-            btn.imageLayer = new ImageView({
-                superview: btn,
-                width: btn.style.width,
-                height: btn.style.height
-            });
-
             btn.on('InputSelect', (function (_btn) {
                 return function () {
                     GC.app.audio.playBuyGarment();
@@ -244,9 +238,9 @@ exports = Class(ImageView, function (supr) {
                 currentCraft = this.craftByIndex(i);
                 count = si.craftCountOf(currentCraft);
                 if (count == 0) {
-                    btn.imageLayer.setImage(new Image({url: 'resources/images/craft-recycle-disabled.png'}));
+                    btn.setImage('resources/images/craft-recycle-disabled.png');
                 } else {
-                    btn.imageLayer.setImage(new Image({url: 'resources/images/craft-recycle.png'}));
+                    btn.setImage('resources/images/craft-recycle.png');
                 }
             }
         });
@@ -272,12 +266,12 @@ exports = Class(ImageView, function (supr) {
                     cbbtn.updateOpts({opacity: 1.0});
                 }
 
-                cbbtn.imageLayer.setImage(new Image({url: res}));
+                cbbtn.setImage(res);
             }
         });
 
         this.updateGarmentPattern = bind(this, function () {
-            this.garmentPattern.imageLayer.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
+            this.garmentPattern.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
         });
 
         /*
@@ -347,7 +341,6 @@ exports = Class(ImageView, function (supr) {
         // The garment colors on the right update when you change color. This
         // is a single image that overlays the entire screen.
         var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
-        gp.imageLayer = new ImageView({width: gp.style.width, height: gp.style.height, superview: gp});
 
         // load up alllll dem buttons
         var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
@@ -393,10 +386,10 @@ exports = Class(ImageView, function (supr) {
 
         muteOpts = {
             superview: this,
-            x: 940,
-            y: 18,
-            width: 36,
-            height: 36
+            x: 936,
+            y: 16,
+            width: 48,
+            height: 48
         };
         this.muteButton = new MuteButton(muteOpts);
 
