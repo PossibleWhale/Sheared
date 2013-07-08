@@ -38,13 +38,6 @@ exports = Class(ImageView, function (supr) {
             this.muteButton.setMuted();
         }));
 
-        GC.app.engine.on('Tick', bind(this, function (dt) {
-            if (this.clipper) {
-                this.clipper.emitDiamonds();
-            }
-            this.particleEngine.runTick(dt);
-        }));
-
         this.particleEngine = new ParticleEngine({
             superview: this,
             width: 1024,

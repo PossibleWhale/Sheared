@@ -46,6 +46,15 @@ exports = Class(ui.ImageView, function (supr) {
 
         rootView = this.getSuperview();
 
+        GC.app.engine.on('Tick', bind(this, function (dt) {
+            if (this.playScreen.clipper) {
+                this.playScreen.clipper.emitDiamonds();
+            }
+            if (this.playScreen.particleEngine) {
+                this.playScreen.particleEngine.runTick(dt);
+            }
+        }));
+
         statOpts = {
             superview: this,
             x: 630,
