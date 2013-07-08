@@ -51,7 +51,7 @@ exports = Class(ImageView, function (supr) {
         // creates a button on one of the regions defined at the bottom
         this.defaultButtonFactory = bind(this, function (region) {
             var commonOpts, opts, btn;
-            commonOpts = {clip: true, superview: this, click: false};
+            commonOpts = {superview: this, click: false};
             opts = merge(merge({}, commonOpts), region);
             btn = new Button(opts);
             return btn;
@@ -476,7 +476,7 @@ recycle: [
     ],
 finish: {y:504, x:560, width:322, height:48},
 total: {y:504, x:144, width:322, height:48},
-shopName: {y:78, x:136, width:750, height:44},
+shopName: {y:72, x:136, width:750, height:42},
 garmentPattern: {x: 0, y: 0, width: 1024, height: 576}
 }
 

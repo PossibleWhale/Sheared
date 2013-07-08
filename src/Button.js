@@ -21,7 +21,8 @@ exports = Class(ui.TextView, function (supr) {
                 size: 128,
                 strokeWidth: 4,
                 strokeColor: '#000000',
-                color: '#ffffff'
+                color: '#ffffff',
+                fontFamily: 'delius'
         };
         merge(defaults, opts); /* merge opts over defaults so the passed-in
                                 * opts take precedence
