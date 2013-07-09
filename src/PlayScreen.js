@@ -14,7 +14,6 @@ import src.Battery as Battery;
 import src.Inventory as Inventory;
 import src.constants as constants;
 import src.Timer as Timer;
-import src.InfiniteTimer as InfiniteTimer;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 
@@ -28,7 +27,6 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
         this.day = 0;
-        this.infiniteMode = false;
         this.build();
     };
 
@@ -49,18 +47,27 @@ exports = Class(ImageView, function (supr) {
 
         this.on('play:start', bind(this, playGame));
 
-        var dayIntro = new ImageView({
+        var dayIntro = new TextView({
             x: 1024,
             y: 0,
             width: 1024,
             height: 576,
-            image: 'resources/images/day-' + (this.day+1) + '.png'
+            text: 'Day  ' + (this.day+1),
+            fontFamily: 'delius',
+            color: '#333333',
+            strokeWidth: 8,
+            strokeColor: '#FFFFFF',
+            fontWeight: 'bold'
         }),
         continueButton = new Button({
             x: 392,
             y: 418,
             width: 240,
-            height: 54
+            height: 54,
+            text: 'Continue',
+            color: '#FFFFFF',
+            strokeWidth: 6,
+            strokeColor: '#333333'
         });
 
         muteOpts = {
@@ -227,11 +234,8 @@ exports = Class(ImageView, function (supr) {
                 }
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
-                if (this.day >= constants.days.length || !finishedDay) {
+                if (!finishedDay) {
                     GC.app.titleScreen.emit('playscreen:end');
-                    if (finishedDay) {
-                        this.player.completedWeek();
-                    }
                 } else if (finishedDay) {
                     this.build();
                 }
@@ -254,18 +258,14 @@ function playGame () {
 
     this.player = GC.app.player;
     this.audio = GC.app.audio;
-    this.interval = setInterval(spawnSheep.bind(this), constants.days[this.day].sheepFrequency);
+    this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
-    if (this.infiniteMode) {
-        this.timer = new InfiniteTimer();
-    } else {
-        this.timer = new Timer({
-            x: 0,
-            y: 14,
-            width: 1024,
-            height: 40
-        });
-    }
+    this.timer = new Timer({
+        x: 0,
+        y: 14,
+        width: 1024,
+        height: 40
+    });
     this.addSubview(this.timer);
     this.timer.run();
 
@@ -340,11 +340,11 @@ function clipperDrag(dragEvt) {
 }
 
 function spawnSheep () {
-    if (!this.infiniteMode && this.timer.time <= 2) {
+    if (this.timer.time <= 2) {
         return;
     }
     var sheep, r = Math.random();
-    if (r > constants.days[this.day].ramRarity) {
+    if (r > constants.ramRarity) {
         sheep = new Sheep({
             x: 1024,
             y: randomLaneCoord(8) - 5
@@ -411,4 +411,8 @@ function emitWool (x, y, numBolts, color, particleEngine) {
         pObj.image = 'resources/images/particle-' + color + '.png';
     }
     particleEngine.emitParticles(particleObjects);
+}
+
+function sheepFrequency (day) {
+    return Math.max((1.5 - (day * 1/6))*500, 0.75);
 }
