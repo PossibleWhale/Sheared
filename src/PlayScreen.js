@@ -355,8 +355,16 @@ function spawnSheep () {
     }
 
     sheep.style.y = randomY(sheep.style.height);
+    sheep.startY = sheep.style.y;
     this.addSubview(sheep);
     this.sheep.push(sheep);
+
+    var diagonalChance = Math.min(0.2, this.day*0.05);
+    if (Math.random() < diagonalChance) {
+        sheep.endY = randomY(sheep.style.height);
+    } else {
+        sheep.endY = sheep.startY;
+    }
     sheep.run();
 }
 

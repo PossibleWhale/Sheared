@@ -47,7 +47,8 @@ exports = Class(ImageView, function (supr) {
                         x: sheep[i].style.x + 5,
                         y: sheep[i].style.y + 5,
                         width: sheep[i].style.width - 10,
-                        height: sheep[i].style.height - 10
+                        height: sheep[i].style.height - 10,
+                        r: sheep[i].style.r
                     });
                     if (intersect.rectAndRect(rect, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
