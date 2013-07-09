@@ -28,9 +28,9 @@ exports = Class(ImageView, function (supr) {
         var ydist = this.startY - this.endY,
             totalDist = Math.sqrt(Math.pow(ydist, 2) + Math.pow(1024, 2)),
             theta = Math.atan(ydist/1024),
-            stepTimes = Math.floor((Math.random() * 30) + 20),
+            stepTimes = 100,
             stepSize = totalDist / stepTimes,
-            timeToLive = (Math.random() * 2000) + 1000;
+            timeToLive = (Math.random() * 3000) + 2000;
 
         this.stepFrequency = Math.floor(timeToLive / stepTimes);
         this.stepX = stepSize * Math.cos(theta);
