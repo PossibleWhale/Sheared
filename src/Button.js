@@ -5,6 +5,9 @@
 "use strict";
 
 import ui.TextView;
+import ui.ImageView as ImageView;
+import ui.resource.Image as Image;
+
 import src.constants as constants;
 import src.debughack as dh;
 
@@ -34,5 +37,22 @@ exports = Class(ui.TextView, function (supr) {
                 GC.app.audio.playButton();
             }
         });
+
+        this.imageLayer = new ImageView({
+            superview: this,
+            width: this.style.width,
+            height: this.style.height
+        });
+
+    };
+
+    this.setImage = function (image) {
+        var img;
+        if (typeof url === 'string') {
+            img = new Image({url: image});
+        } else {
+            img = image;
+        }
+        return this.imageLayer.setImage(img);
     };
 });
