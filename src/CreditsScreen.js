@@ -1,5 +1,7 @@
 import ui.ImageView;
+
 import src.Button as Button;
+import src.util as util;
 
 exports = Class(ui.ImageView, function (supr) {
     this.init = function (opts) {
@@ -21,9 +23,7 @@ exports = Class(ui.ImageView, function (supr) {
             height: 80
         });
 
-        backButton.on('InputSelect', bind(this, function () {
-            this.emit('credits:back');
-        }));
+        util.reissue(backButton, 'InputSelect', this, 'credits:back');
     };
 });
 

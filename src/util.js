@@ -35,6 +35,9 @@ exports = {
      * an event in one place and issuing it in a more specific form somewhere
      * else.
      *
+     * If you need to do anything besides emit a new event, you should write
+     * an .on() handler.
+     *
      * All event arguments are also passed through.
      */
     reissue: function (sourceObject, sourceEvent, targetObject, targetEvent) {

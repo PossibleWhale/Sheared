@@ -376,9 +376,7 @@ exports = Class(ImageView, function (supr) {
             // -- it sometimes appears negative, most likely due to floating
             // point error.
             var finishView = new Button({text: 'Finished crafting. Made $' + (0.0001 + this.total).toFixed(2)});
-            finishView.on('InputSelect', bind(this, function () {
-                this.emit('craft:finishFinishScreen');
-            }));
+            util.reissue(finishView, 'InputSelect', this, 'craft:finishFinishScreen');
             GC.app.stackView.push(finishView);
         }));
 
