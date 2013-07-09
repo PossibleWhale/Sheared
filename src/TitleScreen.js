@@ -35,7 +35,7 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, rootView, creditsScreen, credOpts, tutorialScreen;
+            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen;
 
         craftScreen = new CraftScreen();
         modeScreen = new ModeScreen();
@@ -44,7 +44,7 @@ exports = Class(ui.ImageView, function (supr) {
 
         this.playScreen = new PlayScreen();
 
-        rootView = this.getSuperview();
+        stackView = this.getSuperview();
 
         statOpts = {
             superview: this,
@@ -83,7 +83,7 @@ exports = Class(ui.ImageView, function (supr) {
         howButton = new Button(howOpts);
         howButton.on('InputSelect', function () {
             tutorialScreen.build();
-            rootView.push(tutorialScreen);
+            stackView.push(tutorialScreen);
         });
 
         credOpts = {
@@ -95,10 +95,10 @@ exports = Class(ui.ImageView, function (supr) {
         }
         var creditsButton = new Button (credOpts);
         creditsButton.on('InputSelect', function () {
-            rootView.push(creditsScreen);
+            stackView.push(creditsScreen);
         });
         creditsScreen.on('credits:back', function () {
-            rootView.pop();
+            stackView.pop();
         });
 
         muteOpts = {
@@ -112,32 +112,32 @@ exports = Class(ui.ImageView, function (supr) {
 
         modeScreen.on('play:normal', bind(this, function () {
             this.playScreen.infiniteMode = false;
-            rootView.push(this.playScreen);
+            stackView.push(this.playScreen);
         }));
 
         modeScreen.on('play:infinite', bind(this, function () {
             this.playScreen.infiniteMode = true;
-            rootView.push(this.playScreen);
+            stackView.push(this.playScreen);
         }));
 
         modeScreen.on('play:back', bind(this, function () {
-            rootView.pop();
+            stackView.pop();
         }));
 
         tutorialScreen.on('tutorial:back', bind(this, function () {
-            rootView.pop();
+            stackView.pop();
         }));
 
         playButton.on('InputSelect', bind(this, function () {
             if (localStorage['completedWeek'] === 'true') {
-                rootView.push(modeScreen);
+                stackView.push(modeScreen);
             } else {
                 modeScreen.emit('play:normal');
             }
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
-            rootView.push(craftScreen);
+            stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));
 
@@ -147,7 +147,7 @@ exports = Class(ui.ImageView, function (supr) {
         this.on('playscreen:end', bind(this, function () {
             delete this.playScreen;
             this.playScreen = new PlayScreen();
-            rootView.push(craftScreen);
+            stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));
 

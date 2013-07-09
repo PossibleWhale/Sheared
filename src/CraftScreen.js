@@ -365,7 +365,7 @@ exports = Class(ImageView, function (supr) {
             this.emit('craft:finishScreen');
         }));
         this.on('craft:finishFinishScreen', bind(this, function () {
-            GC.app.rootView.popAll();
+            GC.app.stackView.popAll();
         }));
         this.on('craft:finishScreen', bind(this, function () {
             // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
@@ -375,7 +375,7 @@ exports = Class(ImageView, function (supr) {
             finishView.on('InputSelect', bind(this, function () {
                 this.emit('craft:finishFinishScreen');
             }));
-            GC.app.rootView.push(finishView);
+            GC.app.stackView.push(finishView);
         }));
 
         this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);

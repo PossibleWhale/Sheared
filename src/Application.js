@@ -4,10 +4,13 @@
 
 import device;
 import ui.StackView as StackView;
+import ui.ImageView as ImageView;
 
 import src.TitleScreen as TitleScreen;
 import src.Player as Player;
 import src.Audio as Audio;
+import src.constants as c;
+import src.debughack as dh;
 
 
 // DO NOT QUESTION THIS MATH
@@ -33,7 +36,7 @@ exports = Class(GC.Application, function () {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        var rootView, muted;
+        var stackView, muted;
 
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
@@ -42,7 +45,7 @@ exports = Class(GC.Application, function () {
         this.audio = new Audio();
 
         //Add a new StackView to the root of the scene graph
-        rootView = this.rootView = new StackView({
+        stackView = this.stackView = new StackView({
             superview: this.view,
             x: 0,
             y: gap,
@@ -52,9 +55,9 @@ exports = Class(GC.Application, function () {
             backgroundColor: '#37B34A'
         });
 
-        this.titleScreen = new TitleScreen({superview: rootView});
+        this.titleScreen = new TitleScreen({superview: stackView});
 
-        rootView.push(this.titleScreen);
+        stackView.push(this.titleScreen);
 
         GC.hidePreloader();
     };
@@ -63,6 +66,16 @@ exports = Class(GC.Application, function () {
      * If there is a splash screen, it's removed.
      */
     this.launchUI = function () {
+        dh.pre_launchUI();
+
+        var gcSplash = new ImageView({
+            superview: this.stackView,
+            image: 'resources/images/landscape1536.png'
+        });
+        this.stackView.push(gcSplash, /* noAnimate= */ true);
+        setTimeout(bind(this, function () {
+            this.stackView.pop(/* noAnimate= */ true);
+        }), c.SPLASH_TIME);
         this.player = new Player();
     };
 });
