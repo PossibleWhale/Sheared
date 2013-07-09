@@ -1,3 +1,6 @@
+SHELL =             /bin/bash
+
+
 APK =               build/debug/native-android/sheared.apk
 JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
 PNG_FILES =         $(wildcard resouces/images/*.png) $(wildcard resources/icons/*.png) $(wildcard resources/splash/*.png)
@@ -18,3 +21,7 @@ $(APK): $(ALL_APK_DEPS)
 
 clean:
 	rm -vf $(APK)
+
+localconfig:
+	mkdir -p resources/conf/
+	cat > resources/conf/localconfig.json <<< '{ "debug": true }'

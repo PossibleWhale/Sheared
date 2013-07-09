@@ -34,14 +34,14 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, rootView, creditsScreen, credOpts, tutorialScreen;
+            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialScreen();
         playScreen = new PlayScreen();
 
-        rootView = this.getSuperview();
+        stackView = this.getSuperview();
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
             if (playScreen.clipper) {
@@ -89,7 +89,7 @@ exports = Class(ui.ImageView, function (supr) {
         howButton = new Button(howOpts);
         howButton.on('InputSelect', function () {
             tutorialScreen.build();
-            rootView.push(tutorialScreen);
+            stackView.push(tutorialScreen);
         });
 
         credOpts = {
@@ -101,10 +101,10 @@ exports = Class(ui.ImageView, function (supr) {
         }
         var creditsButton = new Button (credOpts);
         creditsButton.on('InputSelect', function () {
-            rootView.push(creditsScreen);
+            stackView.push(creditsScreen);
         });
         creditsScreen.on('credits:back', function () {
-            rootView.pop();
+            stackView.pop();
         });
 
         muteOpts = {
@@ -117,15 +117,15 @@ exports = Class(ui.ImageView, function (supr) {
         this.muteButton = new MuteButton(muteOpts);
 
         tutorialScreen.on('tutorial:back', bind(this, function () {
-            rootView.pop();
+            stackView.pop();
         }));
 
         playButton.on('InputSelect', bind(this, function () {
-            rootView.push(playScreen);
+            stackView.push(playScreen);
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
-            rootView.push(craftScreen);
+            stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));
 
@@ -135,7 +135,7 @@ exports = Class(ui.ImageView, function (supr) {
         this.on('playscreen:end', bind(this, function () {
             delete this.playScreen;
             this.playScreen = new PlayScreen();
-            rootView.push(craftScreen);
+            stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));
 

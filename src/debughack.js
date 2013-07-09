@@ -4,6 +4,7 @@
 import event.Emitter as Emitter;
 import ui.View as View;
 
+import src.constants as c;
 
 var Hax = function () {
     /*
@@ -43,6 +44,13 @@ var Hax = function () {
     };
 
     /*
+     * make the GC splash screen much faster during debugging
+     */
+    this.pre_launchUI = function () {
+        c.SPLASH_TIME = 300;
+    };
+
+    /*
      * Make the timer shorter
      */
     this.post_initTimer = function (timer) {
@@ -62,6 +70,7 @@ var Hax = function () {
     this.post_initButton = debugWrap(this.post_initButton);
     this.post_initTimer = debugWrap(this.post_initTimer);
     this.pre_startCrafting = debugWrap(this.pre_startCrafting);
+    this.pre_launchUI = debugWrap(this.pre_launchUI);
 };
 
 exports = new Hax();
