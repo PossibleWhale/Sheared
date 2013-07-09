@@ -105,11 +105,4 @@ exports.garmentsByLabel = indexByLabel(exports.garments);
 exports.fenceSize = 80;
 exports.laneSize = 52;
 
-exports.days = [];
-for (var i = 0; i < numDays; i++) {
-    exports.days.push({
-      // delay between sheep spawns
-        sheepFrequency: (1.5 - (i * 1/6))*500,
-        ramRarity: 0.3
-    });
-}
+exports.ramRarity = 0.3;

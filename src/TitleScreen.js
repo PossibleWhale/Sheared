@@ -11,7 +11,6 @@ import ui.ImageView;
 
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
-import src.ModeScreen as ModeScreen;
 import src.CreditsScreen as CreditsScreen;
 import src.TutorialScreen as TutorialScreen;
 import src.Button as Button;
@@ -38,13 +37,20 @@ exports = Class(ui.ImageView, function (supr) {
             playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen;
 
         craftScreen = new CraftScreen();
-        modeScreen = new ModeScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialScreen();
-
-        this.playScreen = new PlayScreen();
+        playScreen = new PlayScreen();
 
         stackView = this.getSuperview();
+
+        GC.app.engine.on('Tick', bind(this, function (dt) {
+            if (playScreen.clipper) {
+                playScreen.clipper.emitDiamonds();
+            }
+            if (playScreen.particleEngine) {
+                playScreen.particleEngine.runTick(dt);
+            }
+        }));
 
         statOpts = {
             superview: this,
@@ -110,30 +116,12 @@ exports = Class(ui.ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        modeScreen.on('play:normal', bind(this, function () {
-            this.playScreen.infiniteMode = false;
-            stackView.push(this.playScreen);
-        }));
-
-        modeScreen.on('play:infinite', bind(this, function () {
-            this.playScreen.infiniteMode = true;
-            stackView.push(this.playScreen);
-        }));
-
-        modeScreen.on('play:back', bind(this, function () {
-            stackView.pop();
-        }));
-
         tutorialScreen.on('tutorial:back', bind(this, function () {
             stackView.pop();
         }));
 
         playButton.on('InputSelect', bind(this, function () {
-            if (localStorage['completedWeek'] === 'true') {
-                stackView.push(modeScreen);
-            } else {
-                modeScreen.emit('play:normal');
-            }
+            rootView.push(playScreen);
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
