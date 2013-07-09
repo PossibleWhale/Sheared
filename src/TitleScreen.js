@@ -121,7 +121,7 @@ exports = Class(ui.ImageView, function (supr) {
         }));
 
         playButton.on('InputSelect', bind(this, function () {
-            rootView.push(playScreen);
+            stackView.push(playScreen);
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
