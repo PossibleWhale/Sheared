@@ -321,19 +321,23 @@ exports = Class(ImageView, function (supr) {
             var main = this.selectedColor, 
                 garment = this.selectedGarment, 
                 contrast, craft, costs,
-                si = this.sessionInventory;
+                si = this.sessionInventory,
+                sufficient;
             contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
-            if (si.woolCountOf(main) >= costs[0].amount &&
-                si.woolCountOf(contrast) >= costs[1].amount) {
+            if (main === contrast) {
+                sufficient = si.woolCountOf(main) >= costs[0].amount + costs[1].amount;
+            } else {
+                sufficient = (si.woolCountOf(main) >= costs[0].amount && si.woolCountOf(contrast) >= costs[1].amount);
+            }
 
+            if (sufficient) {
                 si.addCraft(craft);
                 this.emit('craft:addDollars', craft.dollars());
                 si.addWool(main, -1 * costs[0].amount);
                 si.addWool(contrast, -1 * costs[1].amount);
-
             }
             _cleanUI();
         });
