@@ -26,5 +26,23 @@ exports = {
     choice: function (list) {
         var j = Math.floor(Math.random() * list.length);
         return list[j];
+    },
+
+    /*
+     * Catch an event, and issue a new event on the target object
+     *
+     * Since GC events do not bubble or capture, this is useful for catching
+     * an event in one place and issuing it in a more specific form somewhere
+     * else.
+     *
+     * All event arguments are also passed through.
+     */
+    reissue: function (sourceObject, sourceEvent, targetObject, targetEvent) {
+        sourceObject.on(sourceEvent, bind(targetObject, function () {
+            var args = Array.prototype.slice.call(arguments);
+            args.splice(0, 0, targetEvent);
+            targetObject.emit.apply(targetObject, args);
+        }));
     }
 }
+

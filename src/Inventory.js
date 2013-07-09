@@ -3,6 +3,7 @@ import GCDataSource;
 
 import src.constants as c;
 import src.Craft as Craft;
+import src.util as util;
 
 
 var wools = [
@@ -32,6 +33,9 @@ exports = Class(Emitter, function Inventory_(supr) {
         this.crafts.on('Update', bind(this, function (motif, item) {
             this.emit('inventory:craftUpdate', motif, item);
         }));
+
+        util.reissue(this.wool, 'Update', this, 'inventory:woolUpdate');
+        util.reissue(this.crafts, 'Update', this, 'inventory:craftUpdate');
 
         this.addWool = bind(this, function (color, amt) {
             if (typeof color === 'string') {
