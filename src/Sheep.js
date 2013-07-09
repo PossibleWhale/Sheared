@@ -5,8 +5,6 @@ import ui.View as View;
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
-var stepFrequency = 50; // step every x milliseconds
-
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         var color = randomColor();
@@ -21,18 +19,33 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.stepSize = (Math.random() * 15) + 10;
         this.color = color;
         this.bolts = 1;
         this.isRam = false;
     };
 
+    this._calcTrajectory = function () {
+        var ydist = this.startY - this.endY,
+            totalDist = Math.sqrt(Math.pow(ydist, 2) + Math.pow(1024, 2)),
+            theta = Math.atan(ydist/1024),
+            stepTimes = Math.floor((Math.random() * 30) + 20),
+            stepSize = totalDist / stepTimes,
+            timeToLive = (Math.random() * 2000) + 1000;
+
+        this.stepFrequency = Math.floor(timeToLive / stepTimes);
+        this.stepX = stepSize * Math.cos(theta);
+        this.stepY = stepSize * Math.sin(theta);
+        this.style.r = theta;
+    };
+
     this.run = function () {
+        this._calcTrajectory();
         this.continuousAnimate();
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
 
-            this.style.x = this.style.x - this.stepSize;
+            this.style.x = this.style.x - this.stepX;
+            this.style.y = this.style.y - this.stepY;
             this.emitDust();
 
             if (this.style.x < -1*this.style.width) {
@@ -54,7 +67,7 @@ exports = Class(ImageView, function (supr) {
                 superview.audio.playCollision();
                 this.die();
             }
-        }), stepFrequency);
+        }), this.stepFrequency);
     };
 
     this.continuousAnimate = function () {

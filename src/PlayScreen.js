@@ -355,6 +355,8 @@ function spawnSheep () {
     }
 
     sheep.style.y = randomY(sheep.style.height);
+    sheep.endY = randomY(sheep.style.height);
+    sheep.startY = sheep.style.y;
     this.addSubview(sheep);
     this.sheep.push(sheep);
     sheep.run();
