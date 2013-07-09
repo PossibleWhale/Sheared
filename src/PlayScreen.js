@@ -113,9 +113,9 @@ exports = Class(ImageView, function (supr) {
     
     this.spawnDiamond = function () {
         this.diamond = new Diamond({
-            x: 1024,
-            y: randomLaneCoord(8)
+            x: 1024
         });
+        this.diamond.style.y = randomY(this.diamond.style.height);
 
         this.addSubview(this.diamond);
         this.diamond.run();
@@ -123,9 +123,9 @@ exports = Class(ImageView, function (supr) {
 
     this.spawnBattery = function () {
         this.battery = new Battery({
-            x: 1024,
-            y: randomLaneCoord(8)
+            x: 1024
         });
+        this.battery.style.y = randomY(this.battery.style.height);
 
         this.addSubview(this.battery);
         this.battery.run();
@@ -346,16 +346,15 @@ function spawnSheep () {
     var sheep, r = Math.random();
     if (r > constants.ramRarity) {
         sheep = new Sheep({
-            x: 1024,
-            y: randomLaneCoord(8) - 5
+            x: 1024
         });
     } else {
         sheep = new Ram({
-            x: 1024,
-            y: randomLaneCoord(7) - 5
+            x: 1024
         });
     }
 
+    sheep.style.y = randomY(sheep.style.height);
     this.addSubview(sheep);
     this.sheep.push(sheep);
     sheep.run();
@@ -383,6 +382,13 @@ function randomLaneCoord (numLanes) {
 
 function laneCoord (index) {
     return (index * constants.laneSize) + constants.fenceSize;
+}
+
+function randomY (spriteHeight) {
+    if (!spriteHeight) {
+        spriteHeight = 0;
+    }
+    return Math.floor((Math.random() * (576 - 2*constants.fenceSize - spriteHeight)) + constants.fenceSize);
 }
 
 function emitWool (x, y, numBolts, color, particleEngine) {
