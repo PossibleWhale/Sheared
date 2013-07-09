@@ -19,7 +19,12 @@ exports = Class(AudioManager, function (supr) {
                 'button-01': {},
                 'play-01': {background: true},
                 'play-02': {background: true},
-                'play-5-seconds-remaining': {}
+                'play-5-seconds-remaining': {},
+                'craft-recycle': {},
+                'crafting-01': {},
+                'crafting-02': {},
+                'crafting-03': {},
+                'crafting-04': {}
             }
         };
         supr(this, 'init', [opts]);
@@ -74,6 +79,6 @@ exports = Class(AudioManager, function (supr) {
     };
 
     this.playRecycle = function () {
-        this.play('play-recycle');
+        this.play('craft-recycle');
     };
 });
