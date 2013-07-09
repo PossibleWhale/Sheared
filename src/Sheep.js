@@ -54,7 +54,8 @@ exports = Class(ImageView, function (supr) {
                     x: this.style.x + 5,
                     y: this.style.y + 5,
                     width: this.style.width - 10,
-                    height: this.style.height - 10}),
+                    height: this.style.height - 10,
+                    r: this.style.r}),
                 new Rect({
                     x: superview.clipper.style.x + superview.clipper.marginSize,
                     y: superview.clipper.style.y + superview.clipper.marginSize,
