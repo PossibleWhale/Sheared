@@ -52,6 +52,6 @@ exports = Class(Emitter, function (supr) {
         this.formatDollars = bind(this, function (count) {
             return this.dollars(count).toFixed(2);
         });
-    }
+    };
 });
 
