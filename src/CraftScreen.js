@@ -365,7 +365,6 @@ exports = Class(ImageView, function (supr) {
         this.finishButton.setText("Finish");
         this.finishButton.on('InputSelect', bind(this, function () {
             GC.app.player.inventory = this.sessionInventory.copy();
-            // TODO - localStorage here
             this.emit('craft:finishScreen');
         }));
         this.on('craft:finishFinishScreen', bind(this, function () {
