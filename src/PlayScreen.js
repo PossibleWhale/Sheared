@@ -1,6 +1,5 @@
 import device;
 import animate;
-import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 import ui.ParticleEngine as ParticleEngine;
@@ -8,7 +7,6 @@ import ui.ParticleEngine as ParticleEngine;
 import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Clipper as Clipper;
-import src.Blade as Blade;
 import src.Diamond as Diamond;
 import src.Battery as Battery;
 import src.Inventory as Inventory;
@@ -16,6 +14,7 @@ import src.constants as constants;
 import src.Timer as Timer;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
+import src.InputBuffer as InputBuffer;
 
 
 exports = Class(ImageView, function (supr) {
@@ -135,13 +134,13 @@ exports = Class(ImageView, function (supr) {
         var i = this.sheep.length;
 
         this.audio.stopMusic();
-        this.bladeOut = false;
+        this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
         while (i--) {
             clearInterval(this.sheep[i].interval);
         }
-        if (this.blade) {
-            clearInterval(this.blade.interval);
+        if (this.clipper.blade) {
+            clearInterval(this.clipper.blade.interval);
         }
         if (this.diamond) {
             clearInterval(this.diamond.interval);
@@ -168,7 +167,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        // TODO if !finishedDay, show a different results image indicating they lost
         var i, resultsScreen = new ImageView({
             x: 1024,
             y: 0,
@@ -271,72 +269,7 @@ function playGame () {
 
     this.audio.playMusic();
 
-    var leftSide = new View({
-        superview: this,
-        x: 0,
-        y: 0,
-        zIndex: 1,
-        width: 1024/2,
-        height: 576
-    });
-
-    var rightSide = new View({
-        superview: this,
-        x: 1024/2,
-        y: 0,
-        zIndex: 1,
-        width: 1024/2,
-        height: 576
-    });
-
-    rightSide.on('InputSelect', bind(this, function (evt) {
-        bind(this, launchBlade)();
-    }));
-
-    // set up dragging events for clipper
-    leftSide.on('InputStart', bind(this, function (evt) {
-        leftSide.startDrag({
-            inputStartEvt: evt
-        });
-    }));
-
-    leftSide.on('DragStart', bind(this, function (dragEvt) {
-        this.dragOffset = {
-            x: dragEvt.srcPt.x - this.clipper.style.x,
-            y: dragEvt.srcPt.y - this.clipper.style.y
-        };
-    }));
-
-    leftSide.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-        bind(this, clipperDrag)(dragEvt);
-    }));
-
-    leftSide.on("DragStop", bind(this, function (startEvt, dragEvt) {
-        bind(this, clipperDrag)(dragEvt);
-    }));
-}
-
-function clipperDrag(dragEvt) {
-    var x = dragEvt.srcPt.x - this.dragOffset.x,
-        y = dragEvt.srcPt.y - this.dragOffset.y;
-
-    // confine x-movement to 0-1024
-    if (x < 0) {
-        this.clipper.style.x = 0;
-    } else if (x > 1024/2 - this.clipper.style.width) {
-        this.clipper.style.x = 1024/2 - this.clipper.style.width;
-    } else {
-        this.clipper.style.x = x;
-    }
-
-    // confine y-movement to within fence
-    if (y < constants.fenceSize) {
-        this.clipper.style.y = constants.fenceSize;
-    } else if (y > 576 - constants.fenceSize - this.clipper.style.height) {
-        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.style.height;
-    } else {
-        this.clipper.style.y = y;
-    }
+    this.inputBuffer = new InputBuffer({superview: this});
 }
 
 function spawnSheep () {
@@ -366,21 +299,6 @@ function spawnSheep () {
         sheep.endY = sheep.startY;
     }
     sheep.run();
-}
-
-function launchBlade () {
-    if (this.bladeOut || (this.timer && this.timer.time === 0)) {
-        return;
-    }
-    var blade = new Blade({
-        x: this.clipper.style.x + this.clipper.style.width,
-        y: this.clipper.style.y + 3
-    });
-    this.addSubview(blade);
-    this.bladeOut = true;
-    this.clipper.setImage('resources/images/clipper-' + this.clipper.health + '-none.png');
-    blade.run();
-    this.player.bladeFired(blade.isDiamond);
 }
 
 // return a random y-coordinate for the lane

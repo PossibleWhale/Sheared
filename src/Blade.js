@@ -33,13 +33,13 @@ exports = Class(ImageView, function (supr) {
                 return;
             }
             var sheep = superview.sheep,
-                i = sheep.length,
+                i = superview.sheep ? sheep.length : 0,
                 inventory = superview.dailyInventory;
             this.style.x = this.style.x + stepSize;
             if (this.style.x > 1024) {
                 clearInterval(interval);
                 this.removeFromSuperview();
-                superview.bladeOut = false;
+                superview.clipper.bladeOut = false;
                 superview.clipper.reloadBlade();
             } else {
                 while (i--) {
@@ -85,7 +85,7 @@ exports = Class(ImageView, function (supr) {
                         }
                         clearInterval(interval);
                         this.removeFromSuperview();
-                        superview.bladeOut = false;
+                        superview.clipper.bladeOut = false;
                         superview.clipper.reloadBlade();
                         break;
                     }

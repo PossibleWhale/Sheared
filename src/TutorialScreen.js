@@ -1,115 +1,84 @@
-import ui.StackView;
+import animate;
 import ui.ImageView as ImageView;
-import ui.GestureView as GestureView;
+import ui.TextView as TextView;
+import src.Clipper as Clipper;
+import src.constants as constants;
 import src.Button as Button;
+import src.InputBuffer as InputBuffer;
 
-exports = Class(ui.StackView, function (supr) {
+var textOpts = {
+    x: (1024-800)/2,
+    y: (576-400)/2,
+    width: 800,
+    height: 400,
+    color: '#FFFFFF',
+    opacity: 0,
+    fontFamily: 'delius',
+    strokeWidth: 6,
+    strokeColor: '#333333',
+    wrap: true,
+    size: 64,
+    verticalAlign: 'middle',
+    shadowColor: '#000000'
+};
+
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             x: 0,
             y: 0,
             width: 1024,
-            height: 576
+            height: 576,
+            image: 'resources/images/play.png'
         });
 
         supr(this, 'init', [opts]);
+        this.build();
     };
 
     this.build = function() {
-        this.page = 1;
-
-        this.gestureView = new GestureView({
-            x: 0,
-            y: 0,
-            width: this.style.width,
-            height: this.style.height
-        });
-
-        this.menu = new ImageView({
-            superview: this,
-            image: "resources/images/menu-instructions.png",
-            autoSize: true
-        });
-
-        var playButton = new Button({
-            superview: this,
-            x: 117,
-            y: 88,
-            width: 320,
-            height: 320
-        });
-
-        var craftButton = new Button({
-            superview: this,
-            x: 587,
-            y: 88,
-            width: 320,
-            height: 320
-        });
-
-        this.backButton = new Button({
+        this.clipper = new Clipper({
             superview: this,
             x: 0,
-            y: 496,
-            width: 1024,
-            height: 80
+            y: 576/2 
         });
-
-        playButton.on('InputSelect', bind(this, function () {
-            this.playTutorial();
-        }));
-
-        craftButton.on('InputSelect', bind(this, function () {
-            this.craftTutorial();
-        }));
-
-        this.backButton.on('InputSelect', bind(this, function () {
-            this.emit('tutorial:back');
-            this.popAll();
-        }));
     };
 
-    this.playTutorial = function () {
-        this.imagePath = 'instructions-play-';
-        bind(this, instruct)(7);
-    };
+    this.showTutorial = function () {
+        var inputBuffer = new InputBuffer({superview: this}),
+        moveText = new TextView(merge({
+            superview: this,
+            text: 'Drag on the left side of the screen to move the clipper.',
+        }, textOpts)),
+        fireText = new TextView(merge({
+            superview: this,
+            text: 'Tap on the right side of the screen to fire a blade.',
+        }, textOpts));
 
-    this.craftTutorial = function () {
-        this.imagePath = 'instructions-craft-';
-        bind(this, instruct)(4);
+        animate(inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
+        animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+
+            animate(inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
+            animate(fireText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function (){
+
+                var nextButton = new Button({
+                    superview: this,
+                    x: 1024/2 - 80,
+                    y: 576 - 80,
+                    backgroundColor: '#FF00FF',
+                    color: '#000000',
+                    fontFamily: 'delius',
+                    text: 'OK, got it!',
+                    width: 160,
+                    height: 80,
+                    size: 128,
+                    autoFontSize: true,
+                    zIndex: 999
+                });
+                nextButton.on('InputSelect', function () {
+                    console.log('next tutorial');
+                });
+            }));
+        }));
     };
 });
-
-function instruct (numPages) {
-    var tutorial = new ImageView({
-        image: 'resources/images/' + this.imagePath + '1.png',
-        autoSize: true
-    });
-
-    tutorial.addSubview(this.gestureView);
-    tutorial.addSubview(this.backButton);
-    this.push(tutorial);
-
-    this.gestureView.on('Swipe', bind(this, function (angle, direction, numFingers) {
-        var reverse = false;
-        if (direction === 'right' && this.page > 1) {
-            this.page -= 1;
-            reverse = true;
-        } else if (direction === 'left' && this.page < numPages) {
-            this.page += 1;
-        }
-
-        if (this.page >= 1 && this.page <= numPages) {
-            var next = new ImageView({
-                image: 'resources/images/' + this.imagePath + this.page + '.png',
-                autoSize: true
-            });
-            next.addSubview(this.gestureView);
-            next.addSubview(this.backButton);
-            if (reverse) {
-                this.pop();
-            }
-            this.push(next, false, reverse);
-        }
-    }));
-}

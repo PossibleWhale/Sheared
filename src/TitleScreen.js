@@ -12,7 +12,7 @@ import ui.ImageView;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
-import src.TutorialScreen as TutorialScreen;
+import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 
@@ -38,7 +38,7 @@ exports = Class(ui.ImageView, function (supr) {
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
-        tutorialScreen = new TutorialScreen();
+        tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
 
         stackView = this.getSuperview();

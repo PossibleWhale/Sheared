@@ -1,4 +1,5 @@
 import src.constants as constants;
+import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
 
@@ -28,6 +29,7 @@ exports = Class(ImageView, function (supr) {
 
         this.health = maxHealth;
         this.isDiamond = false;
+        this.bladeOut = false;
     };
 
     this.decreaseHealth = function () {
@@ -64,6 +66,20 @@ exports = Class(ImageView, function (supr) {
     this.becomeRegular = function () {
         this.isDiamond = false;
         this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+    };
+
+    this.launchBlade = function () {
+        if (this.bladeOut) {
+            return;
+        }
+        this.blade = new Blade({
+            x: this.style.x + this.style.width,
+            y: this.style.y + 3
+        });
+        this.getSuperview().addSubview(this.blade);
+        this.bladeOut = true;
+        this.setImage('resources/images/clipper-' + this.health + '-none.png');
+        this.blade.run();
     };
 
     this.reloadBlade = function () {
