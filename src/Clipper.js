@@ -8,7 +8,7 @@ var maxHealth = 5;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/clipper-5-regular.png',
+            image: 'resources/images/clipper-regular.png',
             autoSize: true
         });
 
@@ -34,13 +34,7 @@ exports = Class(ImageView, function (supr) {
 
     this.decreaseHealth = function () {
         this.health -= 1;
-        if (this.health > 0) {
-            if (this.isDiamond) {
-                this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-            } else {
-                this.setImage('resources/images/clipper-' + this.health + '-regular.png');
-            }
-        } else {
+        if (this.health <= 0) {
             this.getSuperview().gameOver();
         }
     };
@@ -51,16 +45,11 @@ exports = Class(ImageView, function (supr) {
         }
         this.health += amt;
         this.health = Math.min(maxHealth, this.health);
-        if (this.isDiamond) {
-            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-        } else {
-            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
-        }
     };
 
     this.becomeDiamond = function (infinite) {
         this.isDiamond = true;
-        this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+        this.setImage('resources/images/clipper-diamond.png');
         if (!infinite) {
             setTimeout(bind(this, this.becomeRegular), 5000);
         }
@@ -68,10 +57,14 @@ exports = Class(ImageView, function (supr) {
 
     this.becomeRegular = function () {
         this.isDiamond = false;
-        this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+        this.setImage('resources/images/clipper-regular.png');
     };
 
     this.launchBlade = function () {
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
         if (this.bladeOut) {
             return;
         }
@@ -79,9 +72,9 @@ exports = Class(ImageView, function (supr) {
             x: this.style.x + this.style.width,
             y: this.style.y + 3
         });
-        this.getSuperview().addSubview(this.blade);
+        superview.addSubview(this.blade);
         this.bladeOut = true;
-        this.setImage('resources/images/clipper-' + this.health + '-none.png');
+        this.setImage('resources/images/clipper-none.png');
         this.blade.run();
     };
 
@@ -90,9 +83,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
         if (this.isDiamond) {
-            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+            this.setImage('resources/images/clipper-diamond.png');
         } else {
-            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+            this.setImage('resources/images/clipper-regular.png');
         }
     };
 
