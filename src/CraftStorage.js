@@ -12,7 +12,7 @@ exports = Class(Storage, function (supr) {
     this.name = 'craft';
     this.key = 'motif';
 
-    this.addCraft = bind(this, function (craft, amt) {
+    this.addCraft = bind(this, function _a_addCraft(craft, amt) {
         var old = this.get(craft).count;
         this.add({motif: this.toKey(craft), count: oldCount + (amt || 1)});
     });
@@ -27,7 +27,7 @@ exports = Class(Storage, function (supr) {
         }
     };
 
-    this.toKey = function (craft) {
+    this.toKey = function _a_toKey(craft) {
         if (typeof craft === 'string') {
             return craft;
         } else {
@@ -35,7 +35,7 @@ exports = Class(Storage, function (supr) {
         }
     };
 
-    this.init = function (opts) {
+    this.init = function _a_init(opts) {
         merge(opts, {preload: crafts});
         supr(this, 'init', [opts]);
 

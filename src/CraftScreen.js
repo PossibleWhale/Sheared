@@ -17,7 +17,7 @@ import src.debughack as dh;
 
 
 exports = Class(ImageView, function (supr) {
-    this.init = function (opts) {
+    this.init = function _a_init(opts) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
         this.total = 0;
@@ -49,7 +49,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // creates a button on one of the regions defined at the bottom
-        this.defaultButtonFactory = bind(this, function (region) {
+        this.defaultButtonFactory = bind(this, function _a_defaultButtonFactory(region) {
             var commonOpts, opts, btn;
             commonOpts = {superview: this, click: false};
             opts = merge(merge({}, commonOpts), region);
@@ -57,28 +57,28 @@ exports = Class(ImageView, function (supr) {
             return btn;
         });
 
-        // color buttons
-        this.colorFactory = bind(this, function (region) {
+        // color nav buttons
+        this.colorFactory = bind(this, function _a_colorFactory(region) {
             var btn = this.defaultButtonFactory(region);
             btn.updateOpts({click: true});
-            btn.on('InputSelect', function () {
+            btn.on('InputSelect', function _a_onInputSelectColor() {
                 this.getSuperview().setColor(this.getOpts().item);
             });
             return btn;
         });
 
-        // garment buttons
-        this.garmentFactory = bind(this, function (region) {
+        // garment nav buttons
+        this.garmentFactory = bind(this, function _a_garmentFactory(region) {
             var btn = this.defaultButtonFactory(region);
             btn.updateOpts({click: true});
-            btn.on('InputSelect', function () {
+            btn.on('InputSelect', function _a_onInputSelectGarment() {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
             return btn;
         });
 
         // recycle buttons
-        this.recycleFactory = bind(this, function (region, i) {
+        this.recycleFactory = bind(this, function _a_recycleFactory(region, i) {
             var btn, me = this;
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({contrastIndex: i,
@@ -90,8 +90,8 @@ exports = Class(ImageView, function (supr) {
                 x: 27
             });
 
-            btn.on('InputSelect', (function (_btn) {
-                return function () {
+            btn.on('InputSelect', (function _a_onInputSelectRecycleClosure(_btn) {
+                return function _a_onInputSelectRecycle() {
                     GC.app.audio.playRecycle();
                     me.recycleCraft(_btn);
                 };
@@ -100,7 +100,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // buy garment buttons
-        this.craftBuyFactory = bind(this, function (region, i) {
+        this.craftBuyFactory = bind(this, function _a_craftBuyFactory(region, i) {
             var me = this, btn;
             btn = this.defaultButtonFactory(region);
             btn.updateOpts({anchorX: btn.getOpts().width / 2,
@@ -108,8 +108,8 @@ exports = Class(ImageView, function (supr) {
                 contrastIndex: i,
                 click: false}); // these have their own noise
 
-            btn.on('InputSelect', (function (_btn) {
-                return function () {
+            btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
+                return function _a_onInputSelectCraftBuy() {
                     GC.app.audio.playBuyGarment();
                     me.buyCraft(_btn);
                 };
@@ -121,7 +121,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // craftCount fields
-        this.craftCountFactory = bind(this, function (region, i) {
+        this.craftCountFactory = bind(this, function _a_craftCountFactory(region, i) {
             var screen = this, updateText, main, motif, contrast, btn;
 
             btn = this.defaultButtonFactory(region);
@@ -167,14 +167,14 @@ exports = Class(ImageView, function (supr) {
         });
         this.on('craft:start', this.startCrafting);
 
-        this.on('ViewWillAppear', bind(this, function () {
+        this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted();
         }));
 
         /*
          * animate a gentle swaying of the crafts
          */
-        this.animateCraft = bind(this, function (btn) {
+        this.animateCraft = bind(this, function _a_animateCraft(btn) {
             var wiggle, stepSize = (Math.random() * 15) + 10;
             // 50% of the time, stay put
             var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
@@ -189,12 +189,12 @@ exports = Class(ImageView, function (supr) {
         });
 
 
-        this.on('craft:addDollars', function (amount) {
+        this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
             this.total += amount;
             _cleanUI();
         });
 
-        this.updateTotal = bind(this, function () {
+        this.updateTotal = bind(this, function _a_updateTotal() {
             // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
             // -- it sometimes appears negative, most likely due to floating
             // point error.
@@ -205,12 +205,12 @@ exports = Class(ImageView, function (supr) {
          * => new Craft() from current garment, current color, and an index
          * into the craft buy control columns
          */
-        this.craftByIndex = bind(this, function (contrastIndex) {
+        this.craftByIndex = bind(this, function _a_craftByIndex(contrastIndex) {
             var contrast = colorPairings[this.selectedColor.label][contrastIndex];
             return new Craft(this.selectedGarment, this.selectedColor, contrast);
         });
 
-        /* 
+        /*
          * update both the craft counts boxes, and the chalkboards, based on
          * current selections and inventory
          */
@@ -270,7 +270,7 @@ exports = Class(ImageView, function (supr) {
             }
         });
 
-        this.updateGarmentPattern = bind(this, function () {
+        this.updateGarmentPattern = bind(this, function _a_updateGarmentPattern() {
             this.garmentPattern.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
         });
 
@@ -286,12 +286,12 @@ exports = Class(ImageView, function (supr) {
         });
 
         // clear out the ui image and replace it when color changes
-        this.changeColor = bind(this, function () {
+        this.changeColor = bind(this, function _a_changeColo() {
             _cleanUI();
         });
 
         // clear out the ui image and replace it when garment changes
-        this.changeGarment = bind(this, function () {
+        this.changeGarment = bind(this, function _a_changeGarment() {
             _cleanUI();
         });
 

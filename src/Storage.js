@@ -13,7 +13,7 @@ exports = Class(GCDataSource, function (supr) {
     this.name = null;
     this.key = null;
 
-    this.init = function (opts) {
+    this.init = function _a_init(opts) {
         var preload, opts = opts || {};
 
         this.schema = c.SCHEMA.stores[this.name];
@@ -25,7 +25,9 @@ exports = Class(GCDataSource, function (supr) {
 
         opts['key'] = this.key;
 
+
         supr(this, 'init', [opts]);
+
 
         this.on('Update', bind(this, this.storeUpdate));
         this.on('Remove', bind(this, this.storeRemove));
@@ -55,7 +57,7 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * check localStorage against our schema. abort if they don't match.
      */
-    this.verifySchema = function () {
+    this.verifySchema = function _a_verifySchema() {
         var version, stores;
 
         version = parseInt(localStorage.pw_version, 10);
@@ -91,12 +93,12 @@ exports = Class(GCDataSource, function (supr) {
      * This may be redundant with the 'ctor' option of GCDataSource, but I
      * can't find any examples of that so I'm staying the hell away from it.
      */
-    this.toKey = function (item) {
+    this.toKey = function _a_toKey(item) {
         return item.toString();
     };
 
     /* helper for .add() which converts the key items into key strings */
-    this.addArray = function (arr) {
+    this.addArray = function _a_addArray(arr) {
         var i, item, arr = Array.prototype.slice.apply(arr);
 
         i = arr.length;
@@ -112,10 +114,10 @@ exports = Class(GCDataSource, function (supr) {
      * Assuming this Storage has key === 'count', add counts from another
      * object into this one
      */
-    this.mergeCounts = function (other) {
+    this.mergeCounts = function _a_mergeCounts(other) {
         var mine, key = this.key, tmp;
 
-        other.forEach(function (otherItem, index) {
+        other.forEach(function _a_forEachStored(otherItem, index) {
             tmp = {};
 
             for (prop in otherItem) {
@@ -159,7 +161,7 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * make a copy of the objects, probably for transient modifications
      */
-    this.copy = function (persist) {
+    this.copy = function _a_copy(persist) {
         import src.Storage as Storage;
 
         var other = new Storage();
@@ -173,7 +175,7 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * write this update out to localStorage
      */
-    this.storeUpdate = function (key, item) {
+    this.storeUpdate = function _a_storeUpdate(key, item) {
         if (! this.persist) {
             return;
         }
@@ -192,7 +194,7 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * apply this removal to localStorage
      */
-    this.storeRemove = function (key, item) {
+    this.storeRemove = function _a_storeRemove(key, item) {
         if (! this.persist) {
             return true;
         }
