@@ -47,8 +47,8 @@ exports = Class(ui.ImageView, function (supr) {
             if (playScreen.clipper) {
                 playScreen.clipper.emitDiamonds();
             }
-            if (playScreen.particleEngine) {
-                playScreen.particleEngine.runTick(dt);
+            if (GC.app.particleEngine) {
+                GC.app.particleEngine.runTick(dt);
             }
         }));
 

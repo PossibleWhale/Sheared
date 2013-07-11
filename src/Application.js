@@ -5,6 +5,7 @@
 import device;
 import ui.StackView as StackView;
 import ui.ImageView as ImageView;
+import ui.ParticleEngine as ParticleEngine;
 
 import src.TitleScreen as TitleScreen;
 import src.Player as Player;
@@ -77,5 +78,10 @@ exports = Class(GC.Application, function () {
             this.stackView.pop(/* noAnimate= */ true);
         }), c.SPLASH_TIME);
         this.player = new Player();
+        this.particleEngine = new ParticleEngine({
+            superview: this,
+            width: 1024,
+            height: 576
+        });
     };
 });

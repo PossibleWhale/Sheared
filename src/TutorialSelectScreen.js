@@ -63,6 +63,7 @@ exports = Class(ui.StackView, function (supr) {
     this.playTutorial = function () {
         this.tutorialScreen = new TutorialScreen();
         this.push(this.tutorialScreen);
-        this.tutorialScreen.showTutorial();
+        //this.tutorialScreen.clipperTutorial();
+        this.tutorialScreen.ramTutorial();
     };
 });

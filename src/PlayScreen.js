@@ -2,7 +2,6 @@ import device;
 import animate;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
-import ui.ParticleEngine as ParticleEngine;
 
 import src.Sheep as Sheep;
 import src.Ram as Ram;
@@ -34,12 +33,6 @@ exports = Class(ImageView, function (supr) {
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted();
         }));
-
-        this.particleEngine = new ParticleEngine({
-            superview: this,
-            width: 1024,
-            height: 576
-        });
 
         this.sheep = [];
         this.dailyInventory = new Inventory();
@@ -97,7 +90,7 @@ exports = Class(ImageView, function (supr) {
             if (!this.onKey) {
                 this.onKey = bind(this, function () {
                     if (this.clipper) {
-                        launchBlade.apply(this);
+                        this.clipper.launchBlade();
                     }
                 });
                 document.addEventListener('keydown', this.onKey, false);
@@ -198,22 +191,15 @@ exports = Class(ImageView, function (supr) {
             }));
             resultsScreen.addSubview(woolCounts[i]);
         }
-        // animate the counts up to however many of each color were collected
-        this.particleEngine = new ParticleEngine({
-            superview: this,
-            width: 1024,
-            height: 576
-        });
         for (i = 0; i < woolCounts.length; i++) {
             woolCounts[i].maxCount = this.dailyInventory.woolCountOf(constants.colors[i]);
-            woolCounts[i].particleEngine = this.particleEngine;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
                 var count = parseInt(this.getText());
                 // if we're finished counting up, clear interval and show a burst of wool
                 if (count === this.maxCount) {
                     clearInterval(this.interval);
-                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor, this.particleEngine);
+                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
                     return;
                 }
                 this.setText('' + (count + 1));
@@ -227,9 +213,6 @@ exports = Class(ImageView, function (supr) {
         continueButton.on('InputSelect', bind(this, function (evt) {
             evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
-                for (i = 0; i < woolCounts.length; i++) {
-                    woolCounts[i].particleEngine.removeFromSuperview();
-                }
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
                 if (!finishedDay) {
@@ -317,8 +300,8 @@ function randomY (spriteHeight) {
     return Math.floor((Math.random() * (576 - 2*constants.fenceSize - spriteHeight)) + constants.fenceSize);
 }
 
-function emitWool (x, y, numBolts, color, particleEngine) {
-    var particleObjects = particleEngine.obtainParticleArray(numBolts), i;
+function emitWool (x, y, numBolts, color) {
+    var particleObjects = GC.app.particleEngine.obtainParticleArray(numBolts), i;
     for (i = 0; i < particleObjects.length; i++) {
         var pObj = particleObjects[i];
         pObj.x = x-30;
@@ -342,7 +325,7 @@ function emitWool (x, y, numBolts, color, particleEngine) {
         pObj.dopacity = -1;
         pObj.image = 'resources/images/particle-' + color + '.png';
     }
-    particleEngine.emitParticles(particleObjects);
+    GC.app.particleEngine.emitParticles(particleObjects);
 }
 
 function sheepFrequency (day) {

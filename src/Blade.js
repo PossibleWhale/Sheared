@@ -52,36 +52,20 @@ exports = Class(ImageView, function (supr) {
                     });
                     if (intersect.rectAndRect(rect, this.style)) {
                         if (!sheep[i].isRam || this.isDiamond) {
-                            superview.audio.playShear();
+                            GC.app.audio.playShear();
                             if (Math.random() < 0.25) {
-                                superview.audio.playBaa();
+                                GC.app.audio.playBaa();
                             }
-                            inventory.addWool(sheep[i].color.label, sheep[i].bolts);
-                            superview.player.shearedSheep(sheep[i]);
-                            superview.player.hitWithBlade(this.isDiamond);
+                            if (inventory) {
+                                inventory.addWool(sheep[i].color.label, sheep[i].bolts);
+                            }
+                            GC.app.player.shearedSheep(sheep[i]);
+                            GC.app.player.hitWithBlade(this.isDiamond);
+                            sheep[i].emit('sheep:sheared');
                             sheep[i].emitWool();
                             sheep[i].die();
                         } else {
-                            var particleObjects = superview.particleEngine.obtainParticleArray(1);
-                            var pObj = particleObjects[0];
-                            pObj.x = this.style.x;
-                            pObj.y = this.style.y;
-                            pObj.dx = -400;
-                            pObj.dy = 400;
-                            pObj.ddx = 400;
-                            pObj.ddy = 400;
-                            pObj.dr = -1 * Math.PI;
-                            pObj.ax = 30;
-                            pObj.ay = 30;
-                            pObj.width = 60;
-                            pObj.height = 60;
-                            pObj.scale = 1;
-                            pObj.dscale = 3;
-                            pObj.opacity = 0.7;
-                            pObj.dopacity = -0.7;
-                            pObj.image = 'resources/images/particle-blade.png';
-                            superview.particleEngine.emitParticles(particleObjects);
-                            superview.audio.playRamHit();
+                            this.ricochet();
                         }
                         clearInterval(interval);
                         this.removeFromSuperview();
@@ -92,5 +76,28 @@ exports = Class(ImageView, function (supr) {
                 }
             }
         }), stepFrequency)
+    };
+
+    this.ricochet = function () {
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(1);
+        var pObj = particleObjects[0];
+        pObj.x = this.style.x;
+        pObj.y = this.style.y;
+        pObj.dx = -400;
+        pObj.dy = 400;
+        pObj.ddx = 400;
+        pObj.ddy = 400;
+        pObj.dr = -1 * Math.PI;
+        pObj.ax = 30;
+        pObj.ay = 30;
+        pObj.width = 60;
+        pObj.height = 60;
+        pObj.scale = 1;
+        pObj.dscale = 3;
+        pObj.opacity = 0.7;
+        pObj.dopacity = -0.7;
+        pObj.image = 'resources/images/particle-blade.png';
+        GC.app.particleEngine.emitParticles(particleObjects);
+        GC.app.audio.playRamHit();
     };
 });

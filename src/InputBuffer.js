@@ -77,7 +77,7 @@ function clipperDrag(dragEvt) {
         y = dragEvt.srcPt.y - this.dragOffset.y,
         superview = this.getSuperview();
 
-    if (!superview.clipper) {
+    if (!superview || !superview.clipper) {
         return;
     }
 

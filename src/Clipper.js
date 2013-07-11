@@ -50,6 +50,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
         this.health += amt;
+        this.health = Math.min(maxHealth, this.health);
         if (this.isDiamond) {
             this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
         } else {
@@ -99,7 +100,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(1), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(1), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
@@ -121,7 +122,7 @@ exports = Class(ImageView, function (supr) {
             pObj.dopacity = -1;
             pObj.image = 'resources/images/diamond.png';
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 
     this.emitSparks = function () {
@@ -130,7 +131,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(30), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(30), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
@@ -152,6 +153,10 @@ exports = Class(ImageView, function (supr) {
             pObj.dopacity = -0.5;
             pObj.image = 'resources/images/particle-bolt.png';
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
+    };
+
+    this.resetHealth = function () {
+        this.increaseHealth(maxHealth);
     };
 });
