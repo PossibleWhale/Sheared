@@ -46,6 +46,17 @@ exports = {
             args.splice(0, 0, targetEvent);
             targetObject.emit.apply(targetObject, args);
         }));
+    },
+
+    assert: function (expr, message) {
+        if (! expr) {
+            if (message) {
+                throw new Error("assert() failed: " + message);
+            } else {
+                throw new Error("assert() failed");
+            }
+        }
     }
+
 }
 

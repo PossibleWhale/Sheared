@@ -179,7 +179,7 @@ exports = Class(ImageView, function (supr) {
             // 50% of the time, stay put
             var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
             if (odd) {
-                wiggle = 0; 
+                wiggle = 0;
             } else {
                 wiggle = c.WIGGLE_RADIANS;
             }

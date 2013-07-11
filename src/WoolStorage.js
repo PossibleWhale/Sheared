@@ -12,7 +12,8 @@ var wools = [
 ];
 
 exports = Class(Storage, function (supr) {
-    this.idPrefix = 'wool_';
+    this.name = 'wool';
+    this.key = 'color';
 
     this.addWool = function (color, amt) {
         var old = this.get(color).count;
@@ -20,7 +21,7 @@ exports = Class(Storage, function (supr) {
     };
 
     this.get = function (color) {
-        return supr(this, 'get', [this.get(this.toKey(color))]);
+        return supr(this, 'get', [this.toKey(color)]);
     };
 
     /*
@@ -33,11 +34,11 @@ exports = Class(Storage, function (supr) {
      */
     this.add = function () {
         var item, obj, arr, icolor;
-        if (typeof arguments[0] === 'array') {
+        if (typeof arguments[0] === 'object' && arguments.length !== undefined) {
             return this.addArray(arguments[0]);
         }
 
-        if (args.length === 2) {
+        if (arguments.length === 2) {
             obj = {color: arguments[0], count: arguments[1]};
         } else {
             obj = {color: arguments[0].color, count: arguments[0].count};
@@ -66,6 +67,9 @@ exports = Class(Storage, function (supr) {
     };
 
     this.init = function (opts) {
+        opts = opts || {};
+        merge(opts, {preload: wools});
+        assert(opts.preload, "opts.preload is empty??");
         supr(this, 'init', [opts]);
 
         util.reissue(this, 'Update', this, 'wool:update');

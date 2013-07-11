@@ -9,6 +9,15 @@ exports = {
 
     COLOR_NONE: {label: 'none'},
 
+    SCHEMA: {
+        version: 1,
+        stores: {
+            wool: {key: 'color', value: 'count'},
+            craft: {key: 'motif', value: 'count'},
+            stat: {key: 'name', value: 'value'}
+        }
+    },
+
     // Given rarity R, value V of the corresponding wool is:
     //
     //    V = 0.20 / R
@@ -47,23 +56,23 @@ exports = {
     GARMENT_NAKED: {label: 'naked'},
 
     GARMENT_HAT: {
-        label: 'hat', 
+        label: 'hat',
         cost: {contrast: 2, main: 10}
     },
     GARMENT_SOCK: {
-        label: 'sock', 
+        label: 'sock',
         cost: {contrast: 10, main: 26}
     },
     GARMENT_SCARF: {
-        label: 'scarf', 
+        label: 'scarf',
         cost: {contrast: 14, main: 34}
     },
     GARMENT_MITTEN: {
-        label: 'mitten', 
+        label: 'mitten',
         cost: {contrast: 6, main: 18}
     },
     GARMENT_SWEATER: {
-        label: 'sweater', 
+        label: 'sweater',
         cost: {contrast: 18, main: 42}
     },
 

@@ -1,8 +1,11 @@
-import src.constants as constants;
 import ui.ImageView as ImageView;
+
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
+
 import src.Player as Player;
+import src.constants as constants;
+
 
 var stepSize = 20,
     stepFrequency = 10;

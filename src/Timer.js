@@ -58,7 +58,7 @@ exports = Class(TextView, function (supr) {
             if (this.time === 5) {
                 superview.audio.playCountdown();
             }
-            
+
         }), 1000);
     };
 

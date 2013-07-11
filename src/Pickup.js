@@ -1,4 +1,4 @@
-/* An "abstract class" of sorts for pickups. 
+/* An "abstract class" of sorts for pickups.
  * Don't instantiate this ;)
  */
 import src.constants as constants;

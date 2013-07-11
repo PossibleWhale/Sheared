@@ -9,7 +9,8 @@ var crafts = [
 
 
 exports = Class(Storage, function (supr) {
-    this.idPrefix = 'crafts_';
+    this.name = 'craft';
+    this.key = 'motif';
 
     this.addCraft = bind(this, function (craft, amt) {
         var old = this.get(craft).count;
@@ -35,6 +36,7 @@ exports = Class(Storage, function (supr) {
     };
 
     this.init = function (opts) {
+        merge(opts, {preload: crafts});
         supr(this, 'init', [opts]);
 
         util.reissue(this, 'Update', this, 'craft:update');

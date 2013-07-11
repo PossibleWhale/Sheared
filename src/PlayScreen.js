@@ -110,7 +110,7 @@ exports = Class(ImageView, function (supr) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
         sheep.removeFromSuperview();
     };
-    
+
     this.spawnDiamond = function () {
         this.diamond = new Diamond({
             x: 1024
