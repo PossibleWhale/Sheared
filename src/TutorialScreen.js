@@ -8,6 +8,7 @@ import src.InputBuffer as InputBuffer;
 import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Battery as Battery;
+import src.Diamond as Diamond;
 
 var textOpts = {
     x: (1024-800)/2,
@@ -42,9 +43,9 @@ exports = Class(ImageView, function (supr) {
     this.build = function() {
         this.clipper = new Clipper({
             superview: this,
-            x: 0,
-            y: 576/2 
+            x: 0
         });
+        this.clipper.style.y = 576/2 - this.clipper.style.width/2;
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new Button({
             x: 1024/2 - 80,
@@ -60,9 +61,28 @@ exports = Class(ImageView, function (supr) {
             zIndex: 999
         });
         this.sheep = [];
+
+        var backButton = new Button({
+            superview: this,
+            x: 0,
+            y: 0,
+            backgroundColor: '#FF00FF',
+            color: '#000000',
+            fontFamily: 'delius',
+            text: 'Back',
+            width: 140,
+            height: 60,
+            size: 128,
+            autoFontSize: true,
+            zIndex: 999
+        });
+        backButton.on('InputSelect', bind(this, function () {
+            this.getSuperview().pop();
+        }));
     };
 
     this.clipperTutorial = function () {
+        this.nextButton.removeAllListeners();
         var moveText = new TextView(merge({
             superview: this,
             text: 'Drag on the left side of the screen to move the clipper.',
@@ -88,6 +108,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.eweTutorial = function () {
+        this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
 
@@ -96,19 +117,18 @@ exports = Class(ImageView, function (supr) {
             text: 'Your regular clipper blade shears ewes.',
         }, textOpts));
         animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
-            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2);
+            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.eweTutorial);
 
             sheep.on('sheep:sheared', bind(this, function() {
                 text = new TextView(merge({
                     superview: this,
                     text: 'Each ewe sheared gives you one bolt of wool.',
                 }, textOpts));
-                animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+                this._animate(text).then(bind(this, function () {
                     var colorIdx = 1; // start with the second color because we already sent out white
                     this.interval = setInterval(bind(this, function () {
-                        if (colorIdx > 4) {
+                        if (colorIdx >= 4) {
                             clearInterval(this.interval);
-                            return;
                         }
 
                         var sheep = this._spawnSheep(constants.colors[colorIdx], 576/2);
@@ -118,7 +138,7 @@ exports = Class(ImageView, function (supr) {
                                     superview: this,
                                     text: 'Ewes appear in five colors. Each ewe gives one bolt of that color.'
                                 }, textOpts));
-                                animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+                                this._animate(text).then(bind(this, function () {
                                     this.addSubview(this.nextButton);
                                     this.nextButton.on('InputSelect', bind(this, function () {
                                         this.nextButton.removeFromSuperview();
@@ -136,6 +156,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.powerTutorial = function () {
+        this.nextButton.removeAllListeners();
         this.inputBuffer.removeFromSuperview();
         this.sheep.length = 0;
         this._resetClipper();
@@ -145,7 +166,7 @@ exports = Class(ImageView, function (supr) {
             text: 'Your clipper has five power cells. When a sheep collides with it, it loses one cell.'
         }, textOpts));
         this._animate(text).then(bind(this, function () {
-            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, true);
+            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.powerTutorial, true);
             sheep.on('sheep:collision', bind(this, function () {
                 text = new TextView(merge({
                     superview: this,
@@ -156,12 +177,13 @@ exports = Class(ImageView, function (supr) {
                         superview: this,
                         x: 1024
                     });
-                    battery.style.y = 576/2 - battery.style.height;
+                    battery.style.y = 576/2 - battery.style.height/2;
                     battery.run();
                     battery.on('battery:pickup', bind(this, function () {
                         this.addSubview(this.nextButton);
                         this.nextButton.on('InputSelect', bind(this, function () {
                             this.nextButton.removeFromSuperview();
+                            this.addSubview(this.inputBuffer);
                             this.ramTutorial();
                         }));
                     }));
@@ -171,6 +193,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.ramTutorial = function () {
+        this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
 
@@ -179,13 +202,13 @@ exports = Class(ImageView, function (supr) {
             text: 'Your regular clipper blade shears ewes, but rams deflect those with their horns.'
         }, textOpts));
         this._animate(text).then(bind(this, function () {
-            var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, true, true),
+            var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.ramTutorial, true, true),
                 showText = function () {
                     text = new TextView(merge({
                         superview: this,
                         text: 'Your clipper will require a diamond blade to shear rams.'
                     }, textOpts));
-                    this.animate(text).then(bind(this, function () {
+                    this._animate(text).then(bind(this, function () {
                         this.addSubview(this.nextButton);
                         this.nextButton.on('InputSelect', bind(this, function () {
                             this.nextButton.removeFromSuperview();
@@ -205,6 +228,62 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.diamondTutorial = function () {
+        this.nextButton.removeAllListeners();
+        this.sheep.length = 0;
+        this._resetClipper();
+
+        var diamond = new Diamond({
+            superview: this,
+            x: 1024
+        }), text;
+        diamond.style.y = 576/2 - diamond.style.height/2;
+        diamond.infinite = true;
+        diamond.run();
+        diamond.on('pickup:offscreen', bind(this, function () {
+            this.tryAgain(this.diamondTutorial);
+        }));
+        diamond.on('diamond:pickup', bind(this, function () {
+            text = new TextView(merge({
+                superview: this,
+                text: 'Your clipper is equipped with diamond blades for five seconds. Notice the glitter effect.'
+            }, textOpts));
+            this._animate(text).then(bind(this, function () {
+                var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.diamondTutorial, false, true);
+                ram.on('sheep:sheared', bind(this, function () {
+                    text = new TextView(merge({
+                        superview: this,
+                        text: 'Each ram sheared gives you five bolts of wool.'
+                    }, textOpts));
+                    this._animate(text).then(bind(this, function () {
+                        var colorIdx = 1; // start with the second color because we already sent out white
+                        this.interval = setInterval(bind(this, function () {
+                            if (colorIdx >= 4) {
+                                clearInterval(this.interval);
+                            }
+
+                            ram = this._spawnSheep(constants.colors[colorIdx], 576/2, this.diamondTutorial, false, true);
+                            if (colorIdx === 4) {
+                                ram.on('sheep:sheared', bind(this, function () {
+                                    this.clipper.becomeRegular();
+                                    text = new TextView(merge({
+                                        superview: this,
+                                        text: 'Rams appear in five colors. Each ram gives five bolts of that color.'
+                                    }, textOpts));
+                                    this._animate(text).then(bind(this, function () {
+                                        this.addSubview(this.nextButton);
+                                        this.nextButton.on('InputSelect', bind(this, function () {
+                                            this.getSuperview().pop();
+                                        }));
+                                    }));
+                                }));
+                            }
+                            colorIdx++;
+
+                        }), 1500);
+                    }));
+                }));
+            }));
+        }));
     };
 
     this._animate = function (view) {
@@ -235,18 +314,18 @@ exports = Class(ImageView, function (supr) {
 
     this._resetClipper = function () {
         this.clipper.resetHealth();
+        this.clipper.becomeRegular();
         this.clipper.style.x = 0;
         this.clipper.style.y = 576/2 - this.clipper.style.height/2;
     };
 
-    this._spawnSheep = function (color, y, allowCollision, isRam) {
+    this._spawnSheep = function (color, y, fn, allowCollision, isRam) {
         var sheep;
         if (isRam) {
             sheep = new Ram({
                 x: 1024,
                 color: color
             });
-            console.log('made ram');
         } else {
             sheep = new Sheep({
                 x: 1024,
@@ -254,18 +333,17 @@ exports = Class(ImageView, function (supr) {
             });
         }
         sheep.startY = sheep.endY = sheep.style.y = y - sheep.style.width/2;
-        console.log(sheep);
         this.addSubview(sheep);
         this.sheep.push(sheep);
         sheep.run();
 
         if (!allowCollision) {
             sheep.on('sheep:offscreen', bind(this, function () {
-                this.tryAgain(this.eweTutorial);
+                this.tryAgain(fn);
             }));
 
             sheep.on('sheep:collision', bind(this, function () {
-                this.tryAgain(this.eweTutorial);
+                this.tryAgain(fn);
             }));
         }
         return sheep;

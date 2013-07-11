@@ -79,9 +79,11 @@ exports = Class(GC.Application, function () {
         }), c.SPLASH_TIME);
         this.player = new Player();
         this.particleEngine = new ParticleEngine({
-            superview: this,
-            width: 1024,
-            height: 576
+            superview: this.view,
+            x: 0,
+            y: gap,
+            width: boundsWidth,
+            height: boundsHeight
         });
     };
 });

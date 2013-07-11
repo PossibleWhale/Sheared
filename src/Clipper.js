@@ -58,10 +58,12 @@ exports = Class(ImageView, function (supr) {
         }
     };
 
-    this.becomeDiamond = function () {
+    this.becomeDiamond = function (infinite) {
         this.isDiamond = true;
         this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-        setTimeout(bind(this, this.becomeRegular), 5000);
+        if (!infinite) {
+            setTimeout(bind(this, this.becomeRegular), 5000);
+        }
     };
 
     this.becomeRegular = function () {
