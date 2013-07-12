@@ -9,7 +9,7 @@ import src.util as util;
 assert = util.assert;
 
 
-exports = Class(GCDataSource, function (supr) {
+Storage = Class(GCDataSource, function (supr) {
     this.name = null;
     this.key = null;
 
@@ -151,6 +151,9 @@ exports = Class(GCDataSource, function (supr) {
 
             // cold cache -- check localStorage first
             ret = localStorage[this._storeName + '.' + key];
+            if (ret) {
+                ret = JSON.parse(ret);
+            };
 
             // if localStorage doesn't have it, remember that we checked
             // localStorage with the __wcm__ ("warm cache miss") marker
@@ -192,7 +195,7 @@ exports = Class(GCDataSource, function (supr) {
 
         this.verifyItem(item);
         var storageKey = this._storeName + '.' + key;
-        localStorage[storageKey] = item;
+        localStorage.setItem(storageKey, JSON.stringify(item));
     };
 
     /*
@@ -204,6 +207,28 @@ exports = Class(GCDataSource, function (supr) {
         }
         this.verifyItem(item);
         var storageKey = this._storeName + '.' + key;
-        delete localStorage[storageKey];
+        localStorage.removeItem(storageKey);
     };
 });
+
+/*
+ * this clears everything in localStorage IIF:
+ * - app.debug is set,
+ * - app.localConfig.reset exists,
+ * - localStorage.pw_reset_key exists, and
+ * - localStorage.pw_reset_key !== app.localConfig.reset.toString()
+ */
+Storage.reset = function _a_reset(resetKey, debug) {
+    resetKey = resetKey.toString();
+    if (resetKey && debug &&
+      localStorage.pw_reset_key &&
+      localStorage.pw_reset_key !== resetKey) {
+        localStorage.clear();
+        localStorage.pw_reset_key = resetKey;
+        console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);
+        console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);
+        console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);
+    }
+};
+
+exports = Storage;

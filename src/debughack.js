@@ -35,11 +35,13 @@ var Hax = function () {
     this.pre_startCrafting = function () {
         if (!GC.app.woolhack) {
             GC.app.woolhack = true;
-            GC.app.player.inventory.wool.add({color: 'white', count: 100});
-            GC.app.player.inventory.wool.add({color: 'red', count: 100});
-            GC.app.player.inventory.wool.add({color: 'yellow', count: 100});
-            GC.app.player.inventory.wool.add({color: 'blue', count: 100});
-            GC.app.player.inventory.wool.add({color: 'black', count: 100});
+            GC.app.player.wool.add([
+                {color: 'white', count: 100},
+                {color: 'red', count: 100},
+                {color: 'yellow', count: 100},
+                {color: 'blue', count: 100},
+                {color: 'black', count: 100}
+            ]);
         }
     };
 

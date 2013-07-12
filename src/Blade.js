@@ -37,7 +37,7 @@ exports = Class(ImageView, function (supr) {
             }
             var sheep = superview.sheep,
                 i = sheep.length,
-                inventory = superview.dailyInventory;
+                wool = superview.dailyWool;
             this.style.x = this.style.x + stepSize;
             if (this.style.x > 1024) {
                 clearInterval(interval);
@@ -59,7 +59,7 @@ exports = Class(ImageView, function (supr) {
                             if (Math.random() < 0.25) {
                                 superview.audio.playBaa();
                             }
-                            inventory.addWool(sheep[i].color.label, sheep[i].bolts);
+                            wool.addWool(sheep[i].color, sheep[i].bolts);
                             superview.player.shearedSheep(sheep[i]);
                             superview.player.hitWithBlade(this.isDiamond);
                             sheep[i].emitWool();

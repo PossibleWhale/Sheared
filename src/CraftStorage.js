@@ -14,7 +14,7 @@ exports = Class(Storage, function (supr) {
 
     this.addCraft = function _a_addCraft(craft, amt) {
         var old = this.get(craft).count;
-        this.add({motif: this.toKey(craft), count: oldCount + (amt || 1)});
+        this.add({motif: this.toKey(craft), count: old + (amt || 1)});
     };
 
     // get by either motif string, or instance of Craft

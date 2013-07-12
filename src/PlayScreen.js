@@ -11,7 +11,7 @@ import src.Clipper as Clipper;
 import src.Blade as Blade;
 import src.Diamond as Diamond;
 import src.Battery as Battery;
-import src.Inventory as Inventory;
+import src.WoolStorage as WoolStorage;
 import src.constants as constants;
 import src.Timer as Timer;
 import src.Button as Button;
@@ -43,7 +43,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.sheep = [];
-        this.dailyInventory = new Inventory();
+        this.dailyWool = new WoolStorage({persist: false});
 
         this.on('play:start', bind(this, playGame));
 
@@ -154,7 +154,7 @@ exports = Class(ImageView, function (supr) {
         this.removeAllSubviews();
         this.removeAllListeners();
 
-        this.player.addInventory(this.dailyInventory);
+        this.player.mergeWoolCounts(this.dailyWool);
     };
 
     this.gameOver = function () {
@@ -207,7 +207,7 @@ exports = Class(ImageView, function (supr) {
             height: 576
         });
         for (i = 0; i < woolCounts.length; i++) {
-            woolCounts[i].maxCount = this.dailyInventory.woolCountOf(constants.colors[i]);
+            woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
             woolCounts[i].particleEngine = this.particleEngine;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {

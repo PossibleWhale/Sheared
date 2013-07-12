@@ -11,6 +11,7 @@ import src.Player as Player;
 import src.Audio as Audio;
 import src.constants as c;
 import src.debughack as dh;
+import src.Storage as Storage;
 
 
 // DO NOT QUESTION THIS MATH
@@ -24,13 +25,20 @@ var boundsWidth = 1024,
 /* Your application inherits from GC.Application, which is
  * exported and instantiated when the game is run.
  */
-exports = Class(GC.Application, function () {
+exports = Class(GC.Application, function (supr) {
 
-    this.localConfig = {};
-    var _localConfig = CACHE['resources/conf/localconfig.json'];
-    if (_localConfig) {
-        merge(this.localConfig, JSON.parse(_localConfig));
-    }
+    this.init = function () {
+        var _localConfig, lc;
+        lc = this.localConfig = {};
+        _localConfig = CACHE['resources/conf/localconfig.json'];
+        if (_localConfig) {
+            merge(lc, JSON.parse(_localConfig));
+        }
+
+        Storage.reset(lc.reset, lc.debug);
+
+        supr(this, 'init', arguments);
+    };
 
     /* Run after the engine is created and the scene graph is in
      * place, but before the resources have been loaded.

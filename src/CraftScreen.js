@@ -10,7 +10,8 @@ import ui.resource.Image as Image;
 import src.constants as c;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
-import src.Inventory as Inventory;
+import src.WoolStorage as WoolStorage;
+import src.CraftStorage as CraftStorage;
 import src.util as util;
 import src.Craft as Craft;
 import src.debughack as dh;
@@ -31,8 +32,8 @@ exports = Class(ImageView, function (supr) {
 
         this.selectedGarment = c.GARMENT_HAT;
         this.selectedColor = c.COLOR_WHITE;
-        this.playerInventory = null;
-        this.sessionInventory = null;
+        this.sessionWool = null;
+        this.sessionCrafts = null;
 
         var craftScreen = this;
 
@@ -136,24 +137,25 @@ exports = Class(ImageView, function (supr) {
         this.startCrafting = bind(this, function() {
             dh.pre_startCrafting();
 
-            var si, btn, color, count, i, money;
+            var btn, color, count, i, money;
 
-            this.playerInventory = GC.app.player.inventory;
+            this.sessionWool = GC.app.player.wool.copy({persist: false});
+            this.sessionCrafts = GC.app.player.crafts.copy({persist: false});
 
-            this.sessionInventory = this.playerInventory.copy();
-            si = this.sessionInventory;
-
+            // put counts in all the wool control buttons
             for (i = 0; i < this.buttons.colorCount.length; i++) {
                 btn = this.buttons.colorCount[i];
                 color = btn.getOpts().item;
-                count = si.woolCountOf(color);
+                count = this.sessionWool.get(color).count;
                 btn.setText(count);
             }
 
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
 
-            si.on('inventory:woolUpdate', bind(this, function (clabel, item) {
+            // if wool changes, update the count in the appropriate wool
+            // control button
+            this.sessionWool.on('wool:update', bind(this, function _a_onWoolUpdate(clabel, item) {
                 i = c.colors.length;
                 while (i--) {
                     btn = this.buttons.colorCount[i];
@@ -214,29 +216,29 @@ exports = Class(ImageView, function (supr) {
          * update both the craft counts boxes, and the chalkboards, based on
          * current selections and inventory
          */
-        this.updateCraftCounts = bind(this, function () {
-            var btn1, btn2, i, si = this.sessionInventory;
+        this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
+            var btn1, btn2, i, sc = this.sessionCrafts;
             i = this.buttons.craftCount.length;
             while (i--) {
                 btn1 = this.buttons.craftCount[i];
                 btn2 = this.buttons.chalkboard[i];
 
                 currentCraft = this.craftByIndex(i);
-                count = si.craftCountOf(currentCraft);
+                count = sc.get(currentCraft).count;
 
                 btn1.setText(count);
                 btn2.setText('$' + currentCraft.formatDollars(count));
             }
         });
 
-        this.updateRecycleButtons = bind(this, function () {
-            var i, btn, currentCraft, count, si;
-            si = this.sessionInventory;
+        this.updateRecycleButtons = bind(this, function _a_updateRecycleButtons() {
+            var i, btn, currentCraft, count, sc;
+            sc = this.sessionCrafts;
             i = this.buttons.recycle.length;
             while(i--) {
                 btn = this.buttons.recycle[i];
                 currentCraft = this.craftByIndex(i);
-                count = si.craftCountOf(currentCraft);
+                count = sc.get(currentCraft).count;
                 if (count === 0) {
                     btn.setImage('resources/images/craft-recycle-disabled.png');
                 } else {
@@ -245,11 +247,11 @@ exports = Class(ImageView, function (supr) {
             }
         });
 
-        this.updateCraftBuyButtons = bind(this, function () {
-            var i, res, contrast, garment, main, costs, si, cbbtn;
+        this.updateCraftBuyButtons = bind(this, function _a_updateCraftBuyButtons() {
+            var i, res, contrast, garment, main, costs, sw, cbbtn;
             garment = this.selectedGarment;
             main = this.selectedColor;
-            si = this.sessionInventory;
+            sw = this.sessionWool;
 
             i = colorPairings[main.label].length;
             while (i--) {
@@ -258,7 +260,7 @@ exports = Class(ImageView, function (supr) {
                 costs = currentCraft.cost();
                 contrast = currentCraft.colors.contrast;
 
-                if (costs[0].amount > si.woolCountOf(main) || costs[1].amount > si.woolCountOf(contrast)) {
+                if (costs[0].amount > sw.get(main).count || costs[1].amount > sw.get(contrast).count) {
                     res = 'resources/images/' + garment.label + '-disabled.png';
                     cbbtn.updateOpts({opacity: 0.9});
                 } else {
@@ -277,7 +279,7 @@ exports = Class(ImageView, function (supr) {
         /*
          * reset the UI to the view corresponding to the current state
          */
-        var _cleanUI = bind(this, function() {
+        var _cleanUI = bind(this, function _a_cleanUI() {
             this.updateCraftBuyButtons();
             this.updateGarmentPattern();
             this.updateCraftCounts();
@@ -297,47 +299,49 @@ exports = Class(ImageView, function (supr) {
 
         // put the wool back and deduct one crafted item. Only permit this for
         // items crafted this session, not those crafted over a lifetime.
-        this.recycleCraft = bind(this, function (btn) {
-            var main = this.selectedColor, 
-                garment = this.selectedGarment, 
+        this.recycleCraft = bind(this, function _a_recycleCraft(btn) {
+            var main = this.selectedColor,
+                garment = this.selectedGarment,
                 contrast, craft, costs,
-                si = this.sessionInventory;
+                sw = this.sessionWool,
+                sc = this.sessionCrafts;
             contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
-            if (si.craftCountOf(craft) > 0) {
-                si.addCraft(craft, -1);
+            if (sc.get(craft).count > 0) {
+                sc.addCraft(craft, -1);
                 this.emit('craft:addDollars', -craft.dollars());
-                si.addWool(main, costs[0].amount);
-                si.addWool(contrast, costs[1].amount);
+                sw.addWool(main, costs[0].amount);
+                sw.addWool(contrast, costs[1].amount);
             }
 
             _cleanUI();
         });
 
         // user tries to buy a craft by clicking on a craft button
-        this.buyCraft = bind(this, function (btn) {
-            var main = this.selectedColor, 
-                garment = this.selectedGarment, 
+        this.buyCraft = bind(this, function _a_buyCraft(btn) {
+            var main = this.selectedColor,
+                garment = this.selectedGarment,
                 contrast, craft, costs,
-                si = this.sessionInventory,
+                sw = this.sessionWool,
+                sc = this.sessionCrafts,
                 sufficient;
             contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
             if (main === contrast) {
-                sufficient = si.woolCountOf(main) >= costs[0].amount + costs[1].amount;
+                sufficient = sw.get(main).count >= costs[0].amount + costs[1].amount;
             } else {
-                sufficient = (si.woolCountOf(main) >= costs[0].amount && si.woolCountOf(contrast) >= costs[1].amount);
+                sufficient = (sw.get(main).count >= costs[0].amount && sw.get(contrast).count >= costs[1].amount);
             }
 
             if (sufficient) {
-                si.addCraft(craft);
+                sc.addCraft(craft);
                 this.emit('craft:addDollars', craft.dollars());
-                si.addWool(main, -1 * costs[0].amount);
-                si.addWool(contrast, -1 * costs[1].amount);
+                sw.addWool(main, -1 * costs[0].amount);
+                sw.addWool(contrast, -1 * costs[1].amount);
             }
             _cleanUI();
         });
@@ -363,14 +367,15 @@ exports = Class(ImageView, function (supr) {
         this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
         this.finishButton.updateOpts({click: true});
         this.finishButton.setText("Finish");
-        this.finishButton.on('InputSelect', bind(this, function () {
-            GC.app.player.inventory = this.sessionInventory.copy();
+        this.finishButton.on('InputSelect', bind(this, function _a_onInputSelectFinish() {
+            GC.app.player.wool = this.sessionWool.copy();
+            GC.app.player.crafts = this.sessionCrafts.copy();
             this.emit('craft:finishScreen');
         }));
-        this.on('craft:finishFinishScreen', bind(this, function () {
+        this.on('craft:finishFinishScreen', bind(this, function _a_onCraftFinishFinishScreen() {
             GC.app.stackView.popAll();
         }));
-        this.on('craft:finishScreen', bind(this, function () {
+        this.on('craft:finishScreen', bind(this, function _a_onCraftFinishScreen() {
             // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
             // -- it sometimes appears negative, most likely due to floating
             // point error.
