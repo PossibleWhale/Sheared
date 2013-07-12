@@ -12,12 +12,13 @@ exports = Class(Storage, function (supr) {
     this.name = 'craft';
     this.key = 'motif';
 
-    this.addCraft = bind(this, function _a_addCraft(craft, amt) {
+    this.addCraft = function _a_addCraft(craft, amt) {
         var old = this.get(craft).count;
         this.add({motif: this.toKey(craft), count: oldCount + (amt || 1)});
-    });
+    };
 
-    this.get = function (craft) {
+    // get by either motif string, or instance of Craft
+    this.get = function _a_get(craft) {
         var lookup, motif = this.toKey(craft);
         lookup = supr(this, 'get', [motif]);
         if (!lookup) {

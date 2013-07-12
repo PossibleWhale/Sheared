@@ -43,14 +43,16 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * create the database architecture in localStorage
      */
-    this._initPWStorage = function () {
-        var ls = localStorage;
-        if (! ls.pw_version) {
-            ls.pw_version = c.SCHEMA.version;
+    this._initPWStorage = function _a_initPWStorage() {
+        var getLS = bind(localStorage, localStorage.getItem);
+        var setLS = bind(localStorage, localStorage.setItem);
+
+        if (! getLS('pw_version')) {
+            setLS('pw_version', c.SCHEMA.version);
         }
 
-        if (! ls.pw_stores) {
-            ls.pw_stores = JSON.stringify(c.SCHEMA.stores);
+        if (! getLS('pw_stores')) {
+            setLS('pw_stores', JSON.stringify(c.SCHEMA.stores));
         }
     };
 
@@ -81,8 +83,14 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * check this item against our schema, abort if it doesn't match
      */
-    this.verifyItem = function (item) {
-        assert(item.keys().length === 2); // yep, we assume there is only a key/value
+    this.verifyItem = function _a_verifyItem(item) {
+        var keyCount = 0;
+        for (k in item) { // item.keys() not supported in this interpreter
+            if (item.hasOwnProperty(k)) {
+                keyCount++;
+            }
+        }
+        assert(keyCount === 2); // yep, we assume there is only a key/value
         assert(item[this.schema.key] !== undefined);
         assert(item[this.schema.value] !== undefined);
     };
@@ -136,7 +144,7 @@ exports = Class(GCDataSource, function (supr) {
     /*
      * get from GCDataSource, and if not found, get from localStorage
      */
-    this.get = function (key) {
+    this.get = function _a_get(key) {
         var ret, warmCacheMiss;
         ret = supr(this, 'get', [key]);
         if (ret === null) {
@@ -162,12 +170,8 @@ exports = Class(GCDataSource, function (supr) {
      * make a copy of the objects, probably for transient modifications
      */
     this.copy = function _a_copy(persist) {
-        import src.Storage as Storage;
-
-        var other = new Storage();
-        for (prop in this) {
-            other[prop] = this[prop];
-        }
+        var other = new this.constructor();
+        other.add(this.toArray());
         other.persist = persist;
         return other;
     };

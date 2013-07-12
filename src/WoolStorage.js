@@ -34,7 +34,7 @@ exports = Class(Storage, function (supr) {
      */
     this.add = function () {
         var item, obj, arr, icolor;
-        if (typeof arguments[0] === 'object' && arguments.length !== undefined) {
+        if (typeof arguments[0] === 'object' && arguments[0].length !== undefined) {
             return this.addArray(arguments[0]);
         }
 
@@ -69,7 +69,7 @@ exports = Class(Storage, function (supr) {
     this.init = function (opts) {
         opts = opts || {};
         merge(opts, {preload: wools});
-        assert(opts.preload, "opts.preload is empty??");
+        assert(opts.preload.length, "opts.preload is empty??");
         supr(this, 'init', [opts]);
 
         util.reissue(this, 'Update', this, 'wool:update');
