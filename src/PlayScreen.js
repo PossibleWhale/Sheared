@@ -72,7 +72,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.beginDay = function () {
-        this.dailyInventory = new Inventory();
+        this.dailyWool = new WoolStorage();
         this.sheep = [];
 
         var dayIntro = new TextView({
