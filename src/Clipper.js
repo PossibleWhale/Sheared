@@ -1,13 +1,13 @@
+import src.util as util;
 import src.constants as constants;
+import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
-
-var maxHealth = 5;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/clipper-5-regular.png',
+            image: 'resources/images/clipper-regular.png',
             autoSize: true
         });
 
@@ -26,54 +26,46 @@ exports = Class(ImageView, function (supr) {
         });
         this.addSubview(this.clipperBox);
 
-        this.health = maxHealth;
         this.isDiamond = false;
+        this.bladeOut = false;
     };
 
-    this.decreaseHealth = function () {
-        this.health -= 1;
-        if (this.health > 0) {
-            if (this.isDiamond) {
-                this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-            } else {
-                this.setImage('resources/images/clipper-' + this.health + '-regular.png');
-            }
-        } else {
-            this.getSuperview().gameOver();
-        }
-    };
-
-    this.increaseHealth = function (amt) {
-        if (this.health === maxHealth) {
-            return;
-        }
-        this.health += amt;
-        if (this.isDiamond) {
-            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-        } else {
-            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
-        }
-    };
-
-    this.becomeDiamond = function () {
+    this.becomeDiamond = function (infinite) {
         this.isDiamond = true;
-        this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
-        setTimeout(bind(this, this.becomeRegular), 5000);
+        this.setImage('resources/images/clipper-diamond.png');
+        if (!infinite) {
+            setTimeout(bind(this, this.becomeRegular), 5000);
+        }
     };
 
     this.becomeRegular = function () {
         this.isDiamond = false;
-        this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+        this.setImage('resources/images/clipper-regular.png');
+    };
+
+    this.launchBlade = function () {
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
+        if (this.bladeOut) {
+            return;
+        }
+        this.blade = new Blade({
+            x: this.style.x + this.style.width,
+            y: this.style.y + 3
+        });
+        superview.addSubview(this.blade);
+        this.bladeOut = true;
+        this.setImage('resources/images/clipper-none.png');
+        this.blade.run();
     };
 
     this.reloadBlade = function () {
-        if (this.health <= 0) {
-            return;
-        }
         if (this.isDiamond) {
-            this.setImage('resources/images/clipper-' + this.health + '-diamond.png');
+            this.setImage('resources/images/clipper-diamond.png');
         } else {
-            this.setImage('resources/images/clipper-' + this.health + '-regular.png');
+            this.setImage('resources/images/clipper-regular.png');
         }
     };
 
@@ -83,7 +75,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(1), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(1), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
@@ -105,7 +97,7 @@ exports = Class(ImageView, function (supr) {
             pObj.dopacity = -1;
             pObj.image = 'resources/images/diamond.png';
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 
     this.emitSparks = function () {
@@ -114,7 +106,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(30), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(30), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
@@ -136,6 +128,6 @@ exports = Class(ImageView, function (supr) {
             pObj.dopacity = -0.5;
             pObj.image = 'resources/images/particle-bolt.png';
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 });

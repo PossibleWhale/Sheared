@@ -5,6 +5,7 @@
 import device;
 import ui.StackView as StackView;
 import ui.ImageView as ImageView;
+import ui.ParticleEngine as ParticleEngine;
 
 import src.TitleScreen as TitleScreen;
 import src.Player as Player;
@@ -63,6 +64,7 @@ exports = Class(GC.Application, function (supr) {
             backgroundColor: '#37B34A'
         });
 
+        this.player = new Player();
         this.titleScreen = new TitleScreen({superview: stackView});
 
         stackView.push(this.titleScreen);
@@ -84,6 +86,12 @@ exports = Class(GC.Application, function (supr) {
         setTimeout(bind(this, function () {
             this.stackView.pop(/* noAnimate= */ true);
         }), c.SPLASH_TIME);
-        this.player = new Player();
+        this.particleEngine = new ParticleEngine({
+            superview: this.view,
+            x: 0,
+            y: gap,
+            width: boundsWidth,
+            height: boundsHeight
+        });
     };
 });

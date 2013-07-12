@@ -12,7 +12,7 @@ import ui.ImageView;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
-import src.TutorialScreen as TutorialScreen;
+import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 
@@ -38,7 +38,7 @@ exports = Class(ui.ImageView, function (supr) {
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
-        tutorialScreen = new TutorialScreen();
+        tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
 
         stackView = this.getSuperview();
@@ -47,8 +47,11 @@ exports = Class(ui.ImageView, function (supr) {
             if (playScreen.clipper) {
                 playScreen.clipper.emitDiamonds();
             }
-            if (playScreen.particleEngine) {
-                playScreen.particleEngine.runTick(dt);
+            if (tutorialScreen.tutorialScreen && tutorialScreen.tutorialScreen.clipper) {
+                tutorialScreen.tutorialScreen.clipper.emitDiamonds();
+            }
+            if (GC.app.particleEngine) {
+                GC.app.particleEngine.runTick(dt);
             }
         }));
 
@@ -133,8 +136,8 @@ exports = Class(ui.ImageView, function (supr) {
          * reset the play screen so we can play again
          */
         this.on('playscreen:end', bind(this, function () {
-            delete this.playScreen;
-            this.playScreen = new PlayScreen();
+            delete playScreen;
+            playScreen = new PlayScreen();
             stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));

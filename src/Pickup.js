@@ -27,6 +27,7 @@ exports = Class(ImageView, function (supr) {
 
             this.style.x = this.style.x - stepSize;
             if (this.style.x < -1*this.style.width) {
+                this.emit('pickup:offscreen');
                 this.die()
             } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 this.apply();

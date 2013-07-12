@@ -11,8 +11,13 @@ exports = Class(Pickup, function (supr) {
 
     this.apply = function () {
         var superview = this.getSuperview();
-        superview.clipper.becomeDiamond();
-        superview.player.collectedDiamond();
-        superview.audio.playDiamond();
+        if (this.infinite) {
+            superview.clipper.becomeDiamond(true);
+        } else {
+            superview.clipper.becomeDiamond();
+        }
+        GC.app.player.collectedDiamond();
+        GC.app.audio.playDiamond();
+        this.emit('diamond:pickup');
     };
 });

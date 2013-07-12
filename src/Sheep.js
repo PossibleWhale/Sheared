@@ -7,7 +7,7 @@ import math.geom.Rect as Rect;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
-        var color = randomColor();
+        var color = opts.color || randomColor();
 
         opts = merge(opts, {
             image: color.eweImage,
@@ -43,12 +43,16 @@ exports = Class(ImageView, function (supr) {
         this.continuousAnimate();
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
+            if (!superview) {
+                return;
+            }
 
             this.style.x = this.style.x - this.stepX;
             this.style.y = this.style.y - this.stepY;
             this.emitDust();
 
             if (this.style.x < -1*this.style.width) {
+                this.emit('sheep:offscreen');
                 this.die()
             } else if (intersect.rectAndRect(new Rect({
                     x: this.style.x + 5,
@@ -63,9 +67,10 @@ exports = Class(ImageView, function (supr) {
                     height: superview.clipper.clipperBox.style.height
                 }))) {
 
+                this.emit('sheep:collision');
                 superview.clipper.emitSparks();
-                superview.clipper.decreaseHealth();
-                superview.audio.playCollision();
+                superview.healthBar.decreaseHealth();
+                GC.app.audio.playCollision();
                 this.die();
             }
         }), this.stepFrequency);
@@ -89,7 +94,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(this.bolts), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(this.bolts), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x;
@@ -115,7 +120,7 @@ exports = Class(ImageView, function (supr) {
             pObj.dopacity = -1;
             pObj.image = 'resources/images/particle-' + this.color.label + '.png';
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 
     this.emitDust = function () {
@@ -124,7 +129,7 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = superview.particleEngine.obtainParticleArray(this.stepSize/10), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(this.stepSize/10), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/6;
@@ -148,7 +153,7 @@ exports = Class(ImageView, function (supr) {
                 pObj.image = 'resources/images/particle-grass-2.png';
             }
         }
-        superview.particleEngine.emitParticles(particleObjects);
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 });
 

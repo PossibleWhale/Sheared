@@ -20,6 +20,9 @@ exports = Class(Emitter, function Player(supr) {
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
 
+        // this will be able to change with upgrades
+        this.maxClipperHealth = 5;
+
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
 

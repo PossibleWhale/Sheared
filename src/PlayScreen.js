@@ -1,14 +1,11 @@
 import device;
 import animate;
-import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
-import ui.ParticleEngine as ParticleEngine;
 
 import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Clipper as Clipper;
-import src.Blade as Blade;
 import src.Diamond as Diamond;
 import src.Battery as Battery;
 import src.WoolStorage as WoolStorage;
@@ -16,6 +13,8 @@ import src.constants as constants;
 import src.Timer as Timer;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
+import src.InputBuffer as InputBuffer;
+import src.HealthBar as HealthBar;
 
 
 exports = Class(ImageView, function (supr) {
@@ -36,16 +35,45 @@ exports = Class(ImageView, function (supr) {
             this.muteButton.setMuted();
         }));
 
-        this.particleEngine = new ParticleEngine({
+        this.on('play:start', bind(this, playGame));
+
+        this.healthBar = new HealthBar({
             superview: this,
-            width: 1024,
-            height: 576
+            x: 387,
+            y: 576-80,
         });
 
         this.sheep = [];
         this.dailyWool = new WoolStorage({persist: false});
 
-        this.on('play:start', bind(this, playGame));
+        muteOpts = {
+            superview: this,
+            x: 936,
+            y: 16,
+            width: 48,
+            height: 48,
+            zIndex: 1000 // this must position above the clickable area of the screen
+        };
+        this.muteButton = new MuteButton(muteOpts);
+
+        // for playtesting purposes..
+        if (device.name === 'browser') {
+            if (!this.onKey) {
+                this.onKey = bind(this, function () {
+                    if (this.clipper) {
+                        this.clipper.launchBlade();
+                    }
+                });
+                document.addEventListener('keydown', this.onKey, false);
+            }
+        }
+
+        this.beginDay();
+    };
+
+    this.beginDay = function () {
+        this.dailyInventory = new Inventory();
+        this.sheep = [];
 
         var dayIntro = new TextView({
             x: 1024,
@@ -70,17 +98,6 @@ exports = Class(ImageView, function (supr) {
             strokeColor: '#333333'
         });
 
-        muteOpts = {
-            superview: this,
-            x: 936,
-            y: 16,
-            width: 48,
-            height: 48,
-            zIndex: 1000 // this must position above the clickable area of the screen
-        };
-        this.muteButton = new MuteButton(muteOpts);
-
-
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
         animate(dayIntro).now({x: 0});
@@ -92,18 +109,6 @@ exports = Class(ImageView, function (supr) {
                 this.emit('play:start');
             }));
         }));
-
-        // for playtesting purposes..
-        if (device.name === 'browser') {
-            if (!this.onKey) {
-                this.onKey = bind(this, function () {
-                    if (this.clipper) {
-                        launchBlade.apply(this);
-                    }
-                });
-                document.addEventListener('keydown', this.onKey, false);
-            }
-        }
     };
 
     this.removeSheep = function (sheep) {
@@ -135,24 +140,27 @@ exports = Class(ImageView, function (supr) {
         var i = this.sheep.length;
 
         this.audio.stopMusic();
-        this.bladeOut = false;
+        this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
         while (i--) {
             clearInterval(this.sheep[i].interval);
+            this.removeSubview(this.sheep[i]);
         }
-        if (this.blade) {
-            clearInterval(this.blade.interval);
+        if (this.clipper.blade) {
+            clearInterval(this.clipper.blade.interval);
+            this.removeSubview(this.clipper.blade);
         }
         if (this.diamond) {
             clearInterval(this.diamond.interval);
+            this.removeSubview(this.diamond);
         }
         if (this.battery) {
             clearInterval(this.battery.interval);
+            this.removeSubview(this.battery);
         }
         clearInterval(this.interval);
-
-        this.removeAllSubviews();
-        this.removeAllListeners();
+        this.removeSubview(this.clipper);
+        this.removeSubview(this.inputBuffer);
 
         this.player.mergeWoolCounts(this.dailyWool);
     };
@@ -168,7 +176,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        // TODO if !finishedDay, show a different results image indicating they lost
         var i, resultsScreen = new ImageView({
             x: 1024,
             y: 0,
@@ -200,22 +207,15 @@ exports = Class(ImageView, function (supr) {
             }));
             resultsScreen.addSubview(woolCounts[i]);
         }
-        // animate the counts up to however many of each color were collected
-        this.particleEngine = new ParticleEngine({
-            superview: this,
-            width: 1024,
-            height: 576
-        });
         for (i = 0; i < woolCounts.length; i++) {
             woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
-            woolCounts[i].particleEngine = this.particleEngine;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
                 var count = parseInt(this.getText());
                 // if we're finished counting up, clear interval and show a burst of wool
                 if (count === this.maxCount) {
                     clearInterval(this.interval);
-                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor, this.particleEngine);
+                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
                     return;
                 }
                 this.setText('' + (count + 1));
@@ -227,17 +227,13 @@ exports = Class(ImageView, function (supr) {
         animate(resultsScreen).now({x: 0});
 
         continueButton.on('InputSelect', bind(this, function (evt) {
-            evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
-                for (i = 0; i < woolCounts.length; i++) {
-                    woolCounts[i].particleEngine.removeFromSuperview();
-                }
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
                 if (!finishedDay) {
                     GC.app.titleScreen.emit('playscreen:end');
                 } else if (finishedDay) {
-                    this.build();
+                    this.beginDay();
                 }
             }));
         }));
@@ -271,72 +267,7 @@ function playGame () {
 
     this.audio.playMusic();
 
-    var leftSide = new View({
-        superview: this,
-        x: 0,
-        y: 0,
-        zIndex: 1,
-        width: 1024/2,
-        height: 576
-    });
-
-    var rightSide = new View({
-        superview: this,
-        x: 1024/2,
-        y: 0,
-        zIndex: 1,
-        width: 1024/2,
-        height: 576
-    });
-
-    rightSide.on('InputSelect', bind(this, function (evt) {
-        bind(this, launchBlade)();
-    }));
-
-    // set up dragging events for clipper
-    leftSide.on('InputStart', bind(this, function (evt) {
-        leftSide.startDrag({
-            inputStartEvt: evt
-        });
-    }));
-
-    leftSide.on('DragStart', bind(this, function (dragEvt) {
-        this.dragOffset = {
-            x: dragEvt.srcPt.x - this.clipper.style.x,
-            y: dragEvt.srcPt.y - this.clipper.style.y
-        };
-    }));
-
-    leftSide.on('Drag', bind(this, function (startEvt, dragEvt, delta) {
-        bind(this, clipperDrag)(dragEvt);
-    }));
-
-    leftSide.on("DragStop", bind(this, function (startEvt, dragEvt) {
-        bind(this, clipperDrag)(dragEvt);
-    }));
-}
-
-function clipperDrag(dragEvt) {
-    var x = dragEvt.srcPt.x - this.dragOffset.x,
-        y = dragEvt.srcPt.y - this.dragOffset.y;
-
-    // confine x-movement to 0-1024
-    if (x < 0) {
-        this.clipper.style.x = 0;
-    } else if (x > 1024/2 - this.clipper.style.width) {
-        this.clipper.style.x = 1024/2 - this.clipper.style.width;
-    } else {
-        this.clipper.style.x = x;
-    }
-
-    // confine y-movement to within fence
-    if (y < constants.fenceSize) {
-        this.clipper.style.y = constants.fenceSize;
-    } else if (y > 576 - constants.fenceSize - this.clipper.style.height) {
-        this.clipper.style.y = 576 - constants.fenceSize - this.clipper.style.height;
-    } else {
-        this.clipper.style.y = y;
-    }
+    this.inputBuffer = new InputBuffer({superview: this});
 }
 
 function spawnSheep () {
@@ -368,21 +299,6 @@ function spawnSheep () {
     sheep.run();
 }
 
-function launchBlade () {
-    if (this.bladeOut || (this.timer && this.timer.time === 0)) {
-        return;
-    }
-    var blade = new Blade({
-        x: this.clipper.style.x + this.clipper.style.width,
-        y: this.clipper.style.y + 3
-    });
-    this.addSubview(blade);
-    this.bladeOut = true;
-    this.clipper.setImage('resources/images/clipper-' + this.clipper.health + '-none.png');
-    blade.run();
-    this.player.bladeFired(blade.isDiamond);
-}
-
 // return a random y-coordinate for the lane
 function randomLaneCoord (numLanes) {
     return laneCoord(Math.floor(Math.random()*numLanes));
@@ -399,8 +315,8 @@ function randomY (spriteHeight) {
     return Math.floor((Math.random() * (576 - 2*constants.fenceSize - spriteHeight)) + constants.fenceSize);
 }
 
-function emitWool (x, y, numBolts, color, particleEngine) {
-    var particleObjects = particleEngine.obtainParticleArray(numBolts), i;
+function emitWool (x, y, numBolts, color) {
+    var particleObjects = GC.app.particleEngine.obtainParticleArray(numBolts), i;
     for (i = 0; i < particleObjects.length; i++) {
         var pObj = particleObjects[i];
         pObj.x = x-30;
@@ -424,7 +340,7 @@ function emitWool (x, y, numBolts, color, particleEngine) {
         pObj.dopacity = -1;
         pObj.image = 'resources/images/particle-' + color + '.png';
     }
-    particleEngine.emitParticles(particleObjects);
+    GC.app.particleEngine.emitParticles(particleObjects);
 }
 
 function sheepFrequency (day) {

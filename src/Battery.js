@@ -11,8 +11,9 @@ exports = Class(Pickup, function (supr) {
 
     this.apply = function () {
         var superview = this.getSuperview();
-        superview.clipper.increaseHealth(1);
-        superview.audio.playBattery();
+        superview.healthBar.increaseHealth(1);
+        GC.app.audio.playBattery();
+        this.emit('battery:pickup');
     };
 });
 

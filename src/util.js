@@ -56,6 +56,18 @@ exports = {
                 throw new Error("assert() failed");
             }
         }
+    },
+
+    /*
+     * Take a number and a length and return a string with
+     * enough leading zeroes to meet the length
+     */
+    zeroPad: function (number, length) {
+        var ret = '' + number, i = length - ret.length;
+        while (i--) {
+            ret = '0' + ret;
+        }
+        return ret;
     }
 
 }
