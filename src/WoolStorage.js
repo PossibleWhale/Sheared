@@ -77,16 +77,3 @@ exports = Class(Storage, function (supr) {
 
 });
 
-
-// ... TODO
-//         /*
-//          * given obj with a key for each color, load it into this.wool
-//          * Mapping
-//          */
-//         this.loadWoolHack = bind(this, function (obj) {
-//             var _tmpArr = [];
-//             for (var k in obj) {
-//                 _tmpArr.push({'color': k, 'count': obj[k]});
-//             }
-//             this.wool.add(_tmpArr);
-//         });

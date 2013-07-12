@@ -1,5 +1,6 @@
 SHELL =             /bin/bash
 
+APP_DOMAIN =        com.possiblewhale.sheared
 
 APK =               build/debug/native-android/sheared.apk
 JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
@@ -34,3 +35,9 @@ clean:
 $(LOCALCONFIG):
 	mkdir -p resources/conf/
 	cat > $(LOCALCONFIG) <<< '{ "debug": true }'
+
+install: $(APK)
+	adb install -r $(APK)
+
+clear-data:
+	adb shell pm clear $(APP_DOMAIN)
