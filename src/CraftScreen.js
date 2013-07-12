@@ -183,11 +183,11 @@ exports = Class(ImageView, function (supr) {
             if (odd) {
                 wiggle = 0;
             } else {
-                wiggle = c.WIGGLE_RADIANS;
+                wiggle = c.WIGGLE_RADIANS / 2;
             }
-            animate(btn).clear().now({r: -1 * wiggle / 2}, 20000 / stepSize, animate.easeIn
-                ).then({r: wiggle / 2}, 20000 / stepSize, animate.easeIn
-                ).then(this.animateCraft.bind(this, btn));
+            animate(btn).clear().now({r: -1 * wiggle}, 20000 / stepSize, animate.easeIn
+                ).then({r: wiggle}, 20000 / stepSize, animate.easeIn
+                ).then(bind(this, this.animateCraft, btn));
         });
 
 
