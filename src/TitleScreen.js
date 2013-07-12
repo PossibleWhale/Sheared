@@ -136,8 +136,8 @@ exports = Class(ui.ImageView, function (supr) {
          * reset the play screen so we can play again
          */
         this.on('playscreen:end', bind(this, function () {
-            delete this.playScreen;
-            this.playScreen = new PlayScreen();
+            delete playScreen;
+            playScreen = new PlayScreen();
             stackView.push(craftScreen);
             craftScreen.emit('craft:start');
         }));

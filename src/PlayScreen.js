@@ -224,7 +224,6 @@ exports = Class(ImageView, function (supr) {
         animate(resultsScreen).now({x: 0});
 
         continueButton.on('InputSelect', bind(this, function (evt) {
-            evt.cancel(); // stop the event from propagating (so we don't shoot a blade)
             animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
                 resultsScreen.removeFromSuperview();
                 this.day += 1;
