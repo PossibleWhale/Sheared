@@ -69,7 +69,7 @@ exports = Class(ImageView, function (supr) {
 
                 this.emit('sheep:collision');
                 superview.clipper.emitSparks();
-                superview.clipper.decreaseHealth();
+                superview.healthBar.decreaseHealth();
                 GC.app.audio.playCollision();
                 this.die();
             }

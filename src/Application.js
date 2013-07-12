@@ -56,6 +56,7 @@ exports = Class(GC.Application, function () {
             backgroundColor: '#37B34A'
         });
 
+        this.player = new Player();
         this.titleScreen = new TitleScreen({superview: stackView});
 
         stackView.push(this.titleScreen);
@@ -77,7 +78,6 @@ exports = Class(GC.Application, function () {
         setTimeout(bind(this, function () {
             this.stackView.pop(/* noAnimate= */ true);
         }), c.SPLASH_TIME);
-        this.player = new Player();
         this.particleEngine = new ParticleEngine({
             superview: this.view,
             x: 0,

@@ -46,6 +46,18 @@ exports = {
             args.splice(0, 0, targetEvent);
             targetObject.emit.apply(targetObject, args);
         }));
+    },
+
+    /*
+     * Take a number and a length and return a string with
+     * enough leading zeroes to meet the length
+     */
+    zeroPad: function (number, length) {
+        var ret = '' + number, i = length - ret.length;
+        while (i--) {
+            ret = '0' + ret;
+        }
+        return ret;
     }
 }
 

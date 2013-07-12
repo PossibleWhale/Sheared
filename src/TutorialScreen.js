@@ -2,6 +2,7 @@ import animate;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 import src.Clipper as Clipper;
+import src.HealthBar as HealthBar;
 import src.constants as constants;
 import src.Button as Button;
 import src.InputBuffer as InputBuffer;
@@ -46,9 +47,16 @@ exports = Class(ImageView, function (supr) {
             x: 0
         });
         this.clipper.style.y = 576/2 - this.clipper.style.width/2;
+
+        this.healthBar = new HealthBar({
+            superview: this,
+            x: 387,
+            y: 576-80,
+        });
+
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new Button({
-            x: 1024/2 - 80,
+            x: 1024 - 160,
             y: 576 - 80,
             backgroundColor: '#FF00FF',
             color: '#000000',
@@ -313,7 +321,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._resetClipper = function () {
-        this.clipper.resetHealth();
+        this.healthBar.resetHealth();
         this.clipper.becomeRegular();
         this.clipper.style.x = 0;
         this.clipper.style.y = 576/2 - this.clipper.style.height/2;

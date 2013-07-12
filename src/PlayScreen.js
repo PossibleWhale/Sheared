@@ -14,6 +14,7 @@ import src.Timer as Timer;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.InputBuffer as InputBuffer;
+import src.HealthBar as HealthBar;
 
 
 exports = Class(ImageView, function (supr) {
@@ -34,10 +35,42 @@ exports = Class(ImageView, function (supr) {
             this.muteButton.setMuted();
         }));
 
-        this.sheep = [];
-        this.dailyInventory = new Inventory();
-
         this.on('play:start', bind(this, playGame));
+
+        this.healthBar = new HealthBar({
+            superview: this,
+            x: 387,
+            y: 576-80,
+        });
+
+        muteOpts = {
+            superview: this,
+            x: 936,
+            y: 16,
+            width: 48,
+            height: 48,
+            zIndex: 1000 // this must position above the clickable area of the screen
+        };
+        this.muteButton = new MuteButton(muteOpts);
+
+        // for playtesting purposes..
+        if (device.name === 'browser') {
+            if (!this.onKey) {
+                this.onKey = bind(this, function () {
+                    if (this.clipper) {
+                        this.clipper.launchBlade();
+                    }
+                });
+                document.addEventListener('keydown', this.onKey, false);
+            }
+        }
+
+        this.beginDay();
+    };
+
+    this.beginDay = function () {
+        this.dailyInventory = new Inventory();
+        this.sheep = [];
 
         var dayIntro = new TextView({
             x: 1024,
@@ -62,17 +95,6 @@ exports = Class(ImageView, function (supr) {
             strokeColor: '#333333'
         });
 
-        muteOpts = {
-            superview: this,
-            x: 936,
-            y: 16,
-            width: 48,
-            height: 48,
-            zIndex: 1000 // this must position above the clickable area of the screen
-        };
-        this.muteButton = new MuteButton(muteOpts);
-
-
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
         animate(dayIntro).now({x: 0});
@@ -84,18 +106,6 @@ exports = Class(ImageView, function (supr) {
                 this.emit('play:start');
             }));
         }));
-
-        // for playtesting purposes..
-        if (device.name === 'browser') {
-            if (!this.onKey) {
-                this.onKey = bind(this, function () {
-                    if (this.clipper) {
-                        this.clipper.launchBlade();
-                    }
-                });
-                document.addEventListener('keydown', this.onKey, false);
-            }
-        }
     };
 
     this.removeSheep = function (sheep) {
@@ -131,20 +141,23 @@ exports = Class(ImageView, function (supr) {
         this.clipper.reloadBlade();
         while (i--) {
             clearInterval(this.sheep[i].interval);
+            this.removeSubview(this.sheep[i]);
         }
         if (this.clipper.blade) {
             clearInterval(this.clipper.blade.interval);
+            this.removeSubview(this.clipper.blade);
         }
         if (this.diamond) {
             clearInterval(this.diamond.interval);
+            this.removeSubview(this.diamond);
         }
         if (this.battery) {
             clearInterval(this.battery.interval);
+            this.removeSubview(this.battery);
         }
         clearInterval(this.interval);
-
-        this.removeAllSubviews();
-        this.removeAllListeners();
+        this.removeSubview(this.clipper);
+        this.removeSubview(this.inputBuffer);
 
         this.player.addInventory(this.dailyInventory);
     };
@@ -218,7 +231,7 @@ exports = Class(ImageView, function (supr) {
                 if (!finishedDay) {
                     GC.app.titleScreen.emit('playscreen:end');
                 } else if (finishedDay) {
-                    this.build();
+                    this.beginDay();
                 }
             }));
         }));

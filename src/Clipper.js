@@ -1,9 +1,8 @@
+import src.util as util;
 import src.constants as constants;
 import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
-
-var maxHealth = 5;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -27,24 +26,8 @@ exports = Class(ImageView, function (supr) {
         });
         this.addSubview(this.clipperBox);
 
-        this.health = maxHealth;
         this.isDiamond = false;
         this.bladeOut = false;
-    };
-
-    this.decreaseHealth = function () {
-        this.health -= 1;
-        if (this.health <= 0) {
-            this.getSuperview().gameOver();
-        }
-    };
-
-    this.increaseHealth = function (amt) {
-        if (this.health === maxHealth) {
-            return;
-        }
-        this.health += amt;
-        this.health = Math.min(maxHealth, this.health);
     };
 
     this.becomeDiamond = function (infinite) {
@@ -79,9 +62,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.reloadBlade = function () {
-        if (this.health <= 0) {
-            return;
-        }
         if (this.isDiamond) {
             this.setImage('resources/images/clipper-diamond.png');
         } else {
@@ -149,9 +129,5 @@ exports = Class(ImageView, function (supr) {
             pObj.image = 'resources/images/particle-bolt.png';
         }
         GC.app.particleEngine.emitParticles(particleObjects);
-    };
-
-    this.resetHealth = function () {
-        this.increaseHealth(maxHealth);
     };
 });
