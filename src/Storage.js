@@ -219,7 +219,7 @@ Storage = Class(GCDataSource, function (supr) {
  * - localStorage.pw_reset_key !== app.localConfig.reset.toString()
  */
 Storage.reset = function _a_reset(resetKey, debug) {
-    resetKey = resetKey.toString();
+    resetKey = resetKey ? resetKey.toString() : undefined;
     if (resetKey && debug &&
       localStorage.pw_reset_key &&
       localStorage.pw_reset_key !== resetKey) {
