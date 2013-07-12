@@ -9,6 +9,10 @@ import src.StatStorage as StatStorage;
 
 
 exports = Class(Emitter, function Player(supr) {
+    var lsSet, lsGet;
+    lsSet = bind(localStorage, localStorage.setItem);
+    lsGet = bind(localStorage, localStorage.getItem);
+
     this.init = function () {
         supr(this, 'init', arguments);
 
@@ -26,6 +30,7 @@ exports = Class(Emitter, function Player(supr) {
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
 
+
         /* FIXME - use StatStorage */ this.ewesSheared = {};
         /* FIXME - use StatStorage */ loadStats(this.ewesSheared, 'ewes.');
 
@@ -35,10 +40,10 @@ exports = Class(Emitter, function Player(supr) {
         /* FIXME - use StatStorage */ this.shearedSheep = function (sheep) {
         /* FIXME - use StatStorage */     if (sheep.isRam) {
         /* FIXME - use StatStorage */         this.ramsSheared[sheep.color.label] += 1;
-        /* FIXME - use StatStorage */         localStorage['rams.' + sheep.color.label] = this.ramsSheared[sheep.color.label];
+                                              lsSet('rams.' + sheep.color.label, this.ramsSheared[sheep.color.label]);
         /* FIXME - use StatStorage */     } else {
         /* FIXME - use StatStorage */         this.ewesSheared[sheep.color.label] += 1;
-        /* FIXME - use StatStorage */         localStorage['ewes.' + sheep.color.label] = this.ewesSheared[sheep.color.label];
+                                              lsSet('ewes.' + sheep.color.label, this.ewesSheared[sheep.color.label]);
         /* FIXME - use StatStorage */     }
         /* FIXME - use StatStorage */ };
 
@@ -65,24 +70,25 @@ exports = Class(Emitter, function Player(supr) {
 });
 
 /* FIXME - use StatStorage */ function incrementCounter (counterName) {
-/* FIXME - use StatStorage */     if (!localStorage[counterName]) {
-/* FIXME - use StatStorage */         localStorage[counterName] = 0;
+/* FIXME - use StatStorage */     if (!localStorage.getItem(counterName)) {
+/* FIXME - use StatStorage */         localStorage.setItem(counterName, 0);
 /* FIXME - use StatStorage */     }
-/* FIXME - use StatStorage */     localStorage[counterName] = parseInt(localStorage[counterName]) + 1;
+/* FIXME - use StatStorage */     localStorage.setItem(counterName, parseInt(localStorage.getItem(counterName), 10) + 1);
+
 /* FIXME - use StatStorage */ }
 
 /* FIXME - use the appropriate Storage */function loadStats (obj, id) {
 /* FIXME - use the appropriate Storage */    var i = c.colors.length;
 /* FIXME - use the appropriate Storage */    // if there are no saved values, initialize them
-/* FIXME - use the appropriate Storage */    if (!localStorage[id + c.COLOR_WHITE.label]) {
+/* FIXME - use the appropriate Storage */    if (!localStorage.getItem(id + c.COLOR_WHITE.label)) {
 /* FIXME - use the appropriate Storage */        while (i--) {
-/* FIXME - use the appropriate Storage */            localStorage[id + c.colors[i].label] = 0;
+/* FIXME - use the appropriate Storage */            localStorage.setItem(id + c.colors[i].label, 0);
 /* FIXME - use the appropriate Storage */        }
 /* FIXME - use the appropriate Storage */    }
 /* FIXME - use the appropriate Storage */
 /* FIXME - use the appropriate Storage */    // pull the stats from local storage
 /* FIXME - use the appropriate Storage */    i = c.colors.length;
 /* FIXME - use the appropriate Storage */    while (i--) {
-/* FIXME - use the appropriate Storage */        obj[c.colors[i].label] = parseInt(localStorage[id + c.colors[i].label]);
+/* FIXME - use the appropriate Storage */        obj[c.colors[i].label] = parseInt(localStorage.getItem(id + c.colors[i].label), 10);
 /* FIXME - use the appropriate Storage */    }
 /* FIXME - use the appropriate Storage */}

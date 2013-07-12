@@ -10,8 +10,13 @@ assert = util.assert;
 
 
 Storage = Class(GCDataSource, function (supr) {
+    var lsSet, lsGet;
+
     this.name = null;
     this.key = null;
+
+    lsGet = bind(localStorage, localStorage.getItem);
+    lsSet = bind(localStorage, localStorage.setItem);
 
     this.init = function _a_init(opts) {
         var preload, opts = opts || {};
@@ -35,8 +40,8 @@ Storage = Class(GCDataSource, function (supr) {
         this.add(preload);
 
         if (this.persist) {
-            this.verifySchema();
             this._storeName = 'pw_store_' + this.name;
+            this.verifySchema();
         }
     };
 
@@ -44,15 +49,12 @@ Storage = Class(GCDataSource, function (supr) {
      * create the database architecture in localStorage
      */
     this._initPWStorage = function _a_initPWStorage() {
-        var getLS = bind(localStorage, localStorage.getItem);
-        var setLS = bind(localStorage, localStorage.setItem);
-
-        if (! getLS('pw_version')) {
-            setLS('pw_version', c.SCHEMA.version);
+        if (! lsGet('pw_version')) {
+            lsSet('pw_version', c.SCHEMA.version);
         }
 
-        if (! getLS('pw_stores')) {
-            setLS('pw_stores', JSON.stringify(c.SCHEMA.stores));
+        if (! lsGet('pw_stores')) {
+            lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
         }
     };
 
@@ -62,16 +64,16 @@ Storage = Class(GCDataSource, function (supr) {
     this.verifySchema = function _a_verifySchema() {
         var version, stores;
 
-        version = parseInt(localStorage.pw_version, 10);
+        version = parseInt(lsGet('pw_version'), 10);
         if (! version) {
             this._initPWStorage();
             version = c.SCHEMA.version;
         }
 
         try {
-            stores = JSON.parse(localStorage.pw_stores);
+            stores = JSON.parse(lsGet('pw_stores'));
         } catch (e) {
-            console.log('** JSON load error for: ' + localStorage.pw_stores);
+            console.log('** JSON load error for: ' + lsGet('pw_stores'));
         }
 
         assert(version === c.SCHEMA.version, 'schema version mismatch');
@@ -150,7 +152,7 @@ Storage = Class(GCDataSource, function (supr) {
         if (ret === null) {
 
             // cold cache -- check localStorage first
-            ret = localStorage[this._storeName + '.' + key];
+            ret = lsGet(this._storeName + '.' + key);
             if (ret) {
                 ret = JSON.parse(ret);
             };
@@ -195,7 +197,7 @@ Storage = Class(GCDataSource, function (supr) {
 
         this.verifyItem(item);
         var storageKey = this._storeName + '.' + key;
-        localStorage.setItem(storageKey, JSON.stringify(item));
+        lsSet(storageKey, JSON.stringify(item));
     };
 
     /*
@@ -220,11 +222,10 @@ Storage = Class(GCDataSource, function (supr) {
  */
 Storage.reset = function _a_reset(resetKey, debug) {
     resetKey = resetKey ? resetKey.toString() : undefined;
-    if (resetKey && debug &&
-      localStorage.pw_reset_key &&
-      localStorage.pw_reset_key !== resetKey) {
+    var storedKey = localStorage.getItem('pw_reset_key');
+    if (resetKey && debug && storedKey && storedKey !== resetKey) {
         localStorage.clear();
-        localStorage.pw_reset_key = resetKey;
+        localStorage.setItem('pw_reset_key', resetKey);
         console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);
         console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);
         console.log("*********************** localStorage was cleared ****** pw_reset_key = " + resetKey);

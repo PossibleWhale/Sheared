@@ -69,7 +69,7 @@ exports = Class(Storage, function (supr) {
     this.init = function (opts) {
         opts = opts || {};
         merge(opts, {preload: wools});
-        assert(opts.preload.length, "opts.preload is empty??");
+        assert(opts.preload.length, "WoolStorage opts.preload is empty??");
         supr(this, 'init', [opts]);
 
         util.reissue(this, 'Update', this, 'wool:update');

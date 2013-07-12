@@ -211,7 +211,7 @@ exports = Class(ImageView, function (supr) {
             woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
             woolCounts[i].woolColor = constants.colors[i].label;
             woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
-                var count = parseInt(this.getText());
+                var count = parseInt(this.getText(), 10);
                 // if we're finished counting up, clear interval and show a burst of wool
                 if (count === this.maxCount) {
                     clearInterval(this.interval);
