@@ -45,7 +45,6 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.sheep = [];
-        this.dailyWool = new WoolStorage({persist: false});
 
         this.woolCounts = new WoolCounter({
             superview: this,
@@ -79,7 +78,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.beginDay = function () {
-        this.dailyWool = new WoolStorage();
+        this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
         var dayIntro = new TextView({

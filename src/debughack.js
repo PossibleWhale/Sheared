@@ -36,6 +36,7 @@ var Hax = function () {
         if (!GC.app.woolhack) {
             GC.app.woolhack = true;
             GC.app.player.wool.add([
+                {color: 'none', count: 0},
                 {color: 'white', count: 100},
                 {color: 'red', count: 100},
                 {color: 'yellow', count: 100},

@@ -37,8 +37,12 @@ exports = Class(Storage, function (supr) {
     };
 
     this.init = function _a_init(opts) {
-        merge(opts, {preload: crafts});
         supr(this, 'init', [opts]);
+
+        // check for 'naked'.. if it isn't present we need to preload
+        if (this.get('naked|none|none') === null) {
+            this.add(crafts);
+        }
 
         util.reissue(this, 'Update', this, 'craft:update');
     };
