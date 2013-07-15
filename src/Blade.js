@@ -67,6 +67,8 @@ exports = Class(ImageView, function (supr) {
                             sheep[i].emit('sheep:sheared');
                             sheep[i].emitWool();
                             sheep[i].die();
+
+                            superview.woolCounts.update();
                         } else {
                             this.ricochet();
                         }
