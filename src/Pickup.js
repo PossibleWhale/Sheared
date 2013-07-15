@@ -1,12 +1,12 @@
 /* An "abstract class" of sorts for pickups.
  * Don't instantiate this ;)
  */
+import animate;
 import src.constants as constants;
 import ui.ImageView as ImageView;
 import math.geom.intersect as intersect;
 
-var stepSize = 13,
-    stepFrequency = 50; // step every x milliseconds
+var timeOnScreen = 3000;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -18,22 +18,20 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.run = function () {
-        this.interval = setInterval(bind(this, function () {
+        var animator = animate(this).now({x: 0 - this.style.width}, timeOnScreen, animate.linear, bind(this, function () {
             var superview = this.getSuperview();
             if (!superview) {
-                clearInterval(this.interval);
+                animator.clear();
                 return;
             }
-
-            this.style.x = this.style.x - stepSize;
-            if (this.style.x < -1*this.style.width) {
-                this.emit('pickup:offscreen');
-                this.die()
-            } else if (intersect.rectAndRect(this.style, superview.clipper.style)) {
+            if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 this.apply();
                 this.die();
             }
-        }), stepFrequency)
+        })).then(bind(this, function () {
+            this.emit('pickup:offscreen');
+            this.die();
+        }));
     };
 
     this.die = function () {

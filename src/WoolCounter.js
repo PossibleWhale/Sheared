@@ -4,6 +4,7 @@
 import ui.View as View;
 import ui.TextView as TextView;
 import src.constants as constants;
+import src.WoolStorage as WoolStorage;
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
@@ -14,6 +15,13 @@ exports = Class(View, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        var persist = opts.persist === undefined ? true : opts.persist;
+        if (persist) {
+            this.wool = GC.app.player.wool;
+        } else {
+            this.wool = new WoolStorage({persist: false});
+        }
 
         var textViewOpts = {
             width: 50,
@@ -38,11 +46,10 @@ exports = Class(View, function (supr) {
     };
 
     this.update = function () {
-        var wool = GC.app.player.wool, i = constants.colors.length;
+        var i = constants.colors.length;
         while (i--) {
-            console.log(wool.get(constants.colors[i]));
             this.counts[constants.colors[i].label].setText(
-                wool.get(constants.colors[i]).count
+                this.wool.get(constants.colors[i]).count
             );
         }
     };

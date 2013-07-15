@@ -25,36 +25,22 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._calcTrajectory = function () {
-        var ydist = this.startY - this.endY,
-            totalDist = Math.sqrt(Math.pow(ydist, 2) + Math.pow(1024, 2)),
-            theta = Math.atan(ydist/1024),
-            stepTimes = 100,
-            stepSize = totalDist / stepTimes,
-            timeToLive = (Math.random() * 3000) + 2000;
-
-        this.stepFrequency = Math.floor(timeToLive / stepTimes);
-        this.stepX = stepSize * Math.cos(theta);
-        this.stepY = stepSize * Math.sin(theta);
-        this.style.r = theta;
+        var ydist = this.startY - this.endY;
+        this.style.r = Math.atan(ydist/1024),
+        this.timeToLive = (Math.random() * 3000) + 2000;
     };
 
     this.run = function () {
         this._calcTrajectory();
      //   this.continuousAnimate();
-        this.interval = setInterval(bind(this, function () {
+        var animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear, bind(this, function () {
             var superview = this.getSuperview();
             if (!superview) {
+                animator.clear();
                 return;
             }
-
-            this.style.x = this.style.x - this.stepX;
-            this.style.y = this.style.y - this.stepY;
-            this.emitDust();
-
-            if (this.style.x < -1*this.style.width) {
-                this.emit('sheep:offscreen');
-                this.die()
-            } else if (intersect.rectAndRect(new Rect({
+            this.emitDust()
+            if (intersect.rectAndRect(new Rect({
                     x: this.style.x + 5,
                     y: this.style.y + 5,
                     width: this.style.width - 10,
@@ -73,7 +59,10 @@ exports = Class(ImageView, function (supr) {
                 GC.app.audio.playCollision();
                 this.die();
             }
-        }), this.stepFrequency);
+        })).then(bind(this, function () {
+            this.emit('sheep:offscreen');
+            this.die();
+        }));
     };
 
     // TODO make this not freeze the app..
@@ -84,7 +73,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.die = function () {
-        clearInterval(this.interval);
         if (this.getSuperview()) {
             this.getSuperview().removeSheep(this);
         }

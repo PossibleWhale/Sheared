@@ -1,3 +1,4 @@
+import animate;
 import ui.ImageView as ImageView;
 
 import math.geom.intersect as intersect;
@@ -6,9 +7,7 @@ import math.geom.Rect as Rect;
 import src.Player as Player;
 import src.constants as constants;
 
-
-var stepSize = 20,
-    stepFrequency = 10;
+var timeOnScreen = 1500;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -27,60 +26,56 @@ exports = Class(ImageView, function (supr) {
             this.setImage('resources/images/blade-regular.png');
             this.isDiamond = false;
         }
-        var interval;
-        interval = setInterval(bind(this, function () {
+
+        var animator = animate(this).now({x: 1024}, timeOnScreen, animate.linear, bind(this, function () {
             var superview = this.getSuperview();
 
             if (!superview) {
-                clearInterval(interval);
+                animator.clear();
                 return;
             }
             var sheep = superview.sheep,
                 i = superview.sheep ? sheep.length : 0,
                 wool = superview.dailyWool;
-            this.style.x = this.style.x + stepSize;
-            if (this.style.x > 1024) {
-                clearInterval(interval);
-                this.removeFromSuperview();
-                superview.clipper.bladeOut = false;
-                superview.clipper.reloadBlade();
-            } else {
-                while (i--) {
-                    var rect = new Rect({
-                        x: sheep[i].style.x + 5,
-                        y: sheep[i].style.y + 5,
-                        width: sheep[i].style.width - 10,
-                        height: sheep[i].style.height - 10,
-                        r: sheep[i].style.r
-                    });
-                    if (intersect.rectAndRect(rect, this.style)) {
-                        if (!sheep[i].isRam || this.isDiamond) {
-                            GC.app.audio.playShear();
-                            if (Math.random() < 0.25) {
-                                GC.app.audio.playBaa();
-                            }
-                            if (wool) {
-                                wool.addWool(sheep[i].color, sheep[i].bolts);
-                            }
-                            GC.app.player.shearedSheep(sheep[i]);
-                            GC.app.player.hitWithBlade(this.isDiamond);
-                            sheep[i].emit('sheep:sheared');
-                            sheep[i].emitWool();
-                            sheep[i].die();
-
-                            superview.woolCounts.update();
-                        } else {
-                            this.ricochet();
+            while (i--) {
+                var rect = new Rect({
+                    x: sheep[i].style.x + 5,
+                    y: sheep[i].style.y + 5,
+                    width: sheep[i].style.width - 10,
+                    height: sheep[i].style.height - 10,
+                    r: sheep[i].style.r
+                });
+                if (intersect.rectAndRect(rect, this.style)) {
+                    if (!sheep[i].isRam || this.isDiamond) {
+                        GC.app.audio.playShear();
+                        if (Math.random() < 0.25) {
+                            GC.app.audio.playBaa();
                         }
-                        clearInterval(interval);
-                        this.removeFromSuperview();
-                        superview.clipper.bladeOut = false;
-                        superview.clipper.reloadBlade();
-                        break;
+                        if (wool) {
+                            wool.addWool(sheep[i].color, sheep[i].bolts);
+                        }
+                        GC.app.player.shearedSheep(sheep[i]);
+                        GC.app.player.hitWithBlade(this.isDiamond);
+                        sheep[i].emit('sheep:sheared');
+                        sheep[i].emitWool();
+                        sheep[i].die();
+                        superview.woolCounts.update();
+                    } else {
+                        this.ricochet();
                     }
+                    animator.clear();
+                    this.removeFromSuperview();
+                    superview.clipper.bladeOut = false;
+                    superview.clipper.reloadBlade();
+                    break;
                 }
             }
-        }), stepFrequency)
+        })).then(bind(this, function () {
+            var superview = this.getSuperview();
+            this.removeFromSuperview();
+            superview.clipper.bladeOut = false;
+            superview.clipper.reloadBlade();
+        }));
     };
 
     this.ricochet = function () {

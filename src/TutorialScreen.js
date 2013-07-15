@@ -10,6 +10,7 @@ import src.Sheep as Sheep;
 import src.Ram as Ram;
 import src.Battery as Battery;
 import src.Diamond as Diamond;
+import src.WoolCounter as WoolCounter;
 
 var textOpts = {
     x: (1024-800)/2,
@@ -52,6 +53,13 @@ exports = Class(ImageView, function (supr) {
             superview: this,
             x: 387,
             y: 576-80,
+        });
+
+        this.woolCounts = new WoolCounter({
+            superview: this,
+            persist: false,
+            x: 367,
+            y: 52
         });
 
         this.inputBuffer = new InputBuffer({superview: this});
