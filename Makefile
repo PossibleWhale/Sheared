@@ -32,6 +32,8 @@ $(APK): $(ALL_APK_DEPS)
 clean:
 	rm -vf $(APK)
 
+localconfig: $(LOCALCONFIG)
+
 $(LOCALCONFIG):
 	mkdir -p resources/conf/
 	cat > $(LOCALCONFIG) <<< '{ "debug": true }'

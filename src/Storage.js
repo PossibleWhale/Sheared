@@ -19,14 +19,11 @@ Storage = Class(GCDataSource, function (supr) {
     lsSet = bind(localStorage, localStorage.setItem);
 
     this.init = function _a_init(opts) {
-        var preload, opts = opts || {};
+        var opts = opts || {};
 
         this.schema = c.SCHEMA.stores[this.name];
 
         this.persist = opts.persist === undefined ? true : opts.persist;
-        preload = opts.preload === undefined ? [] : opts.preload;
-        delete opts.persist;
-        delete opts.preload;
 
         opts['key'] = this.key;
 
@@ -36,8 +33,6 @@ Storage = Class(GCDataSource, function (supr) {
 
         this.on('Update', bind(this, this.storeUpdate));
         this.on('Remove', bind(this, this.storeRemove));
-
-        this.add(preload);
 
         if (this.persist) {
             this._storeName = 'pw_store_' + this.name;
@@ -153,20 +148,12 @@ Storage = Class(GCDataSource, function (supr) {
 
             // cold cache -- check localStorage first
             ret = lsGet(this._storeName + '.' + key);
-            if (ret) {
-                ret = JSON.parse(ret);
-            };
+            ret = ret ? JSON.parse(ret) : null;
 
-            // if localStorage doesn't have it, remember that we checked
-            // localStorage with the __wcm__ ("warm cache miss") marker
-            if (ret === undefined) {
-                warmCacheMiss = {__wcm__: true};
-                warmCacheMiss[this.key] = key;
-                this.add(warmCacheMiss);
-            }
+            // Not ideal: if we've already checked, and the key isn't found in
+            // the store, we should cache that fact. At the moment, that seems
+            // like a premature optimization.
 
-        } else if (ret.__wcm__) {
-            ret = undefined;
         }
         return ret;
     };

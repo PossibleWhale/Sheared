@@ -4,6 +4,7 @@ import src.util as util;
 
 
 var wools = [
+    {color: c.COLOR_NONE.label, count: 0},
     {color: c.COLOR_WHITE.label, count: 0},
     {color: c.COLOR_RED.label, count: 0},
     {color: c.COLOR_BLUE.label, count: 0},
@@ -68,9 +69,13 @@ exports = Class(Storage, function (supr) {
 
     this.init = function (opts) {
         opts = opts || {};
-        merge(opts, {preload: wools});
-        assert(opts.preload.length, "WoolStorage opts.preload is empty??");
         supr(this, 'init', [opts]);
+
+        // check for 'none' as an item.. if it isn't present we need to
+        // preload
+        if (this.get(c.COLOR_NONE) === null) {
+            this.add(wools);
+        }
 
         util.reissue(this, 'Update', this, 'wool:update');
     };
