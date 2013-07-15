@@ -1,0 +1,49 @@
+/*
+ * View containing persistent wool counts for each color.
+ */
+import ui.View as View;
+import ui.TextView as TextView;
+import src.constants as constants;
+
+exports = Class(View, function (supr) {
+    this.init = function (opts) {
+        opts = merge(opts, {
+            height: 21,
+            width: 290,
+            clip: false
+        });
+
+        supr(this, 'init', [opts]);
+
+        var textViewOpts = {
+            width: 50,
+            height: 21,
+            color: '#FFFFFF',
+            fontFamily: 'delius',
+            strokeWidth: 3,
+            strokeColor: '#333333'
+        }, i, xPos = 0;
+
+        this.counts = {};
+        for (i = 0; i < constants.colors.length; i++) {
+            this.counts[constants.colors[i].label] = new TextView(merge({
+                superview: this,
+                x: xPos,
+                y: 0
+            }, textViewOpts));
+            xPos += 60;
+        }
+
+        this.update();
+    };
+
+    this.update = function () {
+        var wool = GC.app.player.wool, i = constants.colors.length;
+        while (i--) {
+            console.log(wool.get(constants.colors[i]));
+            this.counts[constants.colors[i].label].setText(
+                wool.get(constants.colors[i]).count
+            );
+        }
+    };
+});

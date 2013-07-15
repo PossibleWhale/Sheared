@@ -15,6 +15,7 @@ import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.InputBuffer as InputBuffer;
 import src.HealthBar as HealthBar;
+import src.WoolCounter as WoolCounter;
 
 
 exports = Class(ImageView, function (supr) {
@@ -45,6 +46,12 @@ exports = Class(ImageView, function (supr) {
 
         this.sheep = [];
         this.dailyWool = new WoolStorage({persist: false});
+
+        this.woolCounts = new WoolCounter({
+            superview: this,
+            x: 367,
+            y: 52
+        });
 
         muteOpts = {
             superview: this,
@@ -84,8 +91,7 @@ exports = Class(ImageView, function (supr) {
             fontFamily: 'delius',
             color: '#333333',
             strokeWidth: 8,
-            strokeColor: '#FFFFFF',
-            fontWeight: 'bold'
+            strokeColor: '#FFFFFF'
         }),
         continueButton = new Button({
             x: 392,
@@ -159,6 +165,7 @@ exports = Class(ImageView, function (supr) {
             this.removeSubview(this.battery);
         }
         clearInterval(this.interval);
+        this.removeSubview(this.timer);
         this.removeSubview(this.clipper);
         this.removeSubview(this.inputBuffer);
 

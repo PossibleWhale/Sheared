@@ -40,7 +40,7 @@ exports = Class(ImageView, function (supr) {
 
     this.run = function () {
         this._calcTrajectory();
-        this.continuousAnimate();
+     //   this.continuousAnimate();
         this.interval = setInterval(bind(this, function () {
             var superview = this.getSuperview();
             if (!superview) {
@@ -76,9 +76,11 @@ exports = Class(ImageView, function (supr) {
         }), this.stepFrequency);
     };
 
+    // TODO make this not freeze the app..
     this.continuousAnimate = function () {
-        animate(this).clear().now({r: -1 * constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
-            .then({r: constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn).then(this.continuousAnimate.bind(this));
+        animate(this).now({r: -1 * constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
+            .then({r: constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
+            .then(bind(this, this.continuousAnimate));
     };
 
     this.die = function () {
