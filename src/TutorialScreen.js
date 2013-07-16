@@ -363,5 +363,8 @@ exports = Class(ImageView, function (supr) {
             }));
         }
         return sheep;
-    }
+    };
+
+    this.runTick = function () {
+    };
 });

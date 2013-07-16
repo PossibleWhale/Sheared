@@ -116,6 +116,19 @@ exports = Class(ImageView, function (supr) {
         }));
     };
 
+    this.runTick = function () {
+        var i = this.sheep.length;
+        while (i--) {
+            this.sheep[i].onTick();
+        }
+        if (this.battery) {
+            this.battery.onTick();
+        }
+        if (this.diamond) {
+            this.diamond.onTick();
+        }
+    };
+
     this.removeSheep = function (sheep) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
         sheep.removeFromSuperview();
@@ -148,19 +161,19 @@ exports = Class(ImageView, function (supr) {
         this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
         while (i--) {
-            clearInterval(this.sheep[i].interval);
+            this.sheep[i].animator.clear();
             this.removeSubview(this.sheep[i]);
         }
         if (this.clipper.blade) {
-            clearInterval(this.clipper.blade.interval);
+            this.clipper.blade.animator.clear();
             this.removeSubview(this.clipper.blade);
         }
         if (this.diamond) {
-            clearInterval(this.diamond.interval);
+            this.diamond.animator.clear();
             this.removeSubview(this.diamond);
         }
         if (this.battery) {
-            clearInterval(this.battery.interval);
+            this.battery.animator.clear();
             this.removeSubview(this.battery);
         }
         clearInterval(this.interval);

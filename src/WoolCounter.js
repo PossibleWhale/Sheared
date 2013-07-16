@@ -16,12 +16,7 @@ exports = Class(View, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        var persist = opts.persist === undefined ? true : opts.persist;
-        if (persist) {
-            this.wool = GC.app.player.wool;
-        } else {
-            this.wool = new WoolStorage({persist: false});
-        }
+        this.wool = new WoolStorage({persist: false});
 
         var textViewOpts = {
             width: 50,

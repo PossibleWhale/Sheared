@@ -27,50 +27,7 @@ exports = Class(ImageView, function (supr) {
             this.isDiamond = false;
         }
 
-        var animator = animate(this).now({x: 1024}, timeOnScreen, animate.linear, bind(this, function () {
-            var superview = this.getSuperview();
-
-            if (!superview) {
-                animator.clear();
-                return;
-            }
-            var sheep = superview.sheep,
-                i = superview.sheep ? sheep.length : 0,
-                wool = superview.dailyWool;
-            while (i--) {
-                var rect = new Rect({
-                    x: sheep[i].style.x + 5,
-                    y: sheep[i].style.y + 5,
-                    width: sheep[i].style.width - 10,
-                    height: sheep[i].style.height - 10,
-                    r: sheep[i].style.r
-                });
-                if (intersect.rectAndRect(rect, this.style)) {
-                    if (!sheep[i].isRam || this.isDiamond) {
-                        GC.app.audio.playShear();
-                        if (Math.random() < 0.25) {
-                            GC.app.audio.playBaa();
-                        }
-                        if (wool) {
-                            wool.addWool(sheep[i].color, sheep[i].bolts);
-                        }
-                        GC.app.player.shearedSheep(sheep[i]);
-                        GC.app.player.hitWithBlade(this.isDiamond);
-                        sheep[i].emit('sheep:sheared');
-                        sheep[i].emitWool();
-                        sheep[i].die();
-                        superview.woolCounts.update();
-                    } else {
-                        this.ricochet();
-                    }
-                    animator.clear();
-                    this.removeFromSuperview();
-                    superview.clipper.bladeOut = false;
-                    superview.clipper.reloadBlade();
-                    break;
-                }
-            }
-        })).then(bind(this, function () {
+        this.animator = animate(this).now({x: 1024}, timeOnScreen, animate.linear).then(bind(this, function () {
             var superview = this.getSuperview();
             this.removeFromSuperview();
             superview.clipper.bladeOut = false;
@@ -99,5 +56,8 @@ exports = Class(ImageView, function (supr) {
         pObj.image = 'resources/images/particle-blade.png';
         GC.app.particleEngine.emitParticles(particleObjects);
         GC.app.audio.playRamHit();
+
+        this.removeFromSuperview();
+        this.animator.clear();
     };
 });

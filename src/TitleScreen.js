@@ -47,12 +47,16 @@ exports = Class(ui.ImageView, function (supr) {
             if (playScreen.clipper) {
                 playScreen.clipper.emitDiamonds();
             }
-            if (tutorialScreen.tutorialScreen && tutorialScreen.tutorialScreen.clipper) {
-                tutorialScreen.tutorialScreen.clipper.emitDiamonds();
+            if (tutorialScreen.tutorialScreen) {
+                tutorialScreen.tutorialScreen.runTick();
+                if (tutorialScreen.tutorialScreen.clipper) {
+                    tutorialScreen.tutorialScreen.clipper.emitDiamonds();
+                }
             }
             if (GC.app.particleEngine) {
                 GC.app.particleEngine.runTick(dt);
             }
+            playScreen.runTick();
         }));
 
         statOpts = {

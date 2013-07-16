@@ -17,25 +17,28 @@ exports = Class(ImageView, function (supr) {
         supr(this, 'init', [opts]);
     };
 
-    this.run = function () {
-        var animator = animate(this).now({x: 0 - this.style.width}, timeOnScreen, animate.linear, bind(this, function () {
+    this.onTick = function () {
+        if (this.animator && this.animator.hasFrames()) {
             var superview = this.getSuperview();
             if (!superview) {
-                animator.clear();
+                this.animator.clear();
                 return;
             }
             if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 this.apply();
                 this.die();
             }
-        })).then(bind(this, function () {
+        }
+    };
+
+    this.run = function () {
+        this.animator = animate(this).now({x: 0 - this.style.width}, timeOnScreen, animate.linear).then(bind(this, function () {
             this.emit('pickup:offscreen');
             this.die();
         }));
     };
 
     this.die = function () {
-        clearInterval(this.interval);
         this.removeFromSuperview();
     };
 });

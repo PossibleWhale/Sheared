@@ -30,17 +30,53 @@ exports = Class(ImageView, function (supr) {
         this.timeToLive = (Math.random() * 3000) + 2000;
     };
 
-    this.run = function () {
-        this._calcTrajectory();
-     //   this.continuousAnimate();
-        var animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear, bind(this, function () {
+    // stuff we need to do every tick
+    this.onTick = function () {
+        if (this.animator && this.animator.hasFrames()) {
             var superview = this.getSuperview();
             if (!superview) {
-                animator.clear();
+                this.animator.clear();
                 return;
             }
             this.emitDust()
-            if (intersect.rectAndRect(new Rect({
+
+            var hitBox = new Rect({
+                x: this.style.x + 5,
+                y: this.style.y + 5,
+                width: this.style.width - 10,
+                height: this.style.height - 10,
+                r: this.style.r
+            });
+            if (superview.clipper.bladeOut && superview.clipper.blade &&
+                intersect.rectAndRect(hitBox, superview.clipper.blade.style)) {
+
+                superview.clipper.blade.animator.clear();
+                superview.clipper.blade.removeFromSuperview();
+                superview.clipper.bladeOut = false;
+                superview.clipper.reloadBlade();
+
+                var wool = superview.dailyWool;
+
+                if (!this.isRam || superview.clipper.blade.isDiamond) {
+                    GC.app.audio.playShear();
+                    if (Math.random() < 0.25) {
+                        GC.app.audio.playBaa();
+                    }
+                    if (wool) {
+                        wool.addWool(this.color, this.bolts);
+                    }
+                    GC.app.player.shearedSheep(this);
+                    GC.app.player.hitWithBlade(superview.clipper.blade.isDiamond);
+                    this.emit('sheep:sheared');
+                    this.emitWool();
+                    this.die();
+                    superview.woolCounts.wool.addWool(this.color, this.bolts);
+                    superview.woolCounts.update();
+                } else {
+                    superview.clipper.blade.ricochet();
+                }
+                
+            } else if (intersect.rectAndRect(new Rect({
                     x: this.style.x + 5,
                     y: this.style.y + 5,
                     width: this.style.width - 10,
@@ -59,7 +95,14 @@ exports = Class(ImageView, function (supr) {
                 GC.app.audio.playCollision();
                 this.die();
             }
-        })).then(bind(this, function () {
+        }
+    };
+
+    this.run = function () {
+        this._calcTrajectory();
+     //   this.continuousAnimate();
+        this.animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear)
+            .then(bind(this, function () {
             this.emit('sheep:offscreen');
             this.die();
         }));
@@ -74,6 +117,7 @@ exports = Class(ImageView, function (supr) {
 
     this.die = function () {
         if (this.getSuperview()) {
+            this.animator.clear();
             this.getSuperview().removeSheep(this);
         }
     };
@@ -119,12 +163,12 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(this.stepSize/10), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i;
         for (i = 0; i < particleObjects.length; i++) {
             var pObj = particleObjects[i];
-            pObj.x = this.style.x + this.style.width/6;
+            pObj.x = this.style.x + this.style.width;
             pObj.y = this.style.y + this.style.height/2;
-            pObj.dx = Math.random() * 100;
+            pObj.dx = Math.random() * 50;
             pObj.dy = Math.random() * -100;
             pObj.ddx = Math.random() * 200;
             pObj.ddy = Math.random() * 200;
