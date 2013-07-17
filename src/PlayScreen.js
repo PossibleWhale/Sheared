@@ -80,7 +80,7 @@ exports = Class(ImageView, function (supr) {
         if (device.name === 'browser') {
             if (!this.onKey) {
                 this.onKey = bind(this, function () {
-                    if (this.clipper) {
+                    if (this.clipper && !this.paused) {
                         this.clipper.launchBlade();
                     }
                 });
@@ -224,6 +224,7 @@ exports = Class(ImageView, function (supr) {
         this.removeSubview(this.timer);
         this.removeSubview(this.clipper);
         this.removeSubview(this.inputBuffer);
+        this.removeSubview(this.pauseButton);
 
         this.player.mergeWoolCounts(this.dailyWool);
     };
@@ -320,6 +321,9 @@ exports = Class(ImageView, function (supr) {
 });
 
 function playGame () {
+    this.paused = false;
+    this.addSubview(this.pauseButton);
+
     if (!this.clipper) {
         this.clipper = new Clipper({
             x: 0,
