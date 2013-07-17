@@ -76,9 +76,9 @@ exports = Class(View, function (supr) {
                     GC.app.player.hitWithBlade(superview.clipper.blade.isDiamond);
                     this.emit('sheep:sheared');
                     this.emitWool();
-                    this.die();
                     superview.woolCounts.wool.addWool(this.color, this.bolts);
-                    superview.woolCounts.update();
+                    superview.woolCounts.update(this.color);
+                    this.die();
                 } else {
                     superview.clipper.blade.ricochet();
                 }

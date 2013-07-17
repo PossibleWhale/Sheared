@@ -49,7 +49,8 @@ exports = Class(ImageView, function (supr) {
         this.woolCounts = new WoolCounter({
             superview: this,
             x: 367,
-            y: 52
+            y: 52,
+            fromLocal: true
         });
 
         muteOpts = {

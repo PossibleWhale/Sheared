@@ -16,7 +16,12 @@ exports = Class(View, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.wool = new WoolStorage({persist: false});
+        var fromLocal = opts.fromLocal || false;
+        if (fromLocal) {
+            this.wool = GC.app.player.wool.copy();
+        } else {
+            this.wool = new WoolStorage({persist: false});
+        }
 
         var textViewOpts = {
             width: 50,
@@ -35,17 +40,13 @@ exports = Class(View, function (supr) {
                 y: 0
             }, textViewOpts));
             xPos += 60;
+            this.update(constants.colors[i]);
         }
-
-        this.update();
     };
 
-    this.update = function () {
-        var i = constants.colors.length;
-        while (i--) {
-            this.counts[constants.colors[i].label].setText(
-                this.wool.get(constants.colors[i]).count
-            );
-        }
+    this.update = function (color) {
+        this.counts[color.label].setText(
+            this.wool.get(color).count
+        );
     };
 });
