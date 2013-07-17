@@ -4,6 +4,14 @@ import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
 
+var diamondIndicator = new ImageView({
+    x: 193,
+    y: 576 - 80,
+    width: 80,
+    height: 80,
+    image: 'resources/images/active-diamond.png'
+});
+
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
@@ -33,8 +41,15 @@ exports = Class(ImageView, function (supr) {
     this.becomeDiamond = function (infinite) {
         this.isDiamond = true;
         this.setImage('resources/images/clipper-diamond.png');
+        this.getSuperview().addSubview(diamondIndicator);
+
         if (!infinite) {
-            setTimeout(bind(this, this.becomeRegular), 5000);
+            setTimeout(bind(this, function () {
+                this.becomeRegular();
+                if (this.getSuperview()) {
+                    this.getSuperview().removeSubview(diamondIndicator);
+                }
+            }), 5000);
         }
     };
 

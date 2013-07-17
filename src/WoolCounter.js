@@ -9,8 +9,8 @@ import src.WoolStorage as WoolStorage;
 exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            height: 21,
-            width: 290,
+            height: 80,
+            width: 510,
             clip: false
         });
 
@@ -24,12 +24,15 @@ exports = Class(View, function (supr) {
         }
 
         var textViewOpts = {
-            width: 50,
-            height: 21,
+            width: 80,
+            height: 80,
             color: '#FFFFFF',
             fontFamily: 'delius',
-            strokeWidth: 3,
-            strokeColor: '#333333'
+            strokeWidth: 4,
+            strokeColor: '#333333',
+            size: 32,
+            horizontalAlign: 'center',
+            verticalAlign: 'middle'
         }, i, xPos = 0;
 
         this.counts = {};
@@ -39,7 +42,7 @@ exports = Class(View, function (supr) {
                 x: xPos,
                 y: 0
             }, textViewOpts));
-            xPos += 60;
+            xPos += 95;
             this.update(constants.colors[i]);
         }
     };

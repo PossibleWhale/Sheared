@@ -48,20 +48,32 @@ exports = Class(ImageView, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 367,
-            y: 52,
+            x: 283,
+            y: 0,
             fromLocal: true
         });
 
         muteOpts = {
             superview: this,
-            x: 936,
-            y: 16,
-            width: 48,
-            height: 48,
+            x: 1024-80,
+            y: 0,
+            width: 80,
+            height: 80,
             zIndex: 1000 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
+        this.pauseButton = new ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            zIndex: 1000,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-pause.png'
+        });
+        this.pauseButton.on('InputSelect', function () {
+            console.log("pause it");
+        });
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -288,10 +300,10 @@ function playGame () {
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     this.timer = new Timer({
-        x: 0,
-        y: 14,
-        width: 1024,
-        height: 40
+        x: 751,
+        y: 576-80,
+        width: 80,
+        height: 60
     });
     this.addSubview(this.timer);
     this.timer.run();
