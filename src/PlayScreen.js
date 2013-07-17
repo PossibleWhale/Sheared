@@ -31,6 +31,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        this.paused = false;
         // anything that must happen when the screen appears goes here.
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted();
@@ -71,9 +72,9 @@ exports = Class(ImageView, function (supr) {
             height: 80,
             image: 'resources/images/button-pause.png'
         });
-        this.pauseButton.on('InputSelect', function () {
-            console.log("pause it");
-        });
+        this.pauseButton.on('InputSelect', bind(this, function () {
+            this.togglePaused();
+        }));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -88,6 +89,41 @@ exports = Class(ImageView, function (supr) {
         }
 
         this.beginDay();
+    };
+
+    this.togglePaused = function () {
+        this.paused = !this.paused;
+        if (this.paused) {
+            this.timer.stop();
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+            var i = this.sheep.length;
+            while (i--) {
+                this.sheep[i].animator.pause();
+            }
+            if (this.battery) {
+                this.battery.animator.pause();
+            }
+            if (this.diamond) {
+                this.diamond.animator.pause();
+            }
+            this.removeSubview(this.inputBuffer);
+        } else {
+            this.timer.run();
+            this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
+            var i = this.sheep.length;
+            while (i--) {
+                this.sheep[i].animator.resume();
+            }
+            if (this.battery) {
+                this.battery.animator.resume();
+            }
+            if (this.diamond) {
+                this.diamond.animator.resume();
+            }
+            this.addSubview(this.inputBuffer);
+        }
     };
 
     this.beginDay = function () {
