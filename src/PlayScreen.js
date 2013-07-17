@@ -82,27 +82,22 @@ exports = Class(ImageView, function (supr) {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
-        var dayIntro = new TextView({
+        var dayIntro = new TextView(merge({
             x: 1024,
             y: 0,
             width: 1024,
             height: 576,
-            text: 'Day  ' + (this.day+1),
-            fontFamily: 'delius',
-            color: '#333333',
+            size: 128,
             strokeWidth: 8,
-            strokeColor: '#FFFFFF'
-        }),
-        continueButton = new Button({
+            text: 'Day  ' + (this.day+1),
+        }, constants.TEXT_OPTIONS)),
+        continueButton = new Button(merge({
             x: 392,
             y: 418,
             width: 240,
             height: 54,
             text: 'Continue',
-            color: '#FFFFFF',
-            strokeWidth: 6,
-            strokeColor: '#333333'
-        });
+        }, constants.TEXT_OPTIONS));
 
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
@@ -196,50 +191,66 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        var i, resultsScreen = new ImageView({
-            x: 1024,
-            y: 0,
-            width: 1024,
-            height: 576,
-            image: 'resources/images/results.png'
-        }),
-        continueButton = new Button({
-            x: 392,
-            y: 418,
-            width: 240,
-            height: 54
-        });
-        var woolCounts = [];
-        for (i = 0; i < constants.colors.length; i++) {
-            woolCounts.push(new TextView({
-                x: 72 + 196*i,
-                y: 337,
-                width: 96,
-                height: 48,
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                text: '0',
+        var i, resultsScreen, continueButton, woolCounts = [];
+        if (finishedDay) {
+            resultsScreen = new ImageView({
+                x: 1024,
+                y: 0,
+                width: 1024,
+                height: 576,
+                image: 'resources/images/results.png'
+            });
+            continueButton = new Button({
+                x: 392,
+                y: 418,
+                width: 240,
+                height: 54
+            });
+            for (i = 0; i < constants.colors.length; i++) {
+                woolCounts.push(new TextView(merge({
+                    x: 72 + 196*i,
+                    y: 337,
+                    width: 96,
+                    height: 48,
+                    text: '0',
+                    size: 128,
+                    autoFontSize: true,
+                }, constants.TEXT_OPTIONS)));
+                resultsScreen.addSubview(woolCounts[i]);
+            }
+            for (i = 0; i < woolCounts.length; i++) {
+                woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
+                woolCounts[i].woolColor = constants.colors[i].label;
+                woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
+                    var count = parseInt(this.getText(), 10);
+                    // if we're finished counting up, clear interval and show a burst of wool
+                    if (count === this.maxCount) {
+                        clearInterval(this.interval);
+                        emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
+                        return;
+                    }
+                    this.setText('' + (count + 1));
+                }), 100);
+            }
+        } else {
+            resultsScreen = new TextView(merge({
+                x: 1024,
+                y: 0,
+                width: 1024,
+                height: 576,
+                opacity: 1,
                 size: 128,
-                autoFontSize: true,
-                color: '#FFFFFF',
-                strokeWidth: 4,
-                strokeColor: '#000000'
-            }));
-            resultsScreen.addSubview(woolCounts[i]);
-        }
-        for (i = 0; i < woolCounts.length; i++) {
-            woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
-            woolCounts[i].woolColor = constants.colors[i].label;
-            woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
-                var count = parseInt(this.getText(), 10);
-                // if we're finished counting up, clear interval and show a burst of wool
-                if (count === this.maxCount) {
-                    clearInterval(this.interval);
-                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
-                    return;
-                }
-                this.setText('' + (count + 1));
-            }), 100);
+                strokeWidth: 8,
+                text: 'Clipper out of power!'
+            }, constants.TEXT_OPTIONS));
+            continueButton = new TextView(merge({
+                x: 392,
+                y: 418,
+                width: 240,
+                height: 54,
+                opacity: 1,
+                text: 'Let\'s craft!'
+            }, constants.TEXT_OPTIONS));
         }
 
         resultsScreen.addSubview(continueButton);

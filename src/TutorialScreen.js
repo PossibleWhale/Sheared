@@ -11,22 +11,9 @@ import src.Ram as Ram;
 import src.Battery as Battery;
 import src.Diamond as Diamond;
 import src.WoolCounter as WoolCounter;
+import src.constants as constants;
 
-var textOpts = {
-    x: (1024-800)/2,
-    y: (576-400)/2,
-    width: 800,
-    height: 400,
-    color: '#FFFFFF',
-    opacity: 0,
-    fontFamily: 'delius',
-    strokeWidth: 6,
-    strokeColor: '#333333',
-    wrap: true,
-    size: 64,
-    verticalAlign: 'middle',
-    shadowColor: '#000000'
-};
+var textOpts = merge({opacity: 0}, constants.TEXT_OPTIONS);
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
