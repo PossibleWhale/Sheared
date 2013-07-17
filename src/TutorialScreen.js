@@ -235,10 +235,12 @@ exports = Class(ImageView, function (supr) {
 
             ram.on('sheep:offscreen', bind(this, function () {
                 bind(this, showText)();
+                ram.removeAllListeners();
             }));
 
             ram.on('sheep:collision', bind(this, function () {
                 bind(this, showText)();
+                ram.removeAllListeners();
             }));
         }));
     };
@@ -356,10 +358,12 @@ exports = Class(ImageView, function (supr) {
         if (!allowCollision) {
             sheep.on('sheep:offscreen', bind(this, function () {
                 this.tryAgain(fn);
+                sheep.removeAllListeners();
             }));
 
             sheep.on('sheep:collision', bind(this, function () {
                 this.tryAgain(fn);
+                sheep.removeAllListeners();
             }));
         }
         return sheep;
