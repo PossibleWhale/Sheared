@@ -239,7 +239,7 @@ exports = Class(ImageView, function (supr) {
                 width: 1024,
                 height: 576,
                 opacity: 1,
-                size: 128,
+                size: 72,
                 strokeWidth: 8,
                 text: 'Clipper out of power!'
             }, constants.TEXT_OPTIONS));
