@@ -93,6 +93,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 999
         });
         backButton.on('InputSelect', bind(this, function () {
+            this.removeAllSubviews();
             this.getSuperview().pop();
         }));
     };
