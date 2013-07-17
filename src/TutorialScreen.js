@@ -314,7 +314,7 @@ exports = Class(ImageView, function (supr) {
         }
         var i = this.sheep.length;
         while (i--) {
-            this.removeSheep(this.sheep[i]);
+            this.sheep[i].die();
         }
 
         var text = new TextView(merge({
@@ -358,12 +358,10 @@ exports = Class(ImageView, function (supr) {
         if (!allowCollision) {
             sheep.on('sheep:offscreen', bind(this, function () {
                 this.tryAgain(fn);
-                sheep.removeAllListeners();
             }));
 
             sheep.on('sheep:collision', bind(this, function () {
                 this.tryAgain(fn);
-                sheep.removeAllListeners();
             }));
         }
         return sheep;

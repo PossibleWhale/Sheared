@@ -130,6 +130,7 @@ exports = Class(View, function (supr) {
         if (this.getSuperview()) {
             this.getSuperview().removeSheep(this);
         }
+        this.removeAllListeners();
     };
 
     this.emitWool = function () {
