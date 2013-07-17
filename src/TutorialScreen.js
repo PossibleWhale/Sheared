@@ -147,7 +147,7 @@ exports = Class(ImageView, function (supr) {
                             clearInterval(this.interval);
                         }
 
-                        var sheep = this._spawnSheep(constants.colors[colorIdx], 576/2);
+                        var sheep = this._spawnSheep(constants.colors[colorIdx], 576/2, this.eweTutorial);
                         if (colorIdx === 4) {
                             sheep.on('sheep:sheared', bind(this, function () {
                                 text = new TextView(merge({
@@ -307,12 +307,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.tryAgain = function (fn) {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
         var i = this.sheep.length;
         while (i--) {
             this.removeSheep(this.sheep[i]);
-        }
-        if (this.interval) {
-            clearInterval(this.interval);
         }
 
         var text = new TextView(merge({
@@ -366,5 +366,15 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.runTick = function () {
+        var i = this.sheep.length;
+        while (i--) {
+            this.sheep[i].onTick();
+        }
+        if (this.battery) {
+            this.battery.onTick();
+        }
+        if (this.diamond) {
+            this.diamond.onTick();
+        }
     };
 });

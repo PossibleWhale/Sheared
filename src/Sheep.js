@@ -126,8 +126,8 @@ exports = Class(View, function (supr) {
     };
 
     this.die = function () {
+        this.animator.clear();
         if (this.getSuperview()) {
-            this.animator.clear();
             this.getSuperview().removeSheep(this);
         }
     };
