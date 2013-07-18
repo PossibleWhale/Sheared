@@ -233,6 +233,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.diamondTutorial = function () {
+        var text;
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
@@ -240,7 +241,7 @@ exports = Class(ImageView, function (supr) {
         this.diamond = new Diamond({
             superview: this,
             x: 1024
-        }), text;
+        });
         this.diamond.style.y = 576/2 - this.diamond.style.height/2;
         this.diamond.infinite = true;
         this.diamond.run();
