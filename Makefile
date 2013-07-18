@@ -16,13 +16,19 @@ LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES)
 
+GC_DIR =            $(subst /bin/basil,,$(shell which basil))
+
+
 all: manifest.json register $(APK)
 
 manifest.json: tapjoysecretkey.txt manifest.json.in
 	fab gcbuild.generateManifest
 	test -f manifest.json
 
-tapjoysecretkey.txt:
+$(GC_DIR)/addons/tapjoyads:
+	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons
+
+tapjoysecretkey.txt: $(GC_DIR)/addons/tapjoyads
 	ln -s ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt tapjoysecretkey.txt
 
 register:
