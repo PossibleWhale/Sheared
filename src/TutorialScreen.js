@@ -44,9 +44,8 @@ exports = Class(ImageView, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            persist: false,
-            x: 367,
-            y: 52
+            x: 283,
+            y: 0,
         });
 
         this.inputBuffer = new InputBuffer({superview: this});
@@ -177,13 +176,13 @@ exports = Class(ImageView, function (supr) {
                     text: 'Battery pickups appear occasionally and restore one power cell.'
                 }, textOpts));
                 this._animate(text).then(bind(this, function () {
-                    var battery = new Battery({
+                    this.battery = new Battery({
                         superview: this,
                         x: 1024
                     });
-                    battery.style.y = 576/2 - battery.style.height/2;
-                    battery.run();
-                    battery.on('battery:pickup', bind(this, function () {
+                    this.battery.style.y = 576/2 - this.battery.style.height/2;
+                    this.battery.run();
+                    this.battery.on('battery:pickup', bind(this, function () {
                         this.addSubview(this.nextButton);
                         this.nextButton.on('InputSelect', bind(this, function () {
                             this.nextButton.removeFromSuperview();
@@ -238,17 +237,17 @@ exports = Class(ImageView, function (supr) {
         this.sheep.length = 0;
         this._resetClipper();
 
-        var diamond = new Diamond({
+        this.diamond = new Diamond({
             superview: this,
             x: 1024
         }), text;
-        diamond.style.y = 576/2 - diamond.style.height/2;
-        diamond.infinite = true;
-        diamond.run();
-        diamond.on('pickup:offscreen', bind(this, function () {
+        this.diamond.style.y = 576/2 - this.diamond.style.height/2;
+        this.diamond.infinite = true;
+        this.diamond.run();
+        this.diamond.on('pickup:offscreen', bind(this, function () {
             this.tryAgain(this.diamondTutorial);
         }));
-        diamond.on('diamond:pickup', bind(this, function () {
+        this.diamond.on('diamond:pickup', bind(this, function () {
             text = new TextView(merge({
                 superview: this,
                 text: 'Your clipper is equipped with diamond blades for five seconds. Notice the glitter effect.'
