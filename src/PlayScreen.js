@@ -95,6 +95,7 @@ exports = Class(ImageView, function (supr) {
         this.paused = !this.paused;
         if (this.paused) {
             this.timer.stop();
+            this.clipper.pauseCountdown();
             if (this.interval) {
                 clearInterval(this.interval);
             }
@@ -111,6 +112,7 @@ exports = Class(ImageView, function (supr) {
             this.removeSubview(this.inputBuffer);
         } else {
             this.timer.run();
+            this.clipper.startCountdown();
             this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
             var i = this.sheep.length;
             while (i--) {
@@ -255,7 +257,18 @@ exports = Class(ImageView, function (supr) {
                 y: 418,
                 width: 240,
                 height: 54
+            }),
+            craftButton = new ImageView({
+                superview: resultsScreen,
+                x: 0,
+                y: 84,
+                width: 80,
+                height: 80,
+                image: 'resources/images/button-craft.png'
             });
+            craftButton.on('InputSelect', bind(this, function () {
+                this.emit('playscreen:craft');
+            }));
             for (i = 0; i < constants.colors.length; i++) {
                 woolCounts.push(new TextView(merge({
                     x: 72 + 196*i,

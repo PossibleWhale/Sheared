@@ -136,6 +136,11 @@ exports = Class(ui.ImageView, function (supr) {
             craftScreen.emit('craft:start');
         }));
 
+        playScreen.on('playscreen:craft', bind(this, function () {
+            stackView.push(craftScreen);
+            craftScreen.emit('craft:start');
+        }));
+
         /* When the game screen has signalled that the game is over,
          * reset the play screen so we can play again
          */
