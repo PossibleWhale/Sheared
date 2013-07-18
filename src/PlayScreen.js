@@ -204,6 +204,7 @@ exports = Class(ImageView, function (supr) {
         this.audio.stopMusic();
         this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
+        this.clipper.pauseCountdown();
         while (i--) {
             this.sheep[i].animator.clear();
             this.removeSubview(this.sheep[i]);
@@ -334,6 +335,10 @@ function playGame () {
         this.clipper.style.y = laneCoord(4) + 5;
     }
     this.addSubview(this.clipper);
+
+    if (this.clipper.isDiamond) {
+        this.clipper.startCountdown();
+    }
 
     this.player = GC.app.player;
     this.audio = GC.app.audio;

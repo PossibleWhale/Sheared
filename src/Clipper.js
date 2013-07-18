@@ -39,29 +39,40 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.becomeDiamond = function (infinite) {
+        this.countdown = 5;
+
         this.isDiamond = true;
         this.setImage('resources/images/clipper-diamond.png');
 
-        var superview = this.getSuperview(),
-            startTime = superview.timer.time;
-        superview.addSubview(diamondIndicator);
+        this.getSuperview().addSubview(diamondIndicator);
 
         if (!infinite) {
-            this.interval = setInterval(bind(this, function () {
-                if (startTime - superview.timer.time >= 5) {
-                    clearInterval(this.interval);
-                    this.becomeRegular();
-                    if (this.getSuperview()) {
-                        this.getSuperview().removeSubview(diamondIndicator);
-                    }
-                }
-            }), 1000);
+            this.startCountdown();
         }
     };
 
     this.becomeRegular = function () {
+        clearInterval(this.interval);
         this.isDiamond = false;
         this.setImage('resources/images/clipper-regular.png');
+        if (this.getSuperview()) {
+            this.getSuperview().removeSubview(diamondIndicator);
+        }
+    };
+
+    this.startCountdown = function () {
+        this.interval = setInterval(bind(this, function () {
+            if (this.countdown <= 0) {
+                this.becomeRegular();
+            }
+            this.countdown--;
+        }), 1000);
+    };
+
+    this.pauseCountdown = function () {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
     };
 
     this.launchBlade = function () {
