@@ -9,13 +9,15 @@ exports = Class(TextView, function (supr) {
 
         opts = merge(opts, {
             color: '#FFFFFF',
-            size: 128,
+            size: 72,
             autoFontSize: true,
             fontFamily: 'delius',
             text: initialTime,
             horizontalAlign: 'center',
             strokeWidth: 4,
-            strokeColor: '#000000'
+            strokeColor: '#000000',
+            horizontalAlign: 'center',
+            vertcalAlign: 'middle'
         });
 
         supr(this, 'init', [opts]);

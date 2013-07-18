@@ -5,6 +5,21 @@ var numDays = 5;
 exports = {
     WIGGLE_RADIANS: Math.PI / 32,
 
+    TEXT_OPTIONS: {
+        x: (1024-800)/2,
+        y: (576-400)/2,
+        width: 800,
+        height: 400,
+        color: '#FFFFFF',
+        fontFamily: 'delius',
+        strokeWidth: 6,
+        strokeColor: '#333333',
+        wrap: true,
+        size: 64,
+        verticalAlign: 'middle',
+        shadowColor: '#000000'
+    },
+
     SPLASH_TIME: 3000,
 
     COLOR_NONE: {label: 'none'},

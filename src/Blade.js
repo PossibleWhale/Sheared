@@ -7,7 +7,7 @@ import math.geom.Rect as Rect;
 import src.Player as Player;
 import src.constants as constants;
 
-var timeOnScreen = 1500;
+var timeOnScreen = 1000;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {

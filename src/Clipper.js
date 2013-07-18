@@ -4,6 +4,14 @@ import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
 
+var diamondIndicator = new ImageView({
+    x: 193,
+    y: 576 - 80,
+    width: 80,
+    height: 80,
+    image: 'resources/images/active-diamond.png'
+});
+
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
@@ -31,16 +39,40 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.becomeDiamond = function (infinite) {
+        this.countdown = 5;
+
         this.isDiamond = true;
         this.setImage('resources/images/clipper-diamond.png');
+
+        this.getSuperview().addSubview(diamondIndicator);
+
         if (!infinite) {
-            setTimeout(bind(this, this.becomeRegular), 5000);
+            this.startCountdown();
         }
     };
 
     this.becomeRegular = function () {
+        clearInterval(this.interval);
         this.isDiamond = false;
         this.setImage('resources/images/clipper-regular.png');
+        if (this.getSuperview()) {
+            this.getSuperview().removeSubview(diamondIndicator);
+        }
+    };
+
+    this.startCountdown = function () {
+        this.interval = setInterval(bind(this, function () {
+            if (this.countdown <= 0) {
+                this.becomeRegular();
+            }
+            this.countdown--;
+        }), 1000);
+    };
+
+    this.pauseCountdown = function () {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
     };
 
     this.launchBlade = function () {

@@ -5,19 +5,26 @@ import ui.View as View;
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         var color = opts.color || randomColor();
 
         opts = merge(opts, {
-            image: color.eweImage,
             width: 108,
             height: 82,
-            anchorX: 108/2,
-            anchorY: 82/2
+            clip: false
         });
 
         supr(this, 'init', [opts]);
+
+        this.image = new ImageView({
+            superview:this,
+            image: color.eweImage,
+            width: this.style.width,
+            height: this.style.height,
+            anchorX: 108/2,
+            anchorY: 82/2
+        });
 
         this.color = color;
         this.bolts = 1;
@@ -38,7 +45,7 @@ exports = Class(ImageView, function (supr) {
                 this.animator.clear();
                 return;
             }
-            this.emitDust()
+            //this.emitDust()
 
             var hitBox = new Rect({
                 x: this.style.x + 5,
@@ -69,13 +76,12 @@ exports = Class(ImageView, function (supr) {
                     GC.app.player.hitWithBlade(superview.clipper.blade.isDiamond);
                     this.emit('sheep:sheared');
                     this.emitWool();
-                    this.die();
                     superview.woolCounts.wool.addWool(this.color, this.bolts);
-                    superview.woolCounts.update();
+                    superview.woolCounts.update(this.color);
+                    this.die();
                 } else {
                     superview.clipper.blade.ricochet();
                 }
-                
             } else if (intersect.rectAndRect(new Rect({
                     x: this.style.x + 5,
                     y: this.style.y + 5,
@@ -98,9 +104,20 @@ exports = Class(ImageView, function (supr) {
         }
     };
 
+    this.setImage = function (image) {
+        this.image.setImage(image);
+    };
+
+    // TODO make this not freeze the app..
+    this.continuousAnimate = function () {
+        animate(this.image).clear().now({r: -1*constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
+            .then({r: constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
+            .then(this.continuousAnimate.bind(this));
+    };
+
     this.run = function () {
         this._calcTrajectory();
-     //   this.continuousAnimate();
+        this.continuousAnimate();
         this.animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear)
             .then(bind(this, function () {
             this.emit('sheep:offscreen');
@@ -108,18 +125,12 @@ exports = Class(ImageView, function (supr) {
         }));
     };
 
-    // TODO make this not freeze the app..
-    this.continuousAnimate = function () {
-        animate(this).now({r: -1 * constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
-            .then({r: constants.WIGGLE_RADIANS}, 10000/this.stepSize, animate.easeIn)
-            .then(bind(this, this.continuousAnimate));
-    };
-
     this.die = function () {
+        this.animator.clear();
         if (this.getSuperview()) {
-            this.animator.clear();
             this.getSuperview().removeSheep(this);
         }
+        this.removeAllListeners();
     };
 
     this.emitWool = function () {

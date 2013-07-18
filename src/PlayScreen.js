@@ -31,6 +31,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        this.paused = false;
         // anything that must happen when the screen appears goes here.
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted();
@@ -48,25 +49,38 @@ exports = Class(ImageView, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 367,
-            y: 52
+            x: 283,
+            y: 0,
+            fromLocal: true
         });
 
         muteOpts = {
             superview: this,
-            x: 936,
-            y: 16,
-            width: 48,
-            height: 48,
+            x: 1024-80,
+            y: 0,
+            width: 80,
+            height: 80,
             zIndex: 1000 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
+        this.pauseButton = new ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            zIndex: 1000,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-pause.png'
+        });
+        this.pauseButton.on('InputSelect', bind(this, function () {
+            this.togglePaused();
+        }));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
             if (!this.onKey) {
                 this.onKey = bind(this, function () {
-                    if (this.clipper) {
+                    if (this.clipper && !this.paused) {
                         this.clipper.launchBlade();
                     }
                 });
@@ -77,31 +91,61 @@ exports = Class(ImageView, function (supr) {
         this.beginDay();
     };
 
+    this.togglePaused = function () {
+        this.paused = !this.paused;
+        if (this.paused) {
+            this.timer.stop();
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+            var i = this.sheep.length;
+            while (i--) {
+                this.sheep[i].animator.pause();
+            }
+            if (this.battery) {
+                this.battery.animator.pause();
+            }
+            if (this.diamond) {
+                this.diamond.animator.pause();
+            }
+            this.removeSubview(this.inputBuffer);
+        } else {
+            this.timer.run();
+            this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
+            var i = this.sheep.length;
+            while (i--) {
+                this.sheep[i].animator.resume();
+            }
+            if (this.battery) {
+                this.battery.animator.resume();
+            }
+            if (this.diamond) {
+                this.diamond.animator.resume();
+            }
+            this.addSubview(this.inputBuffer);
+        }
+    };
+
     this.beginDay = function () {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
-        var dayIntro = new TextView({
+        var dayIntro = new TextView(merge({
             x: 1024,
             y: 0,
             width: 1024,
             height: 576,
-            text: 'Day  ' + (this.day+1),
-            fontFamily: 'delius',
-            color: '#333333',
+            size: 128,
             strokeWidth: 8,
-            strokeColor: '#FFFFFF'
-        }),
-        continueButton = new Button({
+            text: 'Day  ' + (this.day+1),
+        }, constants.TEXT_OPTIONS)),
+        continueButton = new Button(merge({
             x: 392,
             y: 418,
             width: 240,
             height: 54,
             text: 'Continue',
-            color: '#FFFFFF',
-            strokeWidth: 6,
-            strokeColor: '#333333'
-        });
+        }, constants.TEXT_OPTIONS));
 
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
@@ -160,6 +204,7 @@ exports = Class(ImageView, function (supr) {
         this.audio.stopMusic();
         this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
+        this.clipper.pauseCountdown();
         while (i--) {
             this.sheep[i].animator.clear();
             this.removeSubview(this.sheep[i]);
@@ -180,6 +225,7 @@ exports = Class(ImageView, function (supr) {
         this.removeSubview(this.timer);
         this.removeSubview(this.clipper);
         this.removeSubview(this.inputBuffer);
+        this.removeSubview(this.pauseButton);
 
         this.player.mergeWoolCounts(this.dailyWool);
     };
@@ -195,50 +241,66 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        var i, resultsScreen = new ImageView({
-            x: 1024,
-            y: 0,
-            width: 1024,
-            height: 576,
-            image: 'resources/images/results.png'
-        }),
-        continueButton = new Button({
-            x: 392,
-            y: 418,
-            width: 240,
-            height: 54
-        });
-        var woolCounts = [];
-        for (i = 0; i < constants.colors.length; i++) {
-            woolCounts.push(new TextView({
-                x: 72 + 196*i,
-                y: 337,
-                width: 96,
-                height: 48,
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                text: '0',
-                size: 128,
-                autoFontSize: true,
-                color: '#FFFFFF',
-                strokeWidth: 4,
-                strokeColor: '#000000'
-            }));
-            resultsScreen.addSubview(woolCounts[i]);
-        }
-        for (i = 0; i < woolCounts.length; i++) {
-            woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
-            woolCounts[i].woolColor = constants.colors[i].label;
-            woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
-                var count = parseInt(this.getText(), 10);
-                // if we're finished counting up, clear interval and show a burst of wool
-                if (count === this.maxCount) {
-                    clearInterval(this.interval);
-                    emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
-                    return;
-                }
-                this.setText('' + (count + 1));
-            }), 100);
+        var i, resultsScreen, continueButton, woolCounts = [];
+        if (finishedDay) {
+            resultsScreen = new ImageView({
+                x: 1024,
+                y: 0,
+                width: 1024,
+                height: 576,
+                image: 'resources/images/results.png'
+            });
+            continueButton = new Button({
+                x: 392,
+                y: 418,
+                width: 240,
+                height: 54
+            });
+            for (i = 0; i < constants.colors.length; i++) {
+                woolCounts.push(new TextView(merge({
+                    x: 72 + 196*i,
+                    y: 337,
+                    width: 96,
+                    height: 48,
+                    text: '0',
+                    size: 128,
+                    autoFontSize: true,
+                }, constants.TEXT_OPTIONS)));
+                resultsScreen.addSubview(woolCounts[i]);
+            }
+            for (i = 0; i < woolCounts.length; i++) {
+                woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
+                woolCounts[i].woolColor = constants.colors[i].label;
+                woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
+                    var count = parseInt(this.getText(), 10);
+                    // if we're finished counting up, clear interval and show a burst of wool
+                    if (count === this.maxCount) {
+                        clearInterval(this.interval);
+                        emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
+                        return;
+                    }
+                    this.setText('' + (count + 1));
+                }), 100);
+            }
+        } else {
+            resultsScreen = new TextView(merge({
+                x: 1024,
+                y: 0,
+                width: 1024,
+                height: 576,
+                opacity: 1,
+                size: 72,
+                strokeWidth: 8,
+                text: 'Clipper out of power!'
+            }, constants.TEXT_OPTIONS));
+            continueButton = new TextView(merge({
+                x: 392,
+                y: 418,
+                width: 240,
+                height: 54,
+                opacity: 1,
+                text: 'Let\'s craft!'
+            }, constants.TEXT_OPTIONS));
         }
 
         resultsScreen.addSubview(continueButton);
@@ -260,6 +322,9 @@ exports = Class(ImageView, function (supr) {
 });
 
 function playGame () {
+    this.paused = false;
+    this.addSubview(this.pauseButton);
+
     if (!this.clipper) {
         this.clipper = new Clipper({
             x: 0,
@@ -271,15 +336,19 @@ function playGame () {
     }
     this.addSubview(this.clipper);
 
+    if (this.clipper.isDiamond) {
+        this.clipper.startCountdown();
+    }
+
     this.player = GC.app.player;
     this.audio = GC.app.audio;
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     this.timer = new Timer({
-        x: 0,
-        y: 14,
-        width: 1024,
-        height: 40
+        x: 751,
+        y: 576-80,
+        width: 80,
+        height: 60
     });
     this.addSubview(this.timer);
     this.timer.run();
