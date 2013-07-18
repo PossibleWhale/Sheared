@@ -9,12 +9,21 @@ MP3_FILES =         $(wildcard resources/sounds/*.mp3)
 TTF_FILES =         $(wildcard resources/fonts/*.ttf)
 MANIFESTS =         manifest.json $(wildcard resources/*/*.json)
 
-CONF_DIR =          resources/conf/
+ADDON_FILES =       $(wildcard addons/*/android/*.java) $(wildcard addons/*/android/manifest.*) $(wildcard addons/*/android/*.json) $(wildcard addons/*/js/*.js)
+
+CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
-ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS)
+ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES)
 
-all: register $(APK)
+all: manifest.json register $(APK)
+
+manifest.json: tapjoysecretkey.txt manifest.json.in
+	fab gcbuild.generateManifest
+	test -f manifest.json
+
+tapjoysecretkey.txt:
+	ln -s ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt tapjoysecretkey.txt
 
 register:
 	basil register .
@@ -31,6 +40,7 @@ $(APK): $(ALL_APK_DEPS)
 
 clean:
 	rm -vf $(APK)
+	rm -vf manifest.json
 
 localconfig: $(LOCALCONFIG)
 

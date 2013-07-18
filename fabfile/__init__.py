@@ -2,4 +2,4 @@
 Sheared repository tasks
 """
 
-from fabfile import resource
+from fabfile import resource, gcbuild

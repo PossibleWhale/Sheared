@@ -23,7 +23,10 @@
 			"48": "resources/icons/android48.png",
 			"72": "resources/icons/android72.png",
 			"96": "resources/icons/android96.png"
-		}
+		},
+
+        "tapjoyAppID": "89443602-da26-4099-850b-729ff1717f5e",
+        "tapjoySecretKey": "____________________"
 	},
 	"ios": {
 		"bundleID": "example.bundle",
@@ -40,5 +43,5 @@
 	"ttf": [
 		"resources/fonts/delius.ttf"
 	],
-	"sdkVersion": "release-0.1.25"
+	"sdkVersion": "release-0.1.27"
 }

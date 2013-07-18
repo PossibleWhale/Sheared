@@ -8,3 +8,5 @@ sdk
 hs_err_*.log
 resources/conf/localconfig.json
 tmp/
+manifest.json
+tapjoysecretkey.txt

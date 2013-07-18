@@ -89,7 +89,8 @@ exports = {
         "Where's Wooly?",
         "Woolpower",
         "Knit in Shining Armor",
-        "Wool of a Good Time"
+        "Wool of a Good Time",
+        "Lambic Pentameter"
     ]
 };
 
