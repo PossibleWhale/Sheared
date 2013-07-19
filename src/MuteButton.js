@@ -11,17 +11,20 @@ exports = Class(Button, function proto(supr) {
 
         this.audio = GC.app.audio;
 
-        this.muted = this.audio.getMuted();
-
-        this._initializing = true; // turned off once setMuted is called once
-        this.setMuted(this.muted);
+        this.setMuted(this.audio.getMuted(), {silent: true});
 
         this.on('InputSelect', bind(this, function () {
-            this.setMuted(!this.muted);
+            this.setMuted(!this.audio.getMuted());
         }));
     };
 
-    this.setMuted = function (muted) {
+    this.setMuted = function (muted, options) {
+        if (typeof arguments[0] === 'object') {
+            options = arguments[0];
+            muted = undefined;
+        }
+        options = merge(options || {}, {silent: false});
+        console.log("options: " + JSON.stringify(options) + " id=" + this.id);
         if (muted === undefined) { /* with no arguments, just use this to set
                                     * the state of the button to match the
                                     * state of the audio
@@ -30,14 +33,13 @@ exports = Class(Button, function proto(supr) {
         }
 
         this.audio.setMuted(muted);
-        this.muted = muted;
 
         if (muted) {
             this.setImage('resources/images/audio-off.png');
         } else {
             this.setImage('resources/images/audio-on.png');
             // manually play the click sound when sound is turned on.
-            if (! this._initializing) {
+            if (! options.silent) {
                 this.audio.playButton();
             }
         }

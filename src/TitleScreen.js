@@ -152,7 +152,7 @@ exports = Class(ui.ImageView, function (supr) {
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted();
+            this.muteButton.setMuted(false, {silent: true});
         }));
     };
 });
