@@ -13,6 +13,7 @@ exports = Class(Button, function proto(supr) {
 
         this.muted = this.audio.getMuted();
 
+        this._initializing = true; // turned off once setMuted is called once
         this.setMuted(this.muted);
 
         this.on('InputSelect', bind(this, function () {
@@ -36,7 +37,10 @@ exports = Class(Button, function proto(supr) {
         } else {
             this.setImage('resources/images/audio-on.png');
             // manually play the click sound when sound is turned on.
-            this.audio.playButton();
+            if (! this._initializing) {
+                this.audio.playButton();
+            }
         }
+        this._initializing = false;
     };
 });
