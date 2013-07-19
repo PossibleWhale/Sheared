@@ -26,7 +26,8 @@
 		},
 
         "tapjoyAppID": "89443602-da26-4099-850b-729ff1717f5e",
-        "tapjoySecretKey": "____________________"
+        "tapjoySecretKey": "____________________",
+        "tapjoyCurrencyID": "4262295e-1d82-4b90-bc2c-61101edf8e0f"
 	},
 	"ios": {
 		"bundleID": "example.bundle",
@@ -43,5 +44,8 @@
 	"ttf": [
 		"resources/fonts/delius.ttf"
 	],
+    "addons": [
+        "tapjoyads"
+    ],
 	"sdkVersion": "release-0.1.27"
 }

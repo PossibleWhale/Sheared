@@ -29,6 +29,10 @@ $(GC_DIR)/addons/tapjoyads:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons
 
 tapjoysecretkey.txt: $(GC_DIR)/addons/tapjoyads
+	# ~/Dropbox/.../tapjoysecretkey.txt is not a dependency of this rule,
+	# intentionally, so that it is also possible to create the file manually
+	# without a Dropbox.
+	test -f ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt
 	ln -s ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt tapjoysecretkey.txt
 
 register:
@@ -45,6 +49,7 @@ $(APK): $(ALL_APK_DEPS)
 	fi
 
 clean:
+	basil clean
 	rm -vf $(APK)
 	rm -vf manifest.json
 
