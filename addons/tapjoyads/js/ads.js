@@ -13,6 +13,9 @@ var TapjoyAds = Class(function () {
             this.callback = callback;
             NATIVE.plugins.sendEvent('TapjoyAdsPlugin', 'requestAd', '');
         };
+    } else {
+        this.init = function () {};
+        this.showAd = function () {};
     }
 
 });
