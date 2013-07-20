@@ -62,7 +62,7 @@ public class TapjoyAdsPlugin implements IPlugin, TapjoyFullScreenAdNotifier {
 
     public void onCreate(Activity activity, Bundle savedInstanceState) {
         PackageManager manager = activity.getBaseContext().getPackageManager();
-        String[] keys = {"tapjoyAppID", "tapjoySecretKey"};
+        String[] keys = {"tapjoyAppID", "tapjoySecretKey", "tapjoySecretKey"};
         try {
             Bundle meta = manager.getApplicationInfo(activity.getApplicationContext().getPackageName(),
                     PackageManager.GET_META_DATA).metaData;
