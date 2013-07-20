@@ -193,6 +193,7 @@ exports = Class(ImageView, function (supr) {
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
             this.total += amount;
+            GC.app.player.addCoins(amount);
             _cleanUI();
         });
 

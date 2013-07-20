@@ -25,8 +25,7 @@ exports = Class(View, function (supr) {
             width: 400,
             height: 200,
             text: 'Click to buy 1000 coins',
-            color: '#000000',
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#999999'
         });
 
         this.addCoinsButton.on('InputSelect', function () {
@@ -34,7 +33,9 @@ exports = Class(View, function (supr) {
         });
 
         billing.onPurchase = function (item) {
-            console.log("purchased " + item); 
+            if (item === 'coins') {
+                GC.app.player.addCoins(1000);
+            }
         };
     };
 });
