@@ -170,7 +170,7 @@ exports = Class(ImageView, function (supr) {
         this.on('craft:start', this.startCrafting);
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
-            this.muteButton.setMuted();
+            this.muteButton.setMuted({silent: true});
         }));
 
         /*

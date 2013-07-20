@@ -34,7 +34,7 @@ exports = Class(ImageView, function (supr) {
         this.paused = false;
         // anything that must happen when the screen appears goes here.
         this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted();
+            this.muteButton.setMuted({silent: true});
         }));
 
         this.on('play:start', bind(this, playGame));
