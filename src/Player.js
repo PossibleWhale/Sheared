@@ -27,6 +27,17 @@ exports = Class(Emitter, function Player(supr) {
         // this will be able to change with upgrades
         this.maxClipperHealth = 5;
 
+        // get coins from local storage
+        if (!localStorage.coins) {
+            localStorage.coins = 0;
+        }
+        this.coins = localStorage.coins;
+        // add a specified amount of coins to the player's wallet
+        this.addCoins = function (amt) {
+            localStorage.coins = parseInt(localStorage.coins) + amt;
+            this.coins = localStorage.coins;
+        }
+
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
 

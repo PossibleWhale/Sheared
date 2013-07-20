@@ -13,6 +13,7 @@ import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
 import src.TutorialSelectScreen as TutorialSelectScreen;
+import src.StoreScreen as StoreScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 
@@ -34,14 +35,28 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen;
+            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
+        storeScreen = new StoreScreen();
 
         stackView = this.getSuperview();
+
+        // TODO this is just a placeholder
+        var storeButton = new ui.ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-store.png'
+        });
+        storeButton.on('InputSelect', function () {
+            stackView.push(storeScreen);
+        });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
             if (playScreen.clipper) {
