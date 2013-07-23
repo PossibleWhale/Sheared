@@ -18,17 +18,23 @@ ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFES
 
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
+PLUGINS_DIR =       sdk/plugins/
+PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/tapjoyads/ads.js
 
-all: manifest.json register $(APK)
+
+all: manifest.json register $(PLUGINS) $(APK)
 
 manifest.json: tapjoysecretkey.txt manifest.json.in
 	fab gcbuild.generateManifest
 	test -f manifest.json
 
-$(GC_DIR)/addons/tapjoyads:
+$(PLUGINS_DIR)/billing/billing.js:
+	basil install billing
+
+$(PLUGINS_DIR)/tapjoyads/ads.js:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons
 
-tapjoysecretkey.txt: $(GC_DIR)/addons/tapjoyads
+tapjoysecretkey.txt:
 	# ~/Dropbox/.../tapjoysecretkey.txt is not a dependency of this rule,
 	# intentionally, so that it is also possible to create the file manually
 	# without a Dropbox.
