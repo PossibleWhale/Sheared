@@ -10,7 +10,7 @@ AdTimer = Class(event.Emitter, function (supr) {
         supr(this, 'init', arguments);
 
         this.suppressTime = c.AD_SUPPRESS_TIME;
-        this.isSuppressed = true;
+        this.isSuppressed = false;
     };
 
     /*
@@ -37,19 +37,29 @@ AdTimer = Class(event.Emitter, function (supr) {
         cbArgs.shift();
 
         if (!this.isSuppressed) {
-            ads.showAd(function _a_onShowAd(evt) {
+            ads.showAd(bind(this, function _a_onShowAd(evt) {
                 if (evt.errorCode) {
                     console.log("[APP] Response from Plugin: message='" + evt.message + "' code=" + evt.errorCode);
                 } else {
                     console.log("[APP] Response from Plugin: message=" + evt.message);
                 }
-                // TODO - set this.isSuppressed to true and restart timer
+                this.start();
                 callback.apply(cbArgs);
-            });
+            }));
         } else {
             callback.apply(cbArgs);
         }
     }
+
+    /*
+     * run the timer; ads will be suppressed while it's running
+     */
+    this.start = function () {
+        this.isSuppressed = true;
+        setTimeout(bind(this, function () {
+            this.isSuppressed = false;
+        }), this.suppressTime);
+    };
 
 
     if ("TODO CHECK DATABASE TO SEE IF WE CAN TURN OFF ADS") {
