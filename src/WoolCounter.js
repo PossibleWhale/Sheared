@@ -30,7 +30,7 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             strokeWidth: 4,
             strokeColor: '#333333',
-            size: 32,
+            size: 26,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
         }, i, xPos = 0;

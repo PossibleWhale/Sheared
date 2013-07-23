@@ -142,6 +142,10 @@ exports = Class(ui.ImageView, function (supr) {
             stackView.pop();
         }));
 
+        storeScreen.on('store:back', bind(this, function () {
+            stackView.pop();
+        }));
+
         playButton.on('InputSelect', bind(this, function () {
             stackView.push(playScreen);
         }));

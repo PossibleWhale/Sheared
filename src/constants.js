@@ -17,7 +17,8 @@ exports = {
         wrap: true,
         size: 64,
         verticalAlign: 'middle',
-        shadowColor: '#000000'
+        shadowColor: '#000000',
+        autoFontSize: true
     },
 
     SPLASH_TIME: 3000,
