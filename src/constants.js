@@ -1,9 +1,9 @@
 var imagePath = 'resources/images/';
-var numDays = 5;
-
 
 exports = {
     WIGGLE_RADIANS: Math.PI / 32,
+
+    AD_SUPPRESS_TIME: 120000, // minimum time between ads, in milliseconds
 
     TEXT_OPTIONS: {
         x: (1024-800)/2,
@@ -21,7 +21,7 @@ exports = {
         autoFontSize: true
     },
 
-    SPLASH_TIME: 3000,
+    SPLASH_TIME: 3000, // how long the GameClosure splash screen will be shown, in milliseconds
 
     COLOR_NONE: {label: 'none'},
 
@@ -107,7 +107,11 @@ exports = {
         "Knit in Shining Armor",
         "Wool of a Good Time",
         "Lambic Pentameter"
-    ]
+    ],
+
+    fenceSize: 80,
+    laneSize: 52,
+    ramRarity: 0.3
 };
 
 // build a mapping for looking up each kind of object
@@ -128,7 +132,3 @@ exports.garments = [exports.GARMENT_HAT, exports.GARMENT_SOCK,
     exports.GARMENT_SCARF, exports.GARMENT_MITTEN, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
 
-exports.fenceSize = 80;
-exports.laneSize = 52;
-
-exports.ramRarity = 0.3;
