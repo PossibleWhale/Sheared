@@ -16,6 +16,7 @@ import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.StoreScreen as StoreScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
+import src.adtimer as adtimer;
 
 
 /* The title screen is added to the scene graph when it becomes
@@ -151,13 +152,17 @@ exports = Class(ui.ImageView, function (supr) {
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
-            stackView.push(craftScreen);
-            craftScreen.emit('craft:start');
+            adtimer.interrupt(function () {
+                stackView.push(craftScreen);
+                craftScreen.emit('craft:start');
+            });
         }));
 
         playScreen.on('playscreen:craft', bind(this, function () {
-            stackView.push(craftScreen);
-            craftScreen.emit('craft:start');
+            adtimer.interrupt(function () {
+                stackView.push(craftScreen);
+                craftScreen.emit('craft:start');
+            });
         }));
 
         /* When the game screen has signalled that the game is over,
