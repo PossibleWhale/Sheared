@@ -1,8 +1,10 @@
 
 import event.Emitter;
 
-import src.constants as c;
 import plugins.tapjoyads.ads as ads;
+
+import src.constants as c;
+import src.debughack as dh;
 
 
 AdTimer = Class(event.Emitter, function (supr) {
@@ -34,6 +36,9 @@ AdTimer = Class(event.Emitter, function (supr) {
      */
     this._interruptNormal = function (callback) {
         var cbArgs = Array.prototype.slice.apply(arguments);
+
+        dh.pre_ads(this);
+
         cbArgs.shift();
 
         if (!this.isSuppressed) {
