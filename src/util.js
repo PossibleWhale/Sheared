@@ -42,7 +42,7 @@ exports = {
      */
     reissue: function (sourceObject, sourceEvent, targetObject, targetEvent) {
         sourceObject.on(sourceEvent, bind(targetObject, function () {
-            var args = Array.prototype.slice.call(arguments);
+            var args = Array.prototype.slice.apply(arguments);
             args.splice(0, 0, targetEvent);
             targetObject.emit.apply(targetObject, args);
         }));
