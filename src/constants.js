@@ -106,7 +106,8 @@ exports = {
         "Woolpower",
         "Knit in Shining Armor",
         "Wool of a Good Time",
-        "Lambic Pentameter"
+        "Lambic Pentameter",
+        "Everywhere That Mary Went"
     ],
 
     fenceSize: 80,
