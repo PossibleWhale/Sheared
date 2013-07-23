@@ -1,9 +1,12 @@
+import animate;
 import plugins.billing.billing as billing;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
+import ui.View as View;
 import src.constants as constants;
 import src.Button as Button;
 import src.WoolCounter as WoolCounter;
+import src.Alert as Alert;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -148,6 +151,99 @@ exports = Class(ImageView, function (supr) {
                 text: '1,000,000'
             }, constants.TEXT_OPTIONS))
         };
+
+        ///// Buttons for temporary upgrades
+        var clipperUpgradeButton = new Button({
+            superview: upgradesView,
+            x: 207,
+            y: 216,
+            width: 150,
+            height: 90
+        });
+        clipperUpgradeButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
+
+        var multiplierUpgradeButton = new Button({
+            superview: upgradesView,
+            x: 406,
+            y: 216,
+            width: 150,
+            height: 90
+        });
+        multiplierUpgradeButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
+
+        var diamondButton = new Button({
+            superview: upgradesView,
+            x: 207,
+            y: 348,
+            width: 150,
+            height: 90
+        });
+        diamondButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a diamond blade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
+
+
+        ///// Buttons for permanent upgrades
+        var clipperPermanentButton = new Button({
+            superview: upgradesView,
+            x: 610,
+            y: 216,
+            width: 150,
+            height: 90
+        });
+        clipperPermanentButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
+
+        var multiplierPermanentButton = new Button({
+            superview: upgradesView,
+            x: 808,
+            y: 216,
+            width: 150,
+            height: 90
+        });
+        multiplierPermanentButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
+
+        var diamondPermanentButton = new Button({
+            superview: upgradesView,
+            x: 610,
+            y: 348,
+            width: 150,
+            height: 90
+        });
+        diamondPermanentButton.on('InputSelect', bind(this, function () {
+            var confirmDialog = new Alert({
+                superview: this,
+                text: 'You are about to purchase a diamond blade. Do you wish to continue?'
+            });
+            confirmDialog.show();
+        }));
         /* TODO add this in when we are ready for in-app purchases
         this.addCoinsButton = new Button({
             superview: this,
