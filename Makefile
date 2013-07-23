@@ -16,7 +16,7 @@ LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES)
 
-GC_DIR =            $(subst /bin/basil,,$(shell which basil))
+GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 
 all: manifest.json register $(APK)
