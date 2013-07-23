@@ -24,7 +24,6 @@ exports = Class(Button, function proto(supr) {
             muted = undefined;
         }
         options = merge(options || {}, {silent: false});
-        console.log("options: " + JSON.stringify(options) + " id=" + this.id);
         if (muted === undefined) { /* with no arguments, just use this to set
                                     * the state of the button to match the
                                     * state of the audio

@@ -45,7 +45,8 @@
 		"resources/fonts/delius.ttf"
 	],
     "addons": [
-        "tapjoyads"
+        "tapjoyads",
+        "billing"
     ],
 	"sdkVersion": "release-0.1.27"
 }

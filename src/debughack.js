@@ -61,6 +61,13 @@ var Hax = function () {
         timer.updateOpts({text: timer.time});
     };
 
+    /*
+     * suppress ads
+     */
+    this.pre_ads = function (adtimer) {
+        adtimer.isSuppressed = true;
+    };
+
     var _args, debugWrap = function (fn) {
         return bind(this, function () {
             _args = arguments;
@@ -74,6 +81,7 @@ var Hax = function () {
     this.post_initTimer = debugWrap(this.post_initTimer);
     this.pre_startCrafting = debugWrap(this.pre_startCrafting);
     this.pre_launchUI = debugWrap(this.pre_launchUI);
+    this.pre_ads = debugWrap(this.pre_ads);
 };
 
 exports = new Hax();

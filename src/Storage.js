@@ -104,7 +104,8 @@ Storage = Class(GCDataSource, function (supr) {
 
     /* helper for .add() which converts the key items into key strings */
     this.addArray = function _a_addArray(arr) {
-        var i, item, arr = Array.prototype.slice.apply(arr);
+        var i, item;
+        arr = Array.prototype.slice.apply(arr);
 
         i = arr.length;
         while (i--) {

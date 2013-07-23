@@ -17,6 +17,8 @@ import src.InputBuffer as InputBuffer;
 import src.HealthBar as HealthBar;
 import src.WoolCounter as WoolCounter;
 
+import src.adtimer as adtimer;
+
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -27,6 +29,8 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
         this.day = 0;
+        this.firstPlay = true; // set to false when at least 1 day has been played in this session
+
         this.build();
     };
 
@@ -129,6 +133,15 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.beginDay = function () {
+        if (!this.firstPlay) {
+            adtimer.interrupt(bind(this, this._beginDay));
+        } else {
+            this._beginDay();
+        }
+        this.firstPlay = false;
+    }
+
+    this._beginDay = function () {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
