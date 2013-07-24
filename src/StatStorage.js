@@ -1,4 +1,5 @@
 import src.Storage as Storage;
+import src.util as util;
 
 stats = [
 {name: 'ewesSheared.white', value: 0},
@@ -17,7 +18,7 @@ stats = [
 {name: 'diamondBladesFired', value: 0},
 {name: 'regularBladesHit', value: 0},
 {name: 'regularBladesFired', value: 0},
-{name: 'coinsEarned-DO-NOT-UPDATE', value: 0}, // this should only be updated by an event within StatStorage itself
+{name: 'coinsEarned', value: 0},
 {name: 'coins', value: 0}
 ];
 

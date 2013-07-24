@@ -71,7 +71,7 @@ exports = Class(Emitter, function Player(supr) {
             if (sheep.isRam) {
                 this.stats.increment('ramsSheared.' + sheep.color.label);
             } else {
-                this.stats.increament('ewesSheared.' + sheep.color.label);
+                this.stats.increment('ewesSheared.' + sheep.color.label);
             }
         };
 
