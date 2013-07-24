@@ -20,10 +20,16 @@ exports = Class(View, function (supr) {
         this.showCancelButton = opts.showCancelButton !== undefined ? opts.showCancelButton : true;
         this.cancelText = opts.cancelText || 'Cancel';
         this.confirmText = opts.confirmText || 'OK';
-        this.confirmFn = opts.confirmFn || function () {
+        this.confirmFn = function () {
+            if (opts.confirmFn) {
+                opts.confirmFn();
+            }
             animate(this).now({y: -300}, 400).then(this.removeFromSuperview);
         };
-        this.cancelFn = opts.cancelFn || function () {
+        this.cancelFn = function () {
+            if (opts.cancelFn) {
+                opts.cancelFn();
+            }
             animate(this).now({y: 576}, 400).then(this.removeFromSuperview);
         };
 
