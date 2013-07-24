@@ -24,8 +24,38 @@ exports = Class(Emitter, function Player(supr) {
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
 
-        // this will be able to change with upgrades
-        this.maxClipperHealth = 5;
+        // TODO load this from localStorage
+        this.upgrades = {
+            temporary: {
+                power: 0,
+                multiplier: 1,
+                diamond: false
+            },
+            permanent: {
+                power: 0,
+                multiplier: 1,
+                diamond: false
+            }
+        };
+
+        this.maxClipperHealth = 5 + Math.max(this.upgrades.temporary.power, this.upgrades.permanent.power);
+        this.boltMultiplier = Math.max(this.upgrades.temporary.multiplier, this.upgrades.permanent.multiplier);
+        this.diamondBlade = this.upgrades.temporary.diamond || this.upgrades.permanent.diamond;
+
+        this.purchased = function (tempOrPerm, upgradeName) {
+            if (upgradeName === 'diamond') {
+                this.upgrades[tempOrPerm].diamond = true;
+                // if a permanent upgrade was purchased then the temporary one was "purchased" too
+                if (tempOrPerm === 'permanent') {
+                    this.upgrades.temporary.diamond = true;
+                }
+            } else {
+                this.upgrades[tempOrPerm][upgradeName] += 1;
+                if (tempOrPerm === 'permanent') {
+                    this.upgrades.temporary[upgradeName] += 1;
+                }
+            }
+        };
 
         // get coins from local storage
         if (!localStorage.coins) {

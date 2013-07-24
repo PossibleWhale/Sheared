@@ -51,7 +51,6 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.progressBars = {};
-
         ///// TODO get images from current upgrade status
         this.progressBars.temporary = {
             clipper: new ImageView({
@@ -60,7 +59,6 @@ exports = Class(ImageView, function (supr) {
                 y: 141,
                 width: 140,
                 height: 32,
-                image: 'resources/images/store-power-1.png'
             }),
             multiplier: new ImageView({
                 superview: upgradesView,
@@ -68,8 +66,7 @@ exports = Class(ImageView, function (supr) {
                 y: 141,
                 width: 140,
                 height: 32,
-                image: 'resources/images/store-multiplier-1.png'
-            }),
+            })
         };
         this.progressBars.permanent = {
             clipper: new ImageView({
@@ -78,7 +75,6 @@ exports = Class(ImageView, function (supr) {
                 y: 141,
                 width: 140,
                 height: 32,
-                image: 'resources/images/store-power-1.png'
             }),
             multiplier: new ImageView({
                 superview: upgradesView,
@@ -86,9 +82,10 @@ exports = Class(ImageView, function (supr) {
                 y: 141,
                 width: 140,
                 height: 32,
-                image: 'resources/images/store-multiplier-1.png'
-            }),
+            })
         };
+
+        this.updateProgressBars();
 
         this.priceDisplays = {};
 
@@ -163,7 +160,11 @@ exports = Class(ImageView, function (supr) {
         clipperUpgradeButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?'
+                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('temporary', 'power');
+                    this.updateProgressBars();
+                })
             });
             confirmDialog.show();
         }));
@@ -178,7 +179,11 @@ exports = Class(ImageView, function (supr) {
         multiplierUpgradeButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?'
+                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('temporary', 'multiplier');
+                    this.updateProgressBars();
+                })
             });
             confirmDialog.show();
         }));
@@ -193,7 +198,10 @@ exports = Class(ImageView, function (supr) {
         diamondButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a diamond blade. Do you wish to continue?'
+                text: 'You are about to purchase a diamond blade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('temporary', 'diamond');
+                })
             });
             confirmDialog.show();
         }));
@@ -210,7 +218,11 @@ exports = Class(ImageView, function (supr) {
         clipperPermanentButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?'
+                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('permanent', 'power');
+                    this.updateProgressBars();
+                })
             });
             confirmDialog.show();
         }));
@@ -225,7 +237,11 @@ exports = Class(ImageView, function (supr) {
         multiplierPermanentButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?'
+                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('permanent', 'multiplier');
+                    this.updateProgressBars();
+                })
             });
             confirmDialog.show();
         }));
@@ -240,7 +256,10 @@ exports = Class(ImageView, function (supr) {
         diamondPermanentButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a diamond blade. Do you wish to continue?'
+                text: 'You are about to purchase a diamond blade. Do you wish to continue?',
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased('permanent', 'diamond');
+                })
             });
             confirmDialog.show();
         }));
@@ -266,5 +285,22 @@ exports = Class(ImageView, function (supr) {
         };
         */
     };
-});
 
+    this.updateProgressBars = function () {
+        var upgrades = GC.app.player.upgrades,
+            upgradeLevels = {
+                temporary: {
+                    clipper: (upgrades.temporary.power+1) >= 5 ? 'max' : upgrades.temporary.power+1,
+                    multiplier: upgrades.temporary.multiplier >= 5 ? 'max' : upgrades.temporary.multiplier
+                },
+                permanent: {
+                    clipper: (upgrades.permanent.power+1) >= 5 ? 'max' : upgrades.permanent.power+1,
+                    multiplier: upgrades.permanent.multiplier >= 5 ? 'max' : upgrades.permanent.multiplier
+                }
+            };
+        this.progressBars.temporary.clipper.setImage('resources/images/store-power-' + upgradeLevels.temporary.clipper + '.png');
+        this.progressBars.temporary.multiplier.setImage('resources/images/store-multiplier-' + upgradeLevels.temporary.multiplier + '.png');
+        this.progressBars.permanent.clipper.setImage('resources/images/store-power-' + upgradeLevels.permanent.clipper + '.png');
+        this.progressBars.permanent.multiplier.setImage('resources/images/store-multiplier-' + upgradeLevels.permanent.multiplier + '.png');
+    };
+});
