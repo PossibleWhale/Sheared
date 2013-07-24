@@ -143,11 +143,8 @@ Storage = Class(GCDataSource, function (supr) {
      * get from GCDataSource, and if not found, get from localStorage
      */
     this.get = function _a_get(key) {
-        var ret, warmCacheMiss;
-        ret = supr(this, 'get', [key]);
+        var ret = supr(this, 'get', [key]);
         if (ret === null) {
-
-            // cold cache -- check localStorage first
             ret = lsGet(this._storeName + '.' + key);
             ret = ret ? JSON.parse(ret) : null;
 
@@ -174,12 +171,6 @@ Storage = Class(GCDataSource, function (supr) {
      */
     this.storeUpdate = function _a_storeUpdate(key, item) {
         if (! this.persist) {
-            return;
-        }
-
-        // warmCacheMiss should NEVER be stored in localStorage, and it
-        // doesn't need to be verified against the schema
-        if (item.__wcm__) {
             return;
         }
 

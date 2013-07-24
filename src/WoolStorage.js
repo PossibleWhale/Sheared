@@ -48,17 +48,6 @@ exports = Class(Storage, function (supr) {
         return supr(this, 'add', [obj]);
     };
 
-    /*
-     * given obj with a key for each color, load it into this
-     */
-    this.loadWoolHack = function (obj) {
-        var _tmpArr = [];
-        for (var k in obj) {
-            _tmpArr.push({'color': k, 'count': obj[k]});
-        }
-        this.add(_tmpArr);
-    };
-
     this.toKey = function (color) {
         if (typeof color === 'string') {
             return color;
