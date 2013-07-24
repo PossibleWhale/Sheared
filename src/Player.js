@@ -27,79 +27,47 @@ exports = Class(Emitter, function Player(supr) {
         // this will be able to change with upgrades
         this.maxClipperHealth = 5;
 
-        // get coins from local storage
-        if (!localStorage.coins) {
-            localStorage.coins = 0;
-        }
-        this.coins = localStorage.coins;
         // add a specified amount of coins to the player's wallet
         this.addCoins = function (amt) {
-            localStorage.coins = parseInt(localStorage.coins) + amt;
-            this.coins = localStorage.coins;
+            this.stats.increment('coins', amt);
+            this.stats.increment('coinsEarned', amt);
         }
 
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
 
 
-        /* FIXME - use StatStorage */ this.ewesSheared = {};
-        /* FIXME - use StatStorage */ loadStats(this.ewesSheared, 'ewes.');
+        this.shearedSheep = function (sheep) {
+            if (sheep.isRam) {
+                this.stats.increment('ramsSheared.' + sheep.color.label);
+            } else {
+                this.stats.increament('ewesSheared.' + sheep.color.label);
+            }
+        };
 
-        /* FIXME - use StatStorage */ this.ramsSheared = {};
-        /* FIXME - use StatStorage */ loadStats(this.ramsSheared, 'rams.');
-
-        /* FIXME - use StatStorage */ this.shearedSheep = function (sheep) {
-        /* FIXME - use StatStorage */     if (sheep.isRam) {
-        /* FIXME - use StatStorage */         this.ramsSheared[sheep.color.label] += 1;
-                                              lsSet('rams.' + sheep.color.label, this.ramsSheared[sheep.color.label]);
-        /* FIXME - use StatStorage */     } else {
-        /* FIXME - use StatStorage */         this.ewesSheared[sheep.color.label] += 1;
-                                              lsSet('ewes.' + sheep.color.label, this.ewesSheared[sheep.color.label]);
-        /* FIXME - use StatStorage */     }
-        /* FIXME - use StatStorage */ };
+        this.collectedBattery = function () {
+            this.stats.increment('batteries');
+        };
 
         this.collectedDiamond = function () {
-            incrementCounter('diamonds');
+            this.stats.increment('diamonds');
         };
 
         this.hitWithBlade = function (isDiamond) {
             if (isDiamond) {
-                incrementCounter('diamondBladesHit');
+                this.stats.increment('diamondBladesHit');
             } else {
-                incrementCounter('regularBladesHit');
+                this.stats.increment('regularBladesHit');
             }
         };
 
         this.bladeFired = function (isDiamond) {
             if (isDiamond) {
-                incrementCounter('diamondBladesFired');
+                this.stats.increment('diamondBladesFired');
             } else {
-                incrementCounter('regularBladesFired');
+                this.stats.increment('regularBladesFired');
             }
         };
     };
 });
 
-/* FIXME - use StatStorage */ function incrementCounter (counterName) {
-/* FIXME - use StatStorage */     if (!localStorage.getItem(counterName)) {
-/* FIXME - use StatStorage */         localStorage.setItem(counterName, 0);
-/* FIXME - use StatStorage */     }
-/* FIXME - use StatStorage */     localStorage.setItem(counterName, parseInt(localStorage.getItem(counterName), 10) + 1);
-
-/* FIXME - use StatStorage */ }
-
-/* FIXME - use the appropriate Storage */function loadStats (obj, id) {
-/* FIXME - use the appropriate Storage */    var i = c.colors.length;
-/* FIXME - use the appropriate Storage */    // if there are no saved values, initialize them
-/* FIXME - use the appropriate Storage */    if (!localStorage.getItem(id + c.COLOR_WHITE.label)) {
-/* FIXME - use the appropriate Storage */        while (i--) {
-/* FIXME - use the appropriate Storage */            localStorage.setItem(id + c.colors[i].label, 0);
-/* FIXME - use the appropriate Storage */        }
-/* FIXME - use the appropriate Storage */    }
-/* FIXME - use the appropriate Storage */
-/* FIXME - use the appropriate Storage */    // pull the stats from local storage
-/* FIXME - use the appropriate Storage */    i = c.colors.length;
-/* FIXME - use the appropriate Storage */    while (i--) {
-/* FIXME - use the appropriate Storage */        obj[c.colors[i].label] = parseInt(localStorage.getItem(id + c.colors[i].label), 10);
-/* FIXME - use the appropriate Storage */    }
-/* FIXME - use the appropriate Storage */}
