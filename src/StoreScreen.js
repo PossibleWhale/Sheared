@@ -27,9 +27,9 @@ exports = Class(ImageView, function (supr) {
         var upgradesView = new ImageView({
             superview: this,
             x: 0,
-            y: 0,
+            y: 80,
             width: 1024,
-            height: 576,
+            height: 416,
             image: 'resources/images/store-upgrades.png'
         }),
         woolCounts = new WoolCounter({
@@ -57,7 +57,7 @@ exports = Class(ImageView, function (supr) {
             clipper: new ImageView({
                 superview: upgradesView,
                 x: 212,
-                y: 221,
+                y: 141,
                 width: 140,
                 height: 32,
                 image: 'resources/images/store-power-1.png'
@@ -65,7 +65,7 @@ exports = Class(ImageView, function (supr) {
             multiplier: new ImageView({
                 superview: upgradesView,
                 x: 411,
-                y: 221,
+                y: 141,
                 width: 140,
                 height: 32,
                 image: 'resources/images/store-multiplier-1.png'
@@ -75,7 +75,7 @@ exports = Class(ImageView, function (supr) {
             clipper: new ImageView({
                 superview: upgradesView,
                 x: 614,
-                y: 221,
+                y: 141,
                 width: 140,
                 height: 32,
                 image: 'resources/images/store-power-1.png'
@@ -83,7 +83,7 @@ exports = Class(ImageView, function (supr) {
             multiplier: new ImageView({
                 superview: upgradesView,
                 x: 813,
-                y: 221,
+                y: 141,
                 width: 140,
                 height: 32,
                 image: 'resources/images/store-multiplier-1.png'
@@ -97,7 +97,7 @@ exports = Class(ImageView, function (supr) {
             clipper: new TextView(merge({
                 superview: upgradesView,
                 x: 248,
-                y: 262,
+                y: 182,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
@@ -106,7 +106,7 @@ exports = Class(ImageView, function (supr) {
             multiplier: new TextView(merge({
                 superview: upgradesView,
                 x: 447,
-                y: 262,
+                y: 182,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
@@ -115,18 +115,18 @@ exports = Class(ImageView, function (supr) {
             diamond: new TextView(merge({
                 superview: upgradesView,
                 x: 248,
-                y: 404,
+                y: 324,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
                 text: '10,000'
             }, constants.TEXT_OPTIONS))
         };
-        this.priceDisplays.temporary = {
+        this.priceDisplays.permanent = {
             clipper: new TextView(merge({
                 superview: upgradesView,
                 x: 650,
-                y: 262,
+                y: 182,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
@@ -135,7 +135,7 @@ exports = Class(ImageView, function (supr) {
             multiplier: new TextView(merge({
                 superview: upgradesView,
                 x: 849,
-                y: 262,
+                y: 182,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
@@ -144,7 +144,7 @@ exports = Class(ImageView, function (supr) {
             diamond: new TextView(merge({
                 superview: upgradesView,
                 x: 650,
-                y: 404,
+                y: 324,
                 width: 100,
                 height: 36,
                 strokeWidth: 3,
@@ -156,7 +156,7 @@ exports = Class(ImageView, function (supr) {
         var clipperUpgradeButton = new Button({
             superview: upgradesView,
             x: 207,
-            y: 216,
+            y: 136,
             width: 150,
             height: 90
         });
@@ -171,7 +171,7 @@ exports = Class(ImageView, function (supr) {
         var multiplierUpgradeButton = new Button({
             superview: upgradesView,
             x: 406,
-            y: 216,
+            y: 136,
             width: 150,
             height: 90
         });
@@ -186,7 +186,7 @@ exports = Class(ImageView, function (supr) {
         var diamondButton = new Button({
             superview: upgradesView,
             x: 207,
-            y: 348,
+            y: 268,
             width: 150,
             height: 90
         });
@@ -203,7 +203,7 @@ exports = Class(ImageView, function (supr) {
         var clipperPermanentButton = new Button({
             superview: upgradesView,
             x: 610,
-            y: 216,
+            y: 136,
             width: 150,
             height: 90
         });
@@ -218,7 +218,7 @@ exports = Class(ImageView, function (supr) {
         var multiplierPermanentButton = new Button({
             superview: upgradesView,
             x: 808,
-            y: 216,
+            y: 136,
             width: 150,
             height: 90
         });
@@ -233,7 +233,7 @@ exports = Class(ImageView, function (supr) {
         var diamondPermanentButton = new Button({
             superview: upgradesView,
             x: 610,
-            y: 348,
+            y: 268,
             width: 150,
             height: 90
         });
