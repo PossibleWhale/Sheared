@@ -30,7 +30,7 @@
         "tapjoyCurrencyID": "4262295e-1d82-4b90-bc2c-61101edf8e0f"
 	},
 	"ios": {
-		"bundleID": "example.bundle",
+		"bundleID": "com.possiblewhale.sheared",
 		"appleID": "12345678",
 		"version": "1.0.0",
 		"icons": {
