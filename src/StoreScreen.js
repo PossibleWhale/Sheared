@@ -51,7 +51,6 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.progressBars = {};
-        ///// TODO get images from current upgrade status
         this.progressBars.temporary = {
             clipper: new ImageView({
                 superview: upgradesView,
@@ -290,12 +289,12 @@ exports = Class(ImageView, function (supr) {
         var upgrades = GC.app.player.upgrades,
             upgradeLevels = {
                 temporary: {
-                    clipper: (upgrades.temporary.power+1) >= 5 ? 'max' : upgrades.temporary.power+1,
-                    multiplier: upgrades.temporary.multiplier >= 5 ? 'max' : upgrades.temporary.multiplier
+                    clipper: (upgrades.get('temp.power') + 1) >= 5 ? 'max' : upgrades.get('temp.power')+1,
+                    multiplier: upgrades.get('temp.mult') >= 5 ? 'max' : upgrades.get('temp.mult')
                 },
                 permanent: {
-                    clipper: (upgrades.permanent.power+1) >= 5 ? 'max' : upgrades.permanent.power+1,
-                    multiplier: upgrades.permanent.multiplier >= 5 ? 'max' : upgrades.permanent.multiplier
+                    clipper: (upgrades.get('perm.power')+1) >= 5 ? 'max' : upgrades.get('perm.power')+1,
+                    multiplier: upgrades.get('perm.mult') >= 5 ? 'max' : upgrades.get('perm.mult')
                 }
             };
         this.progressBars.temporary.clipper.setImage('resources/images/store-power-' + upgradeLevels.temporary.clipper + '.png');
