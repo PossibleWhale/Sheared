@@ -9,6 +9,27 @@ import src.util as util;
 assert = util.assert;
 
 
+// For testing, this might be useful:
+//
+// function LocalStorage() {
+//     this.db = {};
+// };
+//
+//
+// LocalStorage.prototype = {
+//     getItem: function (key) {
+//         return this.db[key];
+//     },
+//
+//     setItem: function (key, value) {
+//         util.assert(typeof key === 'string');
+//         this.db[key] = JSON.stringify(value);
+//     }
+// };
+//
+// GC.localStorage = new LocalStorage;
+
+
 Storage = Class(GCDataSource, function (supr) {
     var lsSet, lsGet;
 
