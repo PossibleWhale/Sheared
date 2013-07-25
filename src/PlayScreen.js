@@ -80,7 +80,7 @@ exports = Class(ImageView, function (supr) {
             this.togglePaused();
         }));
 
-        var mult = GC.app.player.upgrades.get('temp.mult').value;
+        var mult = GC.app.player.upgrades.get('temp_mult').value;
         if (mult >= 5 || mult === 'max') {
             mult = 5;
         }
