@@ -80,6 +80,20 @@ exports = Class(ImageView, function (supr) {
             this.togglePaused();
         }));
 
+        var mult = GC.app.player.upgrades.get('temp.mult').value;
+        if (mult >= 5 || mult === 'max') {
+            mult = 5;
+        }
+        if (mult > 1) {
+            this.addSubview(new ImageView({
+                x: 751,
+                y: 0,
+                width: 80,
+                height: 80,
+                image: 'resources/images/active-multiplier-' + mult + '.png'
+            }));
+        }
+
         // for playtesting purposes..
         if (device.name === 'browser') {
             if (!this.onKey) {
@@ -354,7 +368,8 @@ function playGame () {
     if (!this.clipper) {
         this.clipper = new Clipper({
             x: 0,
-            y: laneCoord(4) + 5 // start in middle lane
+            y: laneCoord(4) + 5, // start in middle lane
+            infiniteDiamond: GC.app.player.upgrades.get('temp.diamond').value
         });
     } else {
         this.clipper.style.x = 0;
@@ -362,7 +377,7 @@ function playGame () {
     }
     this.addSubview(this.clipper);
 
-    if (this.clipper.isDiamond) {
+    if (this.clipper.isDiamond && !this.clipper.infiniteDiamond) {
         this.clipper.startCountdown();
     }
 

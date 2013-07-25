@@ -289,12 +289,12 @@ exports = Class(ImageView, function (supr) {
         var upgrades = GC.app.player.upgrades,
             upgradeLevels = {
                 temporary: {
-                    clipper: (upgrades.get('temp.power') + 1) >= 5 ? 'max' : upgrades.get('temp.power')+1,
-                    multiplier: upgrades.get('temp.mult') >= 5 ? 'max' : upgrades.get('temp.mult')
+                    clipper: (upgrades.get('temp.power').value + 1) >= 5 ? 'max' : upgrades.get('temp.power').value+1,
+                    multiplier: upgrades.get('temp.mult').value >= 5 ? 'max' : upgrades.get('temp.mult').value
                 },
                 permanent: {
-                    clipper: (upgrades.get('perm.power')+1) >= 5 ? 'max' : upgrades.get('perm.power')+1,
-                    multiplier: upgrades.get('perm.mult') >= 5 ? 'max' : upgrades.get('perm.mult')
+                    clipper: (upgrades.get('perm.power').value+1) >= 5 ? 'max' : upgrades.get('perm.power').value+1,
+                    multiplier: upgrades.get('perm.mult').value >= 5 ? 'max' : upgrades.get('perm.mult').value
                 }
             };
         this.progressBars.temporary.clipper.setImage('resources/images/store-power-' + upgradeLevels.temporary.clipper + '.png');

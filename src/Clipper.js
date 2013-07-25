@@ -6,7 +6,7 @@ import ui.View as View;
 
 var diamondIndicator = new ImageView({
     x: 193,
-    y: 576 - 80,
+    y: 0,
     width: 80,
     height: 80,
     image: 'resources/images/active-diamond.png'
@@ -36,6 +36,10 @@ exports = Class(ImageView, function (supr) {
 
         this.isDiamond = false;
         this.bladeOut = false;
+
+        if (this.infiniteDiamond) {
+            this.becomeDiamond(true);
+        }
     };
 
     this.becomeDiamond = function (infinite) {
