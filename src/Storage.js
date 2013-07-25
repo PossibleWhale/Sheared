@@ -53,11 +53,17 @@ Storage = Class(GCDataSource, function (supr) {
         }
     };
 
+    this.upgrade_1_to_2 = function _a_upgrade_1_to_2() {
+        assert(parseInt(lsGet('pw_version'), 10) === 1);
+        lsSet('pw_version', 2);
+        lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */
     this.verifySchema = function _a_verifySchema() {
-        var version, stores;
+        var version, stores, upgrader;
 
         version = parseInt(lsGet('pw_version'), 10);
         if (! version) {
@@ -71,10 +77,21 @@ Storage = Class(GCDataSource, function (supr) {
             console.log('** JSON load error for: ' + lsGet('pw_stores'));
         }
 
-        assert(version === c.SCHEMA.version, 'schema version mismatch');
+        if (version !== c.SCHEMA.version) {
+            while (version !== c.SCHEMA.version) {
+                upgrader = this['upgrade_' + version + '_to_' + (version + 1)];
+                upgrader.call(this);
+                version = parseInt(lsGet('pw_version'), 10);
+            }
+        }
+
+        assert(version === c.SCHEMA.version, 'schema version mismatch AFTER upgrading !!!');
         assert(JSON.stringify(stores[this.name]) ===
                JSON.stringify(c.SCHEMA.stores[this.name]),
-               'schema table ' + this.name + ' is not identical');
+               'schema table ' + this.name + ' is not identical. ' +
+               JSON.stringify(stores[this.name]) + ' !== ' +
+               JSON.stringify(c.SCHEMA.stores[this.name])
+               );
     };
 
     /*
