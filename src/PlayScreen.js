@@ -80,7 +80,7 @@ exports = Class(ImageView, function (supr) {
             this.togglePaused();
         }));
 
-        var mult = GC.app.player.upgrades.get('temp.mult').value;
+        var mult = GC.app.player.upgrades.get('temp_mult').value;
         if (mult >= 5 || mult === 'max') {
             mult = 5;
         }
@@ -369,7 +369,7 @@ function playGame () {
         this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5, // start in middle lane
-            infiniteDiamond: GC.app.player.upgrades.get('temp.diamond').value
+            infiniteDiamond: GC.app.player.upgrades.get('temp_diamond').value
         });
     } else {
         this.clipper.style.x = 0;
