@@ -74,6 +74,10 @@ Storage = Class(GCDataSource, function (supr) {
         }
     };
 
+    /*
+     * This update adds pw_store_upgrade for in-app purchases.
+     * No special initialization required, just update pw_stores.
+     */
     this.upgrade_1_to_2 = function _a_upgrade_1_to_2() {
         assert(parseInt(lsGet('pw_version'), 10) === 1);
         lsSet('pw_version', 2);

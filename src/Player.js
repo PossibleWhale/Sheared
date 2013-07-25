@@ -21,10 +21,13 @@ exports = Class(Emitter, function Player(supr) {
         this.addWool = bind(this.wool, this.wool.addWool);
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
- 
-        this.maxClipperHealth = 5 + Math.max(this.upgrades.get('temp_power').value, this.upgrades.get('perm_power').value);
-        this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value, this.upgrades.get('perm_mult').value);
-        this.diamondBlade = this.upgrades.get('temp_diamond').value || this.upgrades.get('perm_diamond').value;
+
+        this.maxClipperHealth = 5 + Math.max(this.upgrades.get('temp_power').value,
+                                this.upgrades.get('perm_power').value);
+        this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
+                                this.upgrades.get('perm_mult').value);
+        this.diamondBlade = this.upgrades.get('temp_diamond').value ||
+                                this.upgrades.get('perm_diamond').value;
 
         this.purchased = function (tempOrPerm, upgradeName) {
             if (upgradeName === 'diamond') {
@@ -35,9 +38,9 @@ exports = Class(Emitter, function Player(supr) {
                 }
             } else {
                 var key = tempOrPerm + '_' + upgradeName;
-                this.upgrades.add(key, this.upgrades.get(key).value + 1);
+                this.upgrades.addToUpgrade('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
                 if (tempOrPerm === 'perm') {
-                    this.upgrades.add('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
+                    this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);
                 }
             }
         };

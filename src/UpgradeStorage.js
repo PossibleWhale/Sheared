@@ -26,6 +26,10 @@ exports = Class(Storage, function (supr) {
 
         util.reissue(this, 'Update', this, 'upgrade:update');
     };
+
+    this.addToUpgrade = function (name, value) {
+        this.add({name: name, value: value});
+    };
 });
 
 
