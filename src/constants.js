@@ -30,8 +30,8 @@ exports = {
         stores: {
             wool: {key: 'color', value: 'count'},
             craft: {key: 'motif', value: 'count'},
-            stat: {key: 'name', value: 'value'}
-           // upgrade: {key: 'name', value: 'value'}
+            stat: {key: 'name', value: 'value'},
+            upgrade: {key: 'name', value: 'value'}
         }
     },
 

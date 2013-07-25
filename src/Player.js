@@ -26,22 +26,22 @@ exports = Class(Emitter, function Player(supr) {
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
  
-        this.maxClipperHealth = 5 + Math.max(this.upgrades.get('temp.power'), this.upgrades.get('perm.power'));
-        this.boltMultiplier = Math.max(this.upgrades.get('temp.mult'), this.upgrades.get('perm.mult'));
-        this.diamondBlade = this.upgrades.get('temp.diamond') || this.upgrades.get('perm.diamond');
+        this.maxClipperHealth = 5 + Math.max(this.upgrades.get('temp_power'), this.upgrades.get('perm_power'));
+        this.boltMultiplier = Math.max(this.upgrades.get('temp_mult'), this.upgrades.get('perm_mult'));
+        this.diamondBlade = this.upgrades.get('temp_diamond') || this.upgrades.get('perm_diamond');
 
         this.purchased = function (tempOrPerm, upgradeName) {
             if (upgradeName === 'diamond') {
-                this.upgrades.add(tempOrPerm + '.diamond', true);
+                this.upgrades.add(tempOrPerm + '_diamond', true);
                 // if a permanent upgrade was purchased then the temporary one was "purchased" too
                 if (tempOrPerm === 'perm') {
-                    this.upgrades.add('temp.diamond', true);
+                    this.upgrades.add('temp_diamond', true);
                 }
             } else {
-                var key = tempOrPerm + '.' + upgradeName;
+                var key = tempOrPerm + '_' + upgradeName;
                 this.upgrades.add(key, this.upgrades.get(key) + 1);
                 if (tempOrPerm === 'perm') {
-                    this.upgrades.add('temp.' + upgradeName, this.upgrades.get('temp.' + upgradeName) + 1);
+                    this.upgrades.add('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName) + 1);
                 }
             }
         };
