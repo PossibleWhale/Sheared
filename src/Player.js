@@ -42,9 +42,9 @@ exports = Class(Emitter, function Player(supr) {
                 }
             } else {
                 var key = tempOrPerm + '_' + upgradeName;
-                this.upgrades.add(key, this.upgrades.get(key).value + 1);
+                this.upgrades.addToUpgrade('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
                 if (tempOrPerm === 'perm') {
-                    this.upgrades.add('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
+                    this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);
                 }
             }
         };
