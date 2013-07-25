@@ -113,7 +113,7 @@ Storage = Class(GCDataSource, function (supr) {
         assert(version === c.SCHEMA.version, 'schema version mismatch AFTER upgrading !!!');
         assert(JSON.stringify(stores[this.name]) ===
                JSON.stringify(c.SCHEMA.stores[this.name]),
-               'schema table ' + this.name + ' is not identical. ' +
+               'schema table "' + this.name + '" is not identical. ' +
                JSON.stringify(stores[this.name]) + ' !== ' +
                JSON.stringify(c.SCHEMA.stores[this.name])
                );
