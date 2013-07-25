@@ -161,7 +161,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temporary', 'power');
+                    GC.app.player.purchased('temp', 'power');
                     this.updateProgressBars();
                 })
             });
@@ -180,7 +180,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temporary', 'multiplier');
+                    GC.app.player.purchased('temp', 'mult');
                     this.updateProgressBars();
                 })
             });
@@ -199,7 +199,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temporary', 'diamond');
+                    GC.app.player.purchased('temp', 'diamond');
                 })
             });
             confirmDialog.show();
@@ -219,7 +219,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('permanent', 'power');
+                    GC.app.player.purchased('perm', 'power');
                     this.updateProgressBars();
                 })
             });
@@ -238,7 +238,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('permanent', 'multiplier');
+                    GC.app.player.purchased('perm', 'mult');
                     this.updateProgressBars();
                 })
             });
@@ -257,7 +257,7 @@ exports = Class(ImageView, function (supr) {
                 superview: this,
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
-                    GC.app.player.purchased('permanent', 'diamond');
+                    GC.app.player.purchased('perm', 'diamond');
                 })
             });
             confirmDialog.show();
