@@ -131,6 +131,11 @@ exports = Class(ImageView, function (supr) {
             adtimer.interrupt(bind(this, this._beginDay));
         } else {
             this._beginDay();
+            this.healthBar = new HealthBar({
+                superview: this,
+                x: 387,
+                y: 576-80,
+            });
         }
         this.firstPlay = false;
     }
@@ -360,12 +365,6 @@ function playGame () {
             image: 'resources/images/active-multiplier-' + mult + '.png'
         }));
     }
-
-    this.healthBar = new HealthBar({
-        superview: this,
-        x: 387,
-        y: 576-80,
-    });
 
     if (!this.clipper) {
         this.clipper = new Clipper({
