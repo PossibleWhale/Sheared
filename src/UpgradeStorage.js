@@ -30,6 +30,12 @@ exports = Class(Storage, function (supr) {
     this.addToUpgrade = function (name, value) {
         this.add({name: name, value: value});
     };
+
+    this.resetTemporary = function () {
+        this.addToUpgrade('temp_power', this.get('perm_power').value);
+        this.addToUpgrade('temp_mult', this.get('perm_mult').value);
+        this.addToUpgrade('temp_diamond', this.get('perm_diamond').value);
+    };
 });
 
 

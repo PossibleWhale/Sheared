@@ -113,7 +113,16 @@ exports = {
 
     fenceSize: 80,
     laneSize: 52,
-    ramRarity: 0.3
+    ramRarity: 0.3,
+
+    UPGRADE_PRICES: {
+        temp_power: [1000, 2000, 3000, 4000, 5000],
+        temp_mult: [1000, 2000, 3000, 4000, 5000],
+        temp_diamond: 10000,
+        perm_power: [100000, 200000, 300000, 400000, 500000],
+        perm_mult: [100000, 200000, 300000, 400000, 500000],
+        perm_diamond: 1000000
+    }
 };
 
 // build a mapping for looking up each kind of object

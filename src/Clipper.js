@@ -20,6 +20,8 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        this.infiniteDiamond = opts.infiniteDiamond || false;
         this.build();
     };
 
@@ -37,9 +39,6 @@ exports = Class(ImageView, function (supr) {
         this.isDiamond = false;
         this.bladeOut = false;
 
-        if (this.infiniteDiamond) {
-            this.becomeDiamond(true);
-        }
     };
 
     this.becomeDiamond = function (infinite) {
@@ -65,6 +64,9 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.startCountdown = function () {
+        if (this.infiniteDiamond) {
+            return;
+        }
         this.interval = setInterval(bind(this, function () {
             if (this.countdown <= 0) {
                 this.becomeRegular();

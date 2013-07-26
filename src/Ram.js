@@ -9,7 +9,7 @@ exports = Class(Sheep, function (supr) {
         });
         supr(this, 'init', [opts]);
         this.setImage(this.color.ramImage);
-        this.bolts = 5
+        this.bolts = 5 * GC.app.player.boltMultiplier;
         this.isRam = true;
     };
 });

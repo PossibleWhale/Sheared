@@ -165,6 +165,15 @@ exports = Class(ui.ImageView, function (supr) {
             });
         }));
 
+        playScreen.on('playscreen:gameover', function () {
+            storeScreen.updateProgressBars();
+            storeScreen.updatePriceDisplays();
+        });
+
+        GC.app.player.on('player:purchased', function () {
+            GC.app.player.setUpgrades();
+        });
+
         /* When the game screen has signalled that the game is over,
          * reset the play screen so we can play again
          */

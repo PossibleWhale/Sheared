@@ -26,19 +26,22 @@ exports = Class(Emitter, function Player(supr) {
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
  
-        this.maxClipperHealth = 5 + Math.max(this.upgrades.get('temp_power').value,
-                                this.upgrades.get('perm_power').value);
-        this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
-                                this.upgrades.get('perm_mult').value);
-        this.diamondBlade = this.upgrades.get('temp_diamond').value || 
-                                this.upgrades.get('perm_diamond').value;
+        this.setUpgrades = function () {
+            this.maxClipperHealth = Math.min(10, 5 + Math.max(this.upgrades.get('temp_power').value,
+                                    this.upgrades.get('perm_power').value));
+            this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
+                                    this.upgrades.get('perm_mult').value);
+            this.diamondBlade = this.upgrades.get('temp_diamond').value || 
+                                    this.upgrades.get('perm_diamond').value;
+        };
+        this.setUpgrades();
 
         this.purchased = function (tempOrPerm, upgradeName) {
             if (upgradeName === 'diamond') {
-                this.upgrades.add(tempOrPerm + '_diamond', true);
+                this.upgrades.addToUpgrade('temp_diamond', true);
                 // if a permanent upgrade was purchased then the temporary one was "purchased" too
                 if (tempOrPerm === 'perm') {
-                    this.upgrades.add('temp_diamond', true);
+                    this.upgrades.addToUpgrade(tempOrPerm + '_diamond', true);
                 }
             } else {
                 var key = tempOrPerm + '_' + upgradeName;
@@ -47,6 +50,7 @@ exports = Class(Emitter, function Player(supr) {
                     this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);
                 }
             }
+            this.emit('player:purchased');
         };
 
         // add a specified amount of coins to the player's wallet

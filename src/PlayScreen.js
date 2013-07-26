@@ -43,12 +43,6 @@ exports = Class(ImageView, function (supr) {
 
         this.on('play:start', bind(this, playGame));
 
-        this.healthBar = new HealthBar({
-            superview: this,
-            x: 387,
-            y: 576-80,
-        });
-
         this.sheep = [];
 
         this.woolCounts = new WoolCounter({
@@ -79,20 +73,6 @@ exports = Class(ImageView, function (supr) {
         this.pauseButton.on('InputSelect', bind(this, function () {
             this.togglePaused();
         }));
-
-        var mult = GC.app.player.upgrades.get('temp_mult').value;
-        if (mult >= 5 || mult === 'max') {
-            mult = 5;
-        }
-        if (mult > 1) {
-            this.addSubview(new ImageView({
-                x: 751,
-                y: 0,
-                width: 80,
-                height: 80,
-                image: 'resources/images/active-multiplier-' + mult + '.png'
-            }));
-        }
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -262,6 +242,8 @@ exports = Class(ImageView, function (supr) {
     this.gameOver = function () {
         this.endDay();
         this._showResults(false);
+        GC.app.player.upgrades.resetTemporary();
+        this.emit('playscreen:gameover');
     };
 
     this.timeOver = function () {
@@ -365,6 +347,26 @@ function playGame () {
     this.paused = false;
     this.addSubview(this.pauseButton);
 
+    var mult = GC.app.player.upgrades.get('temp_mult').value;
+    if (mult >= 5 || mult === 'max') {
+        mult = 5;
+    }
+    if (mult > 1) {
+        this.addSubview(new ImageView({
+            x: 751,
+            y: 0,
+            width: 80,
+            height: 80,
+            image: 'resources/images/active-multiplier-' + mult + '.png'
+        }));
+    }
+
+    this.healthBar = new HealthBar({
+        superview: this,
+        x: 387,
+        y: 576-80,
+    });
+
     if (!this.clipper) {
         this.clipper = new Clipper({
             x: 0,
@@ -376,6 +378,9 @@ function playGame () {
         this.clipper.style.y = laneCoord(4) + 5;
     }
     this.addSubview(this.clipper);
+    if (this.clipper.infiniteDiamond) {
+        this.clipper.becomeDiamond(true);
+    }
 
     if (this.clipper.isDiamond && !this.clipper.infiniteDiamond) {
         this.clipper.startCountdown();

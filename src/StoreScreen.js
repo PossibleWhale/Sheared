@@ -52,7 +52,7 @@ exports = Class(ImageView, function (supr) {
 
         this.progressBars = {};
         this.progressBars.temporary = {
-            clipper: new ImageView({
+            power: new ImageView({
                 superview: upgradesView,
                 x: 212,
                 y: 141,
@@ -68,7 +68,7 @@ exports = Class(ImageView, function (supr) {
             })
         };
         this.progressBars.permanent = {
-            clipper: new ImageView({
+            power: new ImageView({
                 superview: upgradesView,
                 x: 614,
                 y: 141,
@@ -90,14 +90,13 @@ exports = Class(ImageView, function (supr) {
 
         ////// TODO put the real prices in
         this.priceDisplays.temporary = {
-            clipper: new TextView(merge({
+            power: new TextView(merge({
                 superview: upgradesView,
                 x: 248,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '1,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS)),
             multiplier: new TextView(merge({
                 superview: upgradesView,
@@ -105,8 +104,7 @@ exports = Class(ImageView, function (supr) {
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '1,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS)),
             diamond: new TextView(merge({
                 superview: upgradesView,
@@ -114,19 +112,17 @@ exports = Class(ImageView, function (supr) {
                 y: 324,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '10,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS))
         };
         this.priceDisplays.permanent = {
-            clipper: new TextView(merge({
+            power: new TextView(merge({
                 superview: upgradesView,
                 x: 650,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '100,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS)),
             multiplier: new TextView(merge({
                 superview: upgradesView,
@@ -134,8 +130,7 @@ exports = Class(ImageView, function (supr) {
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '100,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS)),
             diamond: new TextView(merge({
                 superview: upgradesView,
@@ -143,26 +138,27 @@ exports = Class(ImageView, function (supr) {
                 y: 324,
                 width: 100,
                 height: 36,
-                strokeWidth: 3,
-                text: '1,000,000'
+                strokeWidth: 3
             }, constants.TEXT_OPTIONS))
         };
+        this.updatePriceDisplays();
 
         ///// Buttons for temporary upgrades
-        var clipperUpgradeButton = new Button({
+        var powerUpgradeButton = new Button({
             superview: upgradesView,
             x: 207,
             y: 136,
             width: 150,
             height: 90
         });
-        clipperUpgradeButton.on('InputSelect', bind(this, function () {
+        powerUpgradeButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
+                text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('temp', 'power');
                     this.updateProgressBars();
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -182,6 +178,7 @@ exports = Class(ImageView, function (supr) {
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('temp', 'mult');
                     this.updateProgressBars();
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -200,6 +197,7 @@ exports = Class(ImageView, function (supr) {
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('temp', 'diamond');
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -207,20 +205,21 @@ exports = Class(ImageView, function (supr) {
 
 
         ///// Buttons for permanent upgrades
-        var clipperPermanentButton = new Button({
+        var powerPermanentButton = new Button({
             superview: upgradesView,
             x: 610,
             y: 136,
             width: 150,
             height: 90
         });
-        clipperPermanentButton.on('InputSelect', bind(this, function () {
+        powerPermanentButton.on('InputSelect', bind(this, function () {
             var confirmDialog = new Alert({
                 superview: this,
-                text: 'You are about to purchase a clipper upgrade. Do you wish to continue?',
+                text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('perm', 'power');
                     this.updateProgressBars();
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -240,6 +239,7 @@ exports = Class(ImageView, function (supr) {
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('perm', 'mult');
                     this.updateProgressBars();
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -258,6 +258,7 @@ exports = Class(ImageView, function (supr) {
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
                     GC.app.player.purchased('perm', 'diamond');
+                    this.updatePriceDisplays();
                 })
             });
             confirmDialog.show();
@@ -286,20 +287,42 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.updateProgressBars = function () {
-        var upgrades = GC.app.player.upgrades,
-            upgradeLevels = {
-                temporary: {
-                    clipper: (upgrades.get('temp_power').value + 1) >= 5 ? 'max' : upgrades.get('temp_power').value+1,
-                    multiplier: upgrades.get('temp_mult').value >= 5 ? 'max' : upgrades.get('temp_mult').value
-                },
-                permanent: {
-                    clipper: (upgrades.get('perm_power').value+1) >= 5 ? 'max' : upgrades.get('perm_power').value+1,
-                    multiplier: upgrades.get('perm_mult').value >= 5 ? 'max' : upgrades.get('perm_mult').value
-                }
-            };
-        this.progressBars.temporary.clipper.setImage('resources/images/store-power-' + upgradeLevels.temporary.clipper + '.png');
+        var upgradeLevels = this._upgradeLevels();
+        this.progressBars.temporary.power.setImage('resources/images/store-power-' + upgradeLevels.temporary.power + '.png');
         this.progressBars.temporary.multiplier.setImage('resources/images/store-multiplier-' + upgradeLevels.temporary.multiplier + '.png');
-        this.progressBars.permanent.clipper.setImage('resources/images/store-power-' + upgradeLevels.permanent.clipper + '.png');
+        this.progressBars.permanent.power.setImage('resources/images/store-power-' + upgradeLevels.permanent.power + '.png');
         this.progressBars.permanent.multiplier.setImage('resources/images/store-multiplier-' + upgradeLevels.permanent.multiplier + '.png');
+    };
+
+    this.updatePriceDisplays = function () {
+        var upgradeLevels = this._upgradeLevels();
+        this.priceDisplays.temporary.power.setText(constants.UPGRADE_PRICES.temp_power[upgradeLevels.temporary.power-1] || 'Purchased!');
+        this.priceDisplays.temporary.multiplier.setText(constants.UPGRADE_PRICES.temp_mult[upgradeLevels.temporary.multiplier-1] || 'Purchased!');
+        if (GC.app.player.upgrades.get('temp_diamond').value) {
+            this.priceDisplays.temporary.diamond.setText('Purchased!');
+        } else {
+            this.priceDisplays.temporary.diamond.setText(constants.UPGRADE_PRICES.temp_diamond);
+        }
+        this.priceDisplays.permanent.power.setText(constants.UPGRADE_PRICES.perm_power[upgradeLevels.permanent.power-1] || 'Purchased!');
+        this.priceDisplays.permanent.multiplier.setText(constants.UPGRADE_PRICES.perm_mult[upgradeLevels.permanent.multiplier-1] || 'Purchased!');
+        if (GC.app.player.upgrades.get('perm_diamond').value) {
+            this.priceDisplays.permanent.diamond.setText('Purchased!');
+        } else {
+            this.priceDisplays.permanent.diamond.setText(constants.UPGRADE_PRICES.perm_diamond);
+        }
+    };
+
+    this._upgradeLevels = function () {
+        var upgrades = GC.app.player.upgrades;
+        return {
+            temporary: {
+                power: (upgrades.get('temp_power').value + 1) >= 5 ? 'max' : upgrades.get('temp_power').value+1,
+                multiplier: upgrades.get('temp_mult').value >= 5 ? 'max' : upgrades.get('temp_mult').value
+            },
+            permanent: {
+                power: (upgrades.get('perm_power').value+1) >= 5 ? 'max' : upgrades.get('perm_power').value+1,
+                multiplier: upgrades.get('perm_mult').value >= 5 ? 'max' : upgrades.get('perm_mult').value
+            }
+        };
     };
 });

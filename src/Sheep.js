@@ -27,7 +27,7 @@ exports = Class(View, function (supr) {
         });
 
         this.color = color;
-        this.bolts = 1;
+        this.bolts = 1 * GC.app.player.boltMultiplier;
         this.isRam = false;
     };
 
