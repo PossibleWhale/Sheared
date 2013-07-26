@@ -26,12 +26,19 @@ exports = {
     COLOR_NONE: {label: 'none'},
 
     SCHEMA: {
-        version: 1,
+        version: 2,
         stores: {
             wool: {key: 'color', value: 'count'},
             craft: {key: 'motif', value: 'count'},
             stat: {key: 'name', value: 'value'},
             upgrade: {key: 'name', value: 'value'}
+            // DO NOT ADD A TABLE WITHOUT INCREASING SCHEMA VERSION
+            // PLEASE
+            // KTHX
+            //
+            // Oh and then write an upgrader function in Storage.js
+            //
+            // thx again
         }
     },
 

@@ -10,10 +10,6 @@ import src.UpgradeStorage as UpgradeStorage;
 
 
 exports = Class(Emitter, function Player(supr) {
-    var lsSet, lsGet;
-    lsSet = bind(localStorage, localStorage.setItem);
-    lsGet = bind(localStorage, localStorage.getItem);
-
     this.init = function () {
         supr(this, 'init', arguments);
 

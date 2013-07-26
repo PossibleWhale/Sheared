@@ -9,6 +9,27 @@ import src.util as util;
 assert = util.assert;
 
 
+// For testing, this might be useful:
+//
+// function LocalStorage() {
+//     this.db = {};
+// };
+//
+//
+// LocalStorage.prototype = {
+//     getItem: function (key) {
+//         return this.db[key];
+//     },
+//
+//     setItem: function (key, value) {
+//         util.assert(typeof key === 'string');
+//         this.db[key] = JSON.stringify(value);
+//     }
+// };
+//
+// GC.localStorage = new LocalStorage;
+
+
 Storage = Class(GCDataSource, function (supr) {
     var lsSet, lsGet;
 
@@ -43,26 +64,28 @@ Storage = Class(GCDataSource, function (supr) {
     /*
      * create the database architecture in localStorage
      */
-    this._initPWStorage = function _a_initPWStorage() {
-        if (! lsGet('pw_version')) {
-            lsSet('pw_version', c.SCHEMA.version);
-        }
 
-        if (! lsGet('pw_stores')) {
-            lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
-        }
+    /*
+     * This update adds pw_store_upgrade for in-app purchases.
+     * No special initialization required, just update pw_stores.
+     */
+    this.upgrade_1_to_2 = function _a_upgrade_1_to_2() {
+        assert(parseInt(lsGet('pw_version'), 10) === 1);
+        lsSet('pw_version', 2);
+        lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
     };
 
     /*
      * check localStorage against our schema. abort if they don't match.
      */
     this.verifySchema = function _a_verifySchema() {
-        var version, stores;
+        var version, stores, upgrader;
 
         version = parseInt(lsGet('pw_version'), 10);
-        if (! version) {
-            this._initPWStorage();
+        if (! version) { // if no value for version, we are initializing brand-new.
             version = c.SCHEMA.version;
+            lsSet('pw_version', version);
+            lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
         }
 
         try {
@@ -71,10 +94,21 @@ Storage = Class(GCDataSource, function (supr) {
             console.log('** JSON load error for: ' + lsGet('pw_stores'));
         }
 
-        assert(version === c.SCHEMA.version, 'schema version mismatch');
+        if (version !== c.SCHEMA.version) {
+            while (version !== c.SCHEMA.version) {
+                upgrader = this['upgrade_' + version + '_to_' + (version + 1)];
+                upgrader.call(this);
+                version = parseInt(lsGet('pw_version'), 10);
+            }
+        }
+
+        assert(version === c.SCHEMA.version, 'schema version mismatch AFTER upgrading !!!');
         assert(JSON.stringify(stores[this.name]) ===
                JSON.stringify(c.SCHEMA.stores[this.name]),
-               'schema table ' + this.name + ' is not identical');
+               'schema table "' + this.name + '" is not identical. ' +
+               JSON.stringify(stores[this.name]) + ' !== ' +
+               JSON.stringify(c.SCHEMA.stores[this.name])
+               );
     };
 
     /*
