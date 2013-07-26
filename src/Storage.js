@@ -64,15 +64,6 @@ Storage = Class(GCDataSource, function (supr) {
     /*
      * create the database architecture in localStorage
      */
-    this._initPWStorage = function _a_initPWStorage() {
-        if (! lsGet('pw_version')) {
-            lsSet('pw_version', c.SCHEMA.version);
-        }
-
-        if (! lsGet('pw_stores')) {
-            lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
-        }
-    };
 
     /*
      * This update adds pw_store_upgrade for in-app purchases.
@@ -91,9 +82,10 @@ Storage = Class(GCDataSource, function (supr) {
         var version, stores, upgrader;
 
         version = parseInt(lsGet('pw_version'), 10);
-        if (! version) {
-            this._initPWStorage();
+        if (! version) { // if no value for version, we are initializing brand-new.
             version = c.SCHEMA.version;
+            lsSet('pw_version', version);
+            lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
         }
 
         try {
