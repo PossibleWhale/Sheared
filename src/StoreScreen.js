@@ -50,6 +50,17 @@ exports = Class(ImageView, function (supr) {
             this.emit('store:back');
         }));
 
+        craftButton = new Button({
+            superview: this,
+            x: 133,
+            y: 496,
+            width: 200,
+            height: 80
+        });
+        craftButton.on('InputSelect', bind(this, function () {
+            this.emit('store:craft');
+        }));
+
         this.progressBars = {};
         this.progressBars.temporary = {
             power: new ImageView({

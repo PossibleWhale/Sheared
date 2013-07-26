@@ -58,16 +58,6 @@ exports = Class(ImageView, function (supr) {
             return btn;
         });
 
-        // color nav buttons
-        this.colorFactory = bind(this, function _a_colorFactory(region) {
-            var btn = this.defaultButtonFactory(region);
-            btn.updateOpts({click: true});
-            btn.on('InputSelect', function _a_onInputSelectColor() {
-                this.getSuperview().setColor(this.getOpts().item);
-            });
-            return btn;
-        });
-
         // garment nav buttons
         this.garmentFactory = bind(this, function _a_garmentFactory(region) {
             var btn = this.defaultButtonFactory(region);
@@ -75,28 +65,6 @@ exports = Class(ImageView, function (supr) {
             btn.on('InputSelect', function _a_onInputSelectGarment() {
                 this.getSuperview().setGarment(this.getOpts().item);
             });
-            return btn;
-        });
-
-        // recycle buttons
-        this.recycleFactory = bind(this, function _a_recycleFactory(region, i) {
-            var btn, me = this;
-            btn = this.defaultButtonFactory(region);
-            btn.updateOpts({contrastIndex: i,
-                click: false}); // these have their own sound
-
-            btn.imageLayer = new ImageView({
-                superview: btn,
-                autoSize: true,
-                x: 27
-            });
-
-            btn.on('InputSelect', (function _a_onInputSelectRecycleClosure(_btn) {
-                return function _a_onInputSelectRecycle() {
-                    GC.app.audio.playRecycle();
-                    me.recycleCraft(_btn);
-                };
-            })(btn));
             return btn;
         });
 
@@ -214,37 +182,19 @@ exports = Class(ImageView, function (supr) {
         });
 
         /*
-         * update both the craft counts boxes, and the chalkboards, based on
-         * current selections and inventory
+         * Update the craft counts boxes based on current selections and
+         * inventory
          */
         this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
-            var btn1, btn2, i, sc = this.sessionCrafts;
+            var btn1, i, sc = this.sessionCrafts;
             i = this.buttons.craftCount.length;
             while (i--) {
                 btn1 = this.buttons.craftCount[i];
-                btn2 = this.buttons.chalkboard[i];
 
                 currentCraft = this.craftByIndex(i);
                 count = sc.get(currentCraft).count;
 
                 btn1.setText(count);
-                btn2.setText('$' + currentCraft.formatDollars(count));
-            }
-        });
-
-        this.updateRecycleButtons = bind(this, function _a_updateRecycleButtons() {
-            var i, btn, currentCraft, count, sc;
-            sc = this.sessionCrafts;
-            i = this.buttons.recycle.length;
-            while(i--) {
-                btn = this.buttons.recycle[i];
-                currentCraft = this.craftByIndex(i);
-                count = sc.get(currentCraft).count;
-                if (count === 0) {
-                    btn.setImage('resources/images/craft-recycle-disabled.png');
-                } else {
-                    btn.setImage('resources/images/craft-recycle.png');
-                }
             }
         });
 
@@ -284,7 +234,6 @@ exports = Class(ImageView, function (supr) {
             this.updateCraftBuyButtons();
             this.updateGarmentPattern();
             this.updateCraftCounts();
-            this.updateRecycleButtons();
             this.updateTotal();
         });
 
@@ -295,28 +244,6 @@ exports = Class(ImageView, function (supr) {
 
         // clear out the ui image and replace it when garment changes
         this.changeGarment = bind(this, function _a_changeGarment() {
-            _cleanUI();
-        });
-
-        // put the wool back and deduct one crafted item. Only permit this for
-        // items crafted this session, not those crafted over a lifetime.
-        this.recycleCraft = bind(this, function _a_recycleCraft(btn) {
-            var main = this.selectedColor,
-                garment = this.selectedGarment,
-                contrast, craft, costs,
-                sw = this.sessionWool,
-                sc = this.sessionCrafts;
-            contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
-            craft = new Craft(garment, main, contrast);
-            costs = craft.cost();
-
-            if (sc.get(craft).count > 0) {
-                sc.addCraft(craft, -1);
-                this.emit('craft:addDollars', -craft.dollars());
-                sw.addWool(main, costs[0].amount);
-                sw.addWool(contrast, costs[1].amount);
-            }
-
             _cleanUI();
         });
 
@@ -352,8 +279,8 @@ exports = Class(ImageView, function (supr) {
         var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
 
         // load up alllll dem buttons
-        var kinds = ["colorCount", "color", "garment", "cost", "craftCount",
-            "craftBuy", "chalkboard", "recycle"];
+        var kinds = ["colorCount", "garment", "cost", "craftCount",
+            "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, regions, j, region, btn;
 
@@ -365,31 +292,19 @@ exports = Class(ImageView, function (supr) {
             }
         }
 
-        this.finishButton = this.defaultButtonFactory(craftScreenRegions.finish);
-        this.finishButton.updateOpts({click: true});
-        this.finishButton.setText("Finish");
-        this.finishButton.on('InputSelect', bind(this, function _a_onInputSelectFinish() {
-            GC.app.player.wool = this.sessionWool.copy();
-            GC.app.player.crafts = this.sessionCrafts.copy();
-            this.emit('craft:finishScreen');
-        }));
-        this.on('craft:finishFinishScreen', bind(this, function _a_onCraftFinishFinishScreen() {
-            GC.app.stackView.popAll();
-        }));
-        this.on('craft:finishScreen', bind(this, function _a_onCraftFinishScreen() {
-            // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
-            // -- it sometimes appears negative, most likely due to floating
-            // point error.
-            var finishView = new Button({text: 'Finished crafting. Made $' + (0.0001 + this.total).toFixed(2)});
-            util.reissue(finishView, 'InputSelect', this, 'craft:finishFinishScreen');
-            GC.app.stackView.push(finishView);
-        }));
-
         this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
-        this.totalButton.setText("Total: $0.00");
 
         this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
+
+        this.backButton = this.defaultButtonFactory(craftScreenRegions.backButton);
+        this.backButtonLabel = this.defaultButtonFactory(craftScreenRegions.backButtonLabel);
+
+        var _back = bind(this, function () {
+            this.emit('craft:back');
+        });
+        this.backButton.on('InputSelect', _back);
+        this.backButtonLabel.on('InputSelect', _back);
 
         muteOpts = {
             superview: this,
@@ -417,13 +332,6 @@ var colorPairings = {
 };
 
 var craftScreenRegions = {
-color: [
-    {item: c.COLOR_WHITE, y:146, x:34, width:58, height:66},
-    {item: c.COLOR_RED, y:228, x:34, width:58, height:66},
-    {item: c.COLOR_BLUE, y:310, x:34, width:58, height:66},
-    {item: c.COLOR_YELLOW, y:392, x:34, width:58, height:66},
-    {item: c.COLOR_BLACK, y:474, x:34, width:58, height:66}
-    ],
 colorCount: [
     {item: c.COLOR_WHITE, y:192, x:34, width:58, height:20},
     {item: c.COLOR_RED, y:274, x:34, width:58, height:20},
@@ -467,28 +375,13 @@ craftBuy: [
     {item: {_1: null}, y:224, x:622, width:98, height:96},
     {item: {_1: null}, y:224, x:782, width:98, height:96}
     ],
-chalkboard: [
-    {y:376, x:148, width:88, height:54},
-    {y:376, x:308, width:88, height:54},
-    {y:376, x:468, width:88, height:54},
-    {y:376, x:628, width:88, height:54},
-    {y:376, x:788, width:88, height:54}
-    ],
-recycle: [
-    {y:442, x:144, width:96, height:45},
-    {y:442, x:304, width:96, height:45},
-    {y:442, x:464, width:96, height:45},
-    {y:442, x:624, width:96, height:45},
-    {y:442, x:784, width:96, height:45}
-    ],
-finish: {y:504, x:560, width:322, height:48},
-total: {y:504, x:144, width:322, height:48},
+total: {y:504, x:144, width:322, height:48, text: 'Total: 0'},
 shopName: {y:72, x:136, width:750, height:42},
-garmentPattern: {x: 0, y: 0, width: 1024, height: 576}
+garmentPattern: {x: 0, y: 0, width: 1024, height: 576},
+backButton: {x: 0, y: 0, width: 80, height: 80},
+backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 }
 
-craftScreenRegions.color.factory = 'colorFactory';
 craftScreenRegions.garment.factory = 'garmentFactory';
 craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
 craftScreenRegions.craftCount.factory = 'craftCountFactory';
-craftScreenRegions.recycle.factory = 'recycleFactory';

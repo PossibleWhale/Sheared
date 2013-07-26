@@ -35,7 +35,7 @@ exports = Class(ui.ImageView, function (supr) {
     };
 
     this.build = function() {
-        var pbOpts, playButton, cbOpts, craftButton, craftScreen,
+        var pbOpts, playButton, cbOpts, craftScreen,
             playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen;
 
         craftScreen = new CraftScreen();
@@ -93,15 +93,6 @@ exports = Class(ui.ImageView, function (supr) {
         };
         playButton = new Button(pbOpts);
 
-        cbOpts = {
-            superview: this,
-            x: 428,
-            y: 296,
-            width: 150,
-            height: 74
-        };
-        craftButton = new Button(cbOpts);
-
         howOpts = {
             superview: this,
             x: 388,
@@ -139,30 +130,31 @@ exports = Class(ui.ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        tutorialScreen.on('tutorial:back', bind(this, function () {
+        function _back() {
             stackView.pop();
-        }));
+        }
 
-        storeScreen.on('store:back', bind(this, function () {
-            stackView.pop();
-        }));
+        tutorialScreen.on('tutorial:back', _back);
+        storeScreen.on('store:back', _back);
+        craftScreen.on('craft:back', _back);
 
         playButton.on('InputSelect', bind(this, function () {
             stackView.push(playScreen);
         }));
 
-        craftButton.on('InputSelect', bind(this, function () {
+        function _startCrafting() {
             adtimer.interrupt(function () {
                 stackView.push(craftScreen);
                 craftScreen.emit('craft:start');
             });
+        };
+
+        storeScreen.on('store:craft', bind(this, function () {
+            _startCrafting();
         }));
 
         playScreen.on('playscreen:craft', bind(this, function () {
-            adtimer.interrupt(function () {
-                stackView.push(craftScreen);
-                craftScreen.emit('craft:start');
-            });
+            _startCrafting();
         }));
 
         playScreen.on('playscreen:gameover', function () {
@@ -178,12 +170,9 @@ exports = Class(ui.ImageView, function (supr) {
          * reset the play screen so we can play again
          */
         this.on('playscreen:end', bind(this, function () {
-            adtimer.interrupt(function () {
-                delete playScreen;
-                playScreen = new PlayScreen();
-                stackView.push(craftScreen);
-                craftScreen.emit('craft:start');
-            });
+            delete playScreen;
+            playScreen = new PlayScreen();
+            _startCrafting();
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
