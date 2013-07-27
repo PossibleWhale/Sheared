@@ -7,13 +7,14 @@
  */
 
 import ui.View;
-import ui.ImageView;
+import ui.ImageView as ImageView;
 
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
 import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.StoreScreen as StoreScreen;
+import src.StatScreen as StatScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
@@ -23,7 +24,7 @@ import src.adtimer as adtimer;
  * a child of the main application. When this class is instantiated,
  * it adds the start button as a child.
  */
-exports = Class(ui.ImageView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             image: "resources/images/title.png"
@@ -36,27 +37,143 @@ exports = Class(ui.ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
-            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen;
+            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen, statScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
+        statScreen = new StatScreen();
 
         stackView = this.getSuperview();
 
-        // TODO this is just a placeholder
-        var storeButton = new ui.ImageView({
+        // TODO animate the logo in some cutesy way
+        var shearedLogo = new ImageView({
+            superview: this,
+            x: 87,
+            y: 133,
+            width: 850,
+            height: 210,
+            image: 'resources/images/sheared.png'
+        });
+
+        var marqueeTop = new ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/marquee-top.png'
+        });
+
+        var marqueeBottom = new ImageView({
+            superview: this,
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/marquee-bottom.png'
+        });
+
+        var exitButton = new ImageView({
             superview: this,
             x: 0,
             y: 0,
             width: 80,
             height: 80,
-            image: 'resources/images/button-store.png'
+            image: 'resources/images/button-exit.png'
+        });
+        exitButton.on('InputSelect', function () {
+            // TODO
+            console.log('exit app');
+        });
+
+        var websiteButton = new ImageView({
+            superview: this,
+            x: 944,
+            y: 0,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-website.png'
+        });
+        websiteButton.on('InputSelect', function () {
+            // TODO
+            console.log('go to website');
+        });
+
+        var statsButton = new ImageView({
+            superview: this,
+            x: 0,
+            y: 496,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-stats.png'
+        });
+        statsButton.on('InputSelect', function () {
+            stackView.push(statScreen);
+        });
+
+        var awardsButton = new ImageView({
+            superview: this,
+            x: 216,
+            y: 496,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-awards.png'
+        });
+        awardsButton.on('InputSelect', function () {
+            // TODO
+            console.log('show awards screen');
+        });
+
+        var storeButton = new ImageView({
+            superview: this,
+            x: 412,
+            y: 496,
+            width: 200,
+            height: 80,
+            image: 'resources/images/button-general-store.png'
         });
         storeButton.on('InputSelect', function () {
             stackView.push(storeScreen);
+        });
+
+        var tutorialButton = new ImageView({
+            superview: this,
+            x: 728,
+            y: 496,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-tutorials.png'
+        });
+        tutorialButton.on('InputSelect', function () {
+            tutorialScreen.build();
+            stackView.push(tutorialScreen);
+        });
+
+        var playButton = new ImageView({
+            superview: this,
+            x: 435,
+            y: 346,
+            width: 154,
+            height: 82,
+            image: 'resources/images/button-play.png'
+        });
+        playButton.on('InputSelect', function () {
+            stackView.push(playScreen);
+        });
+
+        var creditsButton = new ImageView({
+            superview: this,
+            x: 453,
+            y: 439,
+            width: 118,
+            height: 36,
+            image: 'resources/images/button-credits.png'
+        });
+        creditsButton.on('InputSelect', function () {
+            stackView.push(creditsScreen);
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
@@ -75,56 +192,10 @@ exports = Class(ui.ImageView, function (supr) {
             playScreen.runTick();
         }));
 
-        statOpts = {
-            superview: this,
-            x: 630,
-            y: 296,
-            width: 150,
-            height: 74
-        };
-        statButton = new Button(statOpts);
-
-        pbOpts = {
-            superview: this,
-            x: 234,
-            y: 296,
-            width: 150,
-            height: 74
-        };
-        playButton = new Button(pbOpts);
-
-        howOpts = {
-            superview: this,
-            x: 388,
-            y: 392,
-            width: 248,
-            height: 74
-        };
-        howButton = new Button(howOpts);
-        howButton.on('InputSelect', function () {
-            tutorialScreen.build();
-            stackView.push(tutorialScreen);
-        });
-
-        credOpts = {
-            superview: this,
-            x: 462,
-            y: 484,
-            width: 100,
-            height: 50
-        }
-        var creditsButton = new Button (credOpts);
-        creditsButton.on('InputSelect', function () {
-            stackView.push(creditsScreen);
-        });
-        creditsScreen.on('credits:back', function () {
-            stackView.pop();
-        });
-
         muteOpts = {
             superview: this,
-            x: 932,
-            y: 486,
+            x: 944,
+            y: 496,
             width: 80,
             height: 80
         };
@@ -137,6 +208,8 @@ exports = Class(ui.ImageView, function (supr) {
         tutorialScreen.on('tutorial:back', _back);
         storeScreen.on('store:back', _back);
         craftScreen.on('craft:back', _back);
+        creditsScreen.on('credits:back', _back);
+        statScreen.on('stats:back', _back);
 
         craftScreen.on('craft:store', function () {
             undefined("FIXME - this does weird things to the stack");

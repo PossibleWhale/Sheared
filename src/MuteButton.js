@@ -34,9 +34,9 @@ exports = Class(Button, function proto(supr) {
         this.audio.setMuted(muted);
 
         if (muted) {
-            this.setImage('resources/images/audio-off.png');
+            this.setImage('resources/images/button-sound-off.png');
         } else {
-            this.setImage('resources/images/audio-on.png');
+            this.setImage('resources/images/button-sound-on.png');
             // manually play the click sound when sound is turned on.
             if (! options.silent) {
                 this.audio.playButton();
