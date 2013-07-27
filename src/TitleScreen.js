@@ -14,6 +14,7 @@ import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
 import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.StoreScreen as StoreScreen;
+import src.StatScreen as StatScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
@@ -36,13 +37,14 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftButton, craftScreen,
-            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen;
+            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen, statScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
         tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
+        statScreen = new StatScreen();
 
         stackView = this.getSuperview();
 
@@ -109,8 +111,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-stats.png'
         });
         statsButton.on('InputSelect', function () {
-            // TODO
-            console.log('show stats screen');
+            stackView.push(statScreen);
         });
 
         var awardsButton = new ImageView({
@@ -208,6 +209,10 @@ exports = Class(ImageView, function (supr) {
         }));
 
         storeScreen.on('store:back', bind(this, function () {
+            stackView.pop();
+        }));
+
+        statScreen.on('stats:back', bind(this, function () {
             stackView.pop();
         }));
 
