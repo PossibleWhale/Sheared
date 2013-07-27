@@ -43,6 +43,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.woolCounts = new WoolCounter({
+            storage: new WoolStorage({persist: false}),
             superview: this,
             x: 283,
             y: 0,

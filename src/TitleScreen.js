@@ -138,6 +138,11 @@ exports = Class(ui.ImageView, function (supr) {
         storeScreen.on('store:back', _back);
         craftScreen.on('craft:back', _back);
 
+        craftScreen.on('craft:store', function () {
+            stackView.popAll();
+            stackView.push(storeScreen);
+        });
+
         playButton.on('InputSelect', bind(this, function () {
             stackView.push(playScreen);
         }));

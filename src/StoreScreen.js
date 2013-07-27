@@ -36,7 +36,7 @@ exports = Class(ImageView, function (supr) {
             superview: this,
             x: 283,
             y: 0,
-            fromLocal: true
+            storage: GC.app.player.wool
         }),
         backButton = new Button({
             superview: this,

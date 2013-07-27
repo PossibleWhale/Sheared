@@ -15,6 +15,7 @@ import src.CraftStorage as CraftStorage;
 import src.util as util;
 import src.Craft as Craft;
 import src.debughack as dh;
+import src.WoolCounter as WoolCounter;
 
 
 exports = Class(ImageView, function (supr) {
@@ -22,6 +23,13 @@ exports = Class(ImageView, function (supr) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
         this.total = 0;
+
+        this.woolCounts = new WoolCounter({
+            superview: this,
+            x: 283,
+            y: 0,
+            storage: GC.app.player.wool
+        });
 
         opts = merge(opts, {
             autosize: true,
@@ -169,7 +177,7 @@ exports = Class(ImageView, function (supr) {
             // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
             // -- it sometimes appears negative, most likely due to floating
             // point error.
-            this.totalButton.setText('Total: $' + (this.total + 0.0001).toFixed(2));
+            this.totalButton.setText('' + this.total + ' Eweros');
         });
 
         /*
@@ -276,35 +284,34 @@ exports = Class(ImageView, function (supr) {
 
         // The garment colors on the right update when you change color. This
         // is a single image that overlays the entire screen.
-        var gp = this.garmentPattern = this.defaultButtonFactory(craftScreenRegions.garmentPattern);
+        var gp = this.garmentPattern = this.defaultButtonFactory(regions.garmentPattern);
 
         // load up alllll dem buttons
         var kinds = ["colorCount", "garment", "cost", "craftCount",
             "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
-            var k = kinds[kk], factory, regions, j, region, btn;
+            var k = kinds[kk], factory, rgns, j, region, btn;
 
-            regions = craftScreenRegions[k];
-            factory = bind(this, this[regions.factory] || this.defaultButtonFactory);
+            rgns = regions[k];
+            factory = bind(this, this[rgns.factory] || this.defaultButtonFactory);
             this.buttons[k] = [];
-            for (j = 0; j < regions.length; j++) {
-                this.buttons[k].push(factory(regions[j], j));
+            for (j = 0; j < rgns.length; j++) {
+                this.buttons[k].push(factory(rgns[j], j));
             }
         }
 
-        this.totalButton = this.defaultButtonFactory(craftScreenRegions.total);
+        this.totalButton = this.defaultButtonFactory(regions.total);
 
-        this.shopNameButton = this.defaultButtonFactory(craftScreenRegions.shopName);
+        this.shopNameButton = this.defaultButtonFactory(regions.shopName);
         this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
 
-        this.backButton = this.defaultButtonFactory(craftScreenRegions.backButton);
-        this.backButtonLabel = this.defaultButtonFactory(craftScreenRegions.backButtonLabel);
+        this.backButton = this.defaultButtonFactory(regions.backButton);
+        this.backButtonLabel = this.defaultButtonFactory(regions.backButtonLabel);
+        util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
+        util.reissue(this.backButtonLabel, 'InputSelect', this, 'craft:back');
 
-        var _back = bind(this, function () {
-            this.emit('craft:back');
-        });
-        this.backButton.on('InputSelect', _back);
-        this.backButtonLabel.on('InputSelect', _back);
+        this.store = this.defaultButtonFactory(regions.store);
+        util.reissue(this.store, 'InputSelect', this, 'craft:store');
 
         muteOpts = {
             superview: this,
@@ -331,14 +338,7 @@ var colorPairings = {
     black: [c.COLOR_BLACK, c.COLOR_WHITE, c.COLOR_RED, c.COLOR_BLUE, c.COLOR_YELLOW]
 };
 
-var craftScreenRegions = {
-colorCount: [
-    {item: c.COLOR_WHITE, y:192, x:34, width:58, height:20},
-    {item: c.COLOR_RED, y:274, x:34, width:58, height:20},
-    {item: c.COLOR_BLUE, y:356, x:34, width:58, height:20},
-    {item: c.COLOR_YELLOW, y:438, x:34, width:58, height:20},
-    {item: c.COLOR_BLACK, y:520, x:34, width:58, height:20}
-    ],
+var regions = {
 garment: [
     {item: c.GARMENT_HAT, y:146, x:930, width:60, height:66},
     {item: c.GARMENT_MITTEN, y:228, x:930, width:60, height:66},
@@ -375,13 +375,14 @@ craftBuy: [
     {item: {_1: null}, y:224, x:622, width:98, height:96},
     {item: {_1: null}, y:224, x:782, width:98, height:96}
     ],
-total: {y:504, x:144, width:322, height:48, text: 'Total: 0'},
+total: {y:518, x:448, width:128, height:34, text: '0 Eweros'},
+store: {x: 133, y: 496, width: 200, height: 80},
 shopName: {y:72, x:136, width:750, height:42},
 garmentPattern: {x: 0, y: 0, width: 1024, height: 576},
 backButton: {x: 0, y: 0, width: 80, height: 80},
 backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 }
 
-craftScreenRegions.garment.factory = 'garmentFactory';
-craftScreenRegions.craftBuy.factory = 'craftBuyFactory';
-craftScreenRegions.craftCount.factory = 'craftCountFactory';
+regions.garment.factory = 'garmentFactory';
+regions.craftBuy.factory = 'craftBuyFactory';
+regions.craftCount.factory = 'craftCountFactory';

@@ -49,7 +49,7 @@ exports = Class(ImageView, function (supr) {
             superview: this,
             x: 283,
             y: 0,
-            fromLocal: true
+            storage: GC.app.player.wool.copy({persist: false}) // we don't commit our wool until the end of the day
         });
 
         muteOpts = {

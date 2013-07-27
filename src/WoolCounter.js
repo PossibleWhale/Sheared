@@ -8,6 +8,10 @@ import src.WoolStorage as WoolStorage;
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
+        util.assert(opts.storage, "opts.storage is required in WoolCounter's options");
+        this.wool = opts.storage;
+        delete opts.storage;
+
         opts = merge(opts, {
             height: 80,
             width: 510,
@@ -15,13 +19,6 @@ exports = Class(View, function (supr) {
         });
 
         supr(this, 'init', [opts]);
-
-        var fromLocal = opts.fromLocal || false;
-        if (fromLocal) {
-            this.wool = GC.app.player.wool.copy();
-        } else {
-            this.wool = new WoolStorage({persist: false});
-        }
 
         var textViewOpts = {
             width: 80,
