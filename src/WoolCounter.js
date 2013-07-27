@@ -5,18 +5,20 @@ import ui.View as View;
 import ui.TextView as TextView;
 import src.constants as constants;
 import src.WoolStorage as WoolStorage;
+import src.util as util;
+
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
-        util.assert(opts.storage, "opts.storage is required in WoolCounter's options");
-        this.wool = opts.storage;
-        delete opts.storage;
-
         opts = merge(opts, {
             height: 80,
             width: 510,
             clip: false
         });
+
+        util.assert(opts.storage, "opts.storage is required in WoolCounter's options");
+        this.wool = opts.storage;
+        delete opts.storage;
 
         supr(this, 'init', [opts]);
 
@@ -45,8 +47,20 @@ exports = Class(View, function (supr) {
     };
 
     this.update = function (color) {
-        this.counts[color.label].setText(
-            this.wool.get(color).count
-        );
+        var _update, i;
+        _update = bind(this, function (col) {
+            this.counts[col.label].setText(
+                this.wool.get(col).count
+            );
+        });
+
+        if (color === undefined) {
+            i = constants.colors.length;
+            while (i--) {
+                _update(constants.colors[i]);
+            }
+        } else {
+            _update(color);
+        }
     };
 });

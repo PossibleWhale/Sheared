@@ -139,6 +139,7 @@ exports = Class(ui.ImageView, function (supr) {
         craftScreen.on('craft:back', _back);
 
         craftScreen.on('craft:store', function () {
+            undefined("FIXME - this does weird things to the stack");
             stackView.popAll();
             stackView.push(storeScreen);
         });

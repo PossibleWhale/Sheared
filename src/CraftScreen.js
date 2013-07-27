@@ -24,13 +24,6 @@ exports = Class(ImageView, function (supr) {
         this.buttons = {};
         this.total = 0;
 
-        this.woolCounts = new WoolCounter({
-            superview: this,
-            x: 283,
-            y: 0,
-            storage: GC.app.player.wool
-        });
-
         opts = merge(opts, {
             autosize: true,
             image: this.background
@@ -38,10 +31,18 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
+        this.wool = GC.app.player.wool;
+        this.crafts = GC.app.player.crafts;
+
+        this.woolCounts = new WoolCounter({
+            superview: this,
+            x: 283,
+            y: 0,
+            storage: this.wool
+        });
+
         this.selectedGarment = c.GARMENT_HAT;
         this.selectedColor = c.COLOR_WHITE;
-        this.sessionWool = null;
-        this.sessionCrafts = null;
 
         var craftScreen = this;
 
@@ -115,32 +116,8 @@ exports = Class(ImageView, function (supr) {
 
             var btn, color, count, i, money;
 
-            this.sessionWool = GC.app.player.wool.copy({persist: false});
-            this.sessionCrafts = GC.app.player.crafts.copy({persist: false});
-
-            // put counts in all the wool control buttons
-            for (i = 0; i < this.buttons.colorCount.length; i++) {
-                btn = this.buttons.colorCount[i];
-                color = btn.getOpts().item;
-                count = this.sessionWool.get(color).count;
-                btn.setText(count);
-            }
-
             this.setGarment(c.GARMENT_HAT);
             this.setColor(c.COLOR_WHITE);
-
-            // if wool changes, update the count in the appropriate wool
-            // control button
-            this.sessionWool.on('wool:update', bind(this, function _a_onWoolUpdate(clabel, item) {
-                i = c.colors.length;
-                while (i--) {
-                    btn = this.buttons.colorCount[i];
-                    if (btn.getOpts().item.label === item.color) {
-                        btn.setText(item.count);
-                        break;
-                    }
-                }
-            }));
 
         });
         this.on('craft:start', this.startCrafting);
@@ -194,23 +171,22 @@ exports = Class(ImageView, function (supr) {
          * inventory
          */
         this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
-            var btn1, i, sc = this.sessionCrafts;
+            var btn1, i;
             i = this.buttons.craftCount.length;
             while (i--) {
                 btn1 = this.buttons.craftCount[i];
 
                 currentCraft = this.craftByIndex(i);
-                count = sc.get(currentCraft).count;
+                count = this.crafts.get(currentCraft).count;
 
                 btn1.setText(count);
             }
         });
 
         this.updateCraftBuyButtons = bind(this, function _a_updateCraftBuyButtons() {
-            var i, res, contrast, garment, main, costs, sw, cbbtn;
+            var i, res, contrast, garment, main, costs, cbbtn;
             garment = this.selectedGarment;
             main = this.selectedColor;
-            sw = this.sessionWool;
 
             i = colorPairings[main.label].length;
             while (i--) {
@@ -219,7 +195,7 @@ exports = Class(ImageView, function (supr) {
                 costs = currentCraft.cost();
                 contrast = currentCraft.colors.contrast;
 
-                if (costs[0].amount > sw.get(main).count || costs[1].amount > sw.get(contrast).count) {
+                if (costs[0].amount > this.wool.get(main).count || costs[1].amount > this.wool.get(contrast).count) {
                     res = 'resources/images/' + garment.label + '-disabled.png';
                     cbbtn.updateOpts({opacity: 0.9});
                 } else {
@@ -246,7 +222,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // clear out the ui image and replace it when color changes
-        this.changeColor = bind(this, function _a_changeColo() {
+        this.changeColor = bind(this, function _a_changeColor() {
             _cleanUI();
         });
 
@@ -260,24 +236,23 @@ exports = Class(ImageView, function (supr) {
             var main = this.selectedColor,
                 garment = this.selectedGarment,
                 contrast, craft, costs,
-                sw = this.sessionWool,
-                sc = this.sessionCrafts,
                 sufficient;
             contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
             craft = new Craft(garment, main, contrast);
             costs = craft.cost();
 
             if (main === contrast) {
-                sufficient = sw.get(main).count >= costs[0].amount + costs[1].amount;
+                sufficient = this.wool.get(main).count >= costs[0].amount + costs[1].amount;
             } else {
-                sufficient = (sw.get(main).count >= costs[0].amount && sw.get(contrast).count >= costs[1].amount);
+                sufficient = (this.wool.get(main).count >= costs[0].amount && this.wool.get(contrast).count >= costs[1].amount);
             }
 
             if (sufficient) {
-                sc.addCraft(craft);
+                this.crafts.addCraft(craft);
                 this.emit('craft:addDollars', craft.dollars());
-                sw.addWool(main, -1 * costs[0].amount);
-                sw.addWool(contrast, -1 * costs[1].amount);
+                this.wool.addWool(main, -1 * costs[0].amount);
+                this.wool.addWool(contrast, -1 * costs[1].amount);
+                this.woolCounts.update();
             }
             _cleanUI();
         });
@@ -287,7 +262,7 @@ exports = Class(ImageView, function (supr) {
         var gp = this.garmentPattern = this.defaultButtonFactory(regions.garmentPattern);
 
         // load up alllll dem buttons
-        var kinds = ["colorCount", "garment", "cost", "craftCount",
+        var kinds = ["garment", "cost", "craftCount",
             "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, rgns, j, region, btn;
@@ -375,10 +350,9 @@ craftBuy: [
     {item: {_1: null}, y:224, x:622, width:98, height:96},
     {item: {_1: null}, y:224, x:782, width:98, height:96}
     ],
-total: {y:518, x:448, width:128, height:34, text: '0 Eweros'},
+total: {y:521, x:452, width:120, height:26, text: '0 Eweros'},
 store: {x: 133, y: 496, width: 200, height: 80},
 shopName: {y:72, x:136, width:750, height:42},
-garmentPattern: {x: 0, y: 0, width: 1024, height: 576},
 backButton: {x: 0, y: 0, width: 80, height: 80},
 backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 }
