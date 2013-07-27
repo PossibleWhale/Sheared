@@ -142,8 +142,9 @@ exports = Class(ImageView, function (supr) {
             superview: this,
             x: 728,
             y: 496,
-            width: 248,
-            height: 74
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-tutorials.png'
         });
         tutorialButton.on('InputSelect', function () {
             tutorialScreen.build();
