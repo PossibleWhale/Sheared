@@ -42,107 +42,14 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.selectedGarment = c.GARMENT_HAT;
-        this.selectedColor = c.COLOR_WHITE;
 
         var craftScreen = this;
 
-        // user selected a new color
-        this.setColor = bind(this, function(color) {
-            this.selectedColor = color;
-            this.emit('craftScreen:changeColor');
-        });
-
-        // user selected a new garment
-        this.setGarment = bind(this, function(garment) {
-            this.selectedGarment = garment;
-            this.emit('craftScreen:changeGarment');
-        });
-
-        // creates a button on one of the regions defined at the bottom
-        this.defaultButtonFactory = bind(this, function _a_defaultButtonFactory(region) {
-            var commonOpts, opts, btn;
-            commonOpts = {superview: this, click: false};
-            opts = merge(merge({}, commonOpts), region);
-            btn = new Button(opts);
-            return btn;
-        });
-
-        // garment nav buttons
-        this.garmentFactory = bind(this, function _a_garmentFactory(region) {
-            var btn = this.defaultButtonFactory(region);
-            btn.updateOpts({click: true});
-            btn.on('InputSelect', function _a_onInputSelectGarment() {
-                this.getSuperview().setGarment(this.getOpts().item);
-            });
-            return btn;
-        });
-
-        // buy garment buttons
-        this.craftBuyFactory = bind(this, function _a_craftBuyFactory(region, i) {
-            var me = this, btn;
-            btn = this.defaultButtonFactory(region);
-            btn.updateOpts({anchorX: btn.getOpts().width / 2,
-                anchorY: 8,
-                contrastIndex: i,
-                click: false}); // these have their own noise
-
-            btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
-                return function _a_onInputSelectCraftBuy() {
-                    GC.app.audio.playBuyGarment();
-                    me.buyCraft(_btn);
-                };
-            })(btn));
-
-            this.animateCraft(btn);
-
-            return btn;
-        });
-
-        // craftCount fields
-        this.craftCountFactory = bind(this, function _a_craftCountFactory(region, i) {
-            var screen = this, updateText, main, motif, contrast, btn;
-
-            btn = this.defaultButtonFactory(region);
-            btn.updateOpts({contrastIndex: i});
-
-            return btn;
-        });
-
-        /*
-         * reset crafting state
-         */
-        this.startCrafting = bind(this, function() {
-            dh.pre_startCrafting();
-
-            var btn, color, count, i, money;
-
-            this.setGarment(c.GARMENT_HAT);
-            this.setColor(c.COLOR_WHITE);
-
-        });
         this.on('craft:start', this.startCrafting);
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
         }));
-
-        /*
-         * animate a gentle swaying of the crafts
-         */
-        this.animateCraft = bind(this, function _a_animateCraft(btn) {
-            var wiggle, stepSize = (Math.random() * 15) + 10;
-            // 50% of the time, stay put
-            var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
-            if (odd) {
-                wiggle = 0;
-            } else {
-                wiggle = c.WIGGLE_RADIANS / 2;
-            }
-            animate(btn).clear().now({r: -1 * wiggle}, 20000 / stepSize, animate.easeIn
-                ).then({r: wiggle}, 20000 / stepSize, animate.easeIn
-                ).then(bind(this, this.animateCraft, btn));
-        });
-
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
             this.total += amount;
@@ -150,25 +57,8 @@ exports = Class(ImageView, function (supr) {
             _cleanUI();
         });
 
-        this.updateTotal = bind(this, function _a_updateTotal() {
-            // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
-            // -- it sometimes appears negative, most likely due to floating
-            // point error.
-            this.totalButton.setText('' + this.total + ' Eweros');
-        });
-
         /*
-         * => new Craft() from current garment, current color, and an index
-         * into the craft buy control columns
-         */
-        this.craftByIndex = bind(this, function _a_craftByIndex(contrastIndex) {
-            var contrast = colorPairings[this.selectedColor.label][contrastIndex];
-            return new Craft(this.selectedGarment, this.selectedColor, contrast);
-        });
-
-        /*
-         * Update the craft counts boxes based on current selections and
-         * inventory
+         * Update craft count boxes based on current selections and inventory
          */
         this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
             var btn1, i;
@@ -211,59 +101,8 @@ exports = Class(ImageView, function (supr) {
             this.garmentPattern.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
         });
 
-        /*
-         * reset the UI to the view corresponding to the current state
-         */
-        var _cleanUI = bind(this, function _a_cleanUI() {
-            this.updateCraftBuyButtons();
-            this.updateGarmentPattern();
-            this.updateCraftCounts();
-            this.updateTotal();
-        });
-
-        // clear out the ui image and replace it when color changes
-        this.changeColor = bind(this, function _a_changeColor() {
-            _cleanUI();
-        });
-
-        // clear out the ui image and replace it when garment changes
-        this.changeGarment = bind(this, function _a_changeGarment() {
-            _cleanUI();
-        });
-
-        // user tries to buy a craft by clicking on a craft button
-        this.buyCraft = bind(this, function _a_buyCraft(btn) {
-            var main = this.selectedColor,
-                garment = this.selectedGarment,
-                contrast, craft, costs,
-                sufficient;
-            contrast = colorPairings[main.label][btn.getOpts().contrastIndex];
-            craft = new Craft(garment, main, contrast);
-            costs = craft.cost();
-
-            if (main === contrast) {
-                sufficient = this.wool.get(main).count >= costs[0].amount + costs[1].amount;
-            } else {
-                sufficient = (this.wool.get(main).count >= costs[0].amount && this.wool.get(contrast).count >= costs[1].amount);
-            }
-
-            if (sufficient) {
-                this.crafts.addCraft(craft);
-                this.emit('craft:addDollars', craft.dollars());
-                this.wool.addWool(main, -1 * costs[0].amount);
-                this.wool.addWool(contrast, -1 * costs[1].amount);
-                this.woolCounts.update();
-            }
-            _cleanUI();
-        });
-
-        // The garment colors on the right update when you change color. This
-        // is a single image that overlays the entire screen.
-        var gp = this.garmentPattern = this.defaultButtonFactory(regions.garmentPattern);
-
         // load up alllll dem buttons
-        var kinds = ["garment", "cost", "craftCount",
-            "craftBuy"];
+        var kinds = ["garment", "cost", "craftCount", "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, rgns, j, region, btn;
 
@@ -297,9 +136,140 @@ exports = Class(ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        this.on('craftScreen:changeColor', this.changeColor);
         this.on('craftScreen:changeGarment', this.changeGarment);
     };
+
+    /*
+     * reset the UI to the view corresponding to the current state
+     */
+    var _cleanUI = function _a_cleanUI() {
+        this.updateCraftBuyButtons();
+        this.updateGarmentPattern();
+        this.updateCraftCounts();
+        this.updateTotal();
+    };
+
+    // creates a button on one of the regions defined at the bottom
+    this.defaultButtonFactory = function _a_defaultButtonFactory(region) {
+        var commonOpts, opts, btn;
+        commonOpts = {superview: this, click: false};
+        opts = merge(merge({}, commonOpts), region);
+        btn = new Button(opts);
+        return btn;
+    };
+
+    // garment nav buttons
+    this.garmentFactory = function _a_garmentFactory(region) {
+        var btn = this.defaultButtonFactory(region);
+        btn.updateOpts({click: true});
+        btn.on('InputSelect', function _a_onInputSelectGarment() {
+            this.getSuperview().setGarment(this.getOpts().item);
+        });
+        return btn;
+    };
+
+    // buy garment buttons
+    this.craftBuyFactory = function _a_craftBuyFactory(region, i) {
+        var me = this, btn;
+        btn = this.defaultButtonFactory(region);
+        btn.updateOpts({anchorX: btn.getOpts().width / 2,
+            anchorY: 8,
+            contrastIndex: i,
+            click: false}); // these have their own noise
+
+        btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
+            return function _a_onInputSelectCraftBuy() {
+                GC.app.audio.playBuyGarment();
+                me.buyCraft(_btn);
+            };
+        })(btn));
+
+        this.animateCraft(btn);
+
+        return btn;
+    };
+
+    // craftCount fields
+    this.craftCountFactory = function _a_craftCountFactory(region, i) {
+        var screen = this, updateText, main, motif, contrast, btn;
+
+        btn = this.defaultButtonFactory(region);
+        btn.updateOpts({contrastIndex: i});
+
+        return btn;
+    };
+
+    // clear out the ui image and replace it when garment changes
+    this.changeGarment = function _a_changeGarment() {
+        _cleanUI();
+    };
+
+    // user tries to buy a craft by clicking on a craft button
+    this.buyCraft = function _a_buyCraft(btn) {
+        var garment = this.selectedGarment, main, contrast, craft, costs,
+            sufficient;
+        craft = new Craft(garment, main, contrast);
+        costs = craft.cost();
+
+        if (main === contrast) {
+            sufficient = this.wool.get(main).count >= costs[0].amount + costs[1].amount;
+        } else {
+            sufficient = (this.wool.get(main).count >= costs[0].amount && this.wool.get(contrast).count >= costs[1].amount);
+        }
+
+        if (sufficient) {
+            this.crafts.addCraft(craft);
+            this.emit('craft:addDollars', craft.dollars());
+            this.wool.addWool(main, -1 * costs[0].amount);
+            this.wool.addWool(contrast, -1 * costs[1].amount);
+            this.woolCounts.update();
+        }
+        _cleanUI();
+    };
+
+    // user selected a new garment
+    this.setGarment = function _a_setGarment(garment) {
+        this.selectedGarment = garment;
+        this.emit('craftScreen:changeGarment');
+    };
+
+    /*
+     * reset crafting state
+     */
+    this.startCrafting = function _a_startCrafting() {
+        dh.pre_startCrafting();
+
+        var btn, color, count, i, money;
+
+        this.setGarment(c.GARMENT_HAT);
+
+    };
+
+    // display the new cash total in the box
+    this.updateTotal = bind(this, function _a_updateTotal() {
+        // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
+        // -- it sometimes appears negative, most likely due to floating
+        // point error.
+        this.totalButton.setText('' + this.total + ' Eweros');
+    });
+
+    /*
+     * animate a gentle swaying of the crafts
+     */
+    this.animateCraft = function _a_animateCraft(btn) {
+        var wiggle, stepSize = (Math.random() * 15) + 10;
+        // 50% of the time, stay put
+        var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
+        if (odd) {
+            wiggle = 0;
+        } else {
+            wiggle = c.WIGGLE_RADIANS / 2;
+        }
+        animate(btn).clear().now({r: -1 * wiggle}, 20000 / stepSize, animate.easeIn
+            ).then({r: wiggle}, 20000 / stepSize, animate.easeIn
+            ).then(bind(this, this.animateCraft, btn));
+    };
+
 });
 
 
@@ -344,11 +314,68 @@ craftCount: [
     {item: {_1: null}, y:328, x:782, width:98, height:32}
     ],
 craftBuy: [
-    {item: {_1: null}, y:224, x:142, width:98, height:96},
-    {item: {_1: null}, y:224, x:302, width:98, height:96},
-    {item: {_1: null}, y:224, x:462, width:98, height:96},
-    {item: {_1: null}, y:224, x:622, width:98, height:96},
-    {item: {_1: null}, y:224, x:782, width:98, height:96}
+        [ // white
+            {item: {}, x: 182, y: 125, width: 60, height: 60},
+            {item: {}, x: 282, y: 125, width: 60, height: 60},
+            {item: {}, x: 382, y: 125, width: 60, height: 60},
+            {item: {}, x: 482, y: 125, width: 60, height: 60}
+        ],
+        [ // red
+            {item: {}, x: 182, y: 191, width: 60, height: 60},
+            {item: {}, x: 282, y: 191, width: 60, height: 60},
+            {item: {}, x: 382, y: 191, width: 60, height: 60},
+            {item: {}, x: 482, y: 191, width: 60, height: 60}
+        ],
+        [ // blue
+            {item: {}, x: 182, y: 257, width: 60, height: 60},
+            {item: {}, x: 282, y: 257, width: 60, height: 60},
+            {item: {}, x: 382, y: 257, width: 60, height: 60},
+            {item: {}, x: 482, y: 257, width: 60, height: 60}
+        ],
+        [ // yellow
+            {item: {}, x: 182, y: 323, width: 60, height: 60},
+            {item: {}, x: 282, y: 323, width: 60, height: 60},
+            {item: {}, x: 382, y: 323, width: 60, height: 60},
+            {item: {}, x: 482, y: 323, width: 60, height: 60}
+        ],
+        [ // black
+            {item: {}, x: 182, y: 389, width: 60, height: 60},
+            {item: {}, x: 282, y: 389, width: 60, height: 60},
+            {item: {}, x: 382, y: 389, width: 60, height: 60},
+            {item: {}, x: 482, y: 389, width: 60, height: 60}
+        ]
+    ],
+craftStars: [
+        [ // white
+            {item: {}, x: 242, y: 125, width: 30, height: 60},
+            {item: {}, x: 342, y: 125, width: 30, height: 60},
+            {item: {}, x: 442, y: 125, width: 30, height: 60},
+            {item: {}, x: 542, y: 125, width: 30, height: 60}
+        ],
+        [ // red
+            {item: {}, x: 242, y: 191, width: 30, height: 60},
+            {item: {}, x: 342, y: 191, width: 30, height: 60},
+            {item: {}, x: 442, y: 191, width: 30, height: 60},
+            {item: {}, x: 542, y: 191, width: 30, height: 60}
+        ],
+        [ // blue
+            {item: {}, x: 242, y: 257, width: 30, height: 60},
+            {item: {}, x: 342, y: 257, width: 30, height: 60},
+            {item: {}, x: 442, y: 257, width: 30, height: 60},
+            {item: {}, x: 542, y: 257, width: 30, height: 60}
+        ],
+        [ // yellow
+            {item: {}, x: 242, y: 323, width: 30, height: 60},
+            {item: {}, x: 342, y: 323, width: 30, height: 60},
+            {item: {}, x: 442, y: 323, width: 30, height: 60},
+            {item: {}, x: 542, y: 323, width: 30, height: 60}
+        ],
+        [ // black
+            {item: {}, x: 242, y: 389, width: 30, height: 60},
+            {item: {}, x: 342, y: 389, width: 30, height: 60},
+            {item: {}, x: 442, y: 389, width: 30, height: 60},
+            {item: {}, x: 542, y: 389, width: 30, height: 60}
+        ]
     ],
 total: {y:521, x:452, width:120, height:26, text: '0 Eweros'},
 store: {x: 133, y: 496, width: 200, height: 80},

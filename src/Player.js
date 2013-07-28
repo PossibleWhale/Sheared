@@ -58,7 +58,6 @@ exports = Class(Emitter, function Player(supr) {
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
 
-
         this.shearedSheep = function (sheep) {
             if (sheep.isRam) {
                 this.stats.increment('ramsSheared.' + sheep.color.label);

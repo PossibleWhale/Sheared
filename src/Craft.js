@@ -19,39 +19,40 @@ exports = Class(Emitter, function (supr) {
         this.garment = garment || c.GARMENT_NAKED;
         this.monogram = monogram || '';
 
-        this.toMotif = bind(this, function () {
-            return this.garment.label + '|' + this.colors.main.label + '|' + this.colors.contrast.label;
+    };
+
+    // return 2-array of [main, contrast] as objects
+    this.cost = function _a_cost() {
+        var ret = [];
+        vMainWool = 0.2 / this.colors.main.rarity;
+        vContrastWool = 0.2 / this.colors.contrast.rarity;
+
+        ret.push({color: this.colors.main,
+            amount: this.garment.cost.main,
+            dollars: this.garment.cost.main * vMainWool
         });
 
-        // return 2-array of [main, contrast] as objects
-        this.cost = bind(this, function () {
-            var ret = [];
-            vMainWool = 0.2 / this.colors.main.rarity;
-            vContrastWool = 0.2 / this.colors.contrast.rarity;
-
-            ret.push({color: this.colors.main,
-                amount: this.garment.cost.main,
-                dollars: this.garment.cost.main * vMainWool
-            });
-
-            ret.push({color: this.colors.contrast,
-                amount: this.garment.cost.contrast,
-                dollars: this.garment.cost.contrast * vContrastWool
-            });
-            return ret;
+        ret.push({color: this.colors.contrast,
+            amount: this.garment.cost.contrast,
+            dollars: this.garment.cost.contrast * vContrastWool
         });
+        return ret;
+    };
 
-        this.dollars = bind(this, function (count) {
-            if (count === undefined) {
-                count = 1;
-            }
-            costs = this.cost();
-            return (count * (costs[0].dollars + costs[1].dollars));
-        });
+    this.toMotif = function _a_toMotif() {
+        return this.garment.label + '|' + this.colors.main.label + '|' + this.colors.contrast.label;
+    };
 
-        this.formatDollars = bind(this, function (count) {
-            return this.dollars(count).toFixed(2);
-        });
+    this.dollars = function _a_dollars(count) {
+        if (count === undefined) {
+            count = 1;
+        }
+        costs = this.cost();
+        return (count * (costs[0].dollars + costs[1].dollars));
+    };
+
+    this.formatDollars = function _a_formatDollars(count) {
+        return this.dollars(count).toFixed(2);
     };
 });
 
