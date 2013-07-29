@@ -140,7 +140,7 @@ exports = Class(ImageView, function (supr) {
 
         starImage = new Image({url: 'resources/images/craft-star.png'});
 
-        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled.png'});
+        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled-small.png'});
 
         this._loopCrafts(bind(this, function _a_loopCraftsForUpdate(i, j) {
             var starRow, star, cbRow, cb, res, contrast, main, player = GC.app.player;
@@ -161,7 +161,7 @@ exports = Class(ImageView, function (supr) {
                 });
                 cb.setImage(res);
             } else {
-                cb.updateOpts({opacity: 0.9});
+                cb.updateOpts({opacity: 0.75});
                 cb.setImage(disabledImage);
             }
 

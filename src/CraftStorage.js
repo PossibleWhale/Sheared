@@ -36,6 +36,25 @@ exports = Class(Storage, function (supr) {
         }
     };
 
+    /*
+     * Run a callback once for each crafted item sharing the same garment type
+     * (20 items per garment)
+     */
+    this.loopGarment = function _a_countByGarment(garment, callback) {
+        var i, j, craft;
+
+        for (i = 0; i < c.colors.length; i++) {
+            for (j = 0; j < c.colors.length; j++) {
+                if (i == j) { // no single-color garments.
+                    continue;
+                }
+
+                craft = new Craft(garment, c.colors[i], c.colors[j]);
+                callback(i, j, this.get(craft));
+            }
+        }
+    };
+
     this.init = function _a_init(opts) {
         supr(this, 'init', [opts]);
 
