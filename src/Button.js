@@ -44,15 +44,11 @@ exports = Class(ui.TextView, function (supr) {
             height: this.style.height
         });
 
-    };
+        this.setImage = bind(this.imageLayer, this.imageLayer.setImage);
 
-    this.setImage = function (image) {
-        var img;
-        if (typeof url === 'string') {
-            img = new Image({url: image});
-        } else {
-            img = image;
+        if (opts.image) {
+            this.setImage(opts.image);
         }
-        return this.imageLayer.setImage(img);
+
     };
 });
