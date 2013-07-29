@@ -352,7 +352,7 @@ craftStars: [
         ]
     ],
 total: {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'},
-store: {x: 133, y: 496, width: 180, height: 80},
+store: {x: 143, y: 496, width: 180, height: 80},
 shopName: {y:496, x:671, width: 280, height: 80},
 backButton: {x: 0, y: 0, width: 80, height: 80},
 backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
