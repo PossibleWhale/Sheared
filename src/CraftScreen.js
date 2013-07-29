@@ -41,6 +41,8 @@ exports = Class(ImageView, function (supr) {
 
         this.selectedGarment = c.GARMENT_HAT;
 
+        this.largeCraft = [];
+
         this.tabs = new ImageView({
             x: 0,
             y: 80,
@@ -206,6 +208,38 @@ exports = Class(ImageView, function (supr) {
         return btn;
     };
 
+    this.resetLargeCraft = function _a_clearLargeCraft() {
+        if (this.largeCraft.length >= 1) {
+            var sub = this.largeCraft.pop();
+            util.assert(sub !== undefined);
+            this.removeSubview(sub);
+        }
+    };
+
+    this.nullLargeCraft = function _a_nullLargeCraft() {
+        this.resetLargeCraft();
+        var nullCraft = new Craft(this.selectedGarment, null, null);
+        this.largeCraft.push(nullCraft);
+        nullCraft.show({x: 585, y: 125, superview: this, enabled: true});
+    };
+
+    this.showLargeCraft = function _a_showLargeCraft(data) {
+        var craft, isEnabled;
+
+        this.resetLargeCraft();
+
+        craft = new Craft(this.selectedGarment, data.main, data.contrast);
+        isEnabled = GC.app.player.canCraft(craft);
+
+        this.largeCraft.push(craft);
+        craft.show({x: 585, y: 125, superview: this, enabled: isEnabled});
+
+        craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
+            this.buyCraft(craft);
+            this.showLargeCraft(data);
+        }));
+    };
+
     // buy garment buttons
     this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
         var me = this, btn;
@@ -216,8 +250,7 @@ exports = Class(ImageView, function (supr) {
 
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
-                GC.app.audio.playBuyGarment();
-                me.buyCraft(_btn);
+                me.showLargeCraft(_btn.getOpts().item);
             };
         })(btn));
 
@@ -238,24 +271,20 @@ exports = Class(ImageView, function (supr) {
 
     // clear out the ui image and replace it when garment changes
     this.changeGarment = function _a_changeGarment() {
+        this.nullLargeCraft();
         this._cleanUI();
     };
 
     // user tries to buy a craft by clicking on a craft button
-    this.buyCraft = function _a_buyCraft(btn) {
-        var garment = this.selectedGarment, main, contrast, craft, costs,
-            opts = btn.getOpts();
-
-        main = opts.item.main;
-        contrast = opts.item.contrast;
-        craft = new Craft(garment, main, contrast);
+    this.buyCraft = function _a_buyCraft(craft) {
+        var garment = this.selectedGarment, costs;
         costs = craft.cost();
 
         if (GC.app.player.canCraft(craft)) {
             this.crafts.addCraft(craft);
             this.emit('craft:addDollars', craft.dollars());
-            this.wool.addWool(main, -1 * costs[0].amount);
-            this.wool.addWool(contrast, -1 * costs[1].amount);
+            this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
+            this.wool.addWool(craft.colors.contrast, -1 * costs[1].amount);
             this.woolCounts.update();
         }
         this._cleanUI();

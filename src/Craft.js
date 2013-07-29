@@ -1,9 +1,14 @@
-import event.Emitter as Emitter;
+import ui.ImageView as ImageView;
 
 import src.constants as c;
+import src.Button as Button;
 
-exports = Class(Emitter, function (supr) {
+
+exports = Class(ImageView, function (supr) {
     this.init = function (garment, main, contrast, monogram) {
+        opts = {x: 0, y: 0, width: 394, height: 325};
+        supr(this, 'init', [opts]);
+
         this.colors = {};
         if (typeof garment === 'string') {
             garment = c.garmentsByLabel[garment];
@@ -19,6 +24,37 @@ exports = Class(Emitter, function (supr) {
         this.garment = garment || c.GARMENT_NAKED;
         this.monogram = monogram || '';
 
+        this.buyButton = new Button({x: 149, y: 283, width: 96, height: 37,
+            superview: this});
+        this.mainWoolCost = new Button({x: 29, y: 135, width: 55, height: 55,
+            superview: this});
+        this.contrastWoolCost = new Button({x: 309, y: 135, width: 55, height: 55,
+            superview: this});
+        this.value = new Button({x: 305, y: 0, width: 76, height: 48,
+            superview: this});
+
+        this.buyButton.on('InputSelect', bind(this, function _a_onBuyButtonClick() {
+            GC.app.audio.playBuyGarment();
+            this.emit('largeCraft:purchased');
+        }));
+    };
+
+    /*
+     * display the widget somewhere
+     * pass in {x: .., y: .., superview: .., enabled: true|false}
+     */
+    this.show = function (opts) {
+        var enabled = opts.enabled;
+        delete opts.enabled;
+        if (enabled) {
+            this.setImage('resources/images/' +
+                    this.garment.label + '-' +
+                    this.colors.main.label + '-' +
+                    this.colors.contrast.label + '-large.png');
+        } else {
+            this.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
+        }
+        this.updateOpts(opts);
     };
 
     // return 2-array of [main, contrast] as objects
