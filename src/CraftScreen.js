@@ -10,8 +10,6 @@ import ui.resource.Image as Image;
 import src.constants as c;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
-import src.WoolStorage as WoolStorage;
-import src.CraftStorage as CraftStorage;
 import src.util as util;
 import src.Craft as Craft;
 import src.debughack as dh;
@@ -22,7 +20,7 @@ exports = Class(ImageView, function (supr) {
     this.init = function _a_init(opts) {
         this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
-        this.total = 0;
+        this.total = Math.round(GC.app.player.stats.get('coins').value, 0);
 
         opts = merge(opts, {
             autosize: true,
@@ -50,40 +48,8 @@ exports = Class(ImageView, function (supr) {
             height: 576
         });
 
-        /*
-         * Update craft count boxes based on current selections and inventory
-         */
-        this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
-            return; // FIXME
-            undefined('TODO');
-        });
-
-        this.updateCraftBuyButtons = bind(this, function _a_updateCraftBuyButtons() {
-            var i, res, contrast, garment, main, costs, cbbtn;
-            garment = this.selectedGarment;
-
-            i = c.colors.length;
-            while (i--) {
-                main = c.colors[i];
-                j = c.colors.length - 1;
-                while (j--) {
-                    contrast = c.colors[j];
-                    cbbtn = this.buttons.craftBuy[i][j];
-                    currentCraft = new Craft(this.selectedGarment, main, contrast);
-                    if (GC.app.player.canCraft(currentCraft)) {
-                        res = 'resources/images/' + garment.label + '-disabled.png';
-                        cbbtn.updateOpts({opacity: 0.9});
-                    } else {
-                        res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
-                        cbbtn.updateOpts({opacity: 1.0});
-                    }
-                    cbbtn.setImage(res);
-                }
-            }
-        });
-
         // load up alllll dem buttons
-        var kinds = ["garment", "craftCount", "craftBuy"];
+        var kinds = ["garment", "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], innerFactory, factory, rgns, j, i, region, btn, btnArray;
 
@@ -143,6 +109,39 @@ exports = Class(ImageView, function (supr) {
             this._cleanUI();
         });
 
+    };
+
+    /*
+     * Update craft count boxes based on current selections and inventory
+     */
+    this.updateCraftCounts = function _a_updateCraftContents() {
+        return; // FIXME
+        undefined('TODO');
+    };
+
+    this.updateCraftBuyButtons = function _a_updateCraftBuyButtons() {
+        var i, j, row, res, contrast, garment, main, costs, cbbtn;
+        garment = this.selectedGarment;
+
+        i = c.colors.length;
+        while (i--) {
+            row = this.buttons.craftBuy[i];
+            j = row.length;
+            while (j--) {
+                cbbtn = row[j];
+                main = cbbtn.getOpts().item.main;
+                contrast = cbbtn.getOpts().item.contrast;
+                currentCraft = new Craft(this.selectedGarment, main, contrast);
+                if (GC.app.player.canCraft(currentCraft)) {
+                    res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
+                    cbbtn.updateOpts({opacity: 1.0});
+                } else {
+                    res = 'resources/images/' + garment.label + '-disabled.png';
+                    cbbtn.updateOpts({opacity: 0.9});
+                }
+                cbbtn.setImage(res);
+            }
+        }
     };
 
     this.updateTabs = function _a_updateTabs() {
@@ -247,7 +246,7 @@ exports = Class(ImageView, function (supr) {
         // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
         // -- it sometimes appears negative, most likely due to floating
         // point error.
-        this.totalButton.setText('' + this.total + ' Eweros');
+        this.totalButton.setText('' + this.total /* + 0.0001).toFixed(2) */ + ' Eweros');
     };
 
     /*

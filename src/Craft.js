@@ -24,8 +24,8 @@ exports = Class(Emitter, function (supr) {
     // return 2-array of [main, contrast] as objects
     this.cost = function _a_cost() {
         var ret = [];
-        vMainWool = 0.2 / this.colors.main.rarity;
-        vContrastWool = 0.2 / this.colors.contrast.rarity;
+        vMainWool = Math.round(1 / this.colors.main.rarity, 0);
+        vContrastWool = Math.round(1 / this.colors.contrast.rarity, 0);
 
         ret.push({color: this.colors.main,
             amount: this.garment.cost.main,
