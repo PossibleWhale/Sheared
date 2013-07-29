@@ -50,7 +50,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // load up alllll dem buttons
-        var kinds = ["garment", "craftBuy"];
+        var kinds = ["garment", "craftBuy", "craftStars"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], innerFactory, factory, rgns, j, i, region, btn, btnArray;
 
@@ -120,29 +120,57 @@ exports = Class(ImageView, function (supr) {
         undefined('TODO');
     };
 
-    this.updateCraftBuyButtons = function _a_updateCraftBuyButtons() {
-        var i, j, row, res, contrast, garment, main, costs, cbbtn;
-        garment = this.selectedGarment;
+    // execute the callback once for each craft cell in the visible catalog
+    this._loopCrafts = function _a_loopCrafts(callback) {
+        var i, j, row;
 
         i = c.colors.length;
         while (i--) {
             row = this.buttons.craftBuy[i];
             j = row.length;
             while (j--) {
-                cbbtn = row[j];
-                main = cbbtn.getOpts().item.main;
-                contrast = cbbtn.getOpts().item.contrast;
-                currentCraft = new Craft(this.selectedGarment, main, contrast);
-                if (GC.app.player.canCraft(currentCraft)) {
-                    res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
-                    cbbtn.updateOpts({opacity: 1.0});
-                } else {
-                    res = 'resources/images/' + garment.label + '-disabled.png';
-                    cbbtn.updateOpts({opacity: 0.9});
-                }
-                cbbtn.setImage(res);
+                callback(i, j);
             }
         }
+    };
+
+    this.updateCraftBuyButtons = function _a_updateCraftBuyButtons() {
+        var garment = this.selectedGarment,
+            starImage, disabledImage;
+
+        starImage = new Image({url: 'resources/images/craft-star.png'});
+
+        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled.png'});
+
+        this._loopCrafts(bind(this, function _a_loopCraftsForUpdate(i, j) {
+            var starRow, star, cbRow, cb, res, contrast, main, player = GC.app.player;
+
+            cbRow = this.buttons.craftBuy[i];
+            starRow = this.buttons.craftStars[i];
+            cb = cbRow[j];
+            star = starRow[j];
+
+            main = cb.getOpts().item.main;
+            contrast = cb.getOpts().item.contrast;
+            currentCraft = new Craft(this.selectedGarment, main, contrast);
+
+            if (player.canCraft(currentCraft)) {
+                cb.updateOpts({opacity: 1.0});
+                res = new Image({url:
+                    'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '-small.png'
+                });
+                cb.setImage(res);
+            } else {
+                cb.updateOpts({opacity: 0.9});
+                cb.setImage(disabledImage);
+            }
+
+            if (player.crafts.get(currentCraft).count >= 1) {
+                star.setImage(starImage);
+            } else {
+                star.setImage(null);
+            }
+        }));
     };
 
     this.updateTabs = function _a_updateTabs() {
@@ -184,7 +212,6 @@ exports = Class(ImageView, function (supr) {
         btn = this.defaultButtonFactory(region);
         btn.updateOpts({anchorX: btn.getOpts().width / 2,
             anchorY: 8,
-            contrastIndex: i,
             click: false}); // these have their own noise
 
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
@@ -195,6 +222,16 @@ exports = Class(ImageView, function (supr) {
         })(btn));
 
         this.animateCraft(btn);
+
+        return btn;
+    };
+
+    this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
+        var me = this.btn;
+        region.image = 'resources/images/craft-star.png';
+        btn = this.defaultButtonFactory(region);
+
+        this.animateStar(btn);
 
         return btn;
     };
@@ -235,11 +272,7 @@ exports = Class(ImageView, function (supr) {
      */
     this.startCrafting = function _a_startCrafting() {
         dh.pre_startCrafting();
-
-        var btn, color, count, i, money;
-
         this.setGarment(c.GARMENT_HAT);
-
     };
 
     // display the new cash total in the box
@@ -262,9 +295,19 @@ exports = Class(ImageView, function (supr) {
         } else {
             wiggle = c.WIGGLE_RADIANS / 2;
         }
-        animate(btn).clear().now({r: -1 * wiggle}, 20000 / stepSize, animate.easeIn
-            ).then({r: wiggle}, 20000 / stepSize, animate.easeIn
+        animate(btn).clear().now({r: -1 * wiggle}, 14000 / stepSize, animate.easeIn
+            ).then({r: wiggle}, 14000 / stepSize, animate.easeIn
             ).then(bind(this, this.animateCraft, btn));
+    };
+
+    /*
+     * make stars glow
+     */
+    this.animateStar = function _a_animateStar(btn) {
+        var stepSize = (Math.random() * 15) + 10;
+        animate(btn).clear().now({opacity: 0.4}, 18000 / stepSize, animate.easeIn
+            ).then({opacity: 1}, 18000 / stepSize, animate.easeIn
+            ).then(bind(this, this.animateStar, btn));
     };
 
 });
@@ -361,3 +404,4 @@ backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 
 regions.garment.factory = 'garmentFactory';
 regions.craftBuy.factory = 'craftBuyFactory';
+regions.craftStars.factory = 'craftStarsFactory';
