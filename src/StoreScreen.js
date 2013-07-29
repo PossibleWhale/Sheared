@@ -154,6 +154,8 @@ exports = Class(ImageView, function (supr) {
         };
         this.updatePriceDisplays();
 
+        var confirmDialog;
+
         ///// Buttons for temporary upgrades
         var powerUpgradeButton = new Button({
             superview: upgradesView,
@@ -163,7 +165,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         powerUpgradeButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
@@ -183,7 +188,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         multiplierUpgradeButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
@@ -203,7 +211,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         diamondButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
@@ -224,7 +235,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         powerPermanentButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
@@ -244,7 +258,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         multiplierPermanentButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
@@ -264,7 +281,10 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         diamondPermanentButton.on('InputSelect', bind(this, function () {
-            var confirmDialog = new Alert({
+            if (confirmDialog && confirmDialog.style.y < 576 && confirmDialog.style.y >= 0) {
+                return;
+            }
+            confirmDialog = new Alert({
                 superview: this,
                 text: 'You are about to purchase a diamond blade. Do you wish to continue?',
                 confirmFn: bind(this, function () {
