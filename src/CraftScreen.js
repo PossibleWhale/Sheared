@@ -293,66 +293,66 @@ garment: [
     ],
 craftBuy: [
         [ // white
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_RED},    x: 182, y: 125, width: 60, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLUE},   x: 282, y: 125, width: 60, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_YELLOW}, x: 382, y: 125, width: 60, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLACK},  x: 482, y: 125, width: 60, height: 60}
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_RED},    x: 182, y: 125, width: 60, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLUE},   x: 282, y: 125, width: 60, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_YELLOW}, x: 382, y: 125, width: 60, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLACK},  x: 482, y: 125, width: 60, height: 60}
         ],
         [ // red
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_WHITE},    x: 182, y: 191, width: 60, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLUE},     x: 282, y: 191, width: 60, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_YELLOW},   x: 382, y: 191, width: 60, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLACK},    x: 482, y: 191, width: 60, height: 60}
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_WHITE},    x: 182, y: 191, width: 60, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLUE},     x: 282, y: 191, width: 60, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_YELLOW},   x: 382, y: 191, width: 60, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLACK},    x: 482, y: 191, width: 60, height: 60}
         ],
         [ // blue
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_WHITE},   x: 182, y: 257, width: 60, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_RED},     x: 282, y: 257, width: 60, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_YELLOW},  x: 382, y: 257, width: 60, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_BLACK},   x: 482, y: 257, width: 60, height: 60}
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_WHITE},   x: 182, y: 257, width: 60, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_RED},     x: 282, y: 257, width: 60, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_YELLOW},  x: 382, y: 257, width: 60, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_BLACK},   x: 482, y: 257, width: 60, height: 60}
         ],
         [ // yellow
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_WHITE}, x: 182, y: 323, width: 60, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_RED},   x: 282, y: 323, width: 60, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLUE},  x: 382, y: 323, width: 60, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLACK}, x: 482, y: 323, width: 60, height: 60}
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_WHITE}, x: 182, y: 323, width: 60, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_RED},   x: 282, y: 323, width: 60, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLUE},  x: 382, y: 323, width: 60, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLACK}, x: 482, y: 323, width: 60, height: 60}
         ],
         [ // black
-            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_WHITE},   x: 182, y: 389, width: 60, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_RED},     x: 282, y: 389, width: 60, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_BLUE},    x: 382, y: 389, width: 60, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_YELLOW},  x: 482, y: 389, width: 60, height: 60}
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_WHITE},   x: 182, y: 389, width: 60, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_RED},     x: 282, y: 389, width: 60, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_BLUE},    x: 382, y: 389, width: 60, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW},  x: 482, y: 389, width: 60, height: 60}
         ]
     ],
 craftStars: [
         [ // white
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_RED},    x: 242, y: 125, width: 30, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLUE},   x: 342, y: 125, width: 30, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_YELLOW}, x: 442, y: 125, width: 30, height: 60},
-            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLACK},  x: 542, y: 125, width: 30, height: 60}
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_RED},    x: 242, y: 125, width: 30, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLUE},   x: 342, y: 125, width: 30, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_YELLOW}, x: 442, y: 125, width: 30, height: 60},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLACK},  x: 542, y: 125, width: 30, height: 60}
         ],
         [ // red
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_WHITE},    x: 242, y: 191, width: 30, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLUE},     x: 342, y: 191, width: 30, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_YELLOW},   x: 442, y: 191, width: 30, height: 60},
-            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLACK},    x: 542, y: 191, width: 30, height: 60}
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_WHITE},    x: 242, y: 191, width: 30, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLUE},     x: 342, y: 191, width: 30, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_YELLOW},   x: 442, y: 191, width: 30, height: 60},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLACK},    x: 542, y: 191, width: 30, height: 60}
         ],
         [ // blue
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_WHITE},   x: 242, y: 257, width: 30, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_RED},     x: 342, y: 257, width: 30, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_YELLOW},  x: 442, y: 257, width: 30, height: 60},
-            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_BLACK},   x: 542, y: 257, width: 30, height: 60}
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_WHITE},   x: 242, y: 257, width: 30, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_RED},     x: 342, y: 257, width: 30, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_YELLOW},  x: 442, y: 257, width: 30, height: 60},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_BLACK},   x: 542, y: 257, width: 30, height: 60}
         ],
         [ // yellow
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_WHITE}, x: 242, y: 323, width: 30, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_RED},   x: 342, y: 323, width: 30, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLUE},  x: 442, y: 323, width: 30, height: 60},
-            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLACK}, x: 542, y: 323, width: 30, height: 60}
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_WHITE}, x: 242, y: 323, width: 30, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_RED},   x: 342, y: 323, width: 30, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLUE},  x: 442, y: 323, width: 30, height: 60},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLACK}, x: 542, y: 323, width: 30, height: 60}
         ],
         [ // black
-            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_WHITE},  x: 242, y: 389, width: 30, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_RED},    x: 342, y: 389, width: 30, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_BLUE},   x: 442, y: 389, width: 30, height: 60},
-            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_YELLOW}, x: 542, y: 389, width: 30, height: 60}
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_WHITE},  x: 242, y: 389, width: 30, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_RED},    x: 342, y: 389, width: 30, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_BLUE},   x: 442, y: 389, width: 30, height: 60},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW}, x: 542, y: 389, width: 30, height: 60}
         ]
     ],
 total: {y:521, x:452, width:120, height:26, text: '0 Eweros'},
