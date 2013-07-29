@@ -43,9 +43,10 @@ exports = Class(ImageView, function (supr) {
 
         this.tabs = new ImageView({
             x: 0,
-            y: 0,
+            y: 80,
             width: 1024,
-            height: 576
+            height: 416,
+            superview: this
         });
 
         // load up alllll dem buttons
@@ -281,11 +282,11 @@ var colorPairings = {
 
 var regions = {
 garment: [
-    {item: c.GARMENT_HAT, y:125, x:100, width:60, height:60},
-    {item: c.GARMENT_MITTEN, y:191, x:100, width:60, height:60},
-    {item: c.GARMENT_SOCK, y:257, x:100, width:60, height:60},
-    {item: c.GARMENT_SCARF, y:323, x:100, width:60, height:60},
-    {item: c.GARMENT_SWEATER, y:389, x:100, width:60, height:60}
+    {item: c.GARMENT_HAT,      y:113, x:33, width:137, height:64},
+    {item: c.GARMENT_MITTEN,   y:183, x:33, width:137, height:64},
+    {item: c.GARMENT_SOCK,     y:255, x:33, width:137, height:64},
+    {item: c.GARMENT_SCARF,    y:327, x:33, width:137, height:64},
+    {item: c.GARMENT_SWEATER,  y:399, x:33, width:137, height:64}
     ],
 craftBuy: [
         [ // white
