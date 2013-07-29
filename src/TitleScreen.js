@@ -217,10 +217,6 @@ exports = Class(ImageView, function (supr) {
             stackView.push(storeScreen);
         });
 
-        playButton.on('InputSelect', bind(this, function () {
-            stackView.push(playScreen);
-        }));
-
         function _startCrafting() {
             adtimer.interrupt(function () {
                 stackView.push(craftScreen);
