@@ -282,11 +282,11 @@ var colorPairings = {
 
 var regions = {
 garment: [
-    {item: c.GARMENT_HAT, y:146, x:930, width:60, height:66},
-    {item: c.GARMENT_MITTEN, y:228, x:930, width:60, height:66},
-    {item: c.GARMENT_SOCK, y:310, x:930, width:60, height:66},
-    {item: c.GARMENT_SCARF, y:392, x:930, width:60, height:66},
-    {item: c.GARMENT_SWEATER, y:474, x:930, width:60, height:66}
+    {item: c.GARMENT_HAT, y:125, x:100, width:60, height:60},
+    {item: c.GARMENT_MITTEN, y:191, x:100, width:60, height:60},
+    {item: c.GARMENT_SOCK, y:257, x:100, width:60, height:60},
+    {item: c.GARMENT_SCARF, y:323, x:100, width:60, height:60},
+    {item: c.GARMENT_SWEATER, y:389, x:100, width:60, height:60}
     ],
 craftBuy: [
         [ // white
@@ -352,9 +352,9 @@ craftStars: [
             {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW}, x: 542, y: 389, width: 30, height: 60}
         ]
     ],
-total: {y:521, x:452, width:120, height:26, text: '0 Eweros'},
-store: {x: 133, y: 496, width: 200, height: 80},
-shopName: {y:72, x:136, width:750, height:42},
+total: {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'},
+store: {x: 133, y: 496, width: 180, height: 80},
+shopName: {y:496, x:671, width: 280, height: 80},
 backButton: {x: 0, y: 0, width: 80, height: 80},
 backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 }
