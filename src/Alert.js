@@ -3,6 +3,9 @@ import ui.TextView as TextView;
 import ui.View as View;
 import src.constants as constants;
 import src.Button as Button;
+import src.util as util;
+
+var instances = [];
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
@@ -24,16 +27,23 @@ exports = Class(View, function (supr) {
             if (opts.confirmFn) {
                 opts.confirmFn();
             }
-            animate(this).now({y: -300}, 400).then(this.removeFromSuperview);
+            animate(this).now({y: -300}, 400).then(bind(this, function () {
+                instances.pop();
+                this.removeFromSuperview();
+            }));
         };
         this.cancelFn = function () {
             if (opts.cancelFn) {
                 opts.cancelFn();
             }
-            animate(this).now({y: 576}, 400).then(this.removeFromSuperview);
+            animate(this).now({y: 576}, 400).then(bind(this, function () {
+                instances.pop();
+                this.removeFromSuperview();
+            }));
         };
 
         this.build();
+        instances.push(this);
     };
 
     this.build = function () {
@@ -69,6 +79,11 @@ exports = Class(View, function (supr) {
     };
 
     this.show = function () {
+        if (instances.length > 1) {
+            instances.pop();
+            delete this;
+            return;
+        }
         animate(this).now({y: 576/2 - 150}, 400);
     };
 });
