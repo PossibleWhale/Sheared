@@ -22,7 +22,7 @@ AdTimer = Class(event.Emitter, function (supr) {
         var cbArgs = arguments.slice();
         cbArgs.shift();
         callback.apply(cbArgs);
-    }
+    };
 
     /*
      *  Interrupt whatever is happening with an ad, then callback()
@@ -54,7 +54,7 @@ AdTimer = Class(event.Emitter, function (supr) {
         } else {
             callback.apply(cbArgs);
         }
-    }
+    };
 
     /*
      * run the timer; ads will be suppressed while it's running
