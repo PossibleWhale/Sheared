@@ -43,74 +43,67 @@ exports = Class(ImageView, function (supr) {
 
         this.selectedGarment = c.GARMENT_HAT;
 
-        var craftScreen = this;
-
-        this.on('craft:start', this.startCrafting);
-
-        this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
-            this.muteButton.setMuted({silent: true});
-        }));
-
-        this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
-            this.total += amount;
-            GC.app.player.addCoins(amount);
-            _cleanUI();
+        this.tabs = new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 576
         });
 
         /*
          * Update craft count boxes based on current selections and inventory
          */
         this.updateCraftCounts = bind(this, function _a_updateCraftContents() {
-            var btn1, i;
-            i = this.buttons.craftCount.length;
-            while (i--) {
-                btn1 = this.buttons.craftCount[i];
-
-                currentCraft = this.craftByIndex(i);
-                count = this.crafts.get(currentCraft).count;
-
-                btn1.setText(count);
-            }
+            return; // FIXME
+            undefined('TODO');
         });
 
         this.updateCraftBuyButtons = bind(this, function _a_updateCraftBuyButtons() {
             var i, res, contrast, garment, main, costs, cbbtn;
             garment = this.selectedGarment;
-            main = this.selectedColor;
 
-            i = colorPairings[main.label].length;
+            i = c.colors.length;
             while (i--) {
-                cbbtn = this.buttons.craftBuy[i];
-                currentCraft = this.craftByIndex(i);
-                costs = currentCraft.cost();
-                contrast = currentCraft.colors.contrast;
-
-                if (costs[0].amount > this.wool.get(main).count || costs[1].amount > this.wool.get(contrast).count) {
-                    res = 'resources/images/' + garment.label + '-disabled.png';
-                    cbbtn.updateOpts({opacity: 0.9});
-                } else {
-                    res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
-                    cbbtn.updateOpts({opacity: 1.0});
+                main = c.colors[i];
+                j = c.colors.length - 1;
+                while (j--) {
+                    contrast = c.colors[j];
+                    cbbtn = this.buttons.craftBuy[i][j];
+                    currentCraft = new Craft(this.selectedGarment, main, contrast);
+                    if (GC.app.player.canCraft(currentCraft)) {
+                        res = 'resources/images/' + garment.label + '-disabled.png';
+                        cbbtn.updateOpts({opacity: 0.9});
+                    } else {
+                        res = 'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png';
+                        cbbtn.updateOpts({opacity: 1.0});
+                    }
+                    cbbtn.setImage(res);
                 }
-
-                cbbtn.setImage(res);
             }
         });
 
-        this.updateGarmentPattern = bind(this, function _a_updateGarmentPattern() {
-            this.garmentPattern.setImage('resources/images/craft-patterns-' + this.selectedColor.label + '.png');
-        });
-
         // load up alllll dem buttons
-        var kinds = ["garment", "cost", "craftCount", "craftBuy"];
+        var kinds = ["garment", "craftCount", "craftBuy"];
         for (kk = 0; kk < kinds.length; kk++) {
-            var k = kinds[kk], factory, rgns, j, region, btn;
+            var k = kinds[kk], innerFactory, factory, rgns, j, i, region, btn, btnArray;
 
             rgns = regions[k];
             factory = bind(this, this[rgns.factory] || this.defaultButtonFactory);
             this.buttons[k] = [];
-            for (j = 0; j < rgns.length; j++) {
-                this.buttons[k].push(factory(rgns[j], j));
+            if (!isArray(rgns[0])) {
+                // 1d button row/column
+                for (j = 0; j < rgns.length; j++) {
+                    this.buttons[k].push(factory(rgns[j], j));
+                }
+            } else {
+                // 2d button grid
+                for (i = 0; i < rgns.length; i++) {
+                    btnArray = [];
+                    for (j = 0; j < rgns[i].length; j++) {
+                        btnArray.push(factory(rgns[i][j], i, j));
+                    }
+                    this.buttons[k].push(btnArray);
+                }
             }
         }
 
@@ -136,15 +129,32 @@ exports = Class(ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        this.on('craftScreen:changeGarment', this.changeGarment);
+        this.on('craft:start', this.startCrafting);
+
+        this.on('craft:changeGarment', this.changeGarment);
+
+        this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
+            this.muteButton.setMuted({silent: true});
+        }));
+
+        this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
+            this.total += amount;
+            GC.app.player.addCoins(amount);
+            this._cleanUI();
+        });
+
+    };
+
+    this.updateTabs = function _a_updateTabs() {
+        this.tabs.setImage('resources/images/craft-' + this.selectedGarment.label + '.png');
     };
 
     /*
      * reset the UI to the view corresponding to the current state
      */
-    var _cleanUI = function _a_cleanUI() {
+    this._cleanUI = function _a_cleanUI() {
         this.updateCraftBuyButtons();
-        this.updateGarmentPattern();
+        this.updateTabs();
         this.updateCraftCounts();
         this.updateTotal();
     };
@@ -169,7 +179,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     // buy garment buttons
-    this.craftBuyFactory = function _a_craftBuyFactory(region, i) {
+    this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
         var me = this, btn;
         btn = this.defaultButtonFactory(region);
         btn.updateOpts({anchorX: btn.getOpts().width / 2,
@@ -189,19 +199,9 @@ exports = Class(ImageView, function (supr) {
         return btn;
     };
 
-    // craftCount fields
-    this.craftCountFactory = function _a_craftCountFactory(region, i) {
-        var screen = this, updateText, main, motif, contrast, btn;
-
-        btn = this.defaultButtonFactory(region);
-        btn.updateOpts({contrastIndex: i});
-
-        return btn;
-    };
-
     // clear out the ui image and replace it when garment changes
     this.changeGarment = function _a_changeGarment() {
-        _cleanUI();
+        this._cleanUI();
     };
 
     // user tries to buy a craft by clicking on a craft button
@@ -224,13 +224,13 @@ exports = Class(ImageView, function (supr) {
             this.wool.addWool(contrast, -1 * costs[1].amount);
             this.woolCounts.update();
         }
-        _cleanUI();
+        this._cleanUI();
     };
 
     // user selected a new garment
     this.setGarment = function _a_setGarment(garment) {
         this.selectedGarment = garment;
-        this.emit('craftScreen:changeGarment');
+        this.emit('craft:changeGarment');
     };
 
     /*
@@ -246,12 +246,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     // display the new cash total in the box
-    this.updateTotal = bind(this, function _a_updateTotal() {
+    this.updateTotal = function _a_updateTotal() {
         // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
         // -- it sometimes appears negative, most likely due to floating
         // point error.
         this.totalButton.setText('' + this.total + ' Eweros');
-    });
+    };
 
     /*
      * animate a gentle swaying of the crafts
@@ -291,90 +291,68 @@ garment: [
     {item: c.GARMENT_SCARF, y:392, x:930, width:60, height:66},
     {item: c.GARMENT_SWEATER, y:474, x:930, width:60, height:66}
     ],
-cost: [
-    {item: {_1: null}, y:152, x:168, width:48, height:50},
-
-    {item: {_1: null}, y:152, x:300, width:48, height:50},
-    {item: {_2: null}, y:152, x:356, width:48, height:50},
-
-    {item: {_1: null}, y:152, x:460, width:48, height:50},
-    {item: {_2: null}, y:152, x:516, width:48, height:50},
-
-    {item: {_1: null}, y:152, x:620, width:48, height:50},
-    {item: {_2: null}, y:152, x:674, width:48, height:50},
-
-    {item: {_1: null}, y:152, x:780, width:48, height:50},
-    {item: {_2: null}, y:152, x:836, width:48, height:50}
-    ],
-craftCount: [
-    {item: {_1: null}, y:328, x:142, width:98, height:32},
-    {item: {_1: null}, y:328, x:302, width:98, height:32},
-    {item: {_1: null}, y:328, x:462, width:98, height:32},
-    {item: {_1: null}, y:328, x:622, width:98, height:32},
-    {item: {_1: null}, y:328, x:782, width:98, height:32}
-    ],
 craftBuy: [
         [ // white
-            {item: {}, x: 182, y: 125, width: 60, height: 60},
-            {item: {}, x: 282, y: 125, width: 60, height: 60},
-            {item: {}, x: 382, y: 125, width: 60, height: 60},
-            {item: {}, x: 482, y: 125, width: 60, height: 60}
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_RED},    x: 182, y: 125, width: 60, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLUE},   x: 282, y: 125, width: 60, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_YELLOW}, x: 382, y: 125, width: 60, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLACK},  x: 482, y: 125, width: 60, height: 60}
         ],
         [ // red
-            {item: {}, x: 182, y: 191, width: 60, height: 60},
-            {item: {}, x: 282, y: 191, width: 60, height: 60},
-            {item: {}, x: 382, y: 191, width: 60, height: 60},
-            {item: {}, x: 482, y: 191, width: 60, height: 60}
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_WHITE},    x: 182, y: 191, width: 60, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLUE},     x: 282, y: 191, width: 60, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_YELLOW},   x: 382, y: 191, width: 60, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLACK},    x: 482, y: 191, width: 60, height: 60}
         ],
         [ // blue
-            {item: {}, x: 182, y: 257, width: 60, height: 60},
-            {item: {}, x: 282, y: 257, width: 60, height: 60},
-            {item: {}, x: 382, y: 257, width: 60, height: 60},
-            {item: {}, x: 482, y: 257, width: 60, height: 60}
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_WHITE},   x: 182, y: 257, width: 60, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_RED},     x: 282, y: 257, width: 60, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_YELLOW},  x: 382, y: 257, width: 60, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_BLACK},   x: 482, y: 257, width: 60, height: 60}
         ],
         [ // yellow
-            {item: {}, x: 182, y: 323, width: 60, height: 60},
-            {item: {}, x: 282, y: 323, width: 60, height: 60},
-            {item: {}, x: 382, y: 323, width: 60, height: 60},
-            {item: {}, x: 482, y: 323, width: 60, height: 60}
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_WHITE}, x: 182, y: 323, width: 60, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_RED},   x: 282, y: 323, width: 60, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLUE},  x: 382, y: 323, width: 60, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLACK}, x: 482, y: 323, width: 60, height: 60}
         ],
         [ // black
-            {item: {}, x: 182, y: 389, width: 60, height: 60},
-            {item: {}, x: 282, y: 389, width: 60, height: 60},
-            {item: {}, x: 382, y: 389, width: 60, height: 60},
-            {item: {}, x: 482, y: 389, width: 60, height: 60}
+            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_WHITE},   x: 182, y: 389, width: 60, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_RED},     x: 282, y: 389, width: 60, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_BLUE},    x: 382, y: 389, width: 60, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast:c.COLORS_YELLOW},  x: 482, y: 389, width: 60, height: 60}
         ]
     ],
 craftStars: [
         [ // white
-            {item: {}, x: 242, y: 125, width: 30, height: 60},
-            {item: {}, x: 342, y: 125, width: 30, height: 60},
-            {item: {}, x: 442, y: 125, width: 30, height: 60},
-            {item: {}, x: 542, y: 125, width: 30, height: 60}
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_RED},    x: 242, y: 125, width: 30, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLUE},   x: 342, y: 125, width: 30, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_YELLOW}, x: 442, y: 125, width: 30, height: 60},
+            {item: {main: c.COLORS_WHITE, contrast: c.COLORS_BLACK},  x: 542, y: 125, width: 30, height: 60}
         ],
         [ // red
-            {item: {}, x: 242, y: 191, width: 30, height: 60},
-            {item: {}, x: 342, y: 191, width: 30, height: 60},
-            {item: {}, x: 442, y: 191, width: 30, height: 60},
-            {item: {}, x: 542, y: 191, width: 30, height: 60}
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_WHITE},    x: 242, y: 191, width: 30, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLUE},     x: 342, y: 191, width: 30, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_YELLOW},   x: 442, y: 191, width: 30, height: 60},
+            {item: {main: c.COLORS_RED, contrast: c.COLORS_BLACK},    x: 542, y: 191, width: 30, height: 60}
         ],
         [ // blue
-            {item: {}, x: 242, y: 257, width: 30, height: 60},
-            {item: {}, x: 342, y: 257, width: 30, height: 60},
-            {item: {}, x: 442, y: 257, width: 30, height: 60},
-            {item: {}, x: 542, y: 257, width: 30, height: 60}
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_WHITE},   x: 242, y: 257, width: 30, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_RED},     x: 342, y: 257, width: 30, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_YELLOW},  x: 442, y: 257, width: 30, height: 60},
+            {item: {main: c.COLORS_BLUE, contrast: c.COLORS_BLACK},   x: 542, y: 257, width: 30, height: 60}
         ],
         [ // yellow
-            {item: {}, x: 242, y: 323, width: 30, height: 60},
-            {item: {}, x: 342, y: 323, width: 30, height: 60},
-            {item: {}, x: 442, y: 323, width: 30, height: 60},
-            {item: {}, x: 542, y: 323, width: 30, height: 60}
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_WHITE}, x: 242, y: 323, width: 30, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_RED},   x: 342, y: 323, width: 30, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLUE},  x: 442, y: 323, width: 30, height: 60},
+            {item: {main: c.COLORS_YELLOW, contrast: c.COLORS_BLACK}, x: 542, y: 323, width: 30, height: 60}
         ],
         [ // black
-            {item: {}, x: 242, y: 389, width: 30, height: 60},
-            {item: {}, x: 342, y: 389, width: 30, height: 60},
-            {item: {}, x: 442, y: 389, width: 30, height: 60},
-            {item: {}, x: 542, y: 389, width: 30, height: 60}
+            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_WHITE},  x: 242, y: 389, width: 30, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_RED},    x: 342, y: 389, width: 30, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_BLUE},   x: 442, y: 389, width: 30, height: 60},
+            {item: {main: c.COLORS_BLACK, contrast: c.COLORS_YELLOW}, x: 542, y: 389, width: 30, height: 60}
         ]
     ],
 total: {y:521, x:452, width:120, height:26, text: '0 Eweros'},
@@ -386,4 +364,3 @@ backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 
 regions.garment.factory = 'garmentFactory';
 regions.craftBuy.factory = 'craftBuyFactory';
-regions.craftCount.factory = 'craftCountFactory';

@@ -90,5 +90,19 @@ exports = Class(Emitter, function Player(supr) {
             }
         };
     };
+
+    // true if the player has sufficient wool to craft something
+    this.canCraft = function _a_canCraft(craft) {
+        var main, contrast, copy, costs = craft.cost();
+        main = craft.colors.main;
+        contrast = craft.colors.contrast;
+
+        copy = this.wool.copy();
+
+        copy.addWool(main, -1 * costs[0].amount);
+        copy.addWool(contrast, -1 * costs[1].amount);
+        return (copy.get(main).count >= 0 && copy.get(contrast).count >= 0);
+    };
+
 });
 
