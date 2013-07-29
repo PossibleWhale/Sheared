@@ -330,11 +330,11 @@ exports = Class(ImageView, function (supr) {
         return {
             temporary: {
                 power: (upgrades.get('temp_power').value + 1) >= 5 ? 'max' : upgrades.get('temp_power').value+1,
-                multiplier: upgrades.get('temp_mult').value >= 5 ? 'max' : upgrades.get('temp_mult').value
+                multiplier: upgrades.get('temp_mult').value >= 6 ? 'max' : upgrades.get('temp_mult').value
             },
             permanent: {
                 power: (upgrades.get('perm_power').value+1) >= 5 ? 'max' : upgrades.get('perm_power').value+1,
-                multiplier: upgrades.get('perm_mult').value >= 5 ? 'max' : upgrades.get('perm_mult').value
+                multiplier: upgrades.get('perm_mult').value >= 6 ? 'max' : upgrades.get('perm_mult').value
             }
         };
     };
