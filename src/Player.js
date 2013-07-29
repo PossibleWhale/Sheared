@@ -67,6 +67,7 @@ exports = Class(Emitter, function Player(supr) {
         } else {
             this.stats.increment('ewesSheared.' + sheep.color.label);
         }
+        this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
     };
 
     this.collectedBattery = function () {
