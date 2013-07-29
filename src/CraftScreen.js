@@ -207,17 +207,14 @@ exports = Class(ImageView, function (supr) {
     // user tries to buy a craft by clicking on a craft button
     this.buyCraft = function _a_buyCraft(btn) {
         var garment = this.selectedGarment, main, contrast, craft, costs,
-            sufficient;
+            opts = btn.getOpts();
+
+        main = opts.item.main;
+        contrast = opts.item.contrast;
         craft = new Craft(garment, main, contrast);
         costs = craft.cost();
 
-        if (main === contrast) {
-            sufficient = this.wool.get(main).count >= costs[0].amount + costs[1].amount;
-        } else {
-            sufficient = (this.wool.get(main).count >= costs[0].amount && this.wool.get(contrast).count >= costs[1].amount);
-        }
-
-        if (sufficient) {
+        if (GC.app.player.canCraft(craft)) {
             this.crafts.addCraft(craft);
             this.emit('craft:addDollars', craft.dollars());
             this.wool.addWool(main, -1 * costs[0].amount);
