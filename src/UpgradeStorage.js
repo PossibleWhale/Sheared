@@ -3,10 +3,10 @@ import src.Storage as Storage;
 import src.util as util;
 
 var upgrades = [
-    {name: 'temp_power', value: 0},
+    {name: 'temp_power', value: 1},
     {name: 'temp_mult', value: 1},
     {name: 'temp_diamond', value: false},
-    {name: 'perm_power', value: 0},
+    {name: 'perm_power', value: 1},
     {name: 'perm_mult', value: 1},
     {name: 'perm_diamond', value: false}
 ];

@@ -99,7 +99,6 @@ exports = Class(ImageView, function (supr) {
 
         this.priceDisplays = {};
 
-        ////// TODO put the real prices in
         this.priceDisplays.temporary = {
             power: new TextView(merge({
                 superview: upgradesView,
@@ -165,16 +164,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         powerUpgradeButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temp', 'power');
-                    this.updateProgressBars();
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a clipper power upgrade. Do you wish to continue?',
+                'temp', 'power');
         }));
 
         var multiplierUpgradeButton = new Button({
@@ -185,16 +176,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         multiplierUpgradeButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temp', 'mult');
-                    this.updateProgressBars();
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
+                'temp', 'mult');
         }));
 
         var diamondButton = new Button({
@@ -205,15 +188,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         diamondButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a diamond blade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('temp', 'diamond');
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a diamond blade. Do you wish to continue?',
+                'temp', 'diamond');
         }));
 
 
@@ -226,16 +202,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         powerPermanentButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a clipper power upgrade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('perm', 'power');
-                    this.updateProgressBars();
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?',
+                'perm', 'power');
         }));
 
         var multiplierPermanentButton = new Button({
@@ -246,16 +214,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         multiplierPermanentButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('perm', 'mult');
-                    this.updateProgressBars();
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?',
+            'perm', 'mult');
         }));
 
         var diamondPermanentButton = new Button({
@@ -266,15 +226,8 @@ exports = Class(ImageView, function (supr) {
             height: 90
         });
         diamondPermanentButton.on('InputSelect', bind(this, function () {
-            confirmDialog = new Alert({
-                superview: this,
-                text: 'You are about to purchase a diamond blade. Do you wish to continue?',
-                confirmFn: bind(this, function () {
-                    GC.app.player.purchased('perm', 'diamond');
-                    this.updatePriceDisplays();
-                })
-            });
-            confirmDialog.show();
+            this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?',
+                'perm', 'diamond');
         }));
         /* TODO add this in when we are ready for in-app purchases
         this.addCoinsButton = new Button({
@@ -297,6 +250,34 @@ exports = Class(ImageView, function (supr) {
             }
         };
         */
+    };
+
+    this.showPurchaseDialog = function (text, tempOrPerm, upgrade) {
+        var confirmDialog, cost, key = tempOrPerm + '_' + upgrade;
+        if (upgrade === 'diamond') {
+            cost = constants.UPGRADE_PRICES[key];
+        } else {
+            cost = constants.UPGRADE_PRICES[key][GC.app.player.upgrades.get(key).value];
+        }
+        if (GC.app.player.stats.get('coins').value < cost) {
+            confirmDialog = new Alert({
+                superview: this,
+                text: 'Not enough eweros! Earn more by crafting, or buy more in the store.',
+                confirmFn: function () { return; },
+                showCancelButton: false
+            });
+        } else {
+            confirmDialog = new Alert({
+                superview: this,
+                text: text,
+                confirmFn: bind(this, function () {
+                    GC.app.player.purchased(tempOrPerm, upgrade);
+                    this.updateProgressBars();
+                    this.updatePriceDisplays();
+                })
+            });
+        }
+        confirmDialog.show();
     };
 
     this.updateProgressBars = function () {
@@ -329,11 +310,11 @@ exports = Class(ImageView, function (supr) {
         var upgrades = GC.app.player.upgrades;
         return {
             temporary: {
-                power: (upgrades.get('temp_power').value + 1) >= 5 ? 'max' : upgrades.get('temp_power').value+1,
+                power: upgrades.get('temp_power').value >= 5 ? 'max' : upgrades.get('temp_power').value,
                 multiplier: upgrades.get('temp_mult').value >= 6 ? 'max' : upgrades.get('temp_mult').value
             },
             permanent: {
-                power: (upgrades.get('perm_power').value+1) >= 5 ? 'max' : upgrades.get('perm_power').value+1,
+                power: upgrades.get('perm_power').value >= 5 ? 'max' : upgrades.get('perm_power').value,
                 multiplier: upgrades.get('perm_mult').value >= 6 ? 'max' : upgrades.get('perm_mult').value
             }
         };

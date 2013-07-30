@@ -30,7 +30,7 @@ exports = Class(Emitter, function Player(supr) {
     };
 
     this.setUpgrades = function () {
-        this.maxClipperHealth = Math.min(10, 5 + Math.max(this.upgrades.get('temp_power').value,
+        this.maxClipperHealth = Math.min(10, 5 + Math.max(this.upgrades.get('temp_power').value-1,
                                 this.upgrades.get('perm_power').value));
         this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
                                 this.upgrades.get('perm_mult').value);
@@ -39,19 +39,30 @@ exports = Class(Emitter, function Player(supr) {
     };
 
     this.purchased = function (tempOrPerm, upgradeName) {
+        var key = tempOrPerm + '_' + upgradeName;
         if (upgradeName === 'diamond') {
+            if (!GC.app.localConfig.debug) {
+                var price = c.UPGRADE_PRICES[key];
+                this.stats.increment('coins', -1*price);
+            }
+
             this.upgrades.addToUpgrade('temp_diamond', true);
             // if a permanent upgrade was purchased then the temporary one was "purchased" too
             if (tempOrPerm === 'perm') {
                 this.upgrades.addToUpgrade(tempOrPerm + '_diamond', true);
             }
         } else {
-            var key = tempOrPerm + '_' + upgradeName;
+            if (!GC.app.localConfig.debug) {
+                var price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value];
+                this.stats.increment('coins', -1*price);
+            }
+
             this.upgrades.addToUpgrade('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
             if (tempOrPerm === 'perm') {
                 this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);
             }
         }
+
         this.emit('player:purchased');
     };
 
