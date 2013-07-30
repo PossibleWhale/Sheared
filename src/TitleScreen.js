@@ -143,17 +143,16 @@ exports = Class(ImageView, function (supr) {
             _goToView(storeScreen);
         });
 
-        var tutorialButton = new ImageView({
+        var creditsButton = new ImageView({
             superview: this,
             x: 728,
             y: 496,
             width: 80,
             height: 80,
-            image: 'resources/images/button-tutorials.png'
+            image: 'resources/images/button-credits.png'
         });
-        tutorialButton.on('InputSelect', function () {
-            tutorialScreen.build();
-            _goToView(tutorialScreen);
+        creditsButton.on('InputSelect', function () {
+            _goToView(creditsScreen);
         });
 
         var playButton = new ImageView({
@@ -168,16 +167,17 @@ exports = Class(ImageView, function (supr) {
             _goToView(playScreen);
         });
 
-        var creditsButton = new ImageView({
+        var tutorialButton = new ImageView({
             superview: this,
-            x: 453,
-            y: 439,
-            width: 118,
+            x: 412,
+            y: 457,
+            width: 210,
             height: 36,
-            image: 'resources/images/button-credits.png'
+            image: 'resources/images/button-instructions.png'
         });
-        creditsButton.on('InputSelect', function () {
-            _goToView(creditsScreen);
+        tutorialButton.on('InputSelect', function () {
+            tutorialScreen.build();
+            _goToView(tutorialScreen);
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
