@@ -205,11 +205,11 @@ exports = Class(ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        tutorialScreen.on('tutorial:back', this.back);
-        storeScreen.on('store:back', this.back);
-        craftScreen.on('craft:back', this.back);
-        creditsScreen.on('credits:back', this.back);
-        statScreen.on('stats:back', this.back);
+        tutorialScreen.on('tutorial:back', bind(this, this.back));
+        storeScreen.on('store:back', bind(this, this.back));
+        craftScreen.on('craft:back', bind(this, this.back));
+        creditsScreen.on('credits:back', bind(this, this.back));
+        statScreen.on('stats:back', bind(this, this.back));
 
         craftScreen.on('craft:store', function () {
             _goToView(storeScreen);
