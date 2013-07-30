@@ -146,7 +146,7 @@ exports.colors = [exports.COLOR_WHITE, exports.COLOR_RED,
     exports.COLOR_BLUE, exports.COLOR_YELLOW, exports.COLOR_BLACK];
 exports.colorsByLabel = indexByLabel(exports.colors);
 
-exports.garments = [exports.GARMENT_HAT, exports.GARMENT_SOCK,
-    exports.GARMENT_SCARF, exports.GARMENT_MITTEN, exports.GARMENT_SWEATER];
+exports.garments = [exports.GARMENT_HAT, exports.GARMENT_MITTEN,
+    exports.GARMENT_SOCK, exports.GARMENT_SCARF, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
 

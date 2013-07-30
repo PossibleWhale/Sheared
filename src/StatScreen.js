@@ -136,6 +136,55 @@ exports = Class(ImageView, function (supr) {
             text: '' + total
         }));
 
+        // labels for craft counts
+        i = 0;
+        total = 0;
+        current = 0;
+        for (i; i < constants.garments.length; i++) {
+            GC.app.player.crafts.loopGarment(constants.garments[i].label,
+                function (i, j, data) {
+                    current += data.count;
+                });
+            this.tabs.crafts.addSubview(new Button({
+                x: startX + i*gap,
+                y: 220,
+                width: 120,
+                height: 40,
+                text: '' + current
+            }));
+            total += current;
+        }
+        this.tabs.crafts.addSubview(new Button({
+            x: 400,
+            y: 320,
+            width: 360,
+            height: 40,
+            text: '' + total
+        }));
+
+        // labels for misc stats
+        this.tabs.misc.addSubview(new Button({
+            x: 435,
+            y: 194,
+            width: 120,
+            height: 40,
+            text: '' + GC.app.player.stats.get('diamonds').value
+        }));
+        this.tabs.misc.addSubview(new Button({
+            x: 605,
+            y: 194,
+            width: 120,
+            height: 40,
+            text: '' + GC.app.player.stats.get('batteries').value
+        }));
+        this.tabs.misc.addSubview(new Button({
+            x: 400,
+            y: 320,
+            width: 360,
+            height: 40,
+            text: '' + GC.app.player.stats.get('coinsEarned').value
+        }));
+
         this.currentTab = this.tabs.ewes;
         this.addSubview(this.currentTab);
 
