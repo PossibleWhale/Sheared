@@ -78,9 +78,6 @@ exports = Class(ImageView, function (supr) {
 
         this.totalButton = this.defaultButtonFactory(regions.total);
 
-        this.shopNameButton = this.defaultButtonFactory(regions.shopName);
-        this.shopNameButton.setText(util.choice(c.SHOP_NAMES));
-
         this.backButton = this.defaultButtonFactory(regions.backButton);
         this.backButtonLabel = this.defaultButtonFactory(regions.backButtonLabel);
         util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
@@ -426,7 +423,6 @@ craftStars: [
     ],
 total: {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'},
 store: {x: 143, y: 496, width: 180, height: 80},
-shopName: {y:496, x:671, width: 280, height: 80},
 backButton: {x: 0, y: 0, width: 80, height: 80},
 backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 }
