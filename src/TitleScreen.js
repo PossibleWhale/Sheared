@@ -35,6 +35,10 @@ exports = Class(ImageView, function (supr) {
         this.build();
     };
 
+    this.back = function _a_back() {
+        this.stackView.pop();
+    };
+
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
             playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen, statScreen;
@@ -46,7 +50,7 @@ exports = Class(ImageView, function (supr) {
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
 
-        stackView = this.getSuperview();
+        stackView = this.stackView = this.getSuperview();
 
         // TODO animate the logo in some cutesy way
         var shearedLogo = new ImageView({
@@ -201,15 +205,11 @@ exports = Class(ImageView, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
-        function _back() {
-            stackView.pop();
-        }
-
-        tutorialScreen.on('tutorial:back', _back);
-        storeScreen.on('store:back', _back);
-        craftScreen.on('craft:back', _back);
-        creditsScreen.on('credits:back', _back);
-        statScreen.on('stats:back', _back);
+        tutorialScreen.on('tutorial:back', this.back);
+        storeScreen.on('store:back', this.back);
+        craftScreen.on('craft:back', this.back);
+        creditsScreen.on('credits:back', this.back);
+        statScreen.on('stats:back', this.back);
 
         craftScreen.on('craft:store', function () {
             _goToView(storeScreen);

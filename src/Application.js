@@ -69,6 +69,10 @@ exports = Class(GC.Application, function (supr) {
 
         stackView.push(this.titleScreen);
 
+        if (NATIVE) {
+            device.setBackButtonHandler(bind(this.titleScreen, this.titleScreen.back));
+        }
+
         GC.hidePreloader();
     };
 
