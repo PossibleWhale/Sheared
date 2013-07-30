@@ -1,7 +1,8 @@
 import ui.StackView;
 import ui.ImageView as ImageView;
 import src.Button as Button;
-import src.TutorialScreen as TutorialScreen;
+import src.TutorialPlayScreen as TutorialPlayScreen;
+import src.TutorialCraftScreen as TutorialCraftScreen;
 
 exports = Class(ui.StackView, function (supr) {
     this.init = function (opts) {
@@ -52,6 +53,7 @@ exports = Class(ui.StackView, function (supr) {
         }));
 
         craftButton.on('InputSelect', bind(this, function () {
+            this.craftTutorial();
         }));
 
         this.backButton.on('InputSelect', bind(this, function () {
@@ -61,8 +63,14 @@ exports = Class(ui.StackView, function (supr) {
     };
 
     this.playTutorial = function () {
-        this.tutorialScreen = new TutorialScreen();
+        this.tutorialScreen = new TutorialPlayScreen();
         this.push(this.tutorialScreen);
         this.tutorialScreen.clipperTutorial();
+    };
+
+    this.craftTutorial = function () {
+        this.tutorialScreen = new TutorialCraftScreen();
+        this.push(this.tutorialScreen);
+        this.tutorialScreen.step1();
     };
 });

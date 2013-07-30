@@ -181,13 +181,17 @@ exports = Class(ImageView, function (supr) {
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
+            var ticker, tut;
+
             if (playScreen.clipper) {
                 playScreen.clipper.emitDiamonds();
             }
-            if (tutorialScreen.tutorialScreen) {
-                tutorialScreen.tutorialScreen.runTick();
-                if (tutorialScreen.tutorialScreen.clipper) {
-                    tutorialScreen.tutorialScreen.clipper.emitDiamonds();
+
+            tut = tutorialScreen.tutorialScreen;
+            if (tut && tut.runTick) {
+                tut.runTick();
+                if (tut.clipper) {
+                    tut.clipper.emitDiamonds();
                 }
             }
             if (GC.app.particleEngine) {
