@@ -111,7 +111,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-stats.png'
         });
         statsButton.on('InputSelect', function () {
-            stackView.push(statScreen);
+            _goToView(statScreen);
         });
 
         var awardsButton = new ImageView({
@@ -136,7 +136,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-general-store.png'
         });
         storeButton.on('InputSelect', function () {
-            stackView.push(storeScreen);
+            _goToView(storeScreen);
         });
 
         var tutorialButton = new ImageView({
@@ -149,7 +149,7 @@ exports = Class(ImageView, function (supr) {
         });
         tutorialButton.on('InputSelect', function () {
             tutorialScreen.build();
-            stackView.push(tutorialScreen);
+            _goToView(tutorialScreen);
         });
 
         var playButton = new ImageView({
@@ -161,7 +161,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-play.png'
         });
         playButton.on('InputSelect', function () {
-            stackView.push(playScreen);
+            _goToView(playScreen);
         });
 
         var creditsButton = new ImageView({
@@ -173,7 +173,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-credits.png'
         });
         creditsButton.on('InputSelect', function () {
-            stackView.push(creditsScreen);
+            _goToView(creditsScreen);
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
@@ -212,14 +212,28 @@ exports = Class(ImageView, function (supr) {
         statScreen.on('stats:back', _back);
 
         craftScreen.on('craft:store', function () {
-            undefined("FIXME - this does weird things to the stack");
-            stackView.popAll();
-            stackView.push(storeScreen);
+            _goToView(storeScreen);
         });
+
+        // checks to see whether toView is in the stackView.
+        function _goToView(toView) {
+            var stack = stackView.getStack(), i = stack.length;
+            if (stackView.hasView(toView)) {
+                while (i--) {
+                    if (toView === stack[i]) {
+                        break;
+                    } else {
+                        stackView.pop();
+                    }
+                }
+            } else {
+                stackView.push(toView);
+            }
+        }
 
         function _startCrafting() {
             adtimer.interrupt(function () {
-                stackView.push(craftScreen);
+                _goToView(craftScreen);
                 craftScreen.emit('craft:start');
             });
         };
