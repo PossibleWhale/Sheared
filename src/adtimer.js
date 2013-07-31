@@ -19,7 +19,7 @@ AdTimer = Class(event.Emitter, function (supr) {
      * User has purchased an ad-free upgrade, so no-op
      */
     this._interruptNoAds = function (callback) {
-        var cbArgs = arguments.slice();
+        var cbArgs = Array.prototype.slice.apply(arguments);
         cbArgs.shift();
         callback.apply(cbArgs);
     };
