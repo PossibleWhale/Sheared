@@ -42,7 +42,7 @@ exports = Class(Emitter, function Player(supr) {
         var key = tempOrPerm + '_' + upgradeName;
         if (woolColor) {
             if (!GC.app.localConfig.debug) {
-                var price = 1000; // TODO
+                var price = c.WOOL_PRICES[woolColor];
                 this.stats.increment('coins', -1*price);
             }
 

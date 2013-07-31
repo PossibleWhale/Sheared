@@ -129,6 +129,24 @@ exports = {
         perm_power: [100000, 200000, 300000, 400000, 500000],
         perm_mult: [100000, 200000, 300000, 400000, 500000],
         perm_diamond: 1000000
+    },
+
+    // for now they are all the same... we might want them to be different?
+    WOOL_PRICES: {
+        white: 1000,
+        red: 1000,
+        blue: 1000,
+        yellow: 1000,
+        black: 1000
+    },
+
+    // amount of wool you get from purchasing.. might want to change
+    WOOL_QUANTITIES: {
+        white: 100,
+        red: 100,
+        blue: 100,
+        yellow: 100,
+        black: 100
     }
 };
 
@@ -149,4 +167,3 @@ exports.colorsByLabel = indexByLabel(exports.colors);
 exports.garments = [exports.GARMENT_HAT, exports.GARMENT_MITTEN,
     exports.GARMENT_SOCK, exports.GARMENT_SCARF, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
-

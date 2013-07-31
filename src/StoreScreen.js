@@ -342,7 +342,7 @@ exports = Class(ImageView, function (supr) {
                 y: 145,
                 width: 95,
                 height: 36,
-                text: '100' // TODO put the actual quantity in
+                text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
 
             // cost
@@ -351,7 +351,7 @@ exports = Class(ImageView, function (supr) {
                 y: 265,
                 width: 95,
                 height: 36,
-                text: '1000' // TODO
+                text: '' + constants.WOOL_PRICES[constants.colors[i].label]
             }));
         }
     };
@@ -397,7 +397,7 @@ exports = Class(ImageView, function (supr) {
     this.showPurchaseDialog = function (text, tempOrPerm, upgrade, woolColor) {
         var confirmDialog, cost, key = tempOrPerm + '_' + upgrade;
         if (woolColor) {
-            cost = 1000; // TODO
+            cost = constants.WOOL_PRICES[woolColor.label];
         } else if (upgrade === 'diamond') {
             cost = constants.UPGRADE_PRICES[key];
         } else {
