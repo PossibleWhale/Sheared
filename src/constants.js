@@ -126,19 +126,18 @@ exports = {
         temp_power: [1000, 2000, 3000, 4000, 5000],
         temp_mult: [1000, 2000, 3000, 4000, 5000],
         temp_diamond: 10000,
-        perm_power: [100000, 200000, 300000, 400000, 500000],
-        perm_mult: [100000, 200000, 300000, 400000, 500000],
-        perm_diamond: 1000000
-    },
+        perm_power: [10000, 20000, 30000, 40000, 50000],
+        perm_mult: [10000, 20000, 30000, 40000, 50000],
+        perm_diamond: 100000,
 
-    // for now they are all the same... we might want them to be different?
-    WOOL_PRICES: {
+        // wool prices. for now they are all the same... we might want them to be different?
         white: 1000,
         red: 1000,
         blue: 1000,
         yellow: 1000,
         black: 1000
     },
+
 
     // amount of wool you get from purchasing.. might want to change
     WOOL_QUANTITIES: {
@@ -147,7 +146,17 @@ exports = {
         blue: 100,
         yellow: 100,
         black: 100
-    }
+    },
+
+    // cost, in real dollars, of coins
+    EWEROS_PRICES: [
+        1, 2, 3, 4, 5
+    ],
+
+    // amount of coins you get from purchasing
+    EWEROS_QUANTITIES: [
+        10000, 30000, 45000, 60000, 75000
+    ]
 };
 
 // build a mapping for looking up each kind of object

@@ -7,6 +7,7 @@ import src.WoolStorage as WoolStorage;
 import src.CraftStorage as CraftStorage;
 import src.StatStorage as StatStorage;
 import src.UpgradeStorage as UpgradeStorage;
+import src.debughack as dh;
 
 
 exports = Class(Emitter, function Player(supr) {
@@ -26,7 +27,6 @@ exports = Class(Emitter, function Player(supr) {
 
         // add all the wool from another inventory to this one
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
-
     };
 
     this.setUpgrades = function () {
@@ -38,32 +38,29 @@ exports = Class(Emitter, function Player(supr) {
                                 this.upgrades.get('perm_diamond').value;
     };
 
-    this.purchased = function (tempOrPerm, upgradeName, woolColor) {
-        var key = tempOrPerm + '_' + upgradeName;
-        if (woolColor) {
-            if (!GC.app.localConfig.debug) {
-                var price = c.WOOL_PRICES[woolColor];
-                this.stats.increment('coins', -1*price);
-            }
+    this._buy = function (tempOrPerm, upgradeName, woolColor) {
+        var key = woolColor ? woolColor : tempOrPerm + '_' + upgradeName, price;
+        if (!woolColor && upgradeName !== diamond) {
+            price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value];
+        } else {
+            price = c.UPGRADE_PRICES[key];
+        }
+        this.stats.increment('coins', -1*price);
+    };
 
+    this.purchased = function (tempOrPerm, upgradeName, woolColor) {
+        dh.pre_purchase();
+        var key = tempOrPerm + '_' + upgradeName;
+        this._buy(tempOrPerm, upgradeName, woolColor);
+        if (woolColor) {
             this.wool.addWool(woolColor, 100);
         } else if (upgradeName === 'diamond') {
-            if (!GC.app.localConfig.debug) {
-                var price = c.UPGRADE_PRICES[key];
-                this.stats.increment('coins', -1*price);
-            }
-
             this.upgrades.addToUpgrade('temp_diamond', true);
             // if a permanent upgrade was purchased then the temporary one was "purchased" too
             if (tempOrPerm === 'perm') {
                 this.upgrades.addToUpgrade(tempOrPerm + '_diamond', true);
             }
         } else {
-            if (!GC.app.localConfig.debug) {
-                var price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value];
-                this.stats.increment('coins', -1*price);
-            }
-
             this.upgrades.addToUpgrade('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
             if (tempOrPerm === 'perm') {
                 this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);

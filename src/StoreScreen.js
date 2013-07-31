@@ -24,7 +24,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function() {
-        var coinsLabel = new Button({
+        this.coinsLabel = new Button({
             superview: this,
             x: 432,
             y: 486,
@@ -351,21 +351,47 @@ exports = Class(ImageView, function (supr) {
                 y: 265,
                 width: 95,
                 height: 36,
-                text: '' + constants.WOOL_PRICES[constants.colors[i].label]
+                text: '' + constants.UPGRADE_PRICES[constants.colors[i].label]
             }));
         }
     };
 
     this._buildEwerosTab = function () {
-        var startX = 227, gap = 162, i = 0;
+        billing.onPurchase = bind(this, function (item) {
+            var name, index, split;
+            split = item.split('_');
+            name = split[0];
+            index = parseInt(split[1]);
+
+            if (name === 'coins') {
+                GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
+                this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
+            }
+        });
+
+        var _registerClick = bind(this, function (view, index) {
+            view.on('InputSelect', function () {
+                billing.purchase('coins_' + index);
+            });
+        });
+        var startX = 227, containerStart = 182, gap = 162, i = 0;
         for (i; i < constants.colors.length; i++) {
+            //container
+            container = new Button({
+                superview: this.tabs.eweros,
+                x: containerStart + i*gap,
+                y: 136,
+                width: 150,
+                height: 182
+            });
+            _registerClick(container, i);
             // quantity
             this.tabs.eweros.addSubview(new Button({
                 x: startX + gap*i,
                 y: 120,
                 width: 95,
                 height: 36,
-                text: '' + (1000*(1+i)) // TODO put the actual quantity in
+                text: '' + constants.EWEROS_QUANTITIES[i]
             }));
 
             // cost
@@ -374,7 +400,7 @@ exports = Class(ImageView, function (supr) {
                 y: 256,
                 width: 95,
                 height: 36,
-                text: '$' + (1+i) // TODO
+                text: '$' + constants.EWEROS_PRICES[i]
             }));
         }
     };
@@ -397,7 +423,7 @@ exports = Class(ImageView, function (supr) {
     this.showPurchaseDialog = function (text, tempOrPerm, upgrade, woolColor) {
         var confirmDialog, cost, key = tempOrPerm + '_' + upgrade;
         if (woolColor) {
-            cost = constants.WOOL_PRICES[woolColor.label];
+            cost = constants.UPGRADE_PRICES[woolColor.label];
         } else if (upgrade === 'diamond') {
             cost = constants.UPGRADE_PRICES[key];
         } else {
@@ -406,7 +432,7 @@ exports = Class(ImageView, function (supr) {
         if (!GC.app.localConfig.debug && GC.app.player.stats.get('coins').value < cost) {
             confirmDialog = new Alert({
                 superview: this,
-                text: 'Not enough eweros! Earn more by crafting, or buy more in the store.',
+                text: 'Not enough Eweros! Earn more by crafting, or buy more in the store.',
                 confirmFn: function () { return; },
                 showCancelButton: false
             });
@@ -423,6 +449,7 @@ exports = Class(ImageView, function (supr) {
                         this.updateProgressBars();
                         this.updatePriceDisplays();
                     }
+                    this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
                 })
             });
         }
