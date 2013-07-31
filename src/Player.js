@@ -38,9 +38,16 @@ exports = Class(Emitter, function Player(supr) {
                                 this.upgrades.get('perm_diamond').value;
     };
 
-    this.purchased = function (tempOrPerm, upgradeName) {
+    this.purchased = function (tempOrPerm, upgradeName, woolColor) {
         var key = tempOrPerm + '_' + upgradeName;
-        if (upgradeName === 'diamond') {
+        if (woolColor) {
+            if (!GC.app.localConfig.debug) {
+                var price = 1000; // TODO
+                this.stats.increment('coins', -1*price);
+            }
+
+            this.wool.addWool(woolColor, 100);
+        } else if (upgradeName === 'diamond') {
             if (!GC.app.localConfig.debug) {
                 var price = c.UPGRADE_PRICES[key];
                 this.stats.increment('coins', -1*price);
