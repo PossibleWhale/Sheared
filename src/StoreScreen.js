@@ -65,12 +65,13 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             storage: GC.app.player.wool
         });
-        var backButton = new Button({
+        var backButton = new ImageView({
             superview: this,
             x: 0,
             y: 0,
             width: 80,
-            height: 80
+            height: 80,
+            image: 'resources/images/button-return.png'
         });
         backButton.on('InputSelect', bind(this, function () {
             this.emit('store:back');
@@ -365,6 +366,7 @@ exports = Class(ImageView, function (supr) {
 
             if (name === 'coins') {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
+                GC.app.player.upgrades.add('adFree', true);
                 this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
             }
         });

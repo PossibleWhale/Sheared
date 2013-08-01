@@ -8,7 +8,8 @@ var upgrades = [
     {name: 'temp_diamond', value: false},
     {name: 'perm_power', value: 1},
     {name: 'perm_mult', value: 1},
-    {name: 'perm_diamond', value: false}
+    {name: 'perm_diamond', value: false},
+    {name: 'adFree', value: false}
 ];
 
 exports = Class(Storage, function (supr) {
