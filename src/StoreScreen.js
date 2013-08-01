@@ -435,8 +435,8 @@ exports = Class(ImageView, function (supr) {
             confirmDialog = new Alert({
                 superview: this,
                 text: 'Not enough Eweros! Earn more by crafting, or buy more in the store.',
-                confirmFn: function () { return; },
-                showCancelButton: false
+                confirmFn: bind(this, function () { this.switchTab('eweros'); }),
+                confirmText: 'Buy Eweros!'
             });
         } else {
             confirmDialog = new Alert({
@@ -452,7 +452,8 @@ exports = Class(ImageView, function (supr) {
                         this.updatePriceDisplays();
                     }
                     this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
-                })
+                }),
+                confirmText: 'OK'
             });
         }
         confirmDialog.show();
