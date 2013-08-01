@@ -1,15 +1,59 @@
 import animate;
-import ui.ImageView as ImageView;
-import ui.TextView as TextView;
+
 import src.constants as constants;
 import src.Button as Button;
-import src.WoolCounter as WoolCounter;
-import src.WoolStorage as WoolStorage;
-import src.CraftStorage as CraftStorage;
 import src.CraftScreen as CraftScreen;
+import src.TextAnimation as TextAnimation;
 
 
 var textOpts = merge({opacity: 0}, constants.TEXT_OPTIONS);
+
+var SCRIPT = {
+    a1:
+    '3000|You get wool two different ways: by shearing sheep in the game, or by buying it in the store with Eweros.',
+    a2:
+    '2000|Your wool is shown here.',
+/* [arrow] */
+    b1:
+    '2000|You have wool, so you’re ready to craft!',
+/* <OK GOT IT> */
+/* [show the 20 item catalog and tabs] */
+    c1:
+    '2000|Craftable items are shown here.',
+    c2:
+    '2000|Click the tab for sweaters on the left.',
+/* [wait for click] */
+    d1:
+    '4000|Notice that some of the sweaters are gray. You don’t have enough wool to make those.',
+/* [highlight b&w sweater] */
+    e1:
+    '3000|Click the black & white sweater in the bottom corner.',
+/* [wait for click] */
+/* [large b&w sweater is shown] */
+    f1:
+    '4000|The amount of wool to craft the sweater is shown on the left and right.',
+    f2:
+    '4000|The amount of Eweros you would earn by making it is shown in the top corner.',
+    f3:
+    '2000|Click ‘Craft’ to make this item.',
+/* [wait for click] */
+/* [eweros added and wool deducted and star lights up] */
+    g1:
+    '4000|You immediately receive the Eweros and your wool is immediately deducted.',
+    g2:
+    '5000|The first time you craft something, you get a star next to it to show that you have made one of these.',
+/* <OK GOT IT> */
+    h1:
+    '6000|Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white items.',
+    h2:
+    '3000|The more wool in an item, the more it’s worth.',
+    h3:
+    '3000|The more valuable wool used in the item, the more it’s worth.',
+/* <OK GOT IT> */
+/* [static frame of the store] */
+    i1:
+    '3000|Use the Eweros you earned to buy powerful upgrades in the game!'
+};
 
 exports = Class(CraftScreen, function (supr) {
     this.init = function (opts) {
@@ -49,238 +93,93 @@ exports = Class(CraftScreen, function (supr) {
             autoFontSize: true,
             zIndex: 999
         });
+
+        this.hideButtons("store");
+        this.hideButtons("backButton");
+        this.hideButtons("backButtonLabel");
     };
 
     this.step1 = function () {
+        this.hideButtons("garment");
+        this.hideButtons("craftBuy");
+        this.hideButtons("craftStars");
+        this.hideButtons("total");
+
+        this._animateTexts(SCRIPT.a1,
+                SCRIPT.a2,
+                SCRIPT.b1,
+                SCRIPT.c1,
+                SCRIPT.d1,
+                SCRIPT.e1,
+                SCRIPT.f1,
+                SCRIPT.f2,
+                SCRIPT.f3,
+                SCRIPT.g1,
+                SCRIPT.g2,
+                SCRIPT.h1,
+                SCRIPT.h2,
+                SCRIPT.h3,
+                SCRIPT.i1);
     };
 
-    this.clipperTutorial = function () {
-        this.nextButton.removeAllListeners();
-        var moveText = new TextView(merge({
-            superview: this,
-            text: 'Drag on the left side of the screen to move the clipper.',
-        }, textOpts)),
-        fireText = new TextView(merge({
-            superview: this,
-            text: 'Tap on the right side of the screen to fire a blade.',
-        }, textOpts));
+    /// this.clipperTutorial = function () {
+    ///     this.nextButton.removeAllListeners();
+    ///     var moveText = new TextView(merge({
+    ///         superview: this,
+    ///         text: 'Drag on the left side of the screen to move the clipper.',
+    ///     }, textOpts)),
+    ///     fireText = new TextView(merge({
+    ///         superview: this,
+    ///         text: 'Tap on the right side of the screen to fire a blade.',
+    ///     }, textOpts));
 
-        animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-        animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+    ///     animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
+    ///     animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
 
-            animate(this.inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-            animate(fireText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function (){
+    ///         animate(this.inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
+    ///         animate(fireText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function (){
 
-                this.addSubview(this.nextButton);
-                this.nextButton.on('InputSelect', bind(this, function () {
-                    this.nextButton.removeFromSuperview();
-                    this.eweTutorial();
-                }));
-            }));
-        }));
+    ///             this.addSubview(this.nextButton);
+    ///             this.nextButton.on('InputSelect', bind(this, function () {
+    ///                 this.nextButton.removeFromSuperview();
+    ///                 this.eweTutorial();
+    ///             }));
+    ///         }));
+    ///     }));
+    /// };
+
+
+    this._animate = function (view, timeout) {
+        timeout = timeout ? timeout : 2000;
+        return animate(view).now({opacity: 1}, 1000).wait(timeout).then({opacity: 0}, 1000);
     };
 
-    this.eweTutorial = function () {
-        this.nextButton.removeAllListeners();
-        this.sheep.length = 0;
-        this._resetClipper();
+    this._animateTexts = function () {
+        var opts1, anim, msgs, args = Array.prototype.slice.apply(arguments);
 
-        var text = new TextView(merge({
-            superview: this,
-            text: 'Your regular clipper blade shears ewes.',
-        }, textOpts));
-        animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
-            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.eweTutorial);
+        opts1 = merge({superview: this}, textOpts);
 
-            sheep.on('sheep:sheared', bind(this, function() {
-                text = new TextView(merge({
-                    superview: this,
-                    text: 'Each ewe sheared gives you one bolt of wool.',
-                }, textOpts));
-                this._animate(text).then(bind(this, function () {
-                    var colorIdx = 1; // start with the second color because we already sent out white
-                    this.interval = setInterval(bind(this, function () {
-                        if (colorIdx >= 4) {
-                            clearInterval(this.interval);
-                        }
-
-                        var sheep = this._spawnSheep(constants.colors[colorIdx], 576/2, this.eweTutorial);
-                        if (colorIdx === 4) {
-                            sheep.on('sheep:sheared', bind(this, function () {
-                                text = new TextView(merge({
-                                    superview: this,
-                                    text: 'Ewes appear in five colors. Each ewe gives one bolt of that color.'
-                                }, textOpts));
-                                this._animate(text).then(bind(this, function () {
-                                    this.addSubview(this.nextButton);
-                                    this.nextButton.on('InputSelect', bind(this, function () {
-                                        this.nextButton.removeFromSuperview();
-                                        this.powerTutorial();
-                                    }));
-                                }));
-                            }));
-                        }
-                        colorIdx++;
-
-                    }), 1500);
-                }));
-            }));
-        }));
-    };
-
-    this.powerTutorial = function () {
-        this.nextButton.removeAllListeners();
-        this.inputBuffer.removeFromSuperview();
-        this.sheep.length = 0;
-        this._resetClipper();
-
-        var text = new TextView(merge({
-            superview: this,
-            text: 'Your clipper has five power cells. When a sheep collides with it, it loses one cell.'
-        }, textOpts));
-        this._animate(text).then(bind(this, function () {
-            var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.powerTutorial, true);
-            sheep.on('sheep:collision', bind(this, function () {
-                text = new TextView(merge({
-                    superview: this,
-                    text: 'Battery pickups appear occasionally and restore one power cell.'
-                }, textOpts));
-                this._animate(text).then(bind(this, function () {
-                    this.battery = new Battery({
-                        superview: this,
-                        x: 1024
-                    });
-                    this.battery.style.y = 576/2 - this.battery.style.height/2;
-                    this.battery.run();
-                    this.battery.on('battery:pickup', bind(this, function () {
-                        this.addSubview(this.nextButton);
-                        this.nextButton.on('InputSelect', bind(this, function () {
-                            this.nextButton.removeFromSuperview();
-                            this.addSubview(this.inputBuffer);
-                            this.ramTutorial();
-                        }));
-                    }));
-                }));
-            }));
-        }));
-    };
-
-    this.ramTutorial = function () {
-        this.nextButton.removeAllListeners();
-        this.sheep.length = 0;
-        this._resetClipper();
-
-        var text = new TextView(merge({
-            superview: this,
-            text: 'Your regular clipper blade shears ewes, but rams deflect those with their horns.'
-        }, textOpts));
-        this._animate(text).then(bind(this, function () {
-            var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.ramTutorial, true, true),
-                showText = function () {
-                    text = new TextView(merge({
-                        superview: this,
-                        text: 'Your clipper will require a diamond blade to shear rams.'
-                    }, textOpts));
-                    this._animate(text).then(bind(this, function () {
-                        this.addSubview(this.nextButton);
-                        this.nextButton.on('InputSelect', bind(this, function () {
-                            this.nextButton.removeFromSuperview();
-                            this.diamondTutorial();
-                        }));
-                    }));
-                };
-
-            ram.on('sheep:offscreen', bind(this, function () {
-                bind(this, showText)();
-                ram.removeAllListeners();
-            }));
-
-            ram.on('sheep:collision', bind(this, function () {
-                bind(this, showText)();
-                ram.removeAllListeners();
-            }));
-        }));
-    };
-
-    this.diamondTutorial = function () {
-        var text;
-        this.nextButton.removeAllListeners();
-        this.sheep.length = 0;
-        this._resetClipper();
-
-        this.diamond = new Diamond({
-            superview: this,
-            x: 1024
-        });
-        this.diamond.style.y = 576/2 - this.diamond.style.height/2;
-        this.diamond.infinite = true;
-        this.diamond.run();
-        this.diamond.on('pickup:offscreen', bind(this, function () {
-            this.tryAgain(this.diamondTutorial);
-        }));
-        this.diamond.on('diamond:pickup', bind(this, function () {
-            text = new TextView(merge({
-                superview: this,
-                text: 'Your clipper is equipped with diamond blades for five seconds. Notice the glitter effect.'
-            }, textOpts));
-            this._animate(text).then(bind(this, function () {
-                var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.diamondTutorial, false, true);
-                ram.on('sheep:sheared', bind(this, function () {
-                    text = new TextView(merge({
-                        superview: this,
-                        text: 'Each ram sheared gives you five bolts of wool.'
-                    }, textOpts));
-                    this._animate(text).then(bind(this, function () {
-                        var colorIdx = 1; // start with the second color because we already sent out white
-                        this.interval = setInterval(bind(this, function () {
-                            if (colorIdx >= 4) {
-                                clearInterval(this.interval);
-                            }
-
-                            ram = this._spawnSheep(constants.colors[colorIdx], 576/2, this.diamondTutorial, false, true);
-                            if (colorIdx === 4) {
-                                ram.on('sheep:sheared', bind(this, function () {
-                                    this.clipper.becomeRegular();
-                                    text = new TextView(merge({
-                                        superview: this,
-                                        text: 'Rams appear in five colors. Each ram gives five bolts of that color.'
-                                    }, textOpts));
-                                    this._animate(text).then(bind(this, function () {
-                                        this.addSubview(this.nextButton);
-                                        this.nextButton.on('InputSelect', bind(this, function () {
-                                            this.getSuperview().pop();
-                                        }));
-                                    }));
-                                }));
-                            }
-                            colorIdx++;
-
-                        }), 1500);
-                    }));
-                }));
-            }));
-        }));
-    };
-
-    this._animate = function (view) {
-        return animate(view).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
-    };
-
-    this.tryAgain = function (fn) {
-        if (this.interval) {
-            clearInterval(this.interval);
+        while (args.length) {
+            var tan = new TextAnimation(args.shift(), opts1);
+            var fn = tan.toClosure();
         }
-        var i = this.sheep.length;
-        while (i--) {
-            this.sheep[i].die();
-        }
-
-        var text = new TextView(merge({
-            superview: this,
-            text: 'Oops, try again',
-            opacity: 0
-        }, textOpts));
-        animate(text).now({opacity: 1}, 500).wait(1500).then({opacity:0}).then(bind(this, fn));
     };
+
+    /// this.tryAgain = function (fn) {
+    ///     if (this.interval) {
+    ///         clearInterval(this.interval);
+    ///     }
+    ///     var i = this.sheep.length;
+    ///     while (i--) {
+    ///         this.sheep[i].die();
+    ///     }
+
+    ///     var text = new TextView(merge({
+    ///         superview: this,
+    ///         text: 'Oops, try again',
+    ///         opacity: 0
+    ///     }, textOpts));
+    ///     animate(text).now({opacity: 1}, 500).wait(1500).then({opacity:0}).then(bind(this, fn));
+    /// };
 
 });

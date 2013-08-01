@@ -52,39 +52,13 @@ exports = Class(ImageView, function (supr) {
         });
 
         // load up alllll dem buttons
-        var kinds = ["garment", "craftBuy", "craftStars"];
+        var kinds = ["garment", "craftBuy", "craftStars", "total", "store", "backButton", "backButtonLabel"];
         for (kk = 0; kk < kinds.length; kk++) {
-            var k = kinds[kk], innerFactory, factory, rgns, j, i, region, btn, btnArray;
+            var k = kinds[kk], factory, rgns, btnArray;
 
             rgns = regions[k];
-            factory = bind(this, this[rgns.factory] || this.defaultButtonFactory);
-            this.buttons[k] = [];
-            if (!isArray(rgns[0])) {
-                // 1d button row/column
-                for (j = 0; j < rgns.length; j++) {
-                    this.buttons[k].push(factory(rgns[j], j));
-                }
-            } else {
-                // 2d button grid
-                for (i = 0; i < rgns.length; i++) {
-                    btnArray = [];
-                    for (j = 0; j < rgns[i].length; j++) {
-                        btnArray.push(factory(rgns[i][j], i, j));
-                    }
-                    this.buttons[k].push(btnArray);
-                }
-            }
+            this._buildButtons(rgns, k);
         }
-
-        this.totalButton = this.defaultButtonFactory(regions.total);
-
-        this.backButton = this.defaultButtonFactory(regions.backButton);
-        this.backButtonLabel = this.defaultButtonFactory(regions.backButtonLabel);
-        util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
-        util.reissue(this.backButtonLabel, 'InputSelect', this, 'craft:back');
-
-        this.store = this.defaultButtonFactory(regions.store);
-        util.reissue(this.store, 'InputSelect', this, 'craft:store');
 
         muteOpts = {
             superview: this,
@@ -109,6 +83,66 @@ exports = Class(ImageView, function (supr) {
             this._cleanUI();
         });
 
+    };
+
+    /*
+     * Search through subviews for this type of button and show it
+     */
+    this.showButtons = function _a_showButtons(kind, showFlag) {
+        var all, i, current;
+
+        if (showFlag === undefined) {
+            showFlag = true;
+        }
+
+        all = this.getSubviews();
+        i = all.length;
+        while (i--) {
+            current = all[i];
+            if (!current.getOpts) {
+                continue;
+            }
+            opts = current.getOpts();
+            if (opts.buttonKind && opts.buttonKind === kind) {
+                if (showFlag) {
+                    current.show();
+                } else {
+                    current.hide();
+                }
+            }
+        }
+    };
+
+    /*
+     * Search through subviews for this type of button and hide it
+     */
+    this.hideButtons = function _a_hideButtons(kind) {
+        return this.showButtons(kind, false);
+    }
+
+    /*
+     * Do the looping button builds.
+     */
+    this._buildButtons = function _a_buildButtons(regionSet, kind) {
+        var rgns = regionSet, k = kind;
+
+        factory = bind(this, this[rgns.factory] || this.defaultButtonFactory);
+        this.buttons[k] = [];
+        if (!isArray(rgns[0])) {
+            // 1d button row/column
+            for (j = 0; j < rgns.length; j++) {
+                this.buttons[k].push(factory(rgns[j], j));
+            }
+        } else {
+            // 2d button grid
+            for (i = 0; i < rgns.length; i++) {
+                btnArray = [];
+                for (j = 0; j < rgns[i].length; j++) {
+                    btnArray.push(factory(rgns[i][j], i, j));
+                }
+                this.buttons[k].push(btnArray);
+            }
+        }
     };
 
     /*
@@ -187,17 +221,36 @@ exports = Class(ImageView, function (supr) {
     };
 
     // creates a button on one of the regions defined at the bottom
-    this.defaultButtonFactory = function _a_defaultButtonFactory(region) {
+    this.defaultButtonFactory = function _a_defaultButtonFactory(region, kind) {
         var commonOpts, opts, btn;
-        commonOpts = {superview: this, click: false};
+        commonOpts = {superview: this, click: false, buttonKind: kind};
         opts = merge(merge({}, commonOpts), region);
         btn = new Button(opts);
         return btn;
     };
 
+    this.totalFactory = function _a_totalFactory(region) {
+        this.totalButton = this.defaultButtonFactory(region, 'total');
+    };
+
+    this.backButtonFactory = function _a_backButtonFactory(region) {
+        this.backButton = this.defaultButtonFactory(region, 'backButton');
+        util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
+    };
+
+    this.backButtonLabelFactory = function _a_backButtonLabelFactory(region) {
+        this.backButtonLabel = this.defaultButtonFactory(region, 'backButtonLabel');
+        util.reissue(this.backButtonLabel, 'InputSelect', this, 'craft:back');
+    };
+
+    this.storeFactory = function _a_storeFactory(region) {
+        this.store = this.defaultButtonFactory(region, 'store');
+        util.reissue(this.store, 'InputSelect', this, 'craft:store');
+    };
+
     // garment nav buttons
     this.garmentFactory = function _a_garmentFactory(region) {
-        var btn = this.defaultButtonFactory(region);
+        var btn = this.defaultButtonFactory(region, 'garment');
         btn.updateOpts({click: true});
         btn.on('InputSelect', function _a_onInputSelectGarment() {
             this.getSuperview().setGarment(this.getOpts().item);
@@ -240,7 +293,7 @@ exports = Class(ImageView, function (supr) {
     // buy garment buttons
     this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
         var me = this, btn;
-        btn = this.defaultButtonFactory(region);
+        btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({anchorX: btn.getOpts().width / 2,
             anchorY: 8,
             click: false}); // these have their own noise
@@ -259,7 +312,7 @@ exports = Class(ImageView, function (supr) {
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
         var me = this.btn;
         region.image = 'resources/images/craft-star.png';
-        btn = this.defaultButtonFactory(region);
+        btn = this.defaultButtonFactory(region, 'craftStars');
 
         this.animateStar(btn);
 
@@ -421,12 +474,24 @@ craftStars: [
             {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW}, x: 542, y: 389, width: 30, height: 60}
         ]
     ],
-total: {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'},
-store: {x: 143, y: 496, width: 180, height: 80},
-backButton: {x: 0, y: 0, width: 80, height: 80},
-backButtonLabel: {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
+total: [
+    {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'}
+],
+store: [
+    {x: 143, y: 496, width: 180, height: 80}
+],
+backButton: [
+    {x: 0, y: 0, width: 80, height: 80}
+],
+backButtonLabel: [
+    {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
+]
 }
 
 regions.garment.factory = 'garmentFactory';
 regions.craftBuy.factory = 'craftBuyFactory';
 regions.craftStars.factory = 'craftStarsFactory';
+regions.total.factory = 'totalFactory';
+regions.store.factory = 'storeFactory';
+regions.backButton.factory = 'backButtonFactory';
+regions.backButtonLabel.factory = 'backButtonLabelFactory';
