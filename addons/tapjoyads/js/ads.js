@@ -6,12 +6,6 @@
  *      ads.showAd()  - display a fullscreen ad (non-blocking)
  */
 
-try {
-    NATIVE;
-} catch (e) {
-    NATIVE = undefined;
-}
-    
 
 var TapjoyAds = Class(function () {
     this._initNATIVE = function _a_init() {
