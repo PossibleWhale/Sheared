@@ -5,6 +5,7 @@ import plugins.tapjoyads.ads as ads;
 
 import src.constants as c;
 import src.debughack as dh;
+import src.UpgradeStorage as UpgradeStorage;
 
 
 AdTimer = Class(event.Emitter, function (supr) {
@@ -67,7 +68,8 @@ AdTimer = Class(event.Emitter, function (supr) {
     };
 
 
-    if ("TODO CHECK DATABASE TO SEE IF WE CAN TURN OFF ADS") {
+    var storage = new UpgradeStorage();
+    if (!storage.get('adFree').value) {
         this.interrupt = this._interruptNormal;
     } else {
         this.interrupt = this._interruptNoAds;
