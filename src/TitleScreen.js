@@ -15,6 +15,7 @@ import src.CreditsScreen as CreditsScreen;
 import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.StoreScreen as StoreScreen;
 import src.StatScreen as StatScreen;
+import src.AwardsScreen as AwardsScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
@@ -41,7 +42,8 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
-            playScreen, modeScreen, stackView, creditsScreen, credOpts, tutorialScreen, storeScreen, statScreen;
+            playScreen, modeScreen, stackView, creditsScreen,
+            credOpts, tutorialScreen, storeScreen, statScreen, awardsScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
@@ -49,6 +51,7 @@ exports = Class(ImageView, function (supr) {
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
+        awardsScreen = new AwardsScreen();
 
         stackView = this.stackView = this.getSuperview();
 
@@ -127,8 +130,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-awards.png'
         });
         awardsButton.on('InputSelect', function () {
-            // TODO
-            console.log('show awards screen');
+            _goToView(awardsScreen);
         });
 
         var storeButton = new ImageView({
@@ -210,6 +212,7 @@ exports = Class(ImageView, function (supr) {
         craftScreen.on('craft:back', bind(this, this.back));
         creditsScreen.on('credits:back', bind(this, this.back));
         statScreen.on('stats:back', bind(this, this.back));
+        awardsScreen.on('awards:back', bind(this, this.back));
 
         craftScreen.on('craft:store', function () {
             _goToView(storeScreen);

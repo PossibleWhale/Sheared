@@ -61,18 +61,6 @@ exports = Class(ImageView, function (supr) {
             zIndex: 1000 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
-        this.pauseButton = new ImageView({
-            superview: this,
-            x: 0,
-            y: 0,
-            zIndex: 1000,
-            width: 80,
-            height: 80,
-            image: 'resources/images/button-pause.png'
-        });
-        this.pauseButton.on('InputSelect', bind(this, function () {
-            this.togglePaused();
-        }));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -361,7 +349,22 @@ exports = Class(ImageView, function (supr) {
 
 function playGame () {
     this.paused = false;
-    this.addSubview(this.pauseButton);
+    if (this.pauseButton) {
+        this.addSubview(this.pauseButton);
+    } else {
+        this.pauseButton = new ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            zIndex: 1000,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-pause.png'
+        });
+        this.pauseButton.on('InputSelect', bind(this, function () {
+            this.togglePaused();
+        }));
+    }
 
     var mult = GC.app.player.upgrades.get('temp_mult').value;
     if (mult >= 5 || mult === 'max') {
