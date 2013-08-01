@@ -29,6 +29,12 @@ var Hax = function () {
         }
     };
 
+    this.pre_purchase = function () {
+        if (GC.app.localConfig.debug) {
+            GC.app.player._buy = function () {};
+        }
+    };
+
     /*
      * add some wool to test crafting
      */
