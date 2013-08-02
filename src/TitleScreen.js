@@ -285,6 +285,7 @@ exports = Class(ImageView, function (supr) {
          * reset the play screen so we can play again
          */
         this.on('playscreen:end', bind(this, function () {
+            this.stackView.remove(playScreen);
             delete playScreen;
             playScreen = new PlayScreen();
             _startCrafting();
