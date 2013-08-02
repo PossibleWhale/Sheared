@@ -80,6 +80,14 @@ exports = Class(ImageView, function (supr) {
     this.togglePaused = function () {
         this.paused = !this.paused;
         if (this.paused) {
+            this.pauseText = new Button({
+                superview: this,
+                x: 1024,
+                y: 576/2 - 100,
+                width: 500,
+                height: 200,
+                text: 'Paused'
+            });
             this.timer.stop();
             this.clipper.pauseCountdown();
             if (this.interval) {
@@ -96,21 +104,25 @@ exports = Class(ImageView, function (supr) {
                 this.diamond.animator.pause();
             }
             this.removeSubview(this.inputBuffer);
+            animate(this.pauseText).now({x: 1024/2 - 250}, 400);
         } else {
-            this.timer.run();
-            this.clipper.startCountdown();
-            this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
-            var i = this.sheep.length;
-            while (i--) {
-                this.sheep[i].animator.resume();
-            }
-            if (this.battery) {
-                this.battery.animator.resume();
-            }
-            if (this.diamond) {
-                this.diamond.animator.resume();
-            }
-            this.addSubview(this.inputBuffer);
+            animate(this.pauseText).now({x: 0 - 500}, 400).then(bind(this, function () {
+                this.timer.run();
+                this.clipper.startCountdown();
+                this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
+                var i = this.sheep.length;
+                while (i--) {
+                    this.sheep[i].animator.resume();
+                }
+                if (this.battery) {
+                    this.battery.animator.resume();
+                }
+                if (this.diamond) {
+                    this.diamond.animator.resume();
+                }
+                this.addSubview(this.inputBuffer);
+                this.removeSubview(this.pauseText);
+            }));
         }
     };
 
@@ -274,12 +286,23 @@ exports = Class(ImageView, function (supr) {
                 y: 248,
                 width: 200,
                 height: 80
+            }),
+            homeButton = new ImageView({
+                superview: resultsScreen,
+                x: 0,
+                y: 0,
+                width: 80,
+                height: 80,
+                image: 'resources/images/button-home.png'
             });
             storeButton.on('InputSelect', bind(this, function () {
                 this.emit('playscreen:store');
             }));
             craftButton.on('InputSelect', bind(this, function () {
                 this.emit('playscreen:craft');
+            }));
+            homeButton.on('InputSelect', bind(this, function () {
+                this.emit('playscreen:home');
             }));
             for (i = 0; i < constants.colors.length; i++) {
                 woolCounts.push(new TextView(merge({

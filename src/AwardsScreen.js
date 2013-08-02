@@ -131,11 +131,13 @@ exports = Class(ImageView, function (supr) {
             this.emit('awards:back');
         }));
 
+        /*
         this._buildEwesTab();
         this._buildRamsTab();
         this._buildWoolTab();
         this._buildCraftsTab();
         this._buildMiscTab();
+        */
     };
 
     this._buildEwesTab = function () {
