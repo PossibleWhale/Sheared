@@ -1,33 +1,36 @@
 import animate;
 import ui.TextView as TextView;
-import ui.View as View;
+import ui.ImageView as ImageView;
 import src.constants as constants;
 import src.Button as Button;
 import src.util as util;
 
 var instances = [];
 
-exports = Class(View, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            x: 1024/2 - 250,
+            x: 1024/2 - 210,
             y: 576,
-            width: 500,
-            height: 300,
-            backgroundColor: '#333333',
+            zIndex: 99,
+            width: 420,
+            height: 320
         });
 
         supr(this, 'init', [opts]);
 
         this.text = opts.text || 'Do you wish to continue?';
-        this.showCancelButton = opts.showCancelButton !== undefined ? opts.showCancelButton : true;
-        this.cancelText = opts.cancelText || 'Cancel';
-        this.confirmText = opts.confirmText || 'OK';
+        if (opts.confirmText) {
+            this.setImage('resources/images/modal-close-ok.png');
+            this.confirmText = opts.confirmText;
+        } else {
+            this.setImage('resources/images/modal-close-title.png');
+        }
         this.confirmFn = function () {
             if (opts.confirmFn) {
                 opts.confirmFn();
             }
-            animate(this).now({y: -300}, 400).then(bind(this, function () {
+            animate(this).now({y: -320}, 400).then(bind(this, function () {
                 instances.pop();
                 this.removeFromSuperview();
             }));
@@ -48,34 +51,41 @@ exports = Class(View, function (supr) {
 
     this.build = function () {
         this.addSubview(new TextView(merge({
-            x: 0,
-            y: 0,
-            width: 500,
-            height: 250,
+            x: 40,
+            y: 40,
+            width: 340,
+            height: 195,
             text: this.text
         }, constants.TEXT_OPTIONS)));
 
         this.confirmButton = new Button({
             superview: this,
-            x: 250,
-            y: 250,
-            width: 250,
-            height: 50,
-            text: this.confirmText
+            x: 352,
+            y: 253,
+            zIndex: 99,
+            width: 30,
+            height: 30
         });
         this.confirmButton.on('InputSelect', bind(this, this.confirmFn));
 
-        if (this.showCancelButton) {
-            this.cancelButton = new Button({
-                superview: this,
-                x: 0,
-                y: 250,
-                width: 250,
-                height: 50,
-                text: this.cancelText
-            });
-            this.cancelButton.on('InputSelect', bind(this, this.cancelFn));
-        }
+        this.addSubview(new Button({
+            x: 37,
+            y: 253,
+            width: 310,
+            height: 30,
+            text: this.confirmText,
+            horizontalAlign: 'right'
+        }));
+
+        this.cancelButton = new Button({
+            superview: this,
+            x: 385,
+            y: 5,
+            zIndex: 99,
+            width: 30,
+            height: 30
+        });
+        this.cancelButton.on('InputSelect', bind(this, this.cancelFn));
     };
 
     this.show = function () {
@@ -84,6 +94,6 @@ exports = Class(View, function (supr) {
             delete this;
             return;
         }
-        animate(this).now({y: 576/2 - 150}, 400);
+        animate(this).now({y: 576/2 - 160}, 400);
     };
 });

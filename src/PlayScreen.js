@@ -61,18 +61,6 @@ exports = Class(ImageView, function (supr) {
             zIndex: 1000 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
-        this.pauseButton = new ImageView({
-            superview: this,
-            x: 0,
-            y: 0,
-            zIndex: 1000,
-            width: 80,
-            height: 80,
-            image: 'resources/images/button-pause.png'
-        });
-        this.pauseButton.on('InputSelect', bind(this, function () {
-            this.togglePaused();
-        }));
 
         // for playtesting purposes..
         if (device.name === 'browser') {
@@ -270,25 +258,35 @@ exports = Class(ImageView, function (supr) {
                 x: 392,
                 y: 418,
                 width: 240,
-                height: 54
+                height: 54,
+                text: 'Continue'
             }),
-            craftButton = new ImageView({
+            storeButton = new Button({
                 superview: resultsScreen,
-                x: 0,
-                y: 84,
-                width: 80,
-                height: 80,
-                image: 'resources/images/button-craft.png'
+                x: 27,
+                y: 248,
+                width: 200,
+                height: 80
+            }),
+            craftButton = new Button({
+                superview: resultsScreen,
+                x: 797,
+                y: 248,
+                width: 200,
+                height: 80
             });
+            storeButton.on('InputSelect', bind(this, function () {
+                this.emit('playscreen:store');
+            }));
             craftButton.on('InputSelect', bind(this, function () {
                 this.emit('playscreen:craft');
             }));
             for (i = 0; i < constants.colors.length; i++) {
                 woolCounts.push(new TextView(merge({
-                    x: 72 + 196*i,
-                    y: 337,
-                    width: 96,
-                    height: 48,
+                    x: 252 + 110*i,
+                    y: 343,
+                    width: 80,
+                    height: 40,
                     text: '0',
                     size: 128,
                     autoFontSize: true,
@@ -302,12 +300,13 @@ exports = Class(ImageView, function (supr) {
                     var count = parseInt(this.getText(), 10);
                     // if we're finished counting up, clear interval and show a burst of wool
                     if (count === this.maxCount) {
+                        var numParticles = this.maxCount <= 25 ? this.maxCount : 25;
                         clearInterval(this.interval);
-                        emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, this.maxCount, this.woolColor);
+                        emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, numParticles, this.woolColor);
                         return;
                     }
                     this.setText('' + (count + 1));
-                }), 100);
+                }), 50);
             }
         } else {
             resultsScreen = new TextView(merge({
@@ -350,7 +349,22 @@ exports = Class(ImageView, function (supr) {
 
 function playGame () {
     this.paused = false;
-    this.addSubview(this.pauseButton);
+    if (this.pauseButton) {
+        this.addSubview(this.pauseButton);
+    } else {
+        this.pauseButton = new ImageView({
+            superview: this,
+            x: 0,
+            y: 0,
+            zIndex: 1000,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-pause.png'
+        });
+        this.pauseButton.on('InputSelect', bind(this, function () {
+            this.togglePaused();
+        }));
+    }
 
     var mult = GC.app.player.upgrades.get('temp_mult').value;
     if (mult >= 5 || mult === 'max') {
