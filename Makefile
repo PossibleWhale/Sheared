@@ -18,7 +18,7 @@ ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFES
 
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
-PLUGINS_DIR =       sdk/plugins/
+PLUGINS_DIR =       sdk/plugins
 PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/tapjoyads/ads.js
 
 
@@ -58,6 +58,7 @@ clean:
 	basil clean
 	rm -vf $(APK)
 	rm -vf manifest.json
+	rm -vf $(GC_DIR)/addons/tapjoyads
 
 localconfig: $(LOCALCONFIG)
 
