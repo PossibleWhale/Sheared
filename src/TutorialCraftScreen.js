@@ -6,11 +6,11 @@ import src.CraftScreen as CraftScreen;
 import src.TextAnimation as TextAnimation;
 
 
-var textOpts = merge({opacity: 0}, constants.TEXT_OPTIONS);
+var textOpts = constants.TEXT_OPTIONS;
 
 var SCRIPT = {
     a1:
-    '3000|You get wool two different ways: by shearing sheep in the game, or by buying it in the store with Eweros.',
+    '3000|Get wool two different ways: shear sheep in the game, or by buy it in the store with Eweros.',
     a2:
     '2000|Your wool is shown here.',
 /* [arrow] */
@@ -24,7 +24,7 @@ var SCRIPT = {
     '2000|Click the tab for sweaters on the left.',
 /* [wait for click] */
     d1:
-    '4000|Notice that some of the sweaters are gray. You don’t have enough wool to make those.',
+    '4000|Some of the sweaters are gray. You don’t have enough wool to make those.',
 /* [highlight b&w sweater] */
     e1:
     '3000|Click the black & white sweater in the bottom corner.',
@@ -41,10 +41,10 @@ var SCRIPT = {
     g1:
     '4000|You immediately receive the Eweros and your wool is immediately deducted.',
     g2:
-    '5000|The first time you craft something, you get a star next to it to show that you have made one of these.',
+    '5000|Once you craft at least one of something, you get a star next to it.',
 /* <OK GOT IT> */
     h1:
-    '6000|Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white items.',
+    '6000|Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white.',
     h2:
     '3000|The more wool in an item, the more it’s worth.',
     h3:
@@ -52,7 +52,7 @@ var SCRIPT = {
 /* <OK GOT IT> */
 /* [static frame of the store] */
     i1:
-    '3000|Use the Eweros you earned to buy powerful upgrades in the game!'
+    '3000|Use the Eweros you earn to buy powerful upgrades in the game!'
 };
 
 exports = Class(CraftScreen, function (supr) {
@@ -154,14 +154,21 @@ exports = Class(CraftScreen, function (supr) {
     };
 
     this._animateTexts = function () {
-        var opts1, anim, msgs, args = Array.prototype.slice.apply(arguments);
+        var tan, opts1, args = Array.prototype.slice.apply(arguments);
 
         opts1 = merge({superview: this}, textOpts);
 
-        while (args.length) {
-            var tan = new TextAnimation(args.shift(), opts1);
-            var fn = tan.toClosure();
-        }
+        _r = function _a_r(items) {
+            if (!items.length) {
+                return;
+            }
+            textItem = items.shift();
+            tan = new TextAnimation(textItem, opts1);
+            tan.animate().then(bind(this, _r, items));
+        };
+
+        _r(args);
+
     };
 
     /// this.tryAgain = function (fn) {

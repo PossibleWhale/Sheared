@@ -499,7 +499,7 @@ exports = Class(ImageView, function (supr) {
         } else {
             this.priceDisplays.temporary.diamond.setText(constants.UPGRADE_PRICES.temp_diamond);
         }
-        
+
         // price displays for permanent upgrades
         this.priceDisplays.permanent.power.setText(
             constants.UPGRADE_PRICES.perm_power[upgradeLevels.permanent.power-1] ||

@@ -22,7 +22,7 @@ exports = Class(Emitter, function Player(supr) {
         this.addWool = bind(this.wool, this.wool.addWool);
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);
- 
+
         this.setUpgrades();
 
         // add all the wool from another inventory to this one
@@ -34,7 +34,7 @@ exports = Class(Emitter, function Player(supr) {
                                 this.upgrades.get('perm_power').value));
         this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
                                 this.upgrades.get('perm_mult').value);
-        this.diamondBlade = this.upgrades.get('temp_diamond').value || 
+        this.diamondBlade = this.upgrades.get('temp_diamond').value ||
                                 this.upgrades.get('perm_diamond').value;
     };
 
