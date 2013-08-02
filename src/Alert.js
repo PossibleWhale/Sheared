@@ -12,6 +12,7 @@ exports = Class(ImageView, function (supr) {
         opts = merge(opts, {
             x: 1024/2 - 210,
             y: 576,
+            zIndex: 99,
             width: 420,
             height: 320
         });
