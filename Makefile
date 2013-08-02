@@ -32,7 +32,7 @@ $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
 $(PLUGINS_DIR)/tapjoyads/ads.js:
-	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons
+	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
 
 tapjoysecretkey.txt:
 	# ~/Dropbox/.../tapjoysecretkey.txt is not a dependency of this rule,
