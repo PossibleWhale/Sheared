@@ -257,6 +257,10 @@ exports = Class(ImageView, function (supr) {
             _goToView(storeScreen);
         }));
 
+        playScreen.on('playscreen:home', bind(this, function () {
+            this.back();
+        }));
+
         playScreen.on('playscreen:gameover', function () {
             storeScreen.updateProgressBars();
             storeScreen.updatePriceDisplays();
