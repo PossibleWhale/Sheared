@@ -8,6 +8,7 @@
 
 import ui.View;
 import ui.ImageView as ImageView;
+import animate;
 
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
@@ -58,7 +59,7 @@ exports = Class(ImageView, function (supr) {
         stackView = this.stackView = this.getSuperview();
 
         // TODO animate the logo in some cutesy way
-        var shearedLogo = new ImageView({
+        this.shearedLogo = new ImageView({
             superview: this,
             x: 87,
             y: 133,
@@ -165,11 +166,19 @@ exports = Class(ImageView, function (supr) {
             y: 346,
             width: 154,
             height: 82,
+            anchorX: 154/2,
+            anchorY: 82/2,
             image: 'resources/images/button-play.png'
         });
         playButton.on('InputSelect', function () {
             _goToView(playScreen);
         });
+        var animateButton = function () {
+            animate(playButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
+            .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
+            .then(animateButton.bind(this));
+        };
+        animateButton();
 
         var tutorialButton = new ImageView({
             superview: this,
