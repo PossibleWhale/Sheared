@@ -52,7 +52,7 @@ exports = Class(ImageView, function (supr) {
         });
 
         // load up alllll dem buttons
-        var kinds = ["garment", "craftBuy", "craftStars", "total", "store", "backButton", "backButtonLabel"];
+        var kinds = ["garment", "craftBuy", "craftStars", "total", "store", "backButton"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, rgns, btnArray;
 
@@ -236,11 +236,6 @@ exports = Class(ImageView, function (supr) {
     this.backButtonFactory = function _a_backButtonFactory(region) {
         this.backButton = this.defaultButtonFactory(region, 'backButton');
         util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
-    };
-
-    this.backButtonLabelFactory = function _a_backButtonLabelFactory(region) {
-        this.backButtonLabel = this.defaultButtonFactory(region, 'backButtonLabel');
-        util.reissue(this.backButtonLabel, 'InputSelect', this, 'craft:back');
     };
 
     this.storeFactory = function _a_storeFactory(region) {
@@ -482,9 +477,6 @@ store: [
 ],
 backButton: [
     {x: 0, y: 0, width: 80, height: 80}
-],
-backButtonLabel: [
-    {x: 80, y: 15, width: 150, height: 50, text: 'Return'}
 ]
 }
 
@@ -494,4 +486,3 @@ regions.craftStars.factory = 'craftStarsFactory';
 regions.total.factory = 'totalFactory';
 regions.store.factory = 'storeFactory';
 regions.backButton.factory = 'backButtonFactory';
-regions.backButtonLabel.factory = 'backButtonLabelFactory';

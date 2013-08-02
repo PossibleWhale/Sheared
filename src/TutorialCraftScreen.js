@@ -96,7 +96,6 @@ exports = Class(CraftScreen, function (supr) {
 
         this.hideButtons("store");
         this.hideButtons("backButton");
-        this.hideButtons("backButtonLabel");
     };
 
     this.step1 = function () {
