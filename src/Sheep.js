@@ -108,7 +108,6 @@ exports = Class(View, function (supr) {
         this.image.setImage(image);
     };
 
-    // TODO make this not freeze the app..
     this.continuousAnimate = function () {
         animate(this.image).clear().now({r: -1*constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
             .then({r: constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
