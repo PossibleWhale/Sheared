@@ -14,12 +14,12 @@ ADDON_FILES =       $(wildcard addons/*/android/*.java) $(wildcard addons/*/andr
 CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
-ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES)
-
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 PLUGINS_DIR =       sdk/plugins
 PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/tapjoyads/ads.js
+
+ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
 
 all: manifest.json register $(PLUGINS) $(APK)
