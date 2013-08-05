@@ -26,9 +26,9 @@ exports = Class(ImageView, function (supr) {
 
         this.buyButton = new Button({x: 149, y: 283, width: 96, height: 37,
             superview: this});
-        this.mainWoolCost = new Button({x: 29, y: 135, width: 55, height: 55,
+        this.mainWoolCost = new Button({x: 32, y: 134, width: 46, height: 46,
             superview: this});
-        this.contrastWoolCost = new Button({x: 309, y: 135, width: 55, height: 55,
+        this.contrastWoolCost = new Button({x: 312, y: 134, width: 46, height: 46,
             superview: this});
         this.value = new Button({x: 305, y: 0, width: 76, height: 48,
             superview: this});
@@ -44,7 +44,7 @@ exports = Class(ImageView, function (supr) {
      * pass in {x: .., y: .., superview: .., enabled: true|false}
      */
     this.show = function (opts) {
-        var enabled = opts.enabled;
+        var costs, enabled = opts.enabled;
         delete opts.enabled;
         if (enabled) {
             this.setImage('resources/images/' +
@@ -54,6 +54,9 @@ exports = Class(ImageView, function (supr) {
         } else {
             this.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
         }
+        costs = this.cost();
+        this.mainWoolCost.setText(costs[0].amount);
+        this.contrastWoolCost.setText(costs[1].amount);
         this.updateOpts(opts);
     };
 
