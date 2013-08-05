@@ -24,6 +24,20 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function() {
+        billing.onPurchase = bind(this, function (item) {
+            var name, index, split;
+            split = item.split('_');
+            name = split[0];
+            index = parseInt(split[1]);
+
+            if (name === 'coins') {
+                GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
+                this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
+            } else if (item === 'adFree') {
+                GC.app.player.upgrades.add('adFree', true);
+            }
+        });
+
         this.coinsLabel = new Button({
             superview: this,
             x: 432,
@@ -54,6 +68,13 @@ exports = Class(ImageView, function (supr) {
                 width: 1024,
                 height: 416,
                 image: 'resources/images/store-eweros.png'
+            }),
+            ads: new ImageView({
+                x: 0,
+                y: 80,
+                width: 1024,
+                height: 416,
+                image: 'resources/images/store-remove-ads.png'
             })
         };
         this.currentTab = this.tabs.upgrades;
@@ -125,31 +146,22 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('eweros');
         }));
 
+        var adsTab = new Button({
+            superview: this,
+            x: 33,
+            y: 327,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        adsTab.on('InputSelect', bind(this, function () {
+            this.switchTab('ads');
+        }));
+
         this._buildUpgradeTab();
         this._buildWoolTab();
         this._buildEwerosTab();
-
-        /* TODO add this in when we are ready for in-app purchases
-        this.addCoinsButton = new Button({
-            superview: this,
-            x: 1024/2 - 200,
-            y: 576/2 - 100,
-            width: 400,
-            height: 200,
-            text: 'Click to buy 1000 coins',
-            backgroundColor: '#999999'
-        });
-
-        this.addCoinsButton.on('InputSelect', function () {
-            billing.purchase('coins');
-        });
-
-        billing.onPurchase = function (item) {
-            if (item === 'coins') {
-                GC.app.player.addCoins(1000);
-            }
-        };
-        */
+        this._buildAdsTab();
     };
 
     this._buildUpgradeTab = function () {
@@ -359,19 +371,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._buildEwerosTab = function () {
-        billing.onPurchase = bind(this, function (item) {
-            var name, index, split;
-            split = item.split('_');
-            name = split[0];
-            index = parseInt(split[1]);
-
-            if (name === 'coins') {
-                GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
-                GC.app.player.upgrades.add('adFree', true);
-                this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
-            }
-        });
-
         var _registerClick = bind(this, function (view, index) {
             view.on('InputSelect', function () {
                 billing.purchase('coins_' + index);
@@ -406,6 +405,19 @@ exports = Class(ImageView, function (supr) {
                 text: '$' + constants.EWEROS_PRICES[i]
             }));
         }
+    };
+
+    this._buildAdsTab = function () {
+        var button = new Button({
+            superview: this.tabs.ads,
+            x: 505,
+            y: 115,
+            width: 150,
+            height: 148
+        });
+        button.on('InputSelect', function () {
+            billing.purchase('adFree');
+        });
     };
 
     this.switchTab = function (key) {
