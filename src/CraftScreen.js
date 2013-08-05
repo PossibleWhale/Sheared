@@ -473,7 +473,7 @@ total: [
     {y: 486, x: 432, width: 160, height: 80, text: '0'}
 ],
 store: [
-    {x: 143, y: 496, width: 180, height: 80}
+    {x: 143, y: 496, width: 180, height: 80, image: 'resources/images/button-general-store.png'}
 ],
 backButton: [
     {x: 0, y: 0, width: 80, height: 80, image: 'resources/images/button-return.png'}
