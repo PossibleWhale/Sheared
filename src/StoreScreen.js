@@ -77,12 +77,13 @@ exports = Class(ImageView, function (supr) {
             this.emit('store:back');
         }));
 
-        craftButton = new Button({
+        craftButton = new ImageView({
             superview: this,
             x: 133,
             y: 496,
             width: 200,
-            height: 80
+            height: 80,
+            image: 'resources/images/button-crafts-catalog.png'
         });
         craftButton.on('InputSelect', bind(this, function () {
             this.emit('store:craft');
