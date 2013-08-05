@@ -260,15 +260,15 @@ exports = Class(ImageView, function (supr) {
             _startCrafting();
         }));
 
-        playScreen.on('playscreen:craft', bind(this, function () {
+        this.on('playscreen:craft', bind(this, function () {
             _startCrafting();
         }));
 
-        playScreen.on('playscreen:store', bind(this, function () {
+        this.on('playscreen:store', bind(this, function () {
             _goToView(storeScreen);
         }));
 
-        playScreen.on('playscreen:home', bind(this, function () {
+        this.on('playscreen:home', bind(this, function () {
             this.back();
         }));
 
@@ -281,14 +281,11 @@ exports = Class(ImageView, function (supr) {
             GC.app.player.setUpgrades();
         });
 
-        /* When the game screen has signalled that the game is over,
-         * reset the play screen so we can play again
-         */
-        this.on('playscreen:end', bind(this, function () {
+        this.on('playscreen:restart', bind(this, function () {
             this.stackView.remove(playScreen);
             delete playScreen;
             playScreen = new PlayScreen();
-            _startCrafting();
+            this.stackView.push(playScreen);
         }));
 
         this.on('ViewWillAppear', bind(this, function () {

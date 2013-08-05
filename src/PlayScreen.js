@@ -1,5 +1,6 @@
 import device;
 import animate;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 
@@ -295,15 +296,6 @@ exports = Class(ImageView, function (supr) {
                 height: 80,
                 image: 'resources/images/button-home.png'
             });
-            storeButton.on('InputSelect', bind(this, function () {
-                this.emit('playscreen:store');
-            }));
-            craftButton.on('InputSelect', bind(this, function () {
-                this.emit('playscreen:craft');
-            }));
-            homeButton.on('InputSelect', bind(this, function () {
-                this.emit('playscreen:home');
-            }));
             for (i = 0; i < constants.colors.length; i++) {
                 woolCounts.push(new TextView(merge({
                     x: 252 + 110*i,
@@ -331,42 +323,80 @@ exports = Class(ImageView, function (supr) {
                     this.setText('' + (count + 1));
                 }), 50);
             }
+            resultsScreen.addSubview(continueButton);
+            continueButton.on('InputSelect', bind(this, function (evt) {
+                animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
+                    resultsScreen.removeFromSuperview();
+                    this.day += 1;
+                    this.beginDay();
+                }));
+            }));
         } else {
-            resultsScreen = new TextView(merge({
+            resultsScreen = new View({
                 x: 1024,
                 y: 0,
                 width: 1024,
-                height: 576,
-                opacity: 1,
-                size: 72,
-                strokeWidth: 8,
-                text: 'Clipper out of power!'
-            }, constants.TEXT_OPTIONS));
-            continueButton = new TextView(merge({
-                x: 392,
-                y: 418,
+                height: 576
+            }),
+            storeButton = new ImageView({
+                superview: resultsScreen,
+                x: 27,
+                y: 248,
+                width: 200,
+                height: 80,
+                image: 'resources/images/button-general-store.png'
+            }),
+            gameOverLabel = new Button({
+                superview: resultsScreen,
+                x: 247,
+                y: 243,
+                width: 530,
+                height: 90,
+                text: 'Game Over'
+            }),
+            restartButton = new Button({
+                superview: resultsScreen,
+                x: 395,
+                y: 346,
                 width: 240,
                 height: 54,
-                opacity: 1,
-                text: 'Let\'s craft!'
-            }, constants.TEXT_OPTIONS));
+                text: 'Restart'
+            }),
+            homeButton = new Button({
+                superview: resultsScreen,
+                x: 392,
+                y: 413,
+                width: 240,
+                height: 54,
+                text: 'Return to Main Menu'
+            }),
+            craftButton = new ImageView({
+                superview: resultsScreen,
+                x: 797,
+                y: 248,
+                width: 200,
+                height: 80,
+                image: 'resources/images/button-crafts-catalog.png'
+            });
+
+            restartButton.on('InputSelect', bind(this, function () {
+                GC.app.titleScreen.emit('playscreen:restart');
+            }));
         }
 
-        resultsScreen.addSubview(continueButton);
+        storeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:store');
+        }));
+        craftButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:craft');
+        }));
+        homeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:home');
+        }));
+
         this.addSubview(resultsScreen);
         animate(resultsScreen).now({x: 0});
 
-        continueButton.on('InputSelect', bind(this, function (evt) {
-            animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
-                resultsScreen.removeFromSuperview();
-                this.day += 1;
-                if (!finishedDay) {
-                    GC.app.titleScreen.emit('playscreen:end');
-                } else if (finishedDay) {
-                    this.beginDay();
-                }
-            }));
-        }));
     }
 });
 
