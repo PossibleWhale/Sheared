@@ -354,7 +354,7 @@ exports = Class(ImageView, function (supr) {
         // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
         // -- it sometimes appears negative, most likely due to floating
         // point error.
-        this.totalButton.setText('' + this.total /* + 0.0001).toFixed(2) */ + ' Eweros');
+        this.totalButton.setText('' + this.total /* + 0.0001).toFixed(2) */);
     };
 
     /*
@@ -470,13 +470,13 @@ craftStars: [
         ]
     ],
 total: [
-    {y: 521, x: 452, width: 120, height: 26, text: '0 Eweros'}
+    {y: 486, x: 432, width: 160, height: 80, text: '0'}
 ],
 store: [
-    {x: 143, y: 496, width: 180, height: 80}
+    {x: 143, y: 496, width: 180, height: 80, image: 'resources/images/button-general-store.png'}
 ],
 backButton: [
-    {x: 0, y: 0, width: 80, height: 80}
+    {x: 0, y: 0, width: 80, height: 80, image: 'resources/images/button-return.png'}
 ]
 }
 
