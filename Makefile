@@ -89,7 +89,13 @@ $(LOCALCONFIG):
 	cat > $(LOCALCONFIG) <<< '{ "debug": true }'
 
 install: $(APK)
-	adb shell pm uninstall -k $(APP_DOMAIN)
+	# If you do shell pm uninstall, it's impossible to uninstall "cleanly"
+	# (through the OS), which is the only way to install a build with a
+	# different signing key. Very annoying during development... recommend we
+	# not do this.
+	#
+	# adb shell pm uninstall -k $(APP_DOMAIN)
+	#
 	adb install -r $(APK)
 
 clear-data:

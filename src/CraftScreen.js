@@ -201,7 +201,7 @@ exports = Class(ImageView, function (supr) {
             if (player.crafts.get(currentCraft).count >= 1) {
                 star.setImage(starImage);
             } else {
-                star.setImage(null);
+                star.updateOpts({image: false});
             }
         }));
     };
@@ -306,7 +306,6 @@ exports = Class(ImageView, function (supr) {
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
         var me = this.btn;
-        region.image = 'resources/images/craft-star.png';
         btn = this.defaultButtonFactory(region, 'craftStars');
 
         this.animateStar(btn);
