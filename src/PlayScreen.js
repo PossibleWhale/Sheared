@@ -348,16 +348,16 @@ exports = Class(ImageView, function (supr) {
             }),
             restartButton = new Button({
                 superview: resultsScreen,
-                x: 252,
-                y: 413,
+                x: 392,
+                y: 261,
                 width: 240,
                 height: 54
             }),
             homeButton = new Button({
                 superview: resultsScreen,
-                x: 532,
-                y: 413,
-                width: 240,
+                x: 377,
+                y: 335,
+                width: 270,
                 height: 54
             }),
             craftButton = new Button({
