@@ -1,5 +1,5 @@
 import ui.ImageView as ImageView;
-import ui.ScrollView as ScrollView; 
+import ui.ScrollView as ScrollView;
 import src.constants as constants;
 import src.Button as Button;
 
