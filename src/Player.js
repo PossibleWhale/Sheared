@@ -7,6 +7,7 @@ import src.WoolStorage as WoolStorage;
 import src.CraftStorage as CraftStorage;
 import src.StatStorage as StatStorage;
 import src.UpgradeStorage as UpgradeStorage;
+import src.AwardStorage as AwardStorage;
 import src.debughack as dh;
 
 
@@ -18,6 +19,7 @@ exports = Class(Emitter, function Player(supr) {
         this.crafts = new CraftStorage();
         this.stats = new StatStorage();
         this.upgrades = new UpgradeStorage();
+        this.awards = new AwardStorage();
 
         this.addWool = bind(this.wool, this.wool.addWool);
 

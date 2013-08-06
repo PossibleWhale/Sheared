@@ -3,8 +3,8 @@ import src.Storage as Storage;
 import src.util as util;
 
 var awards = [], i = 0;
-for (i; i < constants.AWARDS.length; i++) {
-    awards.push({name: constants.AWARDS[i].key, value: false});
+for (i; i < c.AWARDS.length; i++) {
+    awards.push({name: c.AWARDS[i].key, value: false});
 }
 
 exports = Class(Storage, function (supr) {
