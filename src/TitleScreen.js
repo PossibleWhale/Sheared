@@ -108,8 +108,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-website.png'
         });
         websiteButton.on('InputSelect', function () {
-            // TODO
-            console.log('go to website');
+            window.open('http://possiblewhale.com');
         });
 
         var statsButton = new ImageView({
