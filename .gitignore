@@ -10,3 +10,6 @@ resources/conf/localconfig.json
 tmp/
 manifest.json
 tapjoysecretkey.txt
+androidstorepass.txt
+possiblewhale.keystore
+build.log
