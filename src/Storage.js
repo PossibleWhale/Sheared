@@ -81,6 +81,12 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_upgrade.adFree', JSON.stringify({name: 'adFree', value: false}));
     };
 
+    this.upgrade_3_to_4 = function _a_upgrade_3_to_4() {
+        assert(parseInt(lsGet('pw_version'), 10) === 3);
+        lsSet('pw_version', 4);
+        lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */
