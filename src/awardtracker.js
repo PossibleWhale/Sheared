@@ -89,7 +89,7 @@ AwardTracker = Class(event.Emitter, function (supr) {
             var player = GC.app.player, i = 1, awardKey;
             while (i <= 10000) {
                 awardKey = 'diamonds.' + i;
-                if (!player.awards.get(awardKey).value && player.stats.get('perm_diamonds').value >= i) {
+                if (!player.awards.get(awardKey).value && player.stats.get('diamonds').value >= i) {
                     player.earnedAward(awardKey);
                 }
                 i *= 10;
