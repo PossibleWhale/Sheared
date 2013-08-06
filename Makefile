@@ -39,6 +39,9 @@ debug: all
 release:
 	$(MAKE) BUILD=release clean $(GC_DIR)/config.json all
 
+release-install:
+	$(MAKE) BUILD=release clean $(GC_DIR)/config.json all install
+
 manifest.json: tapjoysecretkey.txt manifest.json.in
 	fab "gcbuild.generateManifest:$@"
 
@@ -86,6 +89,7 @@ $(LOCALCONFIG):
 	cat > $(LOCALCONFIG) <<< '{ "debug": true }'
 
 install: $(APK)
+	adb shell pm uninstall -k $(APP_DOMAIN)
 	adb install -r $(APK)
 
 clear-data:
