@@ -43,13 +43,13 @@ AdTimer = Class(event.Emitter, function (supr) {
         cbArgs.shift();
 
         if (!this.isSuppressed) {
+            this.isSuppressed = true;
             ads.showAd(bind(this, function _a_onShowAd(evt) {
                 if (evt.errorCode) {
                     console.log("[APP] Response from Plugin: message='" + evt.message + "' code=" + evt.errorCode);
                 } else {
                     console.log("[APP] Response from Plugin: message=" + evt.message);
                 }
-                this.start();
                 callback.apply(cbArgs);
             }));
         } else {
@@ -61,7 +61,6 @@ AdTimer = Class(event.Emitter, function (supr) {
      * run the timer; ads will be suppressed while it's running
      */
     this.start = function () {
-        this.isSuppressed = true;
         setTimeout(bind(this, function () {
             this.isSuppressed = false;
         }), this.suppressTime);
