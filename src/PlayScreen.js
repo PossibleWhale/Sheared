@@ -166,7 +166,7 @@ exports = Class(ImageView, function (supr) {
         this.addSubview(dayIntro);
         animate(dayIntro).now({x: 0});
 
-        continueButton.on('InputSelect', bind(this, function(evt) {
+        dayIntro.on('InputSelect', bind(this, function(evt) {
             evt.cancel();
             animate(dayIntro).now({x: -1024}).then(bind(this, function () {
                 dayIntro.removeFromSuperview();
@@ -332,51 +332,40 @@ exports = Class(ImageView, function (supr) {
                 }));
             }));
         } else {
-            resultsScreen = new View({
+            resultsScreen = new ImageView({
                 x: 1024,
                 y: 0,
                 width: 1024,
-                height: 576
+                height: 576,
+                image: 'resources/images/game-over.png'
             }),
-            storeButton = new ImageView({
+            storeButton = new Button({
                 superview: resultsScreen,
                 x: 27,
                 y: 248,
                 width: 200,
-                height: 80,
-                image: 'resources/images/button-general-store.png'
-            }),
-            gameOverLabel = new Button({
-                superview: resultsScreen,
-                x: 247,
-                y: 243,
-                width: 530,
-                height: 90,
-                text: 'Game Over'
+                height: 80
             }),
             restartButton = new Button({
                 superview: resultsScreen,
-                x: 395,
-                y: 346,
+                x: 252,
+                y: 413,
                 width: 240,
-                height: 54,
-                text: 'Restart'
+                height: 54
             }),
             homeButton = new Button({
                 superview: resultsScreen,
-                x: 392,
+                x: 532,
                 y: 413,
                 width: 240,
-                height: 54,
-                text: 'Return to Main Menu'
+                height: 54
             }),
-            craftButton = new ImageView({
+            craftButton = new Button({
                 superview: resultsScreen,
                 x: 797,
                 y: 248,
                 width: 200,
-                height: 80,
-                image: 'resources/images/button-crafts-catalog.png'
+                height: 80
             });
 
             restartButton.on('InputSelect', bind(this, function () {
