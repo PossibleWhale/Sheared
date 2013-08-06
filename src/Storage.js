@@ -87,6 +87,14 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_stores', JSON.stringify(c.SCHEMA.stores));
     };
 
+    this.upgrade_4_to_5 = function _a_upgrade_4_to_5() {
+        assert(parseInt(lsGet('pw_version'), 10) === 4);
+        lsSet('pw_version', 5);
+        lsSet('pw_store_stat.wool', JSON.stringify({name: 'wool', value: 0}));
+        lsSet('pw_store_stat.ewesSheared', JSON.stringify({name: 'ewesSheared', value: 0}));
+        lsSet('pw_store_stat.ramsSheared', JSON.stringify({name: 'ramsSheared', value: 0}));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */

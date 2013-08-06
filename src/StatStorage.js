@@ -2,16 +2,19 @@ import src.Storage as Storage;
 import src.util as util;
 
 stats = [
+{name: 'ewesSheared', value: 0},
 {name: 'ewesSheared.white', value: 0},
 {name: 'ewesSheared.blue', value: 0},
 {name: 'ewesSheared.yellow', value: 0},
 {name: 'ewesSheared.red', value: 0},
 {name: 'ewesSheared.black', value: 0},
+{name: 'ramsSheared', value: 0},
 {name: 'ramsSheared.white', value: 0},
 {name: 'ramsSheared.blue', value: 0},
 {name: 'ramsSheared.yellow', value: 0},
 {name: 'ramsSheared.red', value: 0},
 {name: 'ramsSheared.black', value: 0},
+{name: 'wool', value: 0},
 {name: 'wool.white', value: 0},
 {name: 'wool.blue', value: 0},
 {name: 'wool.yellow', value: 0},

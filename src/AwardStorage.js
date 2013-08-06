@@ -2,9 +2,11 @@ import src.constants as c;
 import src.Storage as Storage;
 import src.util as util;
 
-var awards = [], i = 0;
-for (i; i < c.AWARDS.length; i++) {
-    awards.push({name: c.AWARDS[i].key, value: false});
+var awards = [], key;
+for (key in c.AWARDS) {
+    if (c.AWARDS.hasOwnProperty(key)) {
+        awards.push({name: key, value: false});
+    }
 }
 
 exports = Class(Storage, function (supr) {

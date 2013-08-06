@@ -9,6 +9,7 @@ import src.StatStorage as StatStorage;
 import src.UpgradeStorage as UpgradeStorage;
 import src.AwardStorage as AwardStorage;
 import src.debughack as dh;
+import src.awardtracker as at;
 
 
 exports = Class(Emitter, function Player(supr) {
@@ -70,29 +71,44 @@ exports = Class(Emitter, function Player(supr) {
         }
 
         this.emit('player:purchased');
+
+        if (tempOrPerm === 'perm' && upgradeName) {
+            at.emit('player:purchased' + upgradeName);
+        }
     };
 
     // add a specified amount of coins to the player's wallet
     this.addCoins = function (amt) {
         this.stats.increment('coins', amt);
         this.stats.increment('coinsEarned', amt);
+
+        at.emit('player:coins');
     }
 
     this.shearedSheep = function (sheep) {
         if (sheep.isRam) {
+            this.stats.increment('ramsSheared');
             this.stats.increment('ramsSheared.' + sheep.color.label);
         } else {
+            this.stats.increment('ewesSheared');
             this.stats.increment('ewesSheared.' + sheep.color.label);
         }
+        this.stats.increment('wool', sheep.bolts);
         this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
+
+        at.emit('player:sheared', sheep);
     };
 
     this.collectedBattery = function () {
         this.stats.increment('batteries');
+
+        at.emit('player:battery');
     };
 
     this.collectedDiamond = function () {
         this.stats.increment('diamonds');
+
+        at.emit('player:diamond');
     };
 
     this.hitWithBlade = function (isDiamond) {
@@ -122,6 +138,11 @@ exports = Class(Emitter, function Player(supr) {
         copy.addWool(main, -1 * costs[0].amount);
         copy.addWool(contrast, -1 * costs[1].amount);
         return (copy.get(main).count >= 0 && copy.get(contrast).count >= 0);
+    };
+
+    this.earnedAward = function (awardKey) {
+        this.awards.add({name: awardKey, value: true});
+        this.addCoins(c.AWARDS[awardKey].reward);
     };
 
 });
