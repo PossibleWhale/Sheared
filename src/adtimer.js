@@ -6,6 +6,7 @@ import plugins.tapjoyads.ads as ads;
 import src.constants as c;
 import src.debughack as dh;
 import src.UpgradeStorage as UpgradeStorage;
+import src.Spinner as Spinner;
 
 
 AdTimer = Class(event.Emitter, function (supr) {
@@ -36,7 +37,7 @@ AdTimer = Class(event.Emitter, function (supr) {
      *  defined.
      */
     this._interruptNormal = function (callback) {
-        var cbArgs = Array.prototype.slice.apply(arguments);
+        var cbArgs = Array.prototype.slice.apply(arguments), spinner;
 
         dh.pre_ads(this);
 
@@ -44,6 +45,7 @@ AdTimer = Class(event.Emitter, function (supr) {
 
         if (!this.isSuppressed) {
             this.isSuppressed = true;
+            spinner = new Spinner({x: 512, y: 288, width: 72, height: 58, superview: GC.app.engine.getView()});
             ads.showAd(bind(this, function _a_onShowAd(evt) {
                 if (evt.errorCode) {
                     console.log("[APP] Response from Plugin: message='" + evt.message + "' code=" + evt.errorCode);
@@ -51,6 +53,7 @@ AdTimer = Class(event.Emitter, function (supr) {
                     console.log("[APP] Response from Plugin: message=" + evt.message);
                 }
                 callback.apply(cbArgs);
+                GC.app.engine.getView().removeSubview(spinner);
             }));
         } else {
             callback.apply(cbArgs);
@@ -66,12 +69,11 @@ AdTimer = Class(event.Emitter, function (supr) {
         }), this.suppressTime);
     };
 
-
     var storage = new UpgradeStorage();
     if (!storage.get('adFree').value) {
-        this.interrupt = this._interruptNormal;
+        this.interrupt = bind(this, this._interruptNormal);
     } else {
-        this.interrupt = this._interruptNoAds;
+        this.interrupt = bind(this, this._interruptNoAds);
     }
 
 });
