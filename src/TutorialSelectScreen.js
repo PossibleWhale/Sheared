@@ -20,32 +20,33 @@ exports = Class(ui.StackView, function (supr) {
 
         this.menu = new ImageView({
             superview: this,
-            image: "resources/images/menu-instructions.png",
+            image: "resources/images/tutorials.png",
             autoSize: true
         });
 
         var playButton = new Button({
             superview: this,
-            x: 117,
-            y: 88,
-            width: 320,
-            height: 320
+            x: 262,
+            y: 188,
+            width: 200,
+            height: 200
         });
 
         var craftButton = new Button({
             superview: this,
-            x: 587,
-            y: 88,
-            width: 320,
-            height: 320
+            x: 562,
+            y: 188,
+            width: 200,
+            height: 200
         });
 
         this.backButton = new Button({
             superview: this,
             x: 0,
-            y: 496,
-            width: 1024,
-            height: 80
+            y: 0,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-return.png'
         });
 
         playButton.on('InputSelect', bind(this, function () {

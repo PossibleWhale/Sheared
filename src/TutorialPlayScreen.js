@@ -12,6 +12,7 @@ import src.Battery as Battery;
 import src.Diamond as Diamond;
 import src.WoolCounter as WoolCounter;
 import src.WoolStorage as WoolStorage;
+import src.MuteButton as MuteButton;
 
 
 var textOpts = merge({opacity: 0}, constants.TEXT_OPTIONS);
@@ -66,24 +67,28 @@ exports = Class(ImageView, function (supr) {
         });
         this.sheep = [];
 
-        var backButton = new Button({
+        var backButton = new ImageView({
             superview: this,
             x: 0,
             y: 0,
-            backgroundColor: '#FF00FF',
-            color: '#000000',
-            fontFamily: 'delius',
-            text: 'Back',
-            width: 140,
-            height: 60,
-            size: 128,
-            autoFontSize: true,
-            zIndex: 999
+            zIndex: 99,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-return.png'
         });
         backButton.on('InputSelect', bind(this, function () {
             this.removeAllSubviews();
             this.getSuperview().pop();
         }));
+
+        var muteButton = new MuteButton({
+            superview: this,
+            x: 944,
+            y: 0,
+            zIndex: 99,
+            width: 80,
+            height: 80
+        });
     };
 
     this.clipperTutorial = function () {

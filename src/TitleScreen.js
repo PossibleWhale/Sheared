@@ -102,7 +102,7 @@ exports = Class(ImageView, function (supr) {
         var websiteButton = new ImageView({
             superview: this,
             x: 944,
-            y: 0,
+            y: 496,
             width: 80,
             height: 80,
             image: 'resources/images/button-website.png'
@@ -215,7 +215,7 @@ exports = Class(ImageView, function (supr) {
         muteOpts = {
             superview: this,
             x: 944,
-            y: 496,
+            y: 0,
             width: 80,
             height: 80
         };
