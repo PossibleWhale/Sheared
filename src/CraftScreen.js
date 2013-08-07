@@ -75,6 +75,9 @@ exports = Class(ImageView, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
+            this.woolCounts.update();
+            this.total = GC.app.player.stats.get('coins').value;
+            this.updateTotal();
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {

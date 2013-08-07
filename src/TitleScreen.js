@@ -239,6 +239,7 @@ exports = Class(ImageView, function (supr) {
             if (stackView.hasView(toView)) {
                 while (i--) {
                     if (toView === stack[i]) {
+                        toView.emit('ViewWillAppear');
                         break;
                     } else {
                         stackView.pop();
