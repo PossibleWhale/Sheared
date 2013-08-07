@@ -2,19 +2,19 @@ import animate;
 import ui.TextView as TextView;
 import ui.ImageView as ImageView;
 import src.constants as constants;
+import src.Button as Button;
 
 var instances = [];
 
-exports = Class(TextView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            x: 1024/2 - 210,
+            x: 1024/2 - 320,
             y: -80,
             zIndex: 99,
-            width: 420,
+            width: 640,
             height: 80,
-            color: '#FFFFFF',
-            backgroundColor: '#333333'
+            image: 'resources/images/achievement-alert.png'
         });
 
         supr(this, 'init', [opts]);
@@ -25,7 +25,25 @@ exports = Class(TextView, function (supr) {
     };
 
     this.build = function () {
-        this.setText(this.award.text + '  +' + this.award.reward);
+        this.addSubview(new Button({
+            x: 20,
+            y: 20,
+            width: 420,
+            height: 40,
+            size: 24,
+            text: this.award.text,
+            horizontalAlign: 'left'
+        }));
+
+        this.addSubview(new Button({
+            x: 490,
+            y: 20,
+            width: 130,
+            height: 40,
+            size: 24,
+            text: '' + this.award.reward,
+            horizontalAlign: 'left'
+        }));
     };
 
     this.show = function () {
