@@ -143,6 +143,7 @@ exports = Class(Emitter, function Player(supr) {
     this.earnedAward = function (awardKey) {
         this.awards.add({name: awardKey, value: true});
         this.addCoins(c.AWARDS[awardKey].reward);
+        this.emit('player:earnedAward', c.AWARDS[awardKey]);
     };
 
 });

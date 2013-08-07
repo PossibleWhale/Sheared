@@ -20,6 +20,7 @@ import src.AwardsScreen as AwardsScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
+import src.AwardAlert as AwardAlert;
 
 
 /* The title screen is added to the scene graph when it becomes
@@ -279,6 +280,14 @@ exports = Class(ImageView, function (supr) {
         GC.app.player.on('player:purchased', function () {
             GC.app.player.setUpgrades();
         });
+
+        GC.app.player.on('player:earnedAward', bind(this, function (award) {
+            var awardAlert = new AwardAlert({
+                superview: this.stackView.getCurrentView(),
+                award: award
+            });
+            awardAlert.show();
+        }));
 
         this.on('playscreen:restart', bind(this, function () {
             this.stackView.remove(playScreen);

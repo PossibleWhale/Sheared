@@ -1,6 +1,7 @@
 import ui.StackView;
 import ui.ImageView as ImageView;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 import src.TutorialPlayScreen as TutorialPlayScreen;
 import src.TutorialCraftScreen as TutorialCraftScreen;
 
@@ -61,6 +62,15 @@ exports = Class(ui.StackView, function (supr) {
             this.emit('tutorial:back');
             this.popAll();
         }));
+
+        var muteButton = new MuteButton({
+            superview: this,
+            x: 944,
+            y: 0,
+            zIndex: 99,
+            width: 80,
+            height: 80
+        });
     };
 
     this.playTutorial = function () {

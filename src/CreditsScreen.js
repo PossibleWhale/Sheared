@@ -1,9 +1,7 @@
-import ui.ImageView;
-
-import src.Button as Button;
+import ui.ImageView as ImageView;
 import src.util as util;
 
-exports = Class(ui.ImageView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             image: "resources/images/credits.png"
@@ -15,12 +13,13 @@ exports = Class(ui.ImageView, function (supr) {
     };
 
     this.build = function() {
-        var backButton = new Button({
+        var backButton = new ImageView({
             superview: this,
             x: 0,
-            y: 496,
-            width: 1024,
-            height: 80
+            y: 0,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-return.png'
         });
 
         util.reissue(backButton, 'InputSelect', this, 'credits:back');
