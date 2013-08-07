@@ -1,34 +1,42 @@
 import animate;
+import ui.ImageView as ImageView;
 
 import src.constants as constants;
 import src.Button as Button;
 import src.CraftScreen as CraftScreen;
 import src.TextAnimation as TextAnimation;
+import src.util as util;
 
 
 var textOpts = constants.TEXT_OPTIONS;
 
 var SCRIPT = {
     a1:
-    '3000|Get wool two different ways: shear sheep in the game, or by buy it in the store with Eweros.',
+    '3000|Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.',
     a2:
     '2000|Your wool is shown here.',
-/* [arrow] */
+    a3Arrow:
+    'resources/images/arrow.png',
+
     b1:
     '2000|You have wool, so you’re ready to craft!',
 /* <OK GOT IT> */
+
 /* [show the 20 item catalog and tabs] */
     c1:
     '2000|Craftable items are shown here.',
     c2:
     '2000|Click the tab for sweaters on the left.',
+
 /* [wait for click] */
     d1:
     '4000|Some of the sweaters are gray. You don’t have enough wool to make those.',
+
 /* [highlight b&w sweater] */
     e1:
     '3000|Click the black & white sweater in the bottom corner.',
 /* [wait for click] */
+
 /* [large b&w sweater is shown] */
     f1:
     '4000|The amount of wool to craft the sweater is shown on the left and right.',
@@ -37,12 +45,14 @@ var SCRIPT = {
     f3:
     '2000|Click ‘Craft’ to make this item.',
 /* [wait for click] */
+
 /* [eweros added and wool deducted and star lights up] */
     g1:
     '4000|You immediately receive the Eweros and your wool is immediately deducted.',
     g2:
     '5000|Once you craft at least one of something, you get a star next to it.',
 /* <OK GOT IT> */
+
     h1:
     '6000|Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white.',
     h2:
@@ -50,8 +60,10 @@ var SCRIPT = {
     h3:
     '3000|The more valuable wool used in the item, the more it’s worth.',
 /* <OK GOT IT> */
-/* [static frame of the store] */
-    i1:
+
+    i1Store:
+    'resources/images/store-screenshot.png',
+    i2:
     '3000|Use the Eweros you earn to buy powerful upgrades in the game!'
 };
 
@@ -69,7 +81,7 @@ exports = Class(CraftScreen, function (supr) {
             backgroundColor: '#FF00FF',
             color: '#000000',
             fontFamily: 'delius',
-            text: 'Back',
+            text: '< Back',
             width: 140,
             height: 60,
             size: 128,
