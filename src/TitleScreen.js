@@ -182,11 +182,11 @@ exports = Class(ImageView, function (supr) {
 
         var tutorialButton = new ImageView({
             superview: this,
-            x: 412,
-            y: 457,
+            x: 407,
+            y: 439,
             width: 210,
             height: 36,
-            image: 'resources/images/button-instructions.png'
+            image: 'resources/images/button-tutorials.png'
         });
         tutorialButton.on('InputSelect', function () {
             tutorialScreen.build();
