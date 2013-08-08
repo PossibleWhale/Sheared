@@ -32,7 +32,7 @@ exports = Class(ImageView, function (supr) {
 
             if (name === 'coins') {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
-                this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
+                this.updateCoinsLabel();
             } else if (item === 'adFree') {
                 GC.app.player.upgrades.add('adFree', true);
             }
@@ -86,6 +86,12 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             storage: GC.app.player.wool
         });
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this.woolCounts.update();
+            this.updateCoinsLabel();
+        }));
+
         var backButton = new ImageView({
             superview: this,
             x: 0,
@@ -162,6 +168,10 @@ exports = Class(ImageView, function (supr) {
         this._buildWoolTab();
         this._buildEwerosTab();
         this._buildAdsTab();
+    };
+
+    this.updateCoinsLabel = function () {
+        this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
     };
 
     this._buildUpgradeTab = function () {
@@ -464,7 +474,7 @@ exports = Class(ImageView, function (supr) {
                         this.updateProgressBars();
                         this.updatePriceDisplays();
                     }
-                    this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
+                    this.updateCoinsLabel();
                 }),
                 confirmText: 'OK'
             });

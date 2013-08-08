@@ -37,10 +37,6 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function () {
         this.paused = false;
-        // anything that must happen when the screen appears goes here.
-        this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted({silent: true});
-        }));
 
         this.on('play:start', bind(this, playGame));
 
@@ -52,6 +48,12 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             storage: GC.app.player.wool.copy({persist: false}) // we don't commit our wool until the end of the day
         });
+
+        // anything that must happen when the screen appears goes here.
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
+            this.woolCounts.update();
+        }));
 
         muteOpts = {
             superview: this,
