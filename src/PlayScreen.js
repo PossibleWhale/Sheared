@@ -260,7 +260,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        var i, resultsScreen, continueButton, woolCounts = [];
+        var i, resultsScreen, continueButton;
         if (finishedDay) {
             resultsScreen = new ImageView({
                 x: 1024,
@@ -298,33 +298,25 @@ exports = Class(ImageView, function (supr) {
                 height: 80,
                 image: 'resources/images/button-home.png'
             });
+
             for (i = 0; i < constants.colors.length; i++) {
-                woolCounts.push(new TextView(merge({
-                    x: 252 + 110*i,
-                    y: 343,
-                    width: 80,
-                    height: 40,
-                    text: '0',
-                    size: 128,
-                    autoFontSize: true,
-                }, constants.TEXT_OPTIONS)));
-                resultsScreen.addSubview(woolCounts[i]);
+                var count = this.dailyWool.get(constants.colors[i]).count,
+                    numParticles = Math.min(25, count),
+                    countView = new TextView(merge({
+                        superview: resultsScreen,
+                        x: 252 + 110*i,
+                        y: 343,
+                        width: 80,
+                        height: 40,
+                        text: '' + this.dailyWool.get(constants.colors[i]).count,
+                        size: 128,
+                        autoFontSize: true,
+                    }, constants.TEXT_OPTIONS));
+                emitWool(countView.style.x + countView.style.width/2,
+                         countView.style.y + countView.style.height/2,
+                         numParticles, constants.colors[i].label);
             }
-            for (i = 0; i < woolCounts.length; i++) {
-                woolCounts[i].maxCount = this.dailyWool.get(constants.colors[i]).count;
-                woolCounts[i].woolColor = constants.colors[i].label;
-                woolCounts[i].interval = setInterval(bind(woolCounts[i], function () {
-                    var count = parseInt(this.getText(), 10);
-                    // if we're finished counting up, clear interval and show a burst of wool
-                    if (count === this.maxCount) {
-                        var numParticles = this.maxCount <= 25 ? this.maxCount : 25;
-                        clearInterval(this.interval);
-                        emitWool(this.style.x+this.style.width/2, this.style.y+this.style.height/2, numParticles, this.woolColor);
-                        return;
-                    }
-                    this.setText('' + (count + 1));
-                }), 50);
-            }
+
             resultsScreen.addSubview(continueButton);
             continueButton.on('InputSelect', bind(this, function (evt) {
                 animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
