@@ -1,6 +1,5 @@
 import animate;
 import ui.ImageView as ImageView;
-import ui.TextView as TextView;
 import src.Clipper as Clipper;
 import src.HealthBar as HealthBar;
 import src.constants as constants;
@@ -13,9 +12,8 @@ import src.Diamond as Diamond;
 import src.WoolCounter as WoolCounter;
 import src.WoolStorage as WoolStorage;
 import src.MuteButton as MuteButton;
+import src.ThoughtBubble as ThoughtBubble;
 
-
-var textOpts = merge({opacity: 0}, constants.TEXT_OPTIONS);
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -93,14 +91,14 @@ exports = Class(ImageView, function (supr) {
 
     this.clipperTutorial = function () {
         this.nextButton.removeAllListeners();
-        var moveText = new TextView(merge({
+        var moveText = new ThoughtBubble({
             superview: this,
             text: 'Drag on the left side of the screen to move the clipper.',
-        }, textOpts)),
-        fireText = new TextView(merge({
+        }),
+        fireText = new ThoughtBubble({
             superview: this,
             text: 'Tap on the right side of the screen to fire a blade.',
-        }, textOpts));
+        });
 
         animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
         animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
@@ -122,18 +120,18 @@ exports = Class(ImageView, function (supr) {
         this.sheep.length = 0;
         this._resetClipper();
 
-        var text = new TextView(merge({
+        var text = new ThoughtBubble({
             superview: this,
             text: 'Your regular clipper blade shears ewes.',
-        }, textOpts));
+        });
         animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
             var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.eweTutorial);
 
             sheep.on('sheep:sheared', bind(this, function() {
-                text = new TextView(merge({
+                text = new ThoughtBubble({
                     superview: this,
                     text: 'Each ewe sheared gives you one bolt of wool.',
-                }, textOpts));
+                });
                 this._animate(text).then(bind(this, function () {
                     var colorIdx = 1; // start with the second color because we already sent out white
                     this.interval = setInterval(bind(this, function () {
@@ -144,10 +142,10 @@ exports = Class(ImageView, function (supr) {
                         var sheep = this._spawnSheep(constants.colors[colorIdx], 576/2, this.eweTutorial);
                         if (colorIdx === 4) {
                             sheep.on('sheep:sheared', bind(this, function () {
-                                text = new TextView(merge({
+                                text = new ThoughtBubble({
                                     superview: this,
                                     text: 'Ewes appear in five colors. Each ewe gives one bolt of that color.'
-                                }, textOpts));
+                                });
                                 this._animate(text).then(bind(this, function () {
                                     this.addSubview(this.nextButton);
                                     this.nextButton.on('InputSelect', bind(this, function () {
@@ -171,17 +169,17 @@ exports = Class(ImageView, function (supr) {
         this.sheep.length = 0;
         this._resetClipper();
 
-        var text = new TextView(merge({
+        var text = new ThoughtBubble({
             superview: this,
             text: 'Your clipper has five power cells. When a sheep collides with it, it loses one cell.'
-        }, textOpts));
+        });
         this._animate(text).then(bind(this, function () {
             var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.powerTutorial, true);
             sheep.on('sheep:collision', bind(this, function () {
-                text = new TextView(merge({
+                text = new ThoughtBubble({
                     superview: this,
                     text: 'Battery pickups appear occasionally and restore one power cell.'
-                }, textOpts));
+                });
                 this._animate(text).then(bind(this, function () {
                     this.battery = new Battery({
                         superview: this,
@@ -207,17 +205,17 @@ exports = Class(ImageView, function (supr) {
         this.sheep.length = 0;
         this._resetClipper();
 
-        var text = new TextView(merge({
+        var text = new ThoughtBubble({
             superview: this,
             text: 'Your regular clipper blade shears ewes, but rams deflect those with their horns.'
-        }, textOpts));
+        });
         this._animate(text).then(bind(this, function () {
             var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.ramTutorial, true, true),
                 showText = function () {
-                    text = new TextView(merge({
+                    text = new ThoughtBubble({
                         superview: this,
                         text: 'Your clipper will require a diamond blade to shear rams.'
-                    }, textOpts));
+                    });
                     this._animate(text).then(bind(this, function () {
                         this.addSubview(this.nextButton);
                         this.nextButton.on('InputSelect', bind(this, function () {
@@ -256,17 +254,17 @@ exports = Class(ImageView, function (supr) {
             this.tryAgain(this.diamondTutorial);
         }));
         this.diamond.on('diamond:pickup', bind(this, function () {
-            text = new TextView(merge({
+            text = new ThoughtBubble({
                 superview: this,
                 text: 'Your clipper is equipped with diamond blades for five seconds. Notice the glitter effect.'
-            }, textOpts));
+            });
             this._animate(text).then(bind(this, function () {
                 var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.diamondTutorial, false, true);
                 ram.on('sheep:sheared', bind(this, function () {
-                    text = new TextView(merge({
+                    text = new ThoughtBubble({
                         superview: this,
                         text: 'Each ram sheared gives you five bolts of wool.'
-                    }, textOpts));
+                    });
                     this._animate(text).then(bind(this, function () {
                         var colorIdx = 1; // start with the second color because we already sent out white
                         this.interval = setInterval(bind(this, function () {
@@ -278,10 +276,10 @@ exports = Class(ImageView, function (supr) {
                             if (colorIdx === 4) {
                                 ram.on('sheep:sheared', bind(this, function () {
                                     this.clipper.becomeRegular();
-                                    text = new TextView(merge({
+                                    text = new ThoughtBubble({
                                         superview: this,
                                         text: 'Rams appear in five colors. Each ram gives five bolts of that color.'
-                                    }, textOpts));
+                                    });
                                     this._animate(text).then(bind(this, function () {
                                         this.addSubview(this.nextButton);
                                         this.nextButton.on('InputSelect', bind(this, function () {
@@ -312,11 +310,11 @@ exports = Class(ImageView, function (supr) {
             this.sheep[i].die();
         }
 
-        var text = new TextView(merge({
+        var text = new ThoughtBubble({
             superview: this,
             text: 'Oops, try again',
             opacity: 0
-        }, textOpts));
+        });
         animate(text).now({opacity: 1}, 500).wait(1500).then({opacity:0}).then(bind(this, fn));
     };
 
