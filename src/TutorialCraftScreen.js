@@ -98,71 +98,19 @@ exports = Class(CraftScreen, function (supr) {
             backgroundColor: '#FF00FF',
             color: '#000000',
             fontFamily: 'delius',
-            text: 'OK, got it!',
+            text: 'OK, got it! >',
             width: 160,
             height: 80,
             size: 128,
             autoFontSize: true,
-            zIndex: 999
+            zIndex: 999,
+            superview: this
         });
+
+        this.nextButton.hide();
 
         this.hideButtons("store");
         this.hideButtons("backButton");
-    };
-
-    this.step1 = function () {
-        this.hideButtons("garment");
-        this.hideButtons("craftBuy");
-        this.hideButtons("craftStars");
-        this.hideButtons("total");
-
-        this._animateTexts(SCRIPT.a1,
-                SCRIPT.a2,
-                SCRIPT.b1,
-                SCRIPT.c1,
-                SCRIPT.d1,
-                SCRIPT.e1,
-                SCRIPT.f1,
-                SCRIPT.f2,
-                SCRIPT.f3,
-                SCRIPT.g1,
-                SCRIPT.g2,
-                SCRIPT.h1,
-                SCRIPT.h2,
-                SCRIPT.h3,
-                SCRIPT.i1);
-    };
-
-    /// this.clipperTutorial = function () {
-    ///     this.nextButton.removeAllListeners();
-    ///     var moveText = new TextView(merge({
-    ///         superview: this,
-    ///         text: 'Drag on the left side of the screen to move the clipper.',
-    ///     }, textOpts)),
-    ///     fireText = new TextView(merge({
-    ///         superview: this,
-    ///         text: 'Tap on the right side of the screen to fire a blade.',
-    ///     }, textOpts));
-
-    ///     animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-    ///     animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
-
-    ///         animate(this.inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-    ///         animate(fireText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function (){
-
-    ///             this.addSubview(this.nextButton);
-    ///             this.nextButton.on('InputSelect', bind(this, function () {
-    ///                 this.nextButton.removeFromSuperview();
-    ///                 this.eweTutorial();
-    ///             }));
-    ///         }));
-    ///     }));
-    /// };
-
-
-    this._animate = function (view, timeout) {
-        timeout = timeout ? timeout : 2000;
-        return animate(view).now({opacity: 1}, 1000).wait(timeout).then({opacity: 0}, 1000);
     };
 
     this._animateTexts = function () {
@@ -171,33 +119,107 @@ exports = Class(CraftScreen, function (supr) {
         opts1 = merge({superview: this}, textOpts);
 
         _r = function _a_r(items) {
-            if (!items.length) {
-                return;
-            }
+            util.assert(items.length, "no items to animate");
             textItem = items.shift();
             tan = new TextAnimation(textItem, opts1);
-            tan.animate().then(bind(this, _r, items));
+            if (items.length) {
+                return tan.animate().then(bind(this, _r, items));
+            } else {
+                return tan.animate();
+            }
         };
 
-        _r(args);
+        return _r(args);
 
     };
 
-    /// this.tryAgain = function (fn) {
-    ///     if (this.interval) {
-    ///         clearInterval(this.interval);
-    ///     }
-    ///     var i = this.sheep.length;
-    ///     while (i--) {
-    ///         this.sheep[i].die();
-    ///     }
+    this.appear = function (view, timeout) {
+        return animate(view).then({opacity: 1.0}, 500, animate.linear).wait(timeout || 1000);
+    };
 
-    ///     var text = new TextView(merge({
-    ///         superview: this,
-    ///         text: 'Oops, try again',
-    ///         opacity: 0
-    ///     }, textOpts));
-    ///     animate(text).now({opacity: 1}, 500).wait(1500).then({opacity:0}).then(bind(this, fn));
-    /// };
+    this.disappear = function (view) {
+        return animate(view).then({opacity: 0.0}, 500, animate.linear);
+    };
+
+    this.next = function (callback) {
+        this.nextButton.show();
+        this.nextButton.on('InputSelect', bind(this, function () {
+            this.nextButton.hide();
+            return callback();
+        }));
+    };
+
+    this.stepA = function () {
+        this.hideButtons("garment");
+        this.hideButtons("craftBuy");
+        this.hideButtons("craftStars");
+        this.hideButtons("total");
+
+        var arrow = new ImageView(
+                {superview: this, x: 512-29, y: 130, width: 58, height: 66, image: SCRIPT.a3Arrow, opacity: 0.0}
+        );
+        this._animateTexts(SCRIPT.a1, SCRIPT.a2).then(
+            bind(this, function () {
+                return this.appear(arrow, 1000).then(
+                    bind(this, function () {
+                        return this.next(bind(this, function () {
+                            return this.disappear(arrow).then(
+                                bind(this, function () {
+                                    return this.stepB();
+                            }));
+                        }));
+                    })
+                );
+            })
+        );
+    };
+
+    this.stepB = function () {
+        return this._animateTexts(SCRIPT.b1).then(
+            bind(this, this.next, bind(this, this.stepC))
+        );
+    };
+
+    this.stepC = function () {
+        return this._animateTexts(SCRIPT.c1).then(
+            bind(this, this.next, bind(this, this.stepD))
+        );
+    };
+
+    this.stepD = function () {
+        return this._animateTexts(SCRIPT.d1).then(
+            bind(this, this.next, bind(this, this.stepE))
+        );
+    };
+
+    this.stepE = function () {
+        return this._animateTexts(SCRIPT.e1).then(
+            bind(this, this.next, bind(this, this.stepF))
+        );
+    };
+
+    this.stepF = function () {
+        return this._animateTexts(SCRIPT.f1, SCRIPT.f2, SCRIPT.f3).then(
+            bind(this, this.next, bind(this, this.stepG))
+        );
+    };
+
+    this.stepG = function () {
+        return this._animateTexts(SCRIPT.g1, SCRIPT.g2).then(
+            bind(this, this.next, bind(this, this.stepH))
+        );
+    };
+
+    this.stepH = function () {
+        return this._animateTexts(SCRIPT.h1, SCRIPT.h2, SCRIPT.h3).then(
+            bind(this, this.next, bind(this, this.stepI))
+        );
+    };
+
+    this.stepI = function () {
+        return this.appear(SCRIPT.i1Store).then(
+            bind(this, this._animateTexts, SCRIPT.i2)
+        );
+    };
 
 });
