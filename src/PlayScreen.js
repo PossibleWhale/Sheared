@@ -291,7 +291,6 @@ exports = Class(ImageView, function (supr) {
                 height: 80
             }),
             homeButton = new ImageView({
-                superview: resultsScreen,
                 x: 0,
                 y: 0,
                 width: 80,
@@ -299,6 +298,7 @@ exports = Class(ImageView, function (supr) {
                 image: 'resources/images/button-home.png'
             });
 
+            var counts = [], countViews = [];
             for (i = 0; i < constants.colors.length; i++) {
                 var count = this.dailyWool.get(constants.colors[i]).count,
                     numParticles = Math.min(25, count),
@@ -308,13 +308,12 @@ exports = Class(ImageView, function (supr) {
                         y: 343,
                         width: 80,
                         height: 40,
-                        text: '' + this.dailyWool.get(constants.colors[i]).count,
+                        text: '' + count,
                         size: 128,
                         autoFontSize: true,
                     }, constants.TEXT_OPTIONS));
-                emitWool(countView.style.x + countView.style.width/2,
-                         countView.style.y + countView.style.height/2,
-                         numParticles, constants.colors[i].label);
+                counts.push(numParticles);
+                countViews.push(countView);
             }
 
             resultsScreen.addSubview(continueButton);
@@ -378,7 +377,17 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.addSubview(resultsScreen);
-        animate(resultsScreen).now({x: 0});
+        animate(resultsScreen).now({x: 0}).then(bind(this, function () {
+            if (finishedDay) {
+                var i;
+                resultsScreen.addSubview(homeButton);
+                for (i = 0; i < constants.colors.length; i++) {
+                    emitWool(countViews[i].style.x + countViews[i].style.width/2,
+                             countViews[i].style.y + countViews[i].style.height/2,
+                             counts[i], constants.colors[i].label);
+                }
+            }
+        }));
 
     }
 });
