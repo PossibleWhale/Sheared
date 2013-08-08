@@ -133,14 +133,17 @@ exports = Class(ImageView, function (supr) {
             this.emit('awards:back');
         }));
 
-        this._buildTab('ewes');
-        this._buildTab('rams');
-        this._buildTab('wool');
-        this._buildTab('crafts');
-        this._buildTab('misc');
+        this.on('ViewWillAppear', bind(this, function () {
+            this._buildTab('ewes');
+            this._buildTab('rams');
+            this._buildTab('wool');
+            this._buildTab('crafts');
+            this._buildTab('misc');
+        }));
     };
 
     this._buildTab = function (tab) {
+        this.tabs[tab].removeAllSubviews();
         var view = new View({
             x: 0,
             y: 0,

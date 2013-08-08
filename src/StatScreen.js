@@ -68,6 +68,82 @@ exports = Class(ImageView, function (supr) {
                 })
         };
 
+        this.currentTab = this.tabs.ewes;
+        this.addSubview(this.currentTab);
+
+        var ewesTab = new Button({
+            superview: this,
+            x: 33,
+            y: 113,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        ewesTab.on('InputSelect', bind(this, function () {
+            this.switchTab('ewes');
+        }));
+
+        var ramsTab = new Button({
+            superview: this,
+            x: 33,
+            y: 183,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        ramsTab.on('InputSelect', bind(this, function () {
+            this.switchTab('rams');
+        }));
+
+        var woolTab = new Button({
+            superview: this,
+            x: 33,
+            y: 255,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        woolTab.on('InputSelect', bind(this, function () {
+            this.switchTab('wool');
+        }));
+
+        var craftsTab = new Button({
+            superview: this,
+            x: 33,
+            y: 327,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        craftsTab.on('InputSelect', bind(this, function () {
+            this.switchTab('crafts');
+        }));
+
+        var miscTab = new Button({
+            superview: this,
+            x: 33,
+            y: 399,
+            zIndex: 99,
+            width: 137,
+            height: 64
+        });
+        miscTab.on('InputSelect', bind(this, function () {
+            this.switchTab('misc');
+        }));
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this._buildTabs();
+        }));
+    };
+
+    this._buildTabs = function () {
+        var tab;
+        for (tab in this.tabs) {
+            if (this.tabs.hasOwnProperty(tab)) {
+                this.tabs[tab].removeAllSubviews();
+            }
+        }
+
         // labels for number of ewes sheared
         var i = 0, startX = 195, gap = 162, total = 0, current;
         for (i; i < constants.colors.length; i++) {
@@ -186,68 +262,6 @@ exports = Class(ImageView, function (supr) {
             text: '' + GC.app.player.stats.get('coinsEarned').value
         }));
 
-        this.currentTab = this.tabs.ewes;
-        this.addSubview(this.currentTab);
-
-        var ewesTab = new Button({
-            superview: this,
-            x: 33,
-            y: 113,
-            zIndex: 99,
-            width: 137,
-            height: 64
-        });
-        ewesTab.on('InputSelect', bind(this, function () {
-            this.switchTab('ewes');
-        }));
-
-        var ramsTab = new Button({
-            superview: this,
-            x: 33,
-            y: 183,
-            zIndex: 99,
-            width: 137,
-            height: 64
-        });
-        ramsTab.on('InputSelect', bind(this, function () {
-            this.switchTab('rams');
-        }));
-
-        var woolTab = new Button({
-            superview: this,
-            x: 33,
-            y: 255,
-            zIndex: 99,
-            width: 137,
-            height: 64
-        });
-        woolTab.on('InputSelect', bind(this, function () {
-            this.switchTab('wool');
-        }));
-
-        var craftsTab = new Button({
-            superview: this,
-            x: 33,
-            y: 327,
-            zIndex: 99,
-            width: 137,
-            height: 64
-        });
-        craftsTab.on('InputSelect', bind(this, function () {
-            this.switchTab('crafts');
-        }));
-
-        var miscTab = new Button({
-            superview: this,
-            x: 33,
-            y: 399,
-            zIndex: 99,
-            width: 137,
-            height: 64
-        });
-        miscTab.on('InputSelect', bind(this, function () {
-            this.switchTab('misc');
-        }));
     };
 
     this.switchTab = function (key) {
