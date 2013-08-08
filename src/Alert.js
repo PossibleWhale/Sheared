@@ -50,13 +50,18 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
-        this.addSubview(new TextView(merge({
+        this.addSubview(new TextView({
             x: 40,
             y: 40,
             width: 340,
             height: 195,
+            color: '#333333',
+            fontFamily: 'delius',
+            size: 128,
+            horizontalAlign: 'left',
+            wrap: true,
             text: this.text
-        }, constants.TEXT_OPTIONS)));
+        }));
 
         this.confirmButton = new Button({
             superview: this,
@@ -68,11 +73,13 @@ exports = Class(ImageView, function (supr) {
         });
         this.confirmButton.on('InputSelect', bind(this, this.confirmFn));
 
-        this.addSubview(new Button({
+        this.addSubview(new TextView({
             x: 37,
             y: 253,
             width: 310,
             height: 30,
+            color: '#333333',
+            fontFamily: 'delius',
             text: this.confirmText,
             horizontalAlign: 'right'
         }));

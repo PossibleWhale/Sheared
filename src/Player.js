@@ -44,7 +44,7 @@ exports = Class(Emitter, function Player(supr) {
     this._buy = function (tempOrPerm, upgradeName, woolColor) {
         var key = woolColor ? woolColor : tempOrPerm + '_' + upgradeName, price;
         if (!woolColor && upgradeName !== 'diamond') {
-            price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value];
+            price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value-1];
         } else {
             price = c.UPGRADE_PRICES[key];
         }

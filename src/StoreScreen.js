@@ -38,12 +38,14 @@ exports = Class(ImageView, function (supr) {
             }
         });
 
-        this.coinsLabel = new Button({
+        this.coinsLabel = new TextView({
             superview: this,
             x: 432,
             y: 486,
             width: 160,
             height: 80,
+            color: '#333333',
+            fontFamily: 'delius',
             text: '' + GC.app.player.stats.get('coins').value
         });
 
@@ -214,56 +216,62 @@ exports = Class(ImageView, function (supr) {
         this.priceDisplays = {};
 
         this.priceDisplays.temporary = {
-            power: new TextView(merge({
+            power: new TextView({
                 superview: this.tabs.upgrades,
                 x: 248,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS)),
-            multiplier: new TextView(merge({
+                color: '#333333',
+                fontFamily: 'delius'
+            }),
+            multiplier: new TextView({
                 superview: this.tabs.upgrades,
                 x: 447,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS)),
-            diamond: new TextView(merge({
+                color: '#333333',
+                fontFamily: 'delius'
+            }),
+            diamond: new TextView({
                 superview: this.tabs.upgrades,
                 x: 248,
                 y: 324,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS))
+                color: '#333333',
+                fontFamily: 'delius'
+            })
         };
         this.priceDisplays.permanent = {
-            power: new TextView(merge({
+            power: new TextView({
                 superview: this.tabs.upgrades,
                 x: 650,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS)),
-            multiplier: new TextView(merge({
+                color: '#333333',
+                fontFamily: 'delius'
+            }),
+            multiplier: new TextView({
                 superview: this.tabs.upgrades,
                 x: 849,
                 y: 182,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS)),
-            diamond: new TextView(merge({
+                color: '#333333',
+                fontFamily: 'delius'
+            }),
+            diamond: new TextView({
                 superview: this.tabs.upgrades,
                 x: 650,
                 y: 324,
                 width: 100,
                 height: 36,
-                strokeWidth: 3
-            }, constants.TEXT_OPTIONS))
+                color: '#333333',
+                fontFamily: 'delius'
+            })
         };
         this.updatePriceDisplays();
 
@@ -361,20 +369,24 @@ exports = Class(ImageView, function (supr) {
             });
             _registerClick(container, i);
             // quantity
-            this.tabs.wool.addSubview(new Button({
+            this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 145,
                 width: 95,
                 height: 36,
+                color: '#333333',
+                fontFamily: 'delius',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
 
             // cost
-            this.tabs.wool.addSubview(new Button({
+            this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 265,
                 width: 95,
                 height: 36,
+                color: '#333333',
+                fontFamily: 'delius',
                 text: '' + constants.UPGRADE_PRICES[constants.colors[i].label]
             }));
         }
@@ -398,20 +410,24 @@ exports = Class(ImageView, function (supr) {
             });
             _registerClick(container, i);
             // quantity
-            this.tabs.eweros.addSubview(new Button({
+            this.tabs.eweros.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 120,
                 width: 95,
                 height: 36,
+                color: '#333333',
+                fontFamily: 'delius',
                 text: '' + constants.EWEROS_QUANTITIES[i]
             }));
 
             // cost
-            this.tabs.eweros.addSubview(new Button({
+            this.tabs.eweros.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 256,
                 width: 95,
                 height: 36,
+                color: '#333333',
+                fontFamily: 'delius',
                 text: '$' + constants.EWEROS_PRICES[i]
             }));
         }
@@ -452,7 +468,7 @@ exports = Class(ImageView, function (supr) {
         } else if (upgrade === 'diamond') {
             cost = constants.UPGRADE_PRICES[key];
         } else {
-            cost = constants.UPGRADE_PRICES[key][GC.app.player.upgrades.get(key).value];
+            cost = constants.UPGRADE_PRICES[key][GC.app.player.upgrades.get(key).value-1];
         }
         if (!GC.app.localConfig.debug && GC.app.player.stats.get('coins').value < cost) {
             confirmDialog = new Alert({
