@@ -174,7 +174,7 @@ exports = Class(ImageView, function (supr) {
         var garment = this.selectedGarment,
             starImage, disabledImage;
 
-        starImage = new Image({url: 'resources/images/craft-star.png'});
+        starImage = new Image({url: 'resources/images/gold-star.png'});
 
         disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled-small.png'});
 
