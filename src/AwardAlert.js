@@ -14,7 +14,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 640,
             height: 80,
-            image: 'resources/images/achievement-alert.png'
+            image: 'resources/images/award-alert.png'
         });
 
         supr(this, 'init', [opts]);
@@ -25,22 +25,26 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
-        this.addSubview(new Button({
+        this.addSubview(new TextView({
             x: 20,
             y: 20,
             width: 420,
             height: 40,
             size: 24,
+            color: '#000000',
+            fontFamily: 'delius',
             text: this.award.text,
             horizontalAlign: 'left'
         }));
 
-        this.addSubview(new Button({
+        this.addSubview(new TextView({
             x: 490,
             y: 20,
             width: 130,
             height: 40,
             size: 24,
+            color: '#000000',
+            fontFamily: 'delius',
             text: '' + this.award.reward,
             horizontalAlign: 'left'
         }));

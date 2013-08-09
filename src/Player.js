@@ -44,7 +44,7 @@ exports = Class(Emitter, function Player(supr) {
     this._buy = function (tempOrPerm, upgradeName, woolColor) {
         var key = woolColor ? woolColor : tempOrPerm + '_' + upgradeName, price;
         if (!woolColor && upgradeName !== 'diamond') {
-            price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value];
+            price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value-1];
         } else {
             price = c.UPGRADE_PRICES[key];
         }
@@ -96,7 +96,9 @@ exports = Class(Emitter, function Player(supr) {
         this.stats.increment('wool', sheep.bolts);
         this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
 
-        at.emit('player:sheared', sheep);
+        if (!sheep.getSuperview().isTutorial) {
+            at.emit('player:sheared', sheep);
+        }
     };
 
     this.collectedBattery = function () {

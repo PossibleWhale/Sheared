@@ -27,8 +27,9 @@ exports = Class(View, function (supr) {
             height: 80,
             color: '#FFFFFF',
             fontFamily: 'delius',
-            strokeWidth: 4,
+            strokeWidth: 3,
             strokeColor: '#333333',
+            shadowColor: '#000000',
             size: 26,
             horizontalAlign: 'center',
             verticalAlign: 'middle'

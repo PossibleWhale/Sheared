@@ -1,3 +1,5 @@
+import ui.View as View;
+import ui.TextView as TextView;
 import ui.ImageView as ImageView;
 import ui.ScrollView as ScrollView;
 import src.constants as constants;
@@ -131,123 +133,81 @@ exports = Class(ImageView, function (supr) {
             this.emit('awards:back');
         }));
 
-        /*
-        this._buildEwesTab();
-        this._buildRamsTab();
-        this._buildWoolTab();
-        this._buildCraftsTab();
-        this._buildMiscTab();
-        */
-    };
-
-    this._buildEwesTab = function () {
-        var scrollView = new ScrollView({
-            superview: this.tabs.ewes,
-            x: 183,
-            y: 46,
-            scrollX: false,
-            width: 530,
-            height: 324,
-            scrollBounds: {
-                minY: 0,
-                maxY: 1500
-            }
-        });
-        scrollView.addSubview(new ImageView({
-            x: 0,
-            y: 0,
-            width: 530,
-            height: 1500,
-            image: 'resources/images/awards-ewes-content.png'
+        this.on('ViewWillAppear', bind(this, function () {
+            this._buildTab('ewes');
+            this._buildTab('rams');
+            this._buildTab('wool');
+            this._buildTab('crafts');
+            this._buildTab('misc');
         }));
     };
 
-    this._buildRamsTab = function () {
-        var scrollView = new ScrollView({
-            superview: this.tabs.rams,
-            x: 183,
-            y: 46,
-            scrollX: false,
-            width: 530,
-            height: 324,
-            scrollBounds: {
-                minY: 0,
-                maxY: 1500
-            }
-        });
-        scrollView.addSubview(new ImageView({
+    this._buildTab = function (tab) {
+        this.tabs[tab].removeAllSubviews();
+        var view = new View({
             x: 0,
             y: 0,
-            width: 530,
-            height: 1500,
-            image: 'resources/images/awards-rams-content.png'
-        }));
-    };
+            width: 640,
+            height: 1500
+        });
+        var key, star, yIndex = 0, totalHeight = 0, prefix;
+        for (key in constants.AWARDS) {
+            prefix = key.split('.')[0];
+            if (constants.AWARDS.hasOwnProperty(key) && (prefix === tab ||
+                (tab === 'misc' && prefix !== 'ewes' && prefix !== 'rams' && prefix !== 'wool' && prefix !== 'crafts'))) {
+                star = new ImageView({
+                    superview: view,
+                    x: 20,
+                    y: yIndex,
+                    width: 30,
+                    height: 30
+                });
+                if (GC.app.player.awards.get(key).value) {
+                    star.setImage('resources/images/gold-star-award.png');
+                } else {
+                    star.setImage('resources/images/gold-star-empty.png');
+                }
 
-    this._buildWoolTab = function () {
-        var scrollView = new ScrollView({
-            superview: this.tabs.wool,
-            x: 183,
-            y: 46,
-            scrollX: false,
-            width: 530,
-            height: 324,
-            scrollBounds: {
-                minY: 0,
-                maxY: 1500
-            }
-        });
-        scrollView.addSubview(new ImageView({
-            x: 0,
-            y: 0,
-            width: 530,
-            height: 1500,
-            image: 'resources/images/awards-wool-content.png'
-        }));
-    };
+                view.addSubview(new TextView({
+                    x: 60,
+                    y: yIndex,
+                    width: 460,
+                    height: 30,
+                    horizontalAlign: 'left',
+                    color: '#333333',
+                    fontFamily: 'delius',
+                    text: constants.AWARDS[key].text
+                }));
 
-    this._buildCraftsTab = function () {
-        var scrollView = new ScrollView({
-            superview: this.tabs.crafts,
-            x: 183,
-            y: 46,
-            scrollX: false,
-            width: 530,
-            height: 324,
-            scrollBounds: {
-                minY: 0,
-                maxY: 490
-            }
-        });
-        scrollView.addSubview(new ImageView({
-            x: 0,
-            y: 0,
-            width: 530,
-            height: 490,
-            image: 'resources/images/awards-crafts-content.png'
-        }));
-    };
+                view.addSubview(new TextView({
+                    x: 580,
+                    y: yIndex,
+                    width: 50,
+                    height: 30,
+                    horizontalAlign: 'right',
+                    color: '#333333',
+                    fontFamily: 'delius',
+                    size: 20,
+                    text: '' + constants.AWARDS[key].reward
+                }));
 
-    this._buildMiscTab = function () {
+                yIndex += 50;
+                totalHeight += 50;
+            }
+        }
         var scrollView = new ScrollView({
-            superview: this.tabs.misc,
+            superview: this.tabs[tab],
             x: 183,
             y: 46,
             scrollX: false,
-            width: 530,
+            width: 640,
             height: 324,
             scrollBounds: {
                 minY: 0,
-                maxY: 1250
+                maxY: totalHeight
             }
         });
-        scrollView.addSubview(new ImageView({
-            x: 0,
-            y: 0,
-            width: 530,
-            height: 1250,
-            image: 'resources/images/awards-misc-content.png'
-        }));
+        scrollView.addSubview(view);
     };
 
     this.switchTab = function (key) {
