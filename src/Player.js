@@ -34,7 +34,7 @@ exports = Class(Emitter, function Player(supr) {
 
     this.setUpgrades = function () {
         this.maxClipperHealth = Math.min(10, 5 + Math.max(this.upgrades.get('temp_power').value-1,
-                                this.upgrades.get('perm_power').value));
+                                this.upgrades.get('perm_power').value-1));
         this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
                                 this.upgrades.get('perm_mult').value);
         this.diamondBlade = this.upgrades.get('temp_diamond').value ||
