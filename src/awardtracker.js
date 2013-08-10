@@ -119,6 +119,20 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 i++;
             }
         });
+
+        this.on('player:crafted', function (craft) {
+            var player = GC.app.player, earnedAward = true;
+            GC.app.player.crafts.loopGarment(craft.label,
+                function (i, j, data) {
+                    if (data.count === 0) {
+                        earnedAward = false;
+                        return;
+                    }
+                });
+            if (earnedAward) {
+                player.earnedAward('crafts.' + craft.garment.label + 's');
+            }
+        });
     };
 
 });
