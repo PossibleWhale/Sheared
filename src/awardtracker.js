@@ -122,33 +122,48 @@ AwardTracker = Class(event.Emitter, function (supr) {
         });
 
         this.on('player:crafted', function (craft) {
-            var player = GC.app.player, earnedAward = true;
+            var player = GC.app.player, earnedGarmentAward = true;
             // check for garment award
-            player.crafts.loopGarment(craft.label,
+            player.crafts.loopGarment(craft.garment.label,
                 function (i, j, data) {
                     if (data.count === 0) {
-                        earnedAward = false;
+                        earnedGarmentAward = false;
                         return;
                     }
                 });
-            if (earnedAward) {
+            if (earnedGarmentAward) {
                 player.earnedAward('crafts.' + craft.garment.label + 's');
             }
 
             // check for color award
-            earnedAward = true;
-            var i, j, current;
+            var i, j, current, earnedColorAward = true;
             for (i = 0; i < c.colors.length; i++) {
                 for (j = 0; j < c.garments.length; j++) {
                     current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
                     console.log(current.garment.label + '-' + current.colors.main.label + '-' + current.colors.contrast.label);
                     if (!player.crafts.get(current).value) {
-                        earnedAward = false;
+                        earnedColorAward = false;
                     }
                 }
             }
-            if (earnedAward) {
+            if (earnedColorAward) {
                 player.earnedAward('crafts.' + craft.colors.main.label);
+            }
+
+            var earnedAllAward = true;
+            if (earnedGarmentAward && earnedColorAward) {
+                for (i = 0; i < c.garments.length; i++) {
+                    player.crafts.loopGarment(c.garments[i].label,
+                        function (i, j, data) {
+                            if (data.count === 0) {
+                                earnedAllAward = false;
+                                return;
+                            }
+                        });
+                }
+                if (earnedAllAward) {
+                    player.earnedAward('crafts.all');
+                }
             }
         });
     };
