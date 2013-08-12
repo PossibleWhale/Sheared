@@ -56,7 +56,7 @@ exports = Class(Emitter, function Player(supr) {
         var key = tempOrPerm + '_' + upgradeName;
         this._buy(tempOrPerm, upgradeName, woolColor);
         if (woolColor) {
-            this.wool.addWool(woolColor, 100);
+            this.wool.addWool(woolColor, c.WOOL_QUANTITIES[woolColor]);
         } else if (upgradeName === 'diamond') {
             this.upgrades.addToUpgrade('temp_diamond', true);
             // if a permanent upgrade was purchased then the temporary one was "purchased" too

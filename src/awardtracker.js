@@ -1,6 +1,7 @@
 
 import event.Emitter;
 import src.constants as c;
+import src.Craft as Craft;
 
 AwardTracker = Class(event.Emitter, function (supr) {
     this.init = function () {
@@ -122,7 +123,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
 
         this.on('player:crafted', function (craft) {
             var player = GC.app.player, earnedAward = true;
-            GC.app.player.crafts.loopGarment(craft.label,
+            // check for garment award
+            player.crafts.loopGarment(craft.label,
                 function (i, j, data) {
                     if (data.count === 0) {
                         earnedAward = false;
@@ -131,6 +133,22 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 });
             if (earnedAward) {
                 player.earnedAward('crafts.' + craft.garment.label + 's');
+            }
+
+            // check for color award
+            earnedAward = true;
+            var i, j, current;
+            for (i = 0; i < c.colors.length; i++) {
+                for (j = 0; j < c.garments.length; j++) {
+                    current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
+                    console.log(current.garment.label + '-' + current.colors.main.label + '-' + current.colors.contrast.label);
+                    if (!player.crafts.get(current).value) {
+                        earnedAward = false;
+                    }
+                }
+            }
+            if (earnedAward) {
+                player.earnedAward('crafts.' + craft.colors.main.label);
             }
         });
     };
