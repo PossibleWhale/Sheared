@@ -244,6 +244,9 @@ exports = Class(ImageView, function (supr) {
             this.battery.animator.clear();
             this.removeSubview(this.battery);
         }
+        if (this.multIndicator) {
+            this.removeSubview(this.multIndicator);
+        }
         clearInterval(this.interval);
         this.removeSubview(this.timer);
         this.removeSubview(this.clipper);
@@ -385,6 +388,8 @@ exports = Class(ImageView, function (supr) {
             restartButton.on('InputSelect', bind(this, function () {
                 GC.app.titleScreen.emit('playscreen:restart');
             }));
+
+            delete this.multIndicator;
         }
 
         storeButton.on('InputSelect', bind(this, function () {
@@ -432,18 +437,23 @@ function playGame () {
         }));
     }
 
-    var mult = GC.app.player.upgrades.get('temp_mult').value;
-    if (mult >= 5 || mult === 'max') {
-        mult = 5;
-    }
-    if (mult > 1) {
-        this.addSubview(new ImageView({
-            x: 751,
-            y: 0,
-            width: 80,
-            height: 80,
-            image: 'resources/images/active-multiplier-' + mult + '.png'
-        }));
+    if (this.multIndicator) {
+        this.addSubview(this.multIndicator);
+    } else {
+        var mult = GC.app.player.upgrades.get('temp_mult').value;
+        if (mult >= 5 || mult === 'max') {
+            mult = 5;
+        }
+        if (mult > 1) {
+            this.multIndicator = new ImageView({
+                superview: this,
+                x: 751,
+                y: 0,
+                width: 80,
+                height: 80,
+                image: 'resources/images/active-multiplier-' + mult + '.png'
+            });
+        }
     }
 
     if (!this.clipper) {
