@@ -52,7 +52,7 @@ exports = Class(ImageView, function (supr) {
         // anything that must happen when the screen appears goes here.
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            this.woolCounts.matchStorage();
         }));
 
         muteOpts = {
