@@ -177,24 +177,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._buildUpgradeTab = function () {
-        this.progressBars = {};
-        this.progressBars.temporary = {
-            power: new ImageView({
-                superview: this.tabs.upgrades,
-                x: 212,
-                y: 141,
-                width: 140,
-                height: 32,
-            }),
-            multiplier: new ImageView({
-                superview: this.tabs.upgrades,
-                x: 411,
-                y: 141,
-                width: 140,
-                height: 32,
-            })
-        };
-        this.progressBars.permanent = {
+        this.progressBars = {
             power: new ImageView({
                 superview: this.tabs.upgrades,
                 x: 614,
@@ -213,38 +196,7 @@ exports = Class(ImageView, function (supr) {
 
         this.updateProgressBars();
 
-        this.priceDisplays = {};
-
-        this.priceDisplays.temporary = {
-            power: new TextView({
-                superview: this.tabs.upgrades,
-                x: 248,
-                y: 182,
-                width: 100,
-                height: 36,
-                color: '#333333',
-                fontFamily: 'delius'
-            }),
-            multiplier: new TextView({
-                superview: this.tabs.upgrades,
-                x: 447,
-                y: 182,
-                width: 100,
-                height: 36,
-                color: '#333333',
-                fontFamily: 'delius'
-            }),
-            diamond: new TextView({
-                superview: this.tabs.upgrades,
-                x: 248,
-                y: 324,
-                width: 100,
-                height: 36,
-                color: '#333333',
-                fontFamily: 'delius'
-            })
-        };
-        this.priceDisplays.permanent = {
+        this.priceDisplays = {
             power: new TextView({
                 superview: this.tabs.upgrades,
                 x: 650,
@@ -275,79 +227,38 @@ exports = Class(ImageView, function (supr) {
         };
         this.updatePriceDisplays();
 
-        ///// Buttons for temporary upgrades
-        var powerUpgradeButton = new Button({
-            superview: this.tabs.upgrades,
-            x: 207,
-            y: 136,
-            width: 150,
-            height: 90
-        });
-        powerUpgradeButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a clipper power upgrade. Do you wish to continue?',
-                'temp', 'power');
-        }));
-
-        var multiplierUpgradeButton = new Button({
-            superview: this.tabs.upgrades,
-            x: 406,
-            y: 136,
-            width: 150,
-            height: 90
-        });
-        multiplierUpgradeButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a bolt multiplier upgrade. Do you wish to continue?',
-                'temp', 'mult');
-        }));
-
-        var diamondButton = new Button({
-            superview: this.tabs.upgrades,
-            x: 207,
-            y: 268,
-            width: 150,
-            height: 90
-        });
-        diamondButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a diamond blade. Do you wish to continue?',
-                'temp', 'diamond');
-        }));
-
-
-        ///// Buttons for permanent upgrades
-        var powerPermanentButton = new Button({
+        ///// Buttons for upgrades
+        var powerButton = new Button({
             superview: this.tabs.upgrades,
             x: 610,
             y: 136,
             width: 150,
             height: 90
         });
-        powerPermanentButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?',
-                'perm', 'power');
+        powerButton.on('InputSelect', bind(this, function () {
+            this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?', 'power');
         }));
 
-        var multiplierPermanentButton = new Button({
+        var multiplierButton = new Button({
             superview: this.tabs.upgrades,
             x: 808,
             y: 136,
             width: 150,
             height: 90
         });
-        multiplierPermanentButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?',
-            'perm', 'mult');
+        multiplierButton.on('InputSelect', bind(this, function () {
+            this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?', 'mult');
         }));
 
-        var diamondPermanentButton = new Button({
+        var diamondButton = new Button({
             superview: this.tabs.upgrades,
             x: 610,
             y: 268,
             width: 150,
             height: 90
         });
-        diamondPermanentButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?',
-                'perm', 'diamond');
+        diamondButton.on('InputSelect', bind(this, function () {
+            this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?', 'diamond');
         }));
     };
 
@@ -461,14 +372,14 @@ exports = Class(ImageView, function (supr) {
         );
     };
 
-    this.showPurchaseDialog = function (text, tempOrPerm, upgrade, woolColor) {
-        var confirmDialog, cost, key = tempOrPerm + '_' + upgrade;
+    this.showPurchaseDialog = function (text, upgrade, woolColor) {
+        var confirmDialog, cost;
         if (woolColor) {
             cost = constants.UPGRADE_PRICES[woolColor.label];
         } else if (upgrade === 'diamond') {
-            cost = constants.UPGRADE_PRICES[key];
+            cost = constants.UPGRADE_PRICES[upgrade];
         } else {
-            cost = constants.UPGRADE_PRICES[key][GC.app.player.upgrades.get(key).value-1];
+            cost = constants.UPGRADE_PRICES[upgrade][GC.app.player.upgrades.get(upgrade).value-1];
         }
         if (!GC.app.localConfig.debug && GC.app.player.stats.get('coins').value < cost) {
             confirmDialog = new Alert({
@@ -486,7 +397,7 @@ exports = Class(ImageView, function (supr) {
                         GC.app.player.purchased(false, false, woolColor.label);
                         this.woolCounts.update(woolColor);
                     } else {
-                        GC.app.player.purchased(tempOrPerm, upgrade);
+                        GC.app.player.purchased(upgrade);
                         this.updateProgressBars();
                         this.updatePriceDisplays();
                     }
@@ -500,24 +411,14 @@ exports = Class(ImageView, function (supr) {
 
     this.updateProgressBars = function () {
         var upgradeLevels = this._upgradeLevels();
-        this.progressBars.temporary.power.setImage(
+        this.progressBars.power.setImage(
             'resources/images/store-power-' +
-            upgradeLevels.temporary.power +
+            upgradeLevels.power +
             '.png'
         );
-        this.progressBars.temporary.multiplier.setImage(
+        this.progressBars.multiplier.setImage(
             'resources/images/store-multiplier-' +
-            upgradeLevels.temporary.multiplier +
-            '.png'
-        );
-        this.progressBars.permanent.power.setImage(
-            'resources/images/store-power-' +
-            upgradeLevels.permanent.power +
-            '.png'
-        );
-        this.progressBars.permanent.multiplier.setImage(
-            'resources/images/store-multiplier-' +
-            upgradeLevels.permanent.multiplier +
+            upgradeLevels.multiplier +
             '.png'
         );
     };
@@ -525,48 +426,27 @@ exports = Class(ImageView, function (supr) {
     this.updatePriceDisplays = function () {
         var upgradeLevels = this._upgradeLevels();
 
-        // price displays for temporary upgrades
-        this.priceDisplays.temporary.power.setText(
-            constants.UPGRADE_PRICES.temp_power[upgradeLevels.temporary.power-1] ||
+        // price displays for upgrades
+        this.priceDisplays.power.setText(
+            constants.UPGRADE_PRICES.power[upgradeLevels.power-1] ||
             'Purchased!'
         );
-        this.priceDisplays.temporary.multiplier.setText(
-            constants.UPGRADE_PRICES.temp_mult[upgradeLevels.temporary.multiplier-1] ||
+        this.priceDisplays.multiplier.setText(
+            constants.UPGRADE_PRICES.mult[upgradeLevels.multiplier-1] ||
             'Purchased!'
         );
-        if (GC.app.player.upgrades.get('temp_diamond').value) {
-            this.priceDisplays.temporary.diamond.setText('Purchased!');
+        if (GC.app.player.upgrades.get('diamond').value) {
+            this.priceDisplays.diamond.setText('Purchased!');
         } else {
-            this.priceDisplays.temporary.diamond.setText(constants.UPGRADE_PRICES.temp_diamond);
-        }
-
-        // price displays for permanent upgrades
-        this.priceDisplays.permanent.power.setText(
-            constants.UPGRADE_PRICES.perm_power[upgradeLevels.permanent.power-1] ||
-            'Purchased!'
-        );
-        this.priceDisplays.permanent.multiplier.setText(
-            constants.UPGRADE_PRICES.perm_mult[upgradeLevels.permanent.multiplier-1] ||
-            'Purchased!'
-        );
-        if (GC.app.player.upgrades.get('perm_diamond').value) {
-            this.priceDisplays.permanent.diamond.setText('Purchased!');
-        } else {
-            this.priceDisplays.permanent.diamond.setText(constants.UPGRADE_PRICES.perm_diamond);
+            this.priceDisplays.diamond.setText(constants.UPGRADE_PRICES.diamond);
         }
     };
 
     this._upgradeLevels = function () {
         var upgrades = GC.app.player.upgrades;
         return {
-            temporary: {
-                power: upgrades.get('temp_power').value >= 5 ? 'max' : upgrades.get('temp_power').value,
-                multiplier: upgrades.get('temp_mult').value >= 6 ? 'max' : upgrades.get('temp_mult').value
-            },
-            permanent: {
-                power: upgrades.get('perm_power').value >= 5 ? 'max' : upgrades.get('perm_power').value,
-                multiplier: upgrades.get('perm_mult').value >= 6 ? 'max' : upgrades.get('perm_mult').value
-            }
+            power: upgrades.get('power').value >= 5 ? 'max' : upgrades.get('power').value,
+            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value
         };
     };
 });

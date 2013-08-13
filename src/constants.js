@@ -124,12 +124,9 @@ exports = {
     ramRarity: 0.2,
 
     UPGRADE_PRICES: {
-        temp_power: [1000, 2000, 3000, 4000, 5000],
-        temp_mult: [1000, 2000, 3000, 4000, 5000],
-        temp_diamond: 10000,
-        perm_power: [10000, 20000, 30000, 40000, 50000],
-        perm_mult: [10000, 20000, 30000, 40000, 50000],
-        perm_diamond: 100000,
+        power: [10000, 20000, 30000, 40000, 50000],
+        mult: [10000, 20000, 30000, 40000, 50000],
+        diamond: 100000,
 
         // wool prices. for now they are all the same... we might want them to be different?
         white: 1000,

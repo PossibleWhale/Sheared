@@ -33,16 +33,13 @@ exports = Class(Emitter, function Player(supr) {
     };
 
     this.setUpgrades = function () {
-        this.maxClipperHealth = Math.min(10, 5 + Math.max(this.upgrades.get('temp_power').value-1,
-                                this.upgrades.get('perm_power').value-1));
-        this.boltMultiplier = Math.max(this.upgrades.get('temp_mult').value,
-                                this.upgrades.get('perm_mult').value);
-        this.diamondBlade = this.upgrades.get('temp_diamond').value ||
-                                this.upgrades.get('perm_diamond').value;
+        this.maxClipperHealth = Math.min(10, 5 + this.upgrades.get('power').value-1);
+        this.boltMultiplier = this.upgrades.get('mult').value;
+        this.diamondBlade = this.upgrades.get('diamond').value;
     };
 
-    this._buy = function (tempOrPerm, upgradeName, woolColor) {
-        var key = woolColor ? woolColor : tempOrPerm + '_' + upgradeName, price;
+    this._buy = function (upgradeName, woolColor) {
+        var key = woolColor ? woolColor : upgradeName, price;
         if (!woolColor && upgradeName !== 'diamond') {
             price = c.UPGRADE_PRICES[key][this.upgrades.get(key).value-1];
         } else {
@@ -51,28 +48,20 @@ exports = Class(Emitter, function Player(supr) {
         this.stats.increment('coins', -1*price);
     };
 
-    this.purchased = function (tempOrPerm, upgradeName, woolColor) {
+    this.purchased = function (upgradeName, woolColor) {
         dh.pre_purchase();
-        var key = tempOrPerm + '_' + upgradeName;
-        this._buy(tempOrPerm, upgradeName, woolColor);
+        this._buy(upgradeName, woolColor);
         if (woolColor) {
             this.wool.addWool(woolColor, c.WOOL_QUANTITIES[woolColor]);
         } else if (upgradeName === 'diamond') {
-            this.upgrades.addToUpgrade('temp_diamond', true);
-            // if a permanent upgrade was purchased then the temporary one was "purchased" too
-            if (tempOrPerm === 'perm') {
-                this.upgrades.addToUpgrade(tempOrPerm + '_diamond', true);
-            }
+            this.upgrades.addToUpgrade('diamond', true);
         } else {
-            this.upgrades.addToUpgrade('temp_' + upgradeName, this.upgrades.get('temp_' + upgradeName).value + 1);
-            if (tempOrPerm === 'perm') {
-                this.upgrades.addToUpgrade(key, this.upgrades.get(key).value + 1);
-            }
+            this.upgrades.addToUpgrade(upgradeName, this.upgrades.get(upgradeName).value + 1);
         }
 
         this.emit('player:purchased');
 
-        if (tempOrPerm === 'perm' && upgradeName) {
+        if (upgradeName) {
             at.emit('player:purchased' + upgradeName);
         }
     };

@@ -259,7 +259,6 @@ exports = Class(ImageView, function (supr) {
     this.gameOver = function () {
         this.endDay();
         this._showResults(false);
-        GC.app.player.upgrades.resetTemporary();
         this.emit('playscreen:gameover');
     };
 
