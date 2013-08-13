@@ -6,7 +6,7 @@ exports = Class(View, function (supr) {
         opts = merge(opts, {
             x: 0,
             y: 0,
-            zIndex: 1,
+            zIndex: 9999,
             width: 1024,
             height: 576
         });
