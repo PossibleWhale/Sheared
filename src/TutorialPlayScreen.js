@@ -53,8 +53,8 @@ exports = Class(ImageView, function (supr) {
 
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new ImageView({
-            x: 414,
-            y: 258,
+            x: 404,
+            y: 253,
             zIndex: 9999,
             width: 215,
             height: 70,
