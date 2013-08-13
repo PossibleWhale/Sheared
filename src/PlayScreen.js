@@ -52,7 +52,7 @@ exports = Class(ImageView, function (supr) {
         // anything that must happen when the screen appears goes here.
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            this.woolCounts.matchStorage();
         }));
 
         muteOpts = {
@@ -147,22 +147,28 @@ exports = Class(ImageView, function (supr) {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
-        var dayIntro = new TextView(merge({
+        var dayIntro = new ImageView({
             x: 1024,
             y: 0,
             width: 1024,
             height: 576,
+            image: 'resources/images/day.png'
+        });
+        dayIntro.addSubview(new Button({
+            x: 257,
+            y: 123,
+            width: 510,
+            height: 80,
             size: 128,
-            strokeWidth: 8,
-            text: 'Day  ' + (this.day+1),
-        }, constants.TEXT_OPTIONS)),
-        continueButton = new Button(merge({
-            x: 392,
-            y: 418,
-            width: 240,
-            height: 54,
-            text: 'Continue',
-        }, constants.TEXT_OPTIONS));
+            text: 'Day  ' + (this.day+1)
+        }));
+
+        var continueButton = new Button({
+            x: 414,
+            y: 259,
+            width: 195,
+            height: 60,
+        });
 
         dayIntro.addSubview(continueButton);
         this.addSubview(dayIntro);
@@ -238,6 +244,9 @@ exports = Class(ImageView, function (supr) {
             this.battery.animator.clear();
             this.removeSubview(this.battery);
         }
+        if (this.multIndicator) {
+            this.removeSubview(this.multIndicator);
+        }
         clearInterval(this.interval);
         this.removeSubview(this.timer);
         this.removeSubview(this.clipper);
@@ -270,11 +279,10 @@ exports = Class(ImageView, function (supr) {
                 image: 'resources/images/results.png'
             });
             continueButton = new Button({
-                x: 392,
-                y: 418,
-                width: 240,
-                height: 54,
-                text: 'Continue'
+                x: 414,
+                y: 413,
+                width: 195,
+                height: 60
             }),
             storeButton = new Button({
                 superview: resultsScreen,
@@ -296,6 +304,14 @@ exports = Class(ImageView, function (supr) {
                 width: 80,
                 height: 80,
                 image: 'resources/images/button-home.png'
+            }),
+            resultsLabel = new Button({
+                superview: resultsScreen,
+                x: 257,
+                y: 123,
+                width: 510,
+                height: 80,
+                text: 'Results'
             });
 
             var counts = [], countViews = [];
@@ -341,17 +357,17 @@ exports = Class(ImageView, function (supr) {
             }),
             restartButton = new Button({
                 superview: resultsScreen,
-                x: 392,
-                y: 261,
-                width: 240,
-                height: 54
+                x: 414,
+                y: 258,
+                width: 195,
+                height: 60
             }),
             homeButton = new Button({
                 superview: resultsScreen,
-                x: 377,
-                y: 335,
-                width: 270,
-                height: 54
+                x: 414,
+                y: 360,
+                width: 195,
+                height: 60
             }),
             craftButton = new Button({
                 superview: resultsScreen,
@@ -359,11 +375,21 @@ exports = Class(ImageView, function (supr) {
                 y: 248,
                 width: 200,
                 height: 80
+            }),
+            resultsLabel = new Button({
+                superview: resultsScreen,
+                x: 257,
+                y: 123,
+                width: 510,
+                height: 80,
+                text: 'Game Over'
             });
 
             restartButton.on('InputSelect', bind(this, function () {
                 GC.app.titleScreen.emit('playscreen:restart');
             }));
+
+            delete this.multIndicator;
         }
 
         storeButton.on('InputSelect', bind(this, function () {
@@ -411,18 +437,23 @@ function playGame () {
         }));
     }
 
-    var mult = GC.app.player.upgrades.get('temp_mult').value;
-    if (mult >= 5 || mult === 'max') {
-        mult = 5;
-    }
-    if (mult > 1) {
-        this.addSubview(new ImageView({
-            x: 751,
-            y: 0,
-            width: 80,
-            height: 80,
-            image: 'resources/images/active-multiplier-' + mult + '.png'
-        }));
+    if (this.multIndicator) {
+        this.addSubview(this.multIndicator);
+    } else {
+        var mult = GC.app.player.upgrades.get('temp_mult').value;
+        if (mult >= 5 || mult === 'max') {
+            mult = 5;
+        }
+        if (mult > 1) {
+            this.multIndicator = new ImageView({
+                superview: this,
+                x: 751,
+                y: 0,
+                width: 80,
+                height: 80,
+                image: 'resources/images/active-multiplier-' + mult + '.png'
+            });
+        }
     }
 
     if (!this.clipper) {

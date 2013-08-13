@@ -121,7 +121,7 @@ exports = {
 
     fenceSize: 80,
     laneSize: 52,
-    ramRarity: 0.3,
+    ramRarity: 0.2,
 
     UPGRADE_PRICES: {
         temp_power: [1000, 2000, 3000, 4000, 5000],

@@ -65,11 +65,11 @@ exports = Class(ImageView, function (supr) {
 
         this.confirmButton = new Button({
             superview: this,
-            x: 352,
-            y: 253,
+            x: 10,
+            y: 248,
             zIndex: 99,
-            width: 30,
-            height: 30
+            width: 400,
+            height: 40
         });
         this.confirmButton.on('InputSelect', bind(this, this.confirmFn));
 
@@ -86,11 +86,11 @@ exports = Class(ImageView, function (supr) {
 
         this.cancelButton = new Button({
             superview: this,
-            x: 385,
-            y: 5,
+            x: 375,
+            y: 0,
             zIndex: 99,
-            width: 30,
-            height: 30
+            width: 50,
+            height: 40
         });
         this.cancelButton.on('InputSelect', bind(this, this.cancelFn));
     };

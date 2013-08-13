@@ -64,4 +64,13 @@ exports = Class(View, function (supr) {
             _update(color);
         }
     };
+
+    // update the wool counter to match whatever is in GC.app.player's WoolStorage
+    this.matchStorage = function () {
+        var i = constants.colors.length, col;
+        while (i--) {
+            col = constants.colors[i];
+            this.counts[col.label].setText(GC.app.player.wool.get(col).count);
+        }
+    };
 });

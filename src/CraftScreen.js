@@ -13,6 +13,7 @@ import src.MuteButton as MuteButton;
 import src.util as util;
 import src.Craft as Craft;
 import src.debughack as dh;
+import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
 
 
@@ -75,7 +76,7 @@ exports = Class(ImageView, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            this.woolCounts.matchStorage();
             this.total = GC.app.player.stats.get('coins').value;
             this.updateTotal();
         }));
@@ -333,6 +334,7 @@ exports = Class(ImageView, function (supr) {
             this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
             this.wool.addWool(craft.colors.contrast, -1 * costs[1].amount);
             this.woolCounts.update();
+            at.emit('player:crafted', craft);
         }
         this._cleanUI();
     };

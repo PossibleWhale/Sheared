@@ -1,6 +1,7 @@
 
 import event.Emitter;
 import src.constants as c;
+import src.Craft as Craft;
 
 AwardTracker = Class(event.Emitter, function (supr) {
     this.init = function () {
@@ -117,6 +118,51 @@ AwardTracker = Class(event.Emitter, function (supr) {
                     player.earnedAward(key);
                 }
                 i++;
+            }
+        });
+
+        this.on('player:crafted', function (craft) {
+            var player = GC.app.player, earnedGarmentAward = true;
+            // check for garment award
+            player.crafts.loopGarment(craft.garment.label,
+                function (i, j, data) {
+                    if (data.count === 0) {
+                        earnedGarmentAward = false;
+                        return;
+                    }
+                });
+            if (earnedGarmentAward) {
+                player.earnedAward('crafts.' + craft.garment.label + 's');
+            }
+
+            // check for color award
+            var i, j, current, earnedColorAward = true;
+            for (i = 0; i < c.colors.length; i++) {
+                for (j = 0; j < c.garments.length; j++) {
+                    current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
+                    if (!player.crafts.get(current).value) {
+                        earnedColorAward = false;
+                    }
+                }
+            }
+            if (earnedColorAward) {
+                player.earnedAward('crafts.' + craft.colors.main.label);
+            }
+
+            var earnedAllAward = true;
+            if (earnedGarmentAward && earnedColorAward) {
+                for (i = 0; i < c.garments.length; i++) {
+                    player.crafts.loopGarment(c.garments[i].label,
+                        function (i, j, data) {
+                            if (data.count === 0) {
+                                earnedAllAward = false;
+                                return;
+                            }
+                        });
+                }
+                if (earnedAllAward) {
+                    player.earnedAward('crafts.all');
+                }
             }
         });
     };

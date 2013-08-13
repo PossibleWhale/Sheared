@@ -52,18 +52,13 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.inputBuffer = new InputBuffer({superview: this});
-        this.nextButton = new Button({
-            x: 1024 - 160,
-            y: 576 - 80,
-            backgroundColor: '#FF00FF',
-            color: '#000000',
-            fontFamily: 'delius',
-            text: 'OK, got it!',
-            width: 160,
-            height: 80,
-            size: 128,
-            autoFontSize: true,
-            zIndex: 999
+        this.nextButton = new ImageView({
+            x: 404,
+            y: 253,
+            zIndex: 9999,
+            width: 215,
+            height: 70,
+            image: 'resources/images/button-continue.png'
         });
         this.sheep = [];
 
