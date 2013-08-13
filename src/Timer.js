@@ -8,14 +8,11 @@ exports = Class(TextView, function (supr) {
         var initialTime = 30;
 
         opts = merge(opts, {
-            color: '#FFFFFF',
+            color: '#333333',
             size: 72,
             autoFontSize: true,
             fontFamily: 'delius',
             text: initialTime,
-            horizontalAlign: 'center',
-            strokeWidth: 4,
-            strokeColor: '#000000',
             horizontalAlign: 'center',
             vertcalAlign: 'middle'
         });
