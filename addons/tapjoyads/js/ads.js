@@ -63,7 +63,7 @@ var TapjoyAds = Class(function () {
 
     };
 
-    if (NATIVE && NATIVE.events) {
+    if (NATIVE && NATIVE.events && NATIVE.plugins) {
         this.init = this._initNATIVE;
         this.showAd = this._showAdNATIVE;
     } else {
