@@ -140,7 +140,6 @@ AwardTracker = Class(event.Emitter, function (supr) {
             for (i = 0; i < c.colors.length; i++) {
                 for (j = 0; j < c.garments.length; j++) {
                     current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
-                    console.log(current.garment.label + '-' + current.colors.main.label + '-' + current.colors.contrast.label);
                     if (!player.crafts.get(current).value) {
                         earnedColorAward = false;
                     }
