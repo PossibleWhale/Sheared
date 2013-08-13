@@ -82,6 +82,6 @@ exports = Class(ui.StackView, function (supr) {
     this.craftTutorial = function () {
         this.tutorialScreen = new TutorialCraftScreen();
         this.push(this.tutorialScreen);
-        this.tutorialScreen.stepA();
+        this.tutorialScreen.tutor();
     };
 });
