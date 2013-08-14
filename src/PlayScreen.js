@@ -426,7 +426,7 @@ function playGame () {
             superview: this,
             x: 0,
             y: 0,
-            zIndex: 1000,
+            zIndex: 999999,
             width: 80,
             height: 80,
             image: 'resources/images/button-pause.png'
