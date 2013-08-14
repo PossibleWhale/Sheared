@@ -12,51 +12,78 @@ import src.util as util;
  */
 
 var AbstractRunner = Class(Emitter, function _a_Runner(supr) {
-    this.init = function _a_init() {
+    this.init = function _a_init(context) {
         this.fn = ff();
+        if (context) {
+            this.setContext(context);
+        }
         supr(this, 'init', arguments);
 
         this.next = bind(this.fn, this.fn.next);
         this.waitPlain = bind(this.fn, this.fn.waitPlain);
         this.wait = bind(this.fn, this.fn.wait);
-        this.slot = bind(this.fn, this.fn.slo);
+        this.slot = bind(this.fn, this.fn.slot);
         this.slotPlain = bind(this.fn, this.fn.slotPlain);
     };
 
-    this.run = function _a_run(context, script) {
-        var meth, runAnimation, step, factory, factoryArgs;
-        if (isArray(context)) {
-            script = context;
-            context = this;
-        }
+    this.setContext = function _a_setContext(context) {
+        this.context = context;
         util.assert(context.addSubview);
+    };
+
+    this.run = function _a_run(script) {
+        var meth, runAnimation, step, factory, factoryArgs;
         script = script.slice();
 
         while (script.length) {
-            step = merge({}, script.shift());
-            if (typeof step.method === 'string') {
-                meth = this['animation_' + step.method];
+            step = script.shift();
+            if (typeof step === 'function' ) {
+                this._runFunction(step);
             } else {
-                meth = step.method;
+                this._runObject(step);
             }
-            util.assert(meth);
-
-            if (typeof step.factory === 'string') {
-                factory = this['factory_' + step.factory];
-            } else {
-                factory = step.factory;
-            };
-            util.assert(factory);
-
-            runAnimation = function _a_runAnimation(method, fac, fargs, margs) {
-                var view = fac.call(this, fargs);
-                return method.call(this, animate(view), margs);
-            };
-
-            factoryArgs = merge({context: context}, step.factoryArgs);
-            console.log(factory);
-            this.next(bind(this, runAnimation, meth, factory, factoryArgs, step.methodArgs));
         }
+    };
+
+    this._runFunction = function _a_runFunction(step) {
+        this.next(step);
+    };
+
+    this.passThroughFactory = function _a_passThroughFactory(view) {
+        return view;
+    };
+
+    this._runObject = function _a_runObject(step) {
+        step = merge({}, step); // copy the object before use
+
+        if (typeof step.method === 'string') {
+            meth = this['animation_' + step.method];
+        } else {
+            meth = step.method;
+        }
+        util.assert(meth);
+
+        if (typeof step.factory === 'string') {
+            // look up the factory by its string name
+            factory = this['factory_' + step.factory];
+
+        } else if (typeof step.factory === 'object' && step.factory.style) {
+            // object IS a view. wrap it in a function that just returns it.
+            factory = bind(this, this.passThroughFactory, step.factory);
+
+        } else {
+            // object is a function. call it and hope we get a view back.
+            factory = step.factory;
+        };
+
+        util.assert(factory);
+
+        runAnimation = function _a_runAnimation(method, fac, fargs, margs) {
+            var view = fac.call(this, fargs);
+            return method.call(this, animate(view), margs);
+        };
+
+        this.next(bind(this, runAnimation, meth, factory, step.factoryArgs, step.methodArgs));
     };
 
 });
@@ -100,11 +127,11 @@ var BasicRunner = Class(AbstractRunner, function _a_BasicRunner (supr) {
     };
 
     this.factory_text = function _a_tvFactory(obj) {
-        return new TextView(merge({text: obj.text, superview: obj.context}, textArgs));
+        return new TextView(merge({text: obj.text, superview: this.context}, textArgs));
     };
 
     this.factory_image = function _a_imageFactory(obj) {
-        return new ImageView(merge(merge({superview: obj.context}, obj), imageArgs));
+        return new ImageView(merge(merge({superview: this.context}, obj), imageArgs));
     };
 
 });
