@@ -368,7 +368,6 @@ exports = Class(ImageView, function (supr) {
         this.showPurchaseDialog(
             'You are about to purchase ' + color.label + ' wool. Do you wish to continue?',
             false,
-            false,
             color
         );
     };
