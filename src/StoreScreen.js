@@ -40,12 +40,13 @@ exports = Class(ImageView, function (supr) {
 
         this.coinsLabel = new TextView({
             superview: this,
-            x: 432,
-            y: 486,
-            width: 160,
-            height: 80,
+            x: 461,
+            y: 516,
+            width: 152,
+            height: 40,
             color: '#333333',
             fontFamily: 'delius',
+            horizontalAlign: 'left',
             text: '' + GC.app.player.stats.get('coins').value
         });
 
@@ -180,14 +181,14 @@ exports = Class(ImageView, function (supr) {
         this.progressBars = {
             power: new ImageView({
                 superview: this.tabs.upgrades,
-                x: 614,
+                x: 225,
                 y: 141,
                 width: 140,
                 height: 32,
             }),
             multiplier: new ImageView({
                 superview: this.tabs.upgrades,
-                x: 813,
+                x: 510,
                 y: 141,
                 width: 140,
                 height: 32,
@@ -199,27 +200,27 @@ exports = Class(ImageView, function (supr) {
         this.priceDisplays = {
             power: new TextView({
                 superview: this.tabs.upgrades,
-                x: 650,
+                x: 261,
                 y: 182,
-                width: 100,
+                width: 104,
                 height: 36,
                 color: '#333333',
                 fontFamily: 'delius'
             }),
             multiplier: new TextView({
                 superview: this.tabs.upgrades,
-                x: 849,
+                x: 546,
                 y: 182,
-                width: 100,
+                width: 104,
                 height: 36,
                 color: '#333333',
                 fontFamily: 'delius'
             }),
             diamond: new TextView({
                 superview: this.tabs.upgrades,
-                x: 650,
-                y: 324,
-                width: 100,
+                x: 832,
+                y: 182,
+                width: 104,
                 height: 36,
                 color: '#333333',
                 fontFamily: 'delius'
@@ -230,10 +231,10 @@ exports = Class(ImageView, function (supr) {
         ///// Buttons for upgrades
         var powerButton = new Button({
             superview: this.tabs.upgrades,
-            x: 610,
+            x: 215,
             y: 136,
-            width: 150,
-            height: 90
+            width: 160,
+            height: 91
         });
         powerButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?', 'power');
@@ -241,10 +242,10 @@ exports = Class(ImageView, function (supr) {
 
         var multiplierButton = new Button({
             superview: this.tabs.upgrades,
-            x: 808,
+            x: 500,
             y: 136,
-            width: 150,
-            height: 90
+            width: 160,
+            height: 91
         });
         multiplierButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?', 'mult');
@@ -252,10 +253,10 @@ exports = Class(ImageView, function (supr) {
 
         var diamondButton = new Button({
             superview: this.tabs.upgrades,
-            x: 610,
-            y: 268,
-            width: 150,
-            height: 90
+            x: 786,
+            y: 136,
+            width: 160,
+            height: 91
         });
         diamondButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?', 'diamond');
@@ -366,7 +367,6 @@ exports = Class(ImageView, function (supr) {
     this.showPurchaseWool = function (color) {
         this.showPurchaseDialog(
             'You are about to purchase ' + color.label + ' wool. Do you wish to continue?',
-            false,
             false,
             color
         );

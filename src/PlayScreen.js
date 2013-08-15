@@ -426,7 +426,7 @@ function playGame () {
             superview: this,
             x: 0,
             y: 0,
-            zIndex: 1000,
+            zIndex: 999999,
             width: 80,
             height: 80,
             image: 'resources/images/button-pause.png'
@@ -439,7 +439,7 @@ function playGame () {
     if (this.multIndicator) {
         this.addSubview(this.multIndicator);
     } else {
-        var mult = GC.app.player.upgrades.get('temp_mult').value;
+        var mult = GC.app.player.upgrades.get('mult').value;
         if (mult >= 5 || mult === 'max') {
             mult = 5;
         }
@@ -459,7 +459,7 @@ function playGame () {
         this.clipper = new Clipper({
             x: 0,
             y: laneCoord(4) + 5, // start in middle lane
-            infiniteDiamond: GC.app.player.upgrades.get('temp_diamond').value
+            infiniteDiamond: GC.app.player.upgrades.get('diamond').value
         });
     } else {
         this.clipper.style.x = 0;
