@@ -166,9 +166,7 @@ exports = Class(ImageView, function (supr) {
 
     this.updateCraftBuyButtons = function _a_updateCraftBuyButtons() {
         var garment = this.selectedGarment,
-            starImage, disabledImage;
-
-        starImage = new Image({url: 'resources/images/gold-star.png'});
+            disabledImage;
 
         disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled-small.png'});
 
@@ -182,7 +180,7 @@ exports = Class(ImageView, function (supr) {
 
             main = cb.getOpts().item.main;
             contrast = cb.getOpts().item.contrast;
-            currentCraft = new Craft(this.selectedGarment, main, contrast);
+            currentCraft = new Craft(garment, main, contrast);
 
             if (player.canCraft(currentCraft)) {
                 cb.updateOpts({opacity: 1.0, purchaseable: true});
@@ -196,9 +194,9 @@ exports = Class(ImageView, function (supr) {
             }
 
             if (player.crafts.get(currentCraft).count >= 1) {
-                star.setImage(starImage);
+                star.show();
             } else {
-                star.updateOpts({image: false});
+                star.hide();
             }
         }));
     };
@@ -304,7 +302,9 @@ exports = Class(ImageView, function (supr) {
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
         var me = this.btn;
+        region.image = new Image({url: 'resources/images/gold-star.png'});
         btn = this.defaultButtonFactory(region, 'craftStars');
+        btn.hide();
 
         this.animateStar(btn);
 
