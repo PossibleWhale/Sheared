@@ -186,18 +186,13 @@ exports = Class(ImageView, function (supr) {
 
             if (player.canCraft(currentCraft)) {
                 cb.updateOpts({opacity: 1.0, purchaseable: true});
-                console.log(cb.getOpts().purchaseable);
                 res = new Image({url:
                     'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '-small.png'
                 });
                 cb.setImage(res);
-
-                this.animateCraft(cb);
             } else {
                 cb.updateOpts({opacity: 0.75, purchaseable: false});
                 cb.setImage(disabledImage);
-
-                animate(cb).clear();
             }
 
             if (player.crafts.get(currentCraft).count >= 1) {
@@ -301,6 +296,8 @@ exports = Class(ImageView, function (supr) {
                 me.showLargeCraft(_btn.getOpts().item);
             };
         })(btn));
+
+        this.animateCraft(btn);
 
         return btn;
     };
