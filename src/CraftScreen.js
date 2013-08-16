@@ -191,9 +191,13 @@ exports = Class(ImageView, function (supr) {
                     'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '-small.png'
                 });
                 cb.setImage(res);
+
+                this.animateCraft(cb);
             } else {
                 cb.updateOpts({opacity: 0.75, purchaseable: false});
                 cb.setImage(disabledImage);
+
+                animate(cb).clear();
             }
 
             if (player.crafts.get(currentCraft).count >= 1) {
@@ -297,8 +301,6 @@ exports = Class(ImageView, function (supr) {
                 me.showLargeCraft(_btn.getOpts().item);
             };
         })(btn));
-
-        this.animateCraft(btn);
 
         return btn;
     };

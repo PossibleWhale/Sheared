@@ -31,6 +31,7 @@ exports = Class(ImageView, function (supr) {
         supr(this, 'init', [opts]);
         this.day = 0;
         this.firstPlay = true; // set to false when at least 1 day has been played in this session
+        this.noBackButton = true; // set to true so the android back button does nothing
 
         this.build();
     };
