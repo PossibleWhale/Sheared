@@ -19,13 +19,12 @@ import src.WoolCounter as WoolCounter;
 
 exports = Class(ImageView, function (supr) {
     this.init = function _a_init(opts) {
-        this.background = new Image({url: "resources/images/craft.png"});
         this.buttons = {};
         this.total = Math.round(GC.app.player.stats.get('coins').value, 0);
 
         opts = merge(opts, {
             autosize: true,
-            image: this.background
+            image: new Image({url: 'resources/images/craft.png'})
         });
 
         supr(this, 'init', [opts]);
