@@ -49,7 +49,8 @@ exports = Class(ImageView, function (supr) {
             y: 80,
             width: 1024,
             height: 416,
-            superview: this
+            superview: this,
+            buttonKind: "tabs"
         });
 
         // load up alllll dem buttons
@@ -184,13 +185,14 @@ exports = Class(ImageView, function (supr) {
             currentCraft = new Craft(this.selectedGarment, main, contrast);
 
             if (player.canCraft(currentCraft)) {
-                cb.updateOpts({opacity: 1.0});
+                cb.updateOpts({opacity: 1.0, purchaseable: true});
+                console.log(cb.getOpts().purchaseable);
                 res = new Image({url:
                     'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '-small.png'
                 });
                 cb.setImage(res);
             } else {
-                cb.updateOpts({opacity: 0.75});
+                cb.updateOpts({opacity: 0.75, purchaseable: false});
                 cb.setImage(disabledImage);
             }
 
@@ -286,7 +288,9 @@ exports = Class(ImageView, function (supr) {
         btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({anchorX: btn.getOpts().width / 2,
             anchorY: 8,
-            click: false}); // these have their own noise
+            click: false, // these have their own noise
+            purchaseable: true
+        });
 
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
@@ -356,9 +360,15 @@ exports = Class(ImageView, function (supr) {
      * animate a gentle swaying of the crafts
      */
     this.animateCraft = function _a_animateCraft(btn) {
+        if (!btn.getOpts().purchaseable) {
+            animate(btn).clear().now({r: 0});
+            return;
+        }
+
         var wiggle, stepSize = (Math.random() * 15) + 10;
         // 50% of the time, stay put
         var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
+
         if (odd) {
             wiggle = 0;
         } else {
