@@ -38,7 +38,7 @@ var Hax = function () {
     /*
      * add some wool to test crafting
      */
-    this.pre_startCrafting = function () {
+    this.pre_startCrafting = function (view) {
         if (!GC.app.woolhack) {
             GC.app.woolhack = true;
             GC.app.player.wool.add([
@@ -49,6 +49,7 @@ var Hax = function () {
                 {color: 'blue', count: 100},
                 {color: 'black', count: 100}
             ]);
+            view.woolCounts.update();
         }
     };
 

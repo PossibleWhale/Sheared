@@ -149,14 +149,6 @@ exports = Class(ImageView, function (supr) {
         }
     };
 
-    /*
-     * Update craft count boxes based on current selections and inventory
-     */
-    this.updateCraftCounts = function _a_updateCraftContents() {
-        return; // FIXME
-        undefined('TODO');
-    };
-
     // execute the callback once for each craft cell in the visible catalog
     this._loopCrafts = function _a_loopCrafts(callback) {
         var i, j, row;
@@ -220,7 +212,6 @@ exports = Class(ImageView, function (supr) {
     this._cleanUI = function _a_cleanUI() {
         this.updateCraftBuyButtons();
         this.updateTabs();
-        this.updateCraftCounts();
         this.updateTotal();
     };
 
@@ -349,7 +340,7 @@ exports = Class(ImageView, function (supr) {
      * reset crafting state
      */
     this.startCrafting = function _a_startCrafting() {
-        dh.pre_startCrafting();
+        dh.pre_startCrafting(this);
         this.setGarment(c.GARMENT_HAT);
     };
 
