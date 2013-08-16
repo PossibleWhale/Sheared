@@ -70,7 +70,11 @@ exports = Class(GC.Application, function (supr) {
         stackView.push(this.titleScreen);
 
         if (NATIVE) {
-            device.setBackButtonHandler(bind(this.titleScreen, this.titleScreen.back));
+            device.setBackButtonHandler(bind(this, function () {
+                if (!this.stackView.getCurrentView().noBackButton) {
+                    this.titleScreen.back();
+                }
+            }));
         }
 
         GC.hidePreloader();
