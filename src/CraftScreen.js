@@ -322,6 +322,31 @@ exports = Class(ImageView, function (supr) {
         costs = craft.cost();
 
         if (GC.app.player.canCraft(craft)) {
+            var particleObjects = GC.app.particleEngine.obtainParticleArray(20), i;
+            for (i = 0; i < particleObjects.length; i++) {
+                var pObj = particleObjects[i];
+                pObj.x = 585 + 394/2;
+                pObj.y = 125 + 325/2;
+                pObj.dx = Math.random() * 300;
+                pObj.dy = Math.random() * 300;
+                if (Math.random() > 0.5) {
+                    pObj.dx *= -1;
+                }
+                if (Math.random() > 0.5) {
+                    pObj.dy *= -1;
+                }
+                pObj.dr = Math.random() * Math.PI / 4;
+                pObj.ax = 30;
+                pObj.ay = 30;
+                pObj.width = 20;
+                pObj.height = 20;
+                pObj.scale = 1.5;
+                pObj.dscale = 1;
+                pObj.opacity = 1;
+                pObj.dopacity = -1;
+                pObj.image = 'resources/images/particle-ewero.png';
+            }
+            GC.app.particleEngine.emitParticles(particleObjects);
             this.crafts.addCraft(craft);
             this.emit('craft:addDollars', craft.dollars());
             this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
