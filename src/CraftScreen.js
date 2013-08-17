@@ -32,16 +32,14 @@ exports = Class(ImageView, function (supr) {
         this.wool = GC.app.player.wool;
         this.crafts = GC.app.player.crafts;
 
+        this.selectedGarment = c.GARMENT_HAT;
+
         this.woolCounts = new WoolCounter({
             superview: this,
             x: 283,
             y: 0,
             storage: this.wool
         });
-
-        this.selectedGarment = c.GARMENT_HAT;
-
-        this.largeCraft = [];
 
         this.tabs = new ImageView({
             x: 0,
@@ -50,6 +48,12 @@ exports = Class(ImageView, function (supr) {
             height: 416,
             superview: this,
             buttonKind: "tabs"
+        });
+
+        this.largeCraft = new ui.View({
+            x: 585,
+            y: 125,
+            superview: this
         });
 
         // load up alllll dem buttons
@@ -246,31 +250,23 @@ exports = Class(ImageView, function (supr) {
         return btn;
     };
 
-    this.resetLargeCraft = function _a_clearLargeCraft() {
-        if (this.largeCraft.length >= 1) {
-            var sub = this.largeCraft.pop();
-            util.assert(sub !== undefined);
-            this.removeSubview(sub);
-        }
-    };
-
     this.nullLargeCraft = function _a_nullLargeCraft() {
-        this.resetLargeCraft();
+        this.largeCraft.removeAllSubviews();
         var nullCraft = new Craft(this.selectedGarment, null, null);
-        this.largeCraft.push(nullCraft);
-        nullCraft.show({x: 585, y: 125, superview: this, enabled: true});
+        this.largeCraft.addSubview(nullCraft);
+        nullCraft.enable(true);
     };
 
     this.showLargeCraft = function _a_showLargeCraft(data) {
         var craft, isEnabled;
 
-        this.resetLargeCraft();
+        this.largeCraft.removeAllSubviews();
 
         craft = new Craft(this.selectedGarment, data.main, data.contrast);
         isEnabled = GC.app.player.canCraft(craft);
 
-        this.largeCraft.push(craft);
-        craft.show({x: 585, y: 125, superview: this, enabled: isEnabled});
+        this.largeCraft.addSubview(craft);
+        craft.enable(isEnabled);
 
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
             this.buyCraft(craft);

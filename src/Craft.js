@@ -43,10 +43,9 @@ exports = Class(ImageView, function (supr) {
      * display the widget somewhere
      * pass in {x: .., y: .., superview: .., enabled: true|false}
      */
-    this.show = function (opts) {
-        var costs, enabled = opts.enabled;
-        delete opts.enabled;
-        if (enabled) {
+    this.enable = function (enabled) {
+        var costs;
+        if (enabled === undefined || enabled) {
             this.setImage('resources/images/' +
                     this.garment.label + '-' +
                     this.colors.main.label + '-' +
@@ -57,7 +56,6 @@ exports = Class(ImageView, function (supr) {
         costs = this.cost();
         this.mainWoolCost.setText(costs[0].amount);
         this.contrastWoolCost.setText(costs[1].amount);
-        this.updateOpts(opts);
     };
 
     // return 2-array of [main, contrast] as objects
