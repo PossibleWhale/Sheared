@@ -157,7 +157,7 @@ exports = Class(ImageView, function (supr) {
         });
         dayIntro.addSubview(new Button({
             x: 257,
-            y: 123,
+            y: 113,
             width: 510,
             height: 80,
             size: 128,
@@ -308,7 +308,7 @@ exports = Class(ImageView, function (supr) {
             resultsLabel = new Button({
                 superview: resultsScreen,
                 x: 257,
-                y: 123,
+                y: 118,
                 width: 510,
                 height: 80,
                 text: 'Results'
@@ -379,7 +379,7 @@ exports = Class(ImageView, function (supr) {
             resultsLabel = new Button({
                 superview: resultsScreen,
                 x: 257,
-                y: 123,
+                y: 118,
                 width: 510,
                 height: 80,
                 text: 'Game Over'
