@@ -93,6 +93,7 @@ exports = Class(GC.Application, function (supr) {
         this.stackView.push(gcSplash, /* noAnimate= */ true);
         setTimeout(bind(this, function () {
             this.stackView.pop(/* noAnimate= */ true);
+            this.titleScreen.animateIntro();
         }), c.SPLASH_TIME);
         this.particleEngine = new ParticleEngine({
             superview: this.view,

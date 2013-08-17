@@ -21,6 +21,7 @@ import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
 import src.AwardAlert as AwardAlert;
+import src.constants as constants;
 
 
 /* The title screen is added to the scene graph when it becomes
@@ -59,6 +60,15 @@ exports = Class(ImageView, function (supr) {
 
         stackView = this.stackView = this.getSuperview();
 
+        this.giantClipper = new ImageView({
+            superview: this,
+            x: -565,
+            y: 133,
+            width: 545,
+            height: 210,
+            image: 'resources/images/clipper-title.png'
+        });
+
         // TODO animate the logo in some cutesy way
         this.shearedLogo = new ImageView({
             superview: this,
@@ -66,101 +76,102 @@ exports = Class(ImageView, function (supr) {
             y: 133,
             width: 850,
             height: 210,
+            opacity: 0,
             image: 'resources/images/sheared.png'
         });
 
-        var marqueeTop = new ImageView({
+        this.marqueeTop = new ImageView({
             superview: this,
             x: 0,
-            y: 0,
+            y: -80,
             width: 1024,
             height: 80,
             image: 'resources/images/marquee-top.png'
         });
 
-        var marqueeBottom = new ImageView({
+        this.marqueeBottom = new ImageView({
             superview: this,
             x: 0,
-            y: 496,
+            y: 576,
             width: 1024,
             height: 80,
             image: 'resources/images/marquee-bottom.png'
         });
 
-        var exitButton = new ImageView({
-            superview: this,
+        this.exitButton = new ImageView({
+            superview: this.marqueeTop,
             x: 0,
             y: 0,
             width: 80,
             height: 80,
             image: 'resources/images/button-exit.png'
         });
-        exitButton.on('InputSelect', function () {
+        this.exitButton.on('InputSelect', function () {
             // TODO
             console.log('exit app');
         });
 
-        var websiteButton = new ImageView({
-            superview: this,
+        this.websiteButton = new ImageView({
+            superview: this.marqueeBottom,
             x: 944,
-            y: 496,
+            y: 0,
             width: 80,
             height: 80,
             image: 'resources/images/button-website.png'
         });
-        websiteButton.on('InputSelect', function () {
+        this.websiteButton.on('InputSelect', function () {
             window.open('http://possiblewhale.com');
         });
 
-        var statsButton = new ImageView({
-            superview: this,
+        this.statsButton = new ImageView({
+            superview: this.marqueeBottom,
             x: 0,
-            y: 496,
+            y: 0,
             width: 80,
             height: 80,
             image: 'resources/images/button-stats.png'
         });
-        statsButton.on('InputSelect', function () {
+        this.statsButton.on('InputSelect', function () {
             _goToView(statScreen);
         });
 
-        var awardsButton = new ImageView({
-            superview: this,
+        this.awardsButton = new ImageView({
+            superview: this.marqueeBottom,
             x: 216,
-            y: 496,
+            y: 0,
             width: 80,
             height: 80,
             image: 'resources/images/button-awards.png'
         });
-        awardsButton.on('InputSelect', function () {
+        this.awardsButton.on('InputSelect', function () {
             _goToView(awardsScreen);
         });
 
-        var storeButton = new ImageView({
-            superview: this,
+        this.storeButton = new ImageView({
+            superview: this.marqueeBottom,
             x: 412,
-            y: 496,
+            y: 0,
             width: 200,
             height: 80,
             image: 'resources/images/button-general-store.png'
         });
-        storeButton.on('InputSelect', function () {
+        this.storeButton.on('InputSelect', function () {
             _goToView(storeScreen);
         });
 
-        var creditsButton = new ImageView({
-            superview: this,
+        this.creditsButton = new ImageView({
+            superview: this.marqueeBottom,
             x: 728,
-            y: 496,
+            y: 0,
             width: 80,
             height: 80,
             image: 'resources/images/button-credits.png'
         });
-        creditsButton.on('InputSelect', function () {
+        this.creditsButton.on('InputSelect', function () {
             _goToView(creditsScreen);
         });
 
-        var playButton = new ImageView({
+        this.playButton = new ImageView({
             superview: this,
             x: 435,
             y: 346,
@@ -168,27 +179,23 @@ exports = Class(ImageView, function (supr) {
             height: 82,
             anchorX: 154/2,
             anchorY: 82/2,
+            opacity: 0,
             image: 'resources/images/button-play.png'
         });
-        playButton.on('InputSelect', function () {
+        this.playButton.on('InputSelect', function () {
             _goToView(playScreen);
         });
-        var animateButton = function () {
-            animate(playButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
-            .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
-            .then(animateButton.bind(this));
-        };
-        animateButton();
 
-        var tutorialButton = new ImageView({
+        this.tutorialButton = new ImageView({
             superview: this,
             x: 407,
             y: 439,
             width: 210,
             height: 36,
+            opacity: 0,
             image: 'resources/images/button-tutorials.png'
         });
-        tutorialButton.on('InputSelect', function () {
+        this.tutorialButton.on('InputSelect', function () {
             tutorialScreen.build();
             _goToView(tutorialScreen);
         });
@@ -211,10 +218,12 @@ exports = Class(ImageView, function (supr) {
                 GC.app.particleEngine.runTick(dt);
             }
             playScreen.runTick();
+
+            this.emitWool();
         }));
 
         muteOpts = {
-            superview: this,
+            superview: this.marqueeTop,
             x: 944,
             y: 0,
             width: 80,
@@ -300,5 +309,50 @@ exports = Class(ImageView, function (supr) {
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted(false, {silent: true});
         }));
+    };
+
+    this.animateIntro = function () {
+        animate(this.giantClipper).now({x: 1044}, 750, animate.easeOut).then(this.giantClipper.removeFromSuperview);
+        animate(this.shearedLogo).now({opacity: 1}, 750).then(bind(this, function () {
+            animate(this.marqueeTop).now({y: 0}, 250, animate.easeOut);
+            animate(this.marqueeBottom).now({y: 496}, 250, animate.easeOut).then(bind(this, function () {
+                animate(this.playButton).now({opacity: 1}, 250).then(bind(this, function () {
+                    var animateButton = function () {
+                        animate(this.playButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
+                        .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
+                        .then(animateButton.bind(this));
+                    };
+                    bind(this, animateButton)();
+                }));
+                animate(this.tutorialButton).now({opacity: 1}, 250);
+            }));
+        }));
+    };
+
+    this.emitWool = function () {
+        if (this.giantClipper.style.x + this.giantClipper.style.width < 0 || this.giantClipper.style.x > 1024) {
+            return;
+        }
+
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i;
+        for (i = 0; i < particleObjects.length; i++) {
+            var pObj = particleObjects[i];
+            pObj.x = this.giantClipper.style.x + this.giantClipper.style.width;
+            pObj.y = this.giantClipper.style.y + this.giantClipper.style.height/2;
+            pObj.dx = Math.random() * 100;
+            pObj.dy = Math.random() * 200;
+            if (Math.random() > 0.5) {
+                pObj.dy *= -1;
+            }
+            pObj.dr = Math.random() * Math.PI/2;
+            pObj.width = 60;
+            pObj.height = 60;
+            pObj.scale = Math.random() + 0.5;
+            pObj.dscale = 0.5;
+            pObj.opacity = 1;
+            pObj.dopacity = -1;
+            pObj.image = 'resources/images/particle-' + constants.colors[0].label +'.png';
+        }
+        GC.app.particleEngine.emitParticles(particleObjects);
     };
 });
