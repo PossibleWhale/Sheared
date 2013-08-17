@@ -147,14 +147,47 @@ exports = Class(ImageView, function (supr) {
         var view = new View({
             x: 0,
             y: 0,
-            width: 640,
+            width: 795,
             height: 1500
         });
-        var key, star, yIndex = 0, totalHeight = 0, prefix;
+        var key, star, yIndex = 0, totalHeight = 0, split, prefix, lastCategory, heading;
+        var isMisc = function (prefix) {
+            return prefix !== 'ewes' && prefix !== 'rams' && prefix !== 'wool' && prefix !== 'crafts';
+        };
         for (key in constants.AWARDS) {
-            prefix = key.split('.')[0];
+            split = key.split('.');
+            prefix = split[0];
+            category = split[1];
             if (constants.AWARDS.hasOwnProperty(key) && (prefix === tab ||
-                (tab === 'misc' && prefix !== 'ewes' && prefix !== 'rams' && prefix !== 'wool' && prefix !== 'crafts'))) {
+                (tab === 'misc' && isMisc(prefix)))) {
+
+                if (!isNaN(parseInt(category)) && !isMisc(prefix)) {
+                    category = 'general';
+                } else if (prefix === 'crafts' || isMisc(prefix)) {
+                    category = prefix;
+                }
+                if (lastCategory !== category) {
+                    heading = new TextView({
+                        superview: view,
+                        x: 20,
+                        y: yIndex,
+                        width: 460,
+                        height: 30,
+                        horizontalAlign: 'left',
+                        color: '#333333',
+                        fontFamily: 'delius'
+                    });
+                    if (category === prefix) {
+                        heading.setText(prefix.charAt(0).toUpperCase() + prefix.slice(1));
+                    } else {
+                        heading.setText(prefix.charAt(0).toUpperCase() + prefix.slice(1) + ' (' +
+                              category.charAt(0).toUpperCase() + category.slice(1) + ')');
+                    }
+                    lastCategory = category;
+                    yIndex += 50;
+                    totalHeight += 50;
+                }
+
                 star = new ImageView({
                     superview: view,
                     x: 20,
@@ -180,7 +213,7 @@ exports = Class(ImageView, function (supr) {
                 }));
 
                 view.addSubview(new TextView({
-                    x: 580,
+                    x: 690,
                     y: yIndex,
                     width: 50,
                     height: 30,
@@ -189,6 +222,14 @@ exports = Class(ImageView, function (supr) {
                     fontFamily: 'delius',
                     size: 20,
                     text: '' + constants.AWARDS[key].reward
+                }));
+
+                view.addSubview(new ImageView({
+                    x: 750,
+                    y: yIndex,
+                    width: 30,
+                    height: 30,
+                    image: 'resources/images/award-ewero.png'
                 }));
 
                 yIndex += 50;
@@ -200,7 +241,7 @@ exports = Class(ImageView, function (supr) {
             x: 183,
             y: 46,
             scrollX: false,
-            width: 640,
+            width: 795,
             height: 324,
             scrollBounds: {
                 minY: 0,
