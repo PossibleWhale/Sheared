@@ -62,7 +62,7 @@ exports = Class(ImageView, function (supr) {
 
         this.giantClipper = new ImageView({
             superview: this,
-            x: -565,
+            x: -545,
             y: 133,
             width: 545,
             height: 210,
@@ -312,7 +312,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.animateIntro = function () {
-        animate(this.giantClipper).now({x: 1044}, 750, animate.easeOut).then(this.giantClipper.removeFromSuperview);
+        animate(this.giantClipper).now({x: 1024}, 750, animate.easeOut).then(this.giantClipper.removeFromSuperview);
         animate(this.shearedLogo).now({opacity: 1}, 750).then(bind(this, function () {
             animate(this.marqueeTop).now({y: 0}, 250, animate.easeOut);
             animate(this.marqueeBottom).now({y: 496}, 250, animate.easeOut).then(bind(this, function () {
@@ -330,7 +330,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.emitWool = function () {
-        if (this.giantClipper.style.x + this.giantClipper.style.width < 0 || this.giantClipper.style.x > 1024) {
+        if (this.giantClipper.style.x + this.giantClipper.style.width <= 0 || this.giantClipper.style.x >= 1024) {
             return;
         }
 
