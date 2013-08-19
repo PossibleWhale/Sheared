@@ -412,7 +412,7 @@ exports = Class(ImageView, function (supr) {
     this.updateProgressBars = function () {
         var upgradeLevels = this._upgradeLevels();
         this.progressBars.power.setImage(
-            'resources/images/store-power-' +
+            'resources/images/store-clipperpower-' +
             upgradeLevels.power +
             '.png'
         );
