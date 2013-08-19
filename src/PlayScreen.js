@@ -223,7 +223,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.endDay = function () {
-        var i = this.sheep.length;
+        var i = this.sheep.length, j = this.clipper.blades.length;
 
         this.audio.stopMusic();
         this.clipper.bladeOut = false;
@@ -233,10 +233,11 @@ exports = Class(ImageView, function (supr) {
             this.sheep[i].animator.clear();
             this.removeSubview(this.sheep[i]);
         }
-        if (this.clipper.blade) {
-            this.clipper.blade.animator.clear();
-            this.removeSubview(this.clipper.blade);
+        while (j--) {
+            this.clipper.blades[j].animator.clear();
+            this.removeSubview(this.clipper.blades[j]);
         }
+        this.clipper.blades = [];
         if (this.diamond) {
             this.diamond.animator.clear();
             this.removeSubview(this.diamond);
@@ -244,9 +245,6 @@ exports = Class(ImageView, function (supr) {
         if (this.battery) {
             this.battery.animator.clear();
             this.removeSubview(this.battery);
-        }
-        if (this.multIndicator) {
-            this.removeSubview(this.multIndicator);
         }
         clearInterval(this.interval);
         this.removeSubview(this.timer);
@@ -388,8 +386,6 @@ exports = Class(ImageView, function (supr) {
             restartButton.on('InputSelect', bind(this, function () {
                 GC.app.titleScreen.emit('playscreen:restart');
             }));
-
-            delete this.multIndicator;
         }
 
         storeButton.on('InputSelect', bind(this, function () {
@@ -435,25 +431,6 @@ function playGame () {
         this.pauseButton.on('InputSelect', bind(this, function () {
             this.togglePaused();
         }));
-    }
-
-    if (this.multIndicator) {
-        this.addSubview(this.multIndicator);
-    } else {
-        var mult = GC.app.player.upgrades.get('mult').value;
-        if (mult >= 5 || mult === 'max') {
-            mult = 5;
-        }
-        if (mult > 1) {
-            this.multIndicator = new ImageView({
-                superview: this,
-                x: 751,
-                y: 0,
-                width: 80,
-                height: 80,
-                image: 'resources/images/active-multiplier-' + mult + '.png'
-            });
-        }
     }
 
     if (!this.clipper) {

@@ -45,7 +45,7 @@ exports = Class(View, function (supr) {
             if (superview.clipper) {
                 superview.clipper.launchBlade();
             }
-            GC.app.player.bladeFired(superview.clipper.blade.isDiamond);
+            GC.app.player.bladeFired(superview.clipper.isDiamond);
         }));
 
         // set up dragging events for clipper

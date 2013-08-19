@@ -38,6 +38,7 @@ exports = Class(ImageView, function (supr) {
 
         this.isDiamond = false;
         this.bladeOut = false;
+        this.blades = [];
 
     };
 
@@ -82,21 +83,22 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.launchBlade = function () {
-        var superview = this.getSuperview();
+        var superview = this.getSuperview(), newBlade;
         if (!superview) {
             return;
         }
         if (this.bladeOut) {
             return;
         }
-        this.blade = new Blade({
+        newBlade = new Blade({
+            superview: superview,
             x: this.style.x + this.style.width,
             y: this.style.y + 3
         });
-        superview.addSubview(this.blade);
+        this.blades.push(newBlade);
         this.bladeOut = true;
         this.setImage('resources/images/clipper-none.png');
-        this.blade.run();
+        newBlade.run();
     };
 
     this.reloadBlade = function () {

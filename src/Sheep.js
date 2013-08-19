@@ -40,7 +40,7 @@ exports = Class(View, function (supr) {
     // stuff we need to do every tick
     this.onTick = function () {
         if (this.animator && this.animator.hasFrames()) {
-            var superview = this.getSuperview();
+            var superview = this.getSuperview(), i, blade;
             if (!superview) {
                 this.animator.clear();
                 return;
@@ -54,40 +54,47 @@ exports = Class(View, function (supr) {
                 height: this.style.height - 10,
                 r: this.style.r
             });
-            if (superview.clipper.bladeOut && superview.clipper.blade &&
-                intersect.rectAndRect(hitBox, superview.clipper.blade.style)) {
 
-                superview.clipper.blade.animator.clear();
-                superview.clipper.blade.removeFromSuperview();
-                superview.clipper.bladeOut = false;
-                superview.clipper.reloadBlade();
+            i = superview.clipper.blades.length;
+            while (i--) {
+                blade = superview.clipper.blades[i];
+                if (blade.getSuperview() && intersect.rectAndRect(hitBox, blade.style)) {
 
-                var wool = superview.dailyWool;
+                    var wool = superview.dailyWool;
 
-                if (!this.isRam || superview.clipper.blade.isDiamond) {
-                    GC.app.audio.playShear();
-                    if (Math.random() < 0.25) {
-                        GC.app.audio.playBaa();
+                    if (!this.isRam || blade.isDiamond) {
+                        blade.sheepSheared++;
+                        if (blade.sheepSheared >= blade.maxSheep) {
+                            blade.die();
+                        }
+                        if (blade.sheepSheared === 1) {
+                            superview.clipper.reloadBlade();
+                            superview.clipper.bladeOut = false;
+                            superview.clipper.reloadBlade();
+                        }
+
+                        GC.app.audio.playShear();
+                        if (Math.random() < 0.25) {
+                            GC.app.audio.playBaa();
+                        }
+                        if (wool) {
+                            wool.addWool(this.color, this.bolts);
+                        }
+                        GC.app.player.shearedSheep(this);
+                        GC.app.player.hitWithBlade(blade.isDiamond);
+                        this.emit('sheep:sheared');
+                        this.emitWool();
+                        superview.woolCounts.wool.addWool(this.color, this.bolts);
+                        superview.woolCounts.update(this.color);
+                        this.die();
+                    } else {
+                        blade.ricochet();
                     }
-                    if (wool) {
-                        wool.addWool(this.color, this.bolts);
-                    }
-                    GC.app.player.shearedSheep(this);
-                    GC.app.player.hitWithBlade(superview.clipper.blade.isDiamond);
-                    this.emit('sheep:sheared');
-                    this.emitWool();
-                    superview.woolCounts.wool.addWool(this.color, this.bolts);
-                    superview.woolCounts.update(this.color);
-                    this.die();
-                } else {
-                    superview.clipper.blade.ricochet();
+
+                    return;
                 }
-            } else if (intersect.rectAndRect(new Rect({
-                    x: this.style.x + 5,
-                    y: this.style.y + 5,
-                    width: this.style.width - 10,
-                    height: this.style.height - 10,
-                    r: this.style.r}),
+            }
+            if (intersect.rectAndRect(hitBox,
                 new Rect({
                     x: superview.clipper.style.x + superview.clipper.marginSize,
                     y: superview.clipper.style.y + superview.clipper.marginSize,
