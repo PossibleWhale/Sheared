@@ -126,6 +126,7 @@ exports = {
     UPGRADE_PRICES: {
         power: [750, 1500, 3000, 6000, 12000],
         mult: [1500, 3000, 6000, 12000, 24000],
+        blade: [750, 1500, 3000, 6000, 12000],
         diamond: 18000,
 
         // wool prices. for now they are all the same... we might want them to be different?
