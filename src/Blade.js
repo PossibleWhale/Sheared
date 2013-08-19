@@ -16,6 +16,9 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        this.sheepSheared = 0;
+        this.maxSheep = GC.app.player.upgrades.get('blade').value;
     };
 
     this.run = function () {
@@ -27,12 +30,16 @@ exports = Class(ImageView, function (supr) {
             this.isDiamond = false;
         }
 
-        this.animator = animate(this).now({x: 1024}, timeOnScreen, animate.linear).then(bind(this, function () {
-            var superview = this.getSuperview();
-            this.removeFromSuperview();
-            superview.clipper.bladeOut = false;
-            superview.clipper.reloadBlade();
-        }));
+        this.animator = animate(this).now({x: 1024}, timeOnScreen, animate.linear).then(bind(this, this.die));
+    };
+
+    this.die = function () {
+        var superview = this.getSuperview();
+        superview.clipper.blades.splice(superview.clipper.blades.indexOf(this), 1);
+        superview.clipper.bladeOut = false;
+        superview.clipper.reloadBlade();
+        this.animator.clear();
+        this.removeFromSuperview();
     };
 
     this.ricochet = function () {
@@ -57,7 +64,6 @@ exports = Class(ImageView, function (supr) {
         GC.app.particleEngine.emitParticles(particleObjects);
         GC.app.audio.playRamHit();
 
-        this.removeFromSuperview();
-        this.animator.clear();
+        this.die();
     };
 });

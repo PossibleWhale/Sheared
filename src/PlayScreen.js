@@ -223,7 +223,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.endDay = function () {
-        var i = this.sheep.length;
+        var i = this.sheep.length, j = this.clipper.blades.length;
 
         this.audio.stopMusic();
         this.clipper.bladeOut = false;
@@ -233,10 +233,11 @@ exports = Class(ImageView, function (supr) {
             this.sheep[i].animator.clear();
             this.removeSubview(this.sheep[i]);
         }
-        if (this.clipper.blade) {
-            this.clipper.blade.animator.clear();
-            this.removeSubview(this.clipper.blade);
+        while (j--) {
+            this.clipper.blades[j].animator.clear();
+            this.removeSubview(this.clipper.blades[j]);
         }
+        this.clipper.blades = [];
         if (this.diamond) {
             this.diamond.animator.clear();
             this.removeSubview(this.diamond);
