@@ -95,6 +95,12 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_stat.ramsSheared', JSON.stringify({name: 'ramsSheared', value: 0}));
     };
 
+    this.upgrade_5_to_6 = function _a_upgrade_5_to_6() {
+        assert(parseInt(lsGet('pw_version'), 10) === 5);
+        lsSet('pw_version', 6);
+        lsSet('pw_store_upgrade.blade', JSON.stringify({name: 'blade', value: 1}));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */

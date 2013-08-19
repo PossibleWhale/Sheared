@@ -184,14 +184,21 @@ exports = Class(ImageView, function (supr) {
                 x: 225,
                 y: 141,
                 width: 140,
-                height: 32,
+                height: 32
             }),
             multiplier: new ImageView({
                 superview: this.tabs.upgrades,
-                x: 510,
+                x: 415,
                 y: 141,
                 width: 140,
-                height: 32,
+                height: 32
+            }),
+            blade: new ImageView({
+                superview: this.tabs.upgrades,
+                x: 606,
+                y: 141,
+                width: 140,
+                height: 32
             })
         };
 
@@ -209,7 +216,16 @@ exports = Class(ImageView, function (supr) {
             }),
             multiplier: new TextView({
                 superview: this.tabs.upgrades,
-                x: 546,
+                x: 451,
+                y: 182,
+                width: 104,
+                height: 36,
+                color: '#333333',
+                fontFamily: 'delius'
+            }),
+            blade: new TextView({
+                superview: this.tabs.upgrades,
+                x: 642,
                 y: 182,
                 width: 104,
                 height: 36,
@@ -242,13 +258,24 @@ exports = Class(ImageView, function (supr) {
 
         var multiplierButton = new Button({
             superview: this.tabs.upgrades,
-            x: 500,
+            x: 404,
             y: 136,
             width: 160,
             height: 91
         });
         multiplierButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?', 'mult');
+        }));
+
+        var bladeButton = new Button({
+            superview: this.tabs.upgrades,
+            x: 596,
+            y: 136,
+            width: 160,
+            height: 91
+        });
+        bladeButton.on('InputSelect', bind(this, function () {
+            this.showPurchaseDialog('You are about to purchase a permanent blade power upgrade. Do you wish to continue?', 'blade');
         }));
 
         var diamondButton = new Button({
@@ -421,6 +448,11 @@ exports = Class(ImageView, function (supr) {
             upgradeLevels.multiplier +
             '.png'
         );
+        this.progressBars.blade.setImage(
+            'resources/images/store-bladepower-' +
+            upgradeLevels.blade +
+            '.png'
+        );
     };
 
     this.updatePriceDisplays = function () {
@@ -435,6 +467,10 @@ exports = Class(ImageView, function (supr) {
             constants.UPGRADE_PRICES.mult[upgradeLevels.multiplier-1] ||
             'Purchased!'
         );
+        this.priceDisplays.blade.setText(
+            constants.UPGRADE_PRICES.blade[upgradeLevels.blade-1] ||
+            'Purchased!'
+        );
         if (GC.app.player.upgrades.get('diamond').value) {
             this.priceDisplays.diamond.setText('Purchased!');
         } else {
@@ -446,7 +482,8 @@ exports = Class(ImageView, function (supr) {
         var upgrades = GC.app.player.upgrades;
         return {
             power: upgrades.get('power').value >= 5 ? 'max' : upgrades.get('power').value,
-            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value
+            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value,
+            blade: upgrades.get('blade').value >= 5 ? 'max' : upgrades.get('blade').value
         };
     };
 });

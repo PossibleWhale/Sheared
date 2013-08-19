@@ -5,6 +5,7 @@ import src.util as util;
 var upgrades = [
     {name: 'power', value: 1},
     {name: 'mult', value: 1},
+    {name: 'blade', value: 1},
     {name: 'diamond', value: false},
     {name: 'adFree', value: false}
 ];
