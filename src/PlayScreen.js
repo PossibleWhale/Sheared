@@ -62,7 +62,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
-            zIndex: 1000 // this must position above the clickable area of the screen
+            zIndex: 99999 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
 
