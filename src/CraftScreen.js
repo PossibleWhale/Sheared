@@ -6,6 +6,7 @@ import animate;
 import ui.View;
 import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
+import math.geom.Point as Point;
 
 import src.constants as c;
 import src.Button as Button;
@@ -50,10 +51,11 @@ exports = Class(ImageView, function (supr) {
             buttonKind: "tabs"
         });
 
+        var pt = this.tabs.localizePoint(new Point(585, 125));
         this.largeCraft = new ui.View({
-            x: 585,
-            y: 125,
-            superview: this
+            x: pt.x,
+            y: pt.y,
+            superview: this.tabs
         });
 
         // load up alllll dem buttons
@@ -242,6 +244,7 @@ exports = Class(ImageView, function (supr) {
 
     // garment nav buttons
     this.garmentFactory = function _a_garmentFactory(region) {
+        region.superview = this.tabs;
         var btn = this.defaultButtonFactory(region, 'garment');
         btn.updateOpts({click: true});
         btn.on('InputSelect', function _a_onInputSelectGarment() {
@@ -277,6 +280,7 @@ exports = Class(ImageView, function (supr) {
     // buy garment buttons
     this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
         var me = this, btn;
+        region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({anchorX: btn.getOpts().width / 2,
             anchorY: 8,
@@ -297,6 +301,7 @@ exports = Class(ImageView, function (supr) {
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
         var me = this.btn;
+        region.superview = this.tabs;
         region.image = new Image({url: 'resources/images/gold-star.png'});
         btn = this.defaultButtonFactory(region, 'craftStars');
         btn.hide();
