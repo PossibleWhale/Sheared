@@ -291,6 +291,12 @@ exports = Class(ImageView, function (supr) {
             GC.app.player.setUpgrades();
         });
 
+        GC.app.player.on('player:purchasedpower', function () {
+            playScreen.healthBar.maxHealth = GC.app.player.maxClipperHealth;
+            playScreen.healthBar.health++;
+            playScreen.healthBar.updateImage();
+        });
+
         GC.app.player.on('player:earnedAward', bind(this, function (award) {
             var awardAlert = new AwardAlert({
                 superview: this.stackView.getCurrentView(),

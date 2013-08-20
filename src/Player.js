@@ -60,6 +60,9 @@ exports = Class(Emitter, function Player(supr) {
         }
 
         this.emit('player:purchased');
+        if (upgradeName === 'power') {
+            this.emit('player:purchasedpower');
+        }
 
         if (upgradeName) {
             at.emit('player:purchased' + upgradeName);

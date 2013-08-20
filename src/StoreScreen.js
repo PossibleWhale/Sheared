@@ -481,9 +481,9 @@ exports = Class(ImageView, function (supr) {
     this._upgradeLevels = function () {
         var upgrades = GC.app.player.upgrades;
         return {
-            power: upgrades.get('power').value >= 5 ? 'max' : upgrades.get('power').value,
-            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value,
-            blade: upgrades.get('blade').value >= 5 ? 'max' : upgrades.get('blade').value
+            power: upgrades.get('power').value >= 6 ? 'max' : upgrades.get('power').value,
+            multiplier: upgrades.get('mult').value >= 7 ? 'max' : upgrades.get('mult').value,
+            blade: upgrades.get('blade').value >= 6 ? 'max' : upgrades.get('blade').value
         };
     };
 });
