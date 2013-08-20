@@ -30,7 +30,7 @@ exports = Class(ImageView, function (supr) {
             superview: this});
         this.contrastWoolCost = new Button({x: 312, y: 134, width: 46, height: 46,
             superview: this});
-        this.value = new Button({x: 305, y: 0, width: 76, height: 48,
+        this.value = new Button({x: 305, y: 0, width: 76, height: 36,
             superview: this});
 
         this.buyButton.on('InputSelect', bind(this, this.purchased));
@@ -46,7 +46,7 @@ exports = Class(ImageView, function (supr) {
      * pass in {x: .., y: .., superview: .., enabled: true|false}
      */
     this.enable = function (enabled) {
-        var costs;
+        var costs, eweros;
         if (enabled === undefined || enabled) {
             this.setImage('resources/images/' +
                     this.garment.label + '-' +
@@ -58,6 +58,9 @@ exports = Class(ImageView, function (supr) {
         costs = this.cost();
         this.mainWoolCost.setText(costs[0].amount);
         this.contrastWoolCost.setText(costs[1].amount);
+
+        eweros = this.eweros();
+        this.value.setText(eweros ? eweros : '-');
     };
 
     // return 2-array of [main, contrast] as objects
@@ -68,12 +71,12 @@ exports = Class(ImageView, function (supr) {
 
         ret.push({color: this.colors.main,
             amount: this.garment.cost.main,
-            dollars: this.garment.cost.main * vMainWool
+            eweros: this.garment.cost.main * vMainWool
         });
 
         ret.push({color: this.colors.contrast,
             amount: this.garment.cost.contrast,
-            dollars: this.garment.cost.contrast * vContrastWool
+            eweros: this.garment.cost.contrast * vContrastWool
         });
         return ret;
     };
@@ -82,16 +85,16 @@ exports = Class(ImageView, function (supr) {
         return this.garment.label + '|' + this.colors.main.label + '|' + this.colors.contrast.label;
     };
 
-    this.dollars = function _a_dollars(count) {
+    this.eweros = function _a_eweros(count) {
         if (count === undefined) {
             count = 1;
         }
         costs = this.cost();
-        return (count * (costs[0].dollars + costs[1].dollars));
+        return (count * (costs[0].eweros + costs[1].eweros));
     };
 
     this.formatDollars = function _a_formatDollars(count) {
-        return this.dollars(count).toFixed(2);
+        return this.eweros(count).toFixed(2);
     };
 });
 

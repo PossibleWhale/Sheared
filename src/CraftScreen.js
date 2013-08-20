@@ -351,7 +351,7 @@ exports = Class(ImageView, function (supr) {
             }
             GC.app.particleEngine.emitParticles(particleObjects);
             this.crafts.addCraft(craft);
-            this.emit('craft:addDollars', craft.dollars());
+            this.emit('craft:addDollars', craft.eweros());
             this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
             this.wool.addWool(craft.colors.contrast, -1 * costs[1].amount);
             this.woolCounts.update();
@@ -501,7 +501,7 @@ craftStars: [
         ]
     ],
 total: [
-    {y: 486, x: 432, width: 160, height: 80, text: '0'}
+    {y: 500, x: 444, width: 160, height: 56, text: '0'}
 ],
 store: [
     {x: 143, y: 496, width: 180, height: 80, image: 'resources/images/button-general-store.png'}

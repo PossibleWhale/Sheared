@@ -138,7 +138,7 @@ exports = Class(CraftScreen, function (supr) {
 
         _a = [
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.'}]),
-        _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 512-89, y: 84, r: 0}]),
+        _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 512-40, y: 84, r: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Your wool is shown here.'}]),
         _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'You have wool, so you’re ready to craft!'}]),
@@ -236,7 +236,6 @@ exports = Class(CraftScreen, function (supr) {
 
             next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickBuyCraft() {
-                console.log('oh hi lisa');
                 this.selectedCraft.purchased();
                 next();
             }));
@@ -261,6 +260,8 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'The more valuable wool used in the item, the more it’s worth.'}]),
         _sx(['ok', 'ok'])
         ];
+
+        /**********************************************************/
 
         _g = [
         _sx(['appear', arrow1, 0]),
