@@ -42,8 +42,15 @@ var TutorialRunner = Class(Runner, function _a_TutorialRunner(supr) {
     };
 
     // fade in, and then fade out text in a thought bubble
-    this.factory_thought = function _a_factory_thought(obj, fargs) {
-        return new ThoughtBubble({superview: this.context, text: obj.text});
+    this.factory_thought = function _a_factory_thought(fargs) {
+        return new ThoughtBubble({superview: this.context, text: fargs.text});
+    };
+
+    this.factory_arrow = function _a_factory_arrow(fargs) {
+        var view = fargs.view;
+        delete fargs.view;
+        view.updateOpts(fargs);
+        return view;
     };
 });
 
@@ -97,6 +104,7 @@ exports = Class(CraftScreen, function (supr) {
 
     // turn off all clicking
     this.disableClicks = function _a_disableClicks() {
+        assert(this.clickControl.getSubviews().length < 2);
         this.clickControl.removeAllSubviews();
         this.clickControl.setHandleEvents(true);
     };
@@ -104,6 +112,7 @@ exports = Class(CraftScreen, function (supr) {
     // run the entire tutorial
     this.tutor = function () {
         var _a, _b, _c, _d, _e, _f, _g;
+
         this.runner = new TutorialRunner(this);
 
         this.hideButtons("garment");
@@ -111,9 +120,15 @@ exports = Class(CraftScreen, function (supr) {
         this.hideButtons("craftStars");
         this.hideButtons("total");
 
-        var arrow = new ImageView({
-            x: 512-29,
-            y:84,
+        var arrow1 = new ImageView({
+            width: 58,
+            height: 66,
+            image: 'resources/images/arrow.png',
+            superview: this,
+            opacity: 0.0
+        });
+
+        var arrow2 = new ImageView({
             width: 58,
             height: 66,
             image: 'resources/images/arrow.png',
@@ -123,9 +138,9 @@ exports = Class(CraftScreen, function (supr) {
 
         _a = [
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.'}]),
-        _sx(['appear', arrow, {duration: 0}]),
+        _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 512-89, y: 84, r: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Your wool is shown here.'}]),
-        _sx(['disappear', arrow, {duration: 0}]),
+        _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'You have wool, so you’re ready to craft!'}]),
         _sx(['ok', 'ok'])
         ];
@@ -141,18 +156,10 @@ exports = Class(CraftScreen, function (supr) {
             this.disableClicks();
         }),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Craftable items are shown here.'}]),
-        bind(this, function _a_showArrow() {
-            arrow.updateOpts({
-                opacity: 1.0,
-                x: 190,
-                y: 450,
-                r: 4.30,
-            })
-        }),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Click the tab for sweaters on the left.'}]),
+        _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 190, y: 450, r: 4.30}]), /* highlight sweater tab */
         bind(this, function _a_waitSweater() {
-            var btnNew;
-            btnNew = new Button({
+            var btnNew = new Button({
                 y:399, x:33, width:137, height:64
             });
             var next = this.runner.waitPlain();
@@ -162,7 +169,7 @@ exports = Class(CraftScreen, function (supr) {
             }));
             this.clickOnlyHere(btnNew);
         }),
-        _sx(['disappear', arrow, {duration: 0}]),
+        _sx(['disappear', arrow1, {duration: 0}]),
         bind(this, this.disableClicks)
         ];
 
@@ -188,7 +195,7 @@ exports = Class(CraftScreen, function (supr) {
         _e = [
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'You immediately receive the Eweros and your wool is immediately deducted.'}]),
         _sx(['materialize', 'thought', {duration: 5000}, {text: 'Once you craft at least one of something, you get a star next to it.'}]),
-        _sx(['appear', arrow, {duration: 0}]),
+        _sx(['appear', arrow1, {duration: 0}]),
         _sx(['ok', 'ok'])
         ];
 
@@ -200,7 +207,7 @@ exports = Class(CraftScreen, function (supr) {
         ];
 
         _g = [
-        _sx(['appear', arrow, 0]),
+        _sx(['appear', arrow1, 0]),
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}])
         ];
 
