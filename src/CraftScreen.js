@@ -244,11 +244,12 @@ exports = Class(ImageView, function (supr) {
 
     // garment nav buttons
     this.garmentFactory = function _a_garmentFactory(region) {
+        var btn, me = this;
         region.superview = this.tabs;
         var btn = this.defaultButtonFactory(region, 'garment');
         btn.updateOpts({click: true});
         btn.on('InputSelect', function _a_onInputSelectGarment() {
-            this.getSuperview().setGarment(this.getOpts().item);
+            me.setGarment(this.getOpts().item);
         });
         return btn;
     };
