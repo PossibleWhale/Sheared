@@ -130,7 +130,7 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['ok', 'ok'])
         ];
 
-        // this.runner.run(a);
+        this.runner.run(_a);
 
         _b = [
         bind(this, function _a_showStuff() {
