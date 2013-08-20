@@ -7,7 +7,6 @@ import src.CraftScreen as CraftScreen;
 import src.util as util;
 import src.ThoughtBubble as ThoughtBubble;
 import src.Runner as Runner;
-import src.OnlyClickHere as OnlyClickHere;
 
 var textOpts = constants.TEXT_OPTIONS;
 
@@ -94,12 +93,9 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.'}]),
         _sx(['appear', arrow, {duration: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Your wool is shown here.'}]),
+        _sx(['disappear', arrow, {duration: 0}]),
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'You have wool, so you’re ready to craft!'}]),
-        bind(this, function _a_clearArrow() {
-            arrow.updateOpts({opacity: 0.0});
-            return this.runner.waitPlain()();
-        }),
-        _sx(['ok', 'ok']),
+        _sx(['ok', 'ok'])
         ];
 
         this.runner.run(a);
