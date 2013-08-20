@@ -121,8 +121,15 @@ var BasicRunner = Class(AbstractRunner, function _a_BasicRunner (supr) {
      * appear and then disappear
      */
     this.animation_materialize = function _a_materialize(animation, obj) {
+        var _cleanup, cleanup = (obj.cleanup === undefined ? true : obj.cleanup);
+        _cleanup = bind(animation.subject, function _a_cleanup() {
+            if (cleanup) {
+                this.getSuperview().removeSubview(this);
+            }
+        });
         return animation.then.apply(animation, appearArgs).wait(obj.duration)
             .then.apply(animation, disappearArgs).wait(600)
+            .then(_cleanup)
             .then(this.waitPlain());
     };
 

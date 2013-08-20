@@ -146,6 +146,7 @@ exports = Class(CraftScreen, function (supr) {
         ];
 
         this.runner.run(_a);
+        /**********************************************************/
 
         _b = [
         bind(this, function _a_showStuff() {
@@ -174,23 +175,78 @@ exports = Class(CraftScreen, function (supr) {
         ];
 
         this.runner.run(_b);
+        /**********************************************************/
 
         _c = [
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'Some of the sweaters are gray. You don’t have enough wool to make those.'}]),
-        _sx(['materialize', arrow, {duration: 0}]), /* [highlight b&w sweater] */
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Click the black & white sweater in the bottom corner.'}])
-        /* [wait for click] */ /* [large b&w sweater is shown] */
+        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Click the black & white sweater in the bottom corner.'}]),
+        _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 175, y: 400, r: 1.30}]), /* highlight b&w sweater */
+        bind(this, function _a_waitBWSweater() {
+            var btnNew, next;
+            btnNew = new Button({
+                y: 389, x: 182, width: 60, height: 60
+            });
+
+            next = this.runner.waitPlain();
+            btnNew.on('InputSelect', bind(this, function _on_clickBWSweater() {
+                this.showLargeCraft({main: c.COLOR_BLACK, contrast: c.COLOR_WHITE});
+                next();
+            }));
+            this.clickOnlyHere(btnNew);
+        }),
+        _sx(['disappear', arrow1, {duration: 0}]),
+        bind(this, this.disableClicks)
         ];
+
+        this.runner.run(_c);
+        /**********************************************************/
 
         _d = [
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'The amount of wool to craft the sweater is shown on the left and right.'}]),
-        _sx(['appear', arrow, {duration: 0}]),
-        _sx(['appear', arrow, {duration: 0}]),
+        _sx(['appear', 'arrow', {duration: 750},
+                {view: arrow1,
+                 x: 613,
+                 y: 321,
+                 r: 0}]),
+        _sx(['appear', 'arrow', {duration: 750},
+                {view: arrow2,
+                 x: 893,
+                 y: 321,
+                 r: 0}]),
+        _sx(['disappear', arrow1, {duration: 0}]),
+        _sx(['disappear', arrow2, {duration: 0}]),
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'The amount of Eweros you would earn by making it is shown in the top corner.'}]),
-        _sx(['appear', arrow, {duration: 0}]),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Click ‘Craft’ to make this item.'}])
-        /* [wait for click] */ /* [eweros added and wool deducted and star lights up] */
+        _sx(['appear', 'arrow', {duration: 750},
+                {view: arrow1,
+                x: 900,
+                y: 180,
+                r: 0}]),
+        _sx(['disappear', arrow1, {duration: 0}]),
+        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Click ‘Craft’ to make this item.'}]),
+        _sx(['appear', 'arrow', {duration: 0},
+                {view: arrow1,
+                 x: 730,
+                 y: 400,
+                 r: Math.PI / 2}]),
+        bind(this, function _a_waitBuySweater() {
+            var btnNew, next;
+            btnNew = new Button({
+                x: 734, y: 408, width: 96, height: 37
+            });
+
+            next = this.runner.waitPlain();
+            btnNew.on('InputSelect', bind(this, function _on_clickBuyCraft() {
+                console.log('oh hi lisa');
+                this.selectedCraft.purchased();
+                next();
+            }));
+            this.clickOnlyHere(btnNew);
+        }),
+        _sx(['disappear', arrow1, {duration: 0}])
         ];
+
+        this.runner.run(_d);
+        /**********************************************************/
 
         _e = [
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'You immediately receive the Eweros and your wool is immediately deducted.'}]),

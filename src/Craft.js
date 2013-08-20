@@ -33,10 +33,12 @@ exports = Class(ImageView, function (supr) {
         this.value = new Button({x: 305, y: 0, width: 76, height: 48,
             superview: this});
 
-        this.buyButton.on('InputSelect', bind(this, function _a_onBuyButtonClick() {
-            GC.app.audio.playBuyGarment();
-            this.emit('largeCraft:purchased');
-        }));
+        this.buyButton.on('InputSelect', bind(this, this.purchased));
+    };
+
+    this.purchased = function () {
+        GC.app.audio.playBuyGarment();
+        this.emit('largeCraft:purchased');
     };
 
     /*

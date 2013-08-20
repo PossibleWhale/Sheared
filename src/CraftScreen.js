@@ -34,6 +34,7 @@ exports = Class(ImageView, function (supr) {
         this.crafts = GC.app.player.crafts;
 
         this.selectedGarment = c.GARMENT_HAT;
+        this.selectedCraft = null;
 
         this.woolCounts = new WoolCounter({
             superview: this,
@@ -256,24 +257,24 @@ exports = Class(ImageView, function (supr) {
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
         this.largeCraft.removeAllSubviews();
-        var nullCraft = new Craft(this.selectedGarment, null, null);
-        this.largeCraft.addSubview(nullCraft);
-        nullCraft.enable(true);
+        this.selectedCraft = new Craft(this.selectedGarment, null, null);
+        this.largeCraft.addSubview(this.selectedCraft);
+        this.selectedCraft.enable(true);
     };
 
     this.showLargeCraft = function _a_showLargeCraft(data) {
-        var craft, isEnabled;
+        var isEnabled;
 
         this.largeCraft.removeAllSubviews();
 
-        craft = new Craft(this.selectedGarment, data.main, data.contrast);
-        isEnabled = GC.app.player.canCraft(craft);
+        this.selectedCraft = new Craft(this.selectedGarment, data.main, data.contrast);
+        isEnabled = GC.app.player.canCraft(this.selectedCraft);
 
-        this.largeCraft.addSubview(craft);
-        craft.enable(isEnabled);
+        this.largeCraft.addSubview(this.selectedCraft);
+        this.selectedCraft.enable(isEnabled);
 
-        craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
-            this.buyCraft(craft);
+        this.selectedCraft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
+            this.buyCraft(this.selectedCraft);
             this.showLargeCraft(data);
         }));
     };
