@@ -164,6 +164,12 @@ exports = Class(ImageView, function (supr) {
                 if (!isNaN(parseInt(category)) && !isMisc(prefix)) {
                     category = 'general';
                 } else if (prefix === 'crafts' || isMisc(prefix)) {
+                    /* special cases -- make these look better */
+                    if (prefix === 'bladepower') {
+                        prefix = 'Blade Power';
+                    } else if (prefix === 'power') {
+                        prefix = 'Clipper Power';
+                    }
                     category = prefix;
                 }
                 if (lastCategory !== category) {

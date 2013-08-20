@@ -101,6 +101,16 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_upgrade.blade', JSON.stringify({name: 'blade', value: 1}));
     };
 
+    this.upgrade_6_to_7 = function _a_upgrade_6_to_7() {
+        assert(parseInt(lsGet('pw_version'), 10) === 6);
+        lsSet('pw_version', 7);
+        lsSet('pw_store_award.bladepower.1', JSON.stringify({name: 'bladepower.1', value: false}));
+        lsSet('pw_store_award.bladepower.2', JSON.stringify({name: 'bladepower.2', value: false}));
+        lsSet('pw_store_award.bladepower.3', JSON.stringify({name: 'bladepower.3', value: false}));
+        lsSet('pw_store_award.bladepower.4', JSON.stringify({name: 'bladepower.4', value: false}));
+        lsSet('pw_store_award.bladepower.max', JSON.stringify({name: 'bladepower.max', value: false}));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */
