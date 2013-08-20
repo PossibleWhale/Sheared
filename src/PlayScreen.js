@@ -442,6 +442,7 @@ function playGame () {
     } else {
         this.clipper.style.x = 0;
         this.clipper.style.y = laneCoord(4) + 5;
+        this.clipper.infiniteDiamond = GC.app.player.upgrades.get('diamond').value;
     }
     this.addSubview(this.clipper);
     if (this.clipper.infiniteDiamond) {

@@ -482,7 +482,7 @@ exports = Class(ImageView, function (supr) {
         var upgrades = GC.app.player.upgrades;
         return {
             power: upgrades.get('power').value >= 6 ? 'max' : upgrades.get('power').value,
-            multiplier: upgrades.get('mult').value >= 7 ? 'max' : upgrades.get('mult').value,
+            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value,
             blade: upgrades.get('blade').value >= 6 ? 'max' : upgrades.get('blade').value
         };
     };
