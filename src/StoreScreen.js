@@ -40,10 +40,10 @@ exports = Class(ImageView, function (supr) {
 
         this.coinsLabel = new TextView({
             superview: this,
-            x: 461,
-            y: 511,
-            width: 152,
-            height: 40,
+            x: 452,
+            y: 520,
+            width: 160,
+            height: 28,
             color: '#333333',
             fontFamily: 'delius',
             horizontalAlign: 'left',
@@ -207,39 +207,43 @@ exports = Class(ImageView, function (supr) {
         this.priceDisplays = {
             power: new TextView({
                 superview: this.tabs.upgrades,
-                x: 261,
-                y: 182,
-                width: 104,
-                height: 36,
+                x: 262,
+                y: 183,
+                width: 102,
+                height: 28,
                 color: '#333333',
-                fontFamily: 'delius'
+                fontFamily: 'delius',
+                horizontalAlign: "left"
             }),
             multiplier: new TextView({
                 superview: this.tabs.upgrades,
-                x: 451,
-                y: 182,
-                width: 104,
-                height: 36,
+                x: 452,
+                y: 183,
+                width: 102,
+                height: 28,
                 color: '#333333',
-                fontFamily: 'delius'
+                fontFamily: 'delius',
+                horizontalAlign: "left"
             }),
             blade: new TextView({
                 superview: this.tabs.upgrades,
-                x: 642,
-                y: 182,
-                width: 104,
-                height: 36,
+                x: 643,
+                y: 183,
+                width: 102,
+                height: 28,
                 color: '#333333',
-                fontFamily: 'delius'
+                fontFamily: 'delius',
+                horizontalAlign: "left"
             }),
             diamond: new TextView({
                 superview: this.tabs.upgrades,
-                x: 832,
-                y: 182,
-                width: 104,
-                height: 36,
+                x: 833,
+                y: 183,
+                width: 102,
+                height: 28,
                 color: '#333333',
-                fontFamily: 'delius'
+                fontFamily: 'delius',
+                horizontalAlign: "left"
             })
         };
         this.updatePriceDisplays();
@@ -311,21 +315,23 @@ exports = Class(ImageView, function (supr) {
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 145,
-                width: 95,
-                height: 36,
+                width: 93,
+                height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                horizontalAlign: 'left',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
 
             // cost
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 265,
-                width: 95,
-                height: 36,
+                y: 266,
+                width: 93,
+                height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                horizontalAlign: 'left',
                 text: '' + constants.UPGRADE_PRICES[constants.colors[i].label]
             }));
         }
@@ -343,7 +349,7 @@ exports = Class(ImageView, function (supr) {
             container = new Button({
                 superview: this.tabs.eweros,
                 x: containerStart + i*gap,
-                y: 136,
+                y: 116,
                 width: 150,
                 height: 182
             });
@@ -352,10 +358,11 @@ exports = Class(ImageView, function (supr) {
             this.tabs.eweros.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 120,
-                width: 95,
-                height: 36,
+                width: 93,
+                height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                horizontalAlign: 'left',
                 text: '' + constants.EWEROS_QUANTITIES[i]
             }));
 
@@ -363,10 +370,11 @@ exports = Class(ImageView, function (supr) {
             this.tabs.eweros.addSubview(new TextView({
                 x: startX + gap*i,
                 y: 256,
-                width: 95,
-                height: 36,
+                width: 93,
+                height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                horizontalAlign: 'left',
                 text: '$' + constants.EWEROS_PRICES[i]
             }));
         }
@@ -380,6 +388,20 @@ exports = Class(ImageView, function (supr) {
             width: 150,
             height: 148
         });
+        var startX = 550, containerStart = 182, gap = 162, i = 0;
+        
+        // cost
+        this.tabs.ads.addSubview(new TextView({
+            x: startX + gap*i,
+            y: 223,
+            width: 93,
+            height: 28,
+            color: '#333333',
+            fontFamily: 'delius',
+            horizontalAlign: 'left',
+            text: '$' + constants.ADS_PRICE[i]
+        }));
+
         button.on('InputSelect', function () {
             billing.purchase('adFree');
         });
