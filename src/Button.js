@@ -24,7 +24,7 @@ exports = Class(ui.TextView, function (supr) {
                 color: '#ffffff',
                 fontFamily: 'delius'
         };
-        merge(defaults, opts); /* merge opts over defaults so the passed-in
+        merge(opts, defaults); /* merge opts over defaults so the passed-in
                                 * opts take precedence
                                 */
         opts = defaults;
