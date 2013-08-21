@@ -501,7 +501,17 @@ craftStars: [
         ]
     ],
 total: [
-    {y: 500, x: 444, width: 160, height: 56, text: '0'}
+    {
+        x: 460,
+        y: 520,
+        width: 152,
+        height: 28,
+        color: '#333333',
+        strokeWidth: 0,
+        fontFamily: 'delius',
+        horizontalAlign: 'left',
+        text: '0'
+    }
 ],
 store: [
     {x: 143, y: 496, width: 180, height: 80, image: 'resources/images/button-general-store.png'}
