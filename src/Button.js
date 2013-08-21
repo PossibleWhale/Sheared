@@ -27,7 +27,6 @@ exports = Class(ui.TextView, function (supr) {
         merge(opts, defaults); /* merge opts over defaults so the passed-in
                                 * opts take precedence
                                 */
-        opts = defaults;
         supr(this, 'init', [opts]);
 
         dh.post_initButton(this, opts);
