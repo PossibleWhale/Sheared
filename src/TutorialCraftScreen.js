@@ -249,24 +249,46 @@ exports = Class(CraftScreen, function (supr) {
 
         _e = [
         _sx(['materialize', 'thought', {duration: 4000}, {text: 'You immediately receive the Eweros and your wool is immediately deducted.'}]),
-        _sx(['materialize', 'thought', {duration: 5000}, {text: 'Once you craft at least one of something, you get a star next to it.'}]),
-        _sx(['appear', arrow1, {duration: 0}]),
-        _sx(['ok', 'ok'])
+        _sx(['materialize', 'thought', {duration: 3500}, {text: 'Once you craft at least one of something, you get a star next to it.'}]),
+        _sx(['appear', 'arrow', {duration: 0},
+                {view: arrow1,
+                 x: 230,
+                 y: 450,
+                 r: 0}]),
+        _sx(['ok', 'ok']),
+        _sx(['disappear', arrow1, {duration: 0}])
         ];
+
+        this.runner.run(_e);
+        /**********************************************************/
 
         _f = [
         _sx(['materialize', 'thought', {duration: 6000}, {text: 'Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white.'}]),
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'The more wool in an item, the more it’s worth.'}]),
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'The more valuable wool used in the item, the more it’s worth.'}]),
+        _sx(['materialize', 'thought', {duration: 3500}, {text: 'The more valuable wool used in the item, the more it’s worth.'}]),
         _sx(['ok', 'ok'])
         ];
 
+        this.runner.run(_f);
         /**********************************************************/
 
         _g = [
-        _sx(['appear', arrow1, 0]),
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}])
+        _sx(['appear', 'text', {duration: 100}, {text: 'SCREENSHOT OF THE STORE SCREEN'}]),
+        _sx(['appear', 'arrow', {duration: 0},
+                {view: arrow1,
+                 x: 350,
+                 y: 250,
+                 r: Math.PI /2
+        }]),
+        // screenshot of the store screen
+        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}]),
+        _sx(['ok', 'ok']),
+        bind(this, function _a_done() {
+            this.getSuperview().pop();
+        })
         ];
+
+        this.runner.run(_g);
 
     };
 });
