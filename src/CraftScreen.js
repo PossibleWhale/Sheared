@@ -20,9 +20,6 @@ import src.WoolCounter as WoolCounter;
 
 exports = Class(ImageView, function (supr) {
     this.init = function _a_init(opts) {
-        this.buttons = {};
-        this.total = Math.round(GC.app.player.stats.get('coins').value, 0);
-
         opts = merge(opts, {
             autosize: true,
             image: new Image({url: 'resources/images/craft.png'})
@@ -30,8 +27,11 @@ exports = Class(ImageView, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        this.wool = GC.app.player.wool;
-        this.crafts = GC.app.player.crafts;
+        this.buttons = {};
+        this.player = opts.player || GC.app.player;
+        this.total = Math.round(this.player.stats.get('coins').value, 0);
+        this.wool = this.player.wool;
+        this.crafts = this.player.crafts;
 
         this.selectedGarment = c.GARMENT_HAT;
         this.selectedCraft = null;
@@ -84,13 +84,13 @@ exports = Class(ImageView, function (supr) {
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
             this.woolCounts.matchStorage();
-            this.total = GC.app.player.stats.get('coins').value;
+            this.total = this.player.stats.get('coins').value;
             this.updateTotal();
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
             this.total += amount;
-            GC.app.player.addCoins(amount);
+            this.player.addCoins(amount);
             this._cleanUI();
         });
 
@@ -177,7 +177,7 @@ exports = Class(ImageView, function (supr) {
         disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled-small.png'});
 
         this._loopCrafts(bind(this, function _a_loopCraftsForUpdate(i, j) {
-            var starRow, star, cbRow, cb, res, contrast, main, player = GC.app.player;
+            var starRow, star, cbRow, cb, res, contrast, main, player = this.player;
 
             cbRow = this.buttons.craftBuy[i];
             starRow = this.buttons.craftStars[i];
@@ -268,7 +268,7 @@ exports = Class(ImageView, function (supr) {
         this.largeCraft.removeAllSubviews();
 
         this.selectedCraft = new Craft(this.selectedGarment, data.main, data.contrast);
-        isEnabled = GC.app.player.canCraft(this.selectedCraft);
+        isEnabled = this.player.canCraft(this.selectedCraft);
 
         this.largeCraft.addSubview(this.selectedCraft);
         this.selectedCraft.enable(isEnabled);
@@ -324,7 +324,7 @@ exports = Class(ImageView, function (supr) {
         var garment = this.selectedGarment, costs;
         costs = craft.cost();
 
-        if (GC.app.player.canCraft(craft)) {
+        if (this.player.canCraft(craft)) {
             var particleObjects = GC.app.particleEngine.obtainParticleArray(20), i;
             for (i = 0; i < particleObjects.length; i++) {
                 var pObj = particleObjects[i];

@@ -101,8 +101,6 @@ var BasicRunner = Class(AbstractRunner, function _a_BasicRunner (supr) {
         height: 576
     };
 
-    imageArgs = {};
-
     appearArgs = [{opacity: 1.0}, 600, animate.linear];
     disappearArgs = [{opacity: 0.0}, 600, animate.linear];
 
@@ -138,7 +136,8 @@ var BasicRunner = Class(AbstractRunner, function _a_BasicRunner (supr) {
     };
 
     this.factory_image = function _a_imageFactory(obj) {
-        return new ImageView(merge(merge({superview: this.context}, obj), imageArgs));
+        var im = new ImageView(merge({superview: this.context}, obj));
+        return im;
     };
 
 });

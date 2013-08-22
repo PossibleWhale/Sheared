@@ -13,14 +13,18 @@ import src.awardtracker as at;
 
 
 exports = Class(Emitter, function Player(supr) {
-    this.init = function () {
+    this.init = function (opts) {
         supr(this, 'init', arguments);
 
-        this.wool = new WoolStorage();
-        this.crafts = new CraftStorage();
-        this.stats = new StatStorage();
-        this.upgrades = new UpgradeStorage();
-        this.awards = new AwardStorage();
+        opts = opts || {};
+
+        this.persist = opts.persist === undefined ? true : opts.persist;
+
+        this.wool = new WoolStorage({persist: this.persist});
+        this.crafts = new CraftStorage({persist: this.persist});
+        this.stats = new StatStorage({persist: this.persist});
+        this.upgrades = new UpgradeStorage({persist: this.persist});
+        this.awards = new AwardStorage({persist: this.persist});
 
         this.addWool = bind(this.wool, this.wool.addWool);
 

@@ -8,6 +8,8 @@ import src.CraftScreen as CraftScreen;
 import src.util as util;
 import src.ThoughtBubble as ThoughtBubble;
 import src.Runner as Runner;
+import src.Player as Player;
+
 
 var textOpts = c.TEXT_OPTIONS;
 
@@ -58,11 +60,17 @@ var TutorialRunner = Class(Runner, function _a_TutorialRunner(supr) {
 
 exports = Class(CraftScreen, function (supr) {
     this.init = function (opts) {
+        opts = opts || {};
+        opts.player = new Player({persist: false});
         supr(this, 'init', [opts]);
+        assert(this.player === opts.player);
         this.build();
     };
 
     this.build = function() {
+        this.player.addWool('black', 42);
+        this.player.addWool('white', 18);
+        this.woolCounts.matchStorage();
         this.clickControl = new View({
             x: 0,
             y: 0,
@@ -273,14 +281,27 @@ exports = Class(CraftScreen, function (supr) {
         /**********************************************************/
 
         _g = [
-        _sx(['appear', 'text', {duration: 100}, {text: 'SCREENSHOT OF THE STORE SCREEN'}]),
+        _sx(['appear', 'image',
+                {duration: 100},
+                {image: 'resources/images/screenshot-store.png',
+                x: 0, y: 0,
+                width: 1024, height: 576,
+                opacity: 0
+                }]),
         _sx(['appear', 'arrow', {duration: 0},
                 {view: arrow1,
-                 x: 350,
-                 y: 250,
-                 r: Math.PI /2
-        }]),
-        // screenshot of the store screen
+                 x: 340,
+                 y: 240,
+                 r: Math.PI / 3,
+                 zIndex: 1000
+                }]),
+        _sx(['appear', 'arrow', {duration: 0},
+                {view: arrow2,
+                 x: 950,
+                 y: 210,
+                 r: 4,
+                 zIndex: 1000
+                }]),
         _sx(['materialize', 'thought', {duration: 3000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}]),
         _sx(['ok', 'ok']),
         bind(this, function _a_done() {
