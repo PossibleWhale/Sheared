@@ -508,7 +508,6 @@ total: [
         height: 28,
         color: '#333333',
         strokeWidth: 0,
-        strokeColor: undefined,
         fontFamily: 'delius',
         horizontalAlign: 'left',
         text: '0'
