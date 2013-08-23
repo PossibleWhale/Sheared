@@ -92,9 +92,7 @@ exports = Class(Emitter, function Player(supr) {
         this.stats.increment('wool', sheep.bolts);
         this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
 
-        if (!sheep.getSuperview().isTutorial) {
-            at.emit('player:sheared', sheep);
-        }
+        at.emit('player:sheared', sheep);
     };
 
     this.collectedBattery = function () {

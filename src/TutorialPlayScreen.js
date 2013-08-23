@@ -30,8 +30,6 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function() {
-        this.isTutorial = true;
-
         this.clipper = new Clipper({
             superview: this,
             x: 0
