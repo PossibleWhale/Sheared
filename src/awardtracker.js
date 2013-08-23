@@ -12,8 +12,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
 
     this.build = function () {
         this.on('player:coins', function () {
-            var player = GC.app.player, i = 10, awardKey;
-            while (i <= 100000) {
+            var player = GC.app.player, i = 1000, awardKey;
+            while (i <= 10000000) {
                 awardKey = 'eweros.' + i;
                 if (!player.awards.get(awardKey).value && player.stats.get('coins').value >= i) {
                     player.earnedAward(awardKey);
@@ -35,8 +35,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
             }
 
             // check for ewe/ram of any color award
-            i = 5;
-            while (i <= 50000) {
+            i = 50;
+            while (i <= 500000) {
                 awardKey = prefix + i;
                 if (!player.awards.get(awardKey).value && numSheared >= i) {
                     player.earnedAward(awardKey);
@@ -45,8 +45,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
             }
 
             // check for ewe/ram of specific color award
-            i = 1;
-            while (i <= 10000) {
+            i = 10;
+            while (i <= 100000) {
                 awardKey = prefix + sheep.color.label + '.' + i;
                 if (!player.awards.get(awardKey).value && colorSheared >= i) {
                     player.earnedAward(awardKey);
@@ -55,8 +55,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
             }
 
             // check for wool of any color award
-            i = 10;
-            while (i <= 100000) {
+            i = 100;
+            while (i <= 1000000) {
                 awardKey = 'wool.' + i;
                 if (!player.awards.get(awardKey).value && player.stats.get('wool').value >= i) {
                     player.earnedAward(awardKey);
@@ -65,8 +65,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
             }
 
             // check for wool of specific color award
-            i = 2;
-            while (i <= 20000) {
+            i = 20;
+            while (i <= 200000) {
                 awardKey = 'wool.' + sheep.color.label + '.' + i;
                 if (!player.awards.get(awardKey).value && player.stats.get('wool.' + sheep.color.label).value >= i) {
                     player.earnedAward(awardKey);
