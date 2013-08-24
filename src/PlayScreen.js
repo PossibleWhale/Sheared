@@ -545,5 +545,5 @@ function emitWool (x, y, numBolts, color) {
 }
 
 function sheepFrequency (day) {
-    return Math.max((1.5 - (day * 1/6))*500, 0.75);
+    return Math.max(2 - (day * 1/6), 0.75)*500;
 }
