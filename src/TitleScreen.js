@@ -16,7 +16,7 @@ import src.CreditsScreen as CreditsScreen;
 import src.TutorialSelectScreen as TutorialSelectScreen;
 import src.StoreScreen as StoreScreen;
 import src.StatScreen as StatScreen;
-import src.AwardsScreen as AwardsScreen;
+import src.AwardScreen as AwardScreen;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
@@ -56,7 +56,7 @@ exports = Class(ImageView, function (supr) {
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
-        awardsScreen = new AwardsScreen();
+        awardsScreen = new AwardScreen();
 
         stackView = this.stackView = this.getSuperview();
 
