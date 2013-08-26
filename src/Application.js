@@ -86,15 +86,6 @@ exports = Class(GC.Application, function (supr) {
     this.launchUI = function () {
         dh.pre_launchUI();
 
-        var gcSplash = new ImageView({
-            superview: this.stackView,
-            image: 'resources/images/landscape1536.png'
-        });
-        this.stackView.push(gcSplash, /* noAnimate= */ true);
-        setTimeout(bind(this, function () {
-            this.stackView.pop(/* noAnimate= */ true);
-            this.titleScreen.animateIntro();
-        }), c.SPLASH_TIME);
         this.particleEngine = new ParticleEngine({
             superview: this.view,
             x: 0,
@@ -102,5 +93,7 @@ exports = Class(GC.Application, function (supr) {
             width: boundsWidth,
             height: boundsHeight
         });
+
+        this.titleScreen.animateIntro();
     };
 });
