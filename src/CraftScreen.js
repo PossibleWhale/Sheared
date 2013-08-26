@@ -56,6 +56,8 @@ exports = Class(ImageView, function (supr) {
         this.largeCraft = new ui.View({
             x: pt.x,
             y: pt.y,
+            width: 394,
+            height: 325,
             superview: this.tabs
         });
 
