@@ -30,6 +30,8 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function() {
+        this.isTutorial = true;
+
         this.clipper = new Clipper({
             superview: this,
             x: 0
@@ -40,6 +42,7 @@ exports = Class(ImageView, function (supr) {
             superview: this,
             x: 387,
             y: 576-80,
+            health: 5
         });
 
         this.woolCounts = new WoolCounter({
@@ -60,20 +63,7 @@ exports = Class(ImageView, function (supr) {
         });
         this.sheep = [];
 
-        var backButton = new ImageView({
-            superview: this,
-            x: 0,
-            y: 0,
-            zIndex: 99,
-            width: 80,
-            height: 80,
-            image: 'resources/images/button-return.png'
-        });
-        backButton.on('InputSelect', bind(this, function () {
-            this.removeAllSubviews();
-            this.getSuperview().pop();
-        }));
-
+        /*
         var muteButton = new MuteButton({
             superview: this,
             x: 944,
@@ -82,6 +72,7 @@ exports = Class(ImageView, function (supr) {
             width: 80,
             height: 80
         });
+        */
     };
 
     this.clipperTutorial = function () {
@@ -330,12 +321,14 @@ exports = Class(ImageView, function (supr) {
         if (isRam) {
             sheep = new Ram({
                 x: 1024,
-                color: color
+                color: color,
+                fromTutorial: true
             });
         } else {
             sheep = new Sheep({
                 x: 1024,
-                color: color
+                color: color,
+                fromTutorial: true
             });
         }
         sheep.startY = sheep.endY = sheep.style.y = y - sheep.style.width/2;

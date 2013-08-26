@@ -3,7 +3,11 @@ import src.util as util;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
-        this.maxHealth = GC.app.player.maxClipperHealth;
+        if (!opts.health) {
+            this.maxHealth = GC.app.player.maxClipperHealth;
+        } else {
+            this.maxHealth = opts.health;
+        }
         this.health = this.maxHealth;
 
         opts = merge(opts, {

@@ -15,6 +15,8 @@ exports = Class(ui.StackView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        this.build();
     };
 
     this.build = function() {
@@ -67,7 +69,7 @@ exports = Class(ui.StackView, function (supr) {
             superview: this,
             x: 944,
             y: 0,
-            zIndex: 99,
+            zIndex: 9999,
             width: 80,
             height: 80
         });

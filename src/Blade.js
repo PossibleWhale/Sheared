@@ -18,7 +18,11 @@ exports = Class(ImageView, function (supr) {
         supr(this, 'init', [opts]);
 
         this.sheepSheared = 0;
-        this.maxSheep = GC.app.player.upgrades.get('blade').value;
+        if (opts.fromTutorial) {
+            this.maxSheep = 1;
+        } else {
+            this.maxSheep = GC.app.player.upgrades.get('blade').value;
+        }
     };
 
     this.run = function () {

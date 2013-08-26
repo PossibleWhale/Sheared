@@ -196,7 +196,6 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-tutorials.png'
         });
         this.tutorialButton.on('InputSelect', function () {
-            tutorialScreen.build();
             _goToView(tutorialScreen);
         });
 

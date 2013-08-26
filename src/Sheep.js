@@ -18,7 +18,7 @@ exports = Class(View, function (supr) {
         supr(this, 'init', [opts]);
 
         this.image = new ImageView({
-            superview:this,
+            superview: this,
             image: color.eweImage,
             width: this.style.width,
             height: this.style.height,
@@ -27,7 +27,11 @@ exports = Class(View, function (supr) {
         });
 
         this.color = color;
-        this.bolts = 1 * GC.app.player.boltMultiplier;
+        if (opts.fromTutorial) {
+            this.bolts = 1;
+        } else {
+            this.bolts = GC.app.player.boltMultiplier;
+        }
         this.isRam = false;
     };
 

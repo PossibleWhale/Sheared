@@ -93,7 +93,8 @@ exports = Class(ImageView, function (supr) {
         newBlade = new Blade({
             superview: superview,
             x: this.style.x + this.style.width,
-            y: this.style.y + 3
+            y: this.style.y + 3,
+            fromTutorial: superview.isTutorial
         });
         this.blades.push(newBlade);
         this.bladeOut = true;
