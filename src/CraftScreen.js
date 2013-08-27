@@ -18,7 +18,7 @@ import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
 
 
-exports = Class(ImageView, function (supr) {
+exports = Class(ui.View, function (supr) {
     this.init = function _a_init(opts) {
         opts = merge(opts, {
             autosize: true,
@@ -26,6 +26,36 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        _footerBG = new ImageView({
+            x: 0,
+            y: 0,
+            height: 80,
+            width: 1024,
+            image: 'resources/images/background-header-wood.png',
+            canHandleEvents: false,
+            superview: this
+        });
+
+        _centerBG = new ImageView({
+            x: 0,
+            y: 80,
+            height: 576-160,
+            width: 1024,
+            image: 'resources/images/background-wood.png',
+            canHandleEvents: false,
+            superview: this
+        });
+
+        _headerBG = new ImageView({
+            x: 0,
+            y: 496,
+            height: 80,
+            width: 1024,
+            image: 'resources/images/background-footer-wood.png',
+            canHandleEvents: false,
+            superview: this
+        });
 
         this.buttons = {};
         this.player = opts.player || GC.app.player;
