@@ -33,6 +33,16 @@ exports = Class(ImageView, function (supr) {
         this.value = new Button({x: 305, y: 0, width: 76, height: 36,
             superview: this});
 
+        _bg = new ImageView({
+            x: 0,
+            y: 0,
+            width: 394,
+            height: 325,
+            canHandleEvents: false,
+            image: 'resources/images/craft-preview-background.png',
+            superview: this
+        });
+
         this.buyButton.on('InputSelect', bind(this, this.purchased));
     };
 

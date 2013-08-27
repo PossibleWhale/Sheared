@@ -91,13 +91,13 @@ exports = Class(ui.View, function (supr) {
         });
 
         _colorSwatches = new ImageView({
-            x: 149,
-            y: 12,
-            width:390,
-            height:324,
+            x: 182,
+            y: 125,
+            width: 390,
+            height: 324,
             image: 'resources/images/craft-swatches.png',
             canHandleEvents: false,
-            superview: this.tabs
+            superview: this
         });
 
         var pt = this.tabs.localizePoint(new Point(585, 125));
