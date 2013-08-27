@@ -43,7 +43,6 @@ exports = Class(ImageView, function (supr) {
 
     /*
      * display the widget somewhere
-     * pass in {x: .., y: .., superview: .., enabled: true|false}
      */
     this.enable = function (enabled) {
         var costs, eweros;

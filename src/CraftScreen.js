@@ -27,35 +27,42 @@ exports = Class(ui.View, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        _footerBG = new ImageView({
+        _myBGOpts = {
+            canHandleEvents: false,
+            superview: this
+        };
+
+        _footerBG = new ImageView(merge({
             x: 0,
             y: 0,
             height: 80,
             width: 1024,
-            image: 'resources/images/background-header-wood.png',
-            canHandleEvents: false,
-            superview: this
-        });
+            image: 'resources/images/background-header-wood.png'
+        }, _myBGOpts));
 
-        _centerBG = new ImageView({
+        _centerBG = new ImageView(merge({
             x: 0,
             y: 80,
             height: 576-160,
             width: 1024,
-            image: 'resources/images/background-wood.png',
-            canHandleEvents: false,
-            superview: this
-        });
+            image: 'resources/images/background-wood.png'
+        }, _myBGOpts));
 
-        _headerBG = new ImageView({
+        _headerBG = new ImageView(merge({
             x: 0,
             y: 496,
             height: 80,
             width: 1024,
-            image: 'resources/images/background-footer-wood.png',
-            canHandleEvents: false,
-            superview: this
-        });
+            image: 'resources/images/background-footer-wood.png'
+        }, _myBGOpts));
+
+        _totalEwerosBG = new ImageView(merge({
+            x: 357,
+            y: 383,
+            height: 80,
+            width: 244,
+            image: 'resources/images/label-eweros.png'
+        }, _myBGOpts));
 
         this.buttons = {};
         this.player = opts.player || GC.app.player;
@@ -534,10 +541,10 @@ craftStars: [
     ],
 total: [
     {
-        x: 460,
-        y: 520,
+        x: 420,
+        y: 403,
         width: 152,
-        height: 28,
+        height: 40,
         color: '#333333',
         strokeWidth: 0,
         strokeColor: undefined,
