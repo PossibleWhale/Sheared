@@ -18,7 +18,7 @@ import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
 
 
-exports = Class(ImageView, function (supr) {
+exports = Class(ui.View, function (supr) {
     this.init = function _a_init(opts) {
         opts = merge(opts, {
             autosize: true,
@@ -26,6 +26,43 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+
+        _myBGOpts = {
+            canHandleEvents: false,
+            superview: this
+        };
+
+        _footerBG = new ImageView(merge({
+            x: 0,
+            y: 0,
+            height: 80,
+            width: 1024,
+            image: 'resources/images/background-header-wood.png'
+        }, _myBGOpts));
+
+        _centerBG = new ImageView(merge({
+            x: 0,
+            y: 80,
+            height: 576-160,
+            width: 1024,
+            image: 'resources/images/background-wood.png'
+        }, _myBGOpts));
+
+        _headerBG = new ImageView(merge({
+            x: 0,
+            y: 496,
+            height: 80,
+            width: 1024,
+            image: 'resources/images/background-footer-wood.png'
+        }, _myBGOpts));
+
+        _totalEwerosBG = new ImageView(merge({
+            x: 390,
+            y: 496,
+            height: 80,
+            width: 244,
+            image: 'resources/images/label-eweros.png'
+        }, _myBGOpts));
 
         this.buttons = {};
         this.player = opts.player || GC.app.player;
@@ -47,9 +84,20 @@ exports = Class(ImageView, function (supr) {
             x: 0,
             y: 80,
             width: 1024,
-            height: 416,
+            height: 576-160,
+            image: 'resources/images/tab-1.png',
             superview: this,
             buttonKind: "tabs"
+        });
+
+        _colorSwatches = new ImageView({
+            x: 149,
+            y: 12,
+            width:390,
+            height:324,
+            image: 'resources/images/craft-swatches.png',
+            canHandleEvents: false,
+            superview: this.tabs
         });
 
         var pt = this.tabs.localizePoint(new Point(585, 125));
@@ -432,11 +480,16 @@ var colorPairings = {
 
 var regions = {
 garment: [
-    {item: c.GARMENT_HAT,      y:113, x:33, width:137, height:64},
-    {item: c.GARMENT_MITTEN,   y:183, x:33, width:137, height:64},
-    {item: c.GARMENT_SOCK,     y:255, x:33, width:137, height:64},
-    {item: c.GARMENT_SCARF,    y:327, x:33, width:137, height:64},
-    {item: c.GARMENT_SWEATER,  y:399, x:33, width:137, height:64}
+    {item: c.GARMENT_HAT,      y:117, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-hat.png'},
+    {item: c.GARMENT_MITTEN,   y:186, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-mitten.png'},
+    {item: c.GARMENT_SOCK,     y:256, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-sock.png'},
+    {item: c.GARMENT_SCARF,    y:326, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-scarf.png'},
+    {item: c.GARMENT_SWEATER,  y:396, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-sweater.png'}
     ],
 craftBuy: [
         [ // white
@@ -504,10 +557,10 @@ craftStars: [
     ],
 total: [
     {
-        x: 460,
-        y: 520,
+        x: 453,
+        y: 516,
         width: 152,
-        height: 28,
+        height: 40,
         color: '#333333',
         strokeWidth: 0,
         strokeColor: undefined,
