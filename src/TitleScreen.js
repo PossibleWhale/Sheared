@@ -71,7 +71,6 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/clipper-title.png'
         });
 
-        // TODO animate the logo in some cutesy way
         this.shearedLogo = new ImageView({
             superview: this,
             x: 87,
@@ -108,10 +107,9 @@ exports = Class(ImageView, function (supr) {
             height: 80,
             image: 'resources/images/button-exit.png'
         });
-        this.exitButton.on('InputSelect', function () {
-            // TODO
-            console.log('exit app');
-        });
+        this.exitButton.on('InputSelect', bind(this, function () {
+            this.back();
+        }));
 
         this.websiteButton = new ImageView({
             superview: this.marqueeBottom,
