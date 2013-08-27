@@ -84,9 +84,20 @@ exports = Class(ui.View, function (supr) {
             x: 0,
             y: 80,
             width: 1024,
-            height: 416,
+            height: 576-160,
+            image: 'resources/images/tab-1.png',
             superview: this,
             buttonKind: "tabs"
+        });
+
+        _colorSwatches = new ImageView({
+            x: 149,
+            y: 12,
+            width:390,
+            height:324,
+            image: 'resources/images/craft-swatches.png',
+            canHandleEvents: false,
+            superview: this.tabs
         });
 
         var pt = this.tabs.localizePoint(new Point(585, 125));
@@ -469,11 +480,16 @@ var colorPairings = {
 
 var regions = {
 garment: [
-    {item: c.GARMENT_HAT,      y:113, x:33, width:137, height:64},
-    {item: c.GARMENT_MITTEN,   y:183, x:33, width:137, height:64},
-    {item: c.GARMENT_SOCK,     y:255, x:33, width:137, height:64},
-    {item: c.GARMENT_SCARF,    y:327, x:33, width:137, height:64},
-    {item: c.GARMENT_SWEATER,  y:399, x:33, width:137, height:64}
+    {item: c.GARMENT_HAT,      y:117, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-hat.png'},
+    {item: c.GARMENT_MITTEN,   y:186, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-mitten.png'},
+    {item: c.GARMENT_SOCK,     y:256, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-sock.png'},
+    {item: c.GARMENT_SCARF,    y:326, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-scarf.png'},
+    {item: c.GARMENT_SWEATER,  y:396, x:37, width:133, height:64,
+        image: 'resources/images/tab-label-sweater.png'}
     ],
 craftBuy: [
         [ // white
