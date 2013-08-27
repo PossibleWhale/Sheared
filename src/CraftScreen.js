@@ -57,8 +57,8 @@ exports = Class(ui.View, function (supr) {
         }, _myBGOpts));
 
         _totalEwerosBG = new ImageView(merge({
-            x: 357,
-            y: 383,
+            x: 390,
+            y: 496,
             height: 80,
             width: 244,
             image: 'resources/images/label-eweros.png'
@@ -541,8 +541,8 @@ craftStars: [
     ],
 total: [
     {
-        x: 420,
-        y: 403,
+        x: 453,
+        y: 516,
         width: 152,
         height: 40,
         color: '#333333',
