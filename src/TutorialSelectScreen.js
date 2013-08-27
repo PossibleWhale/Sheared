@@ -1,11 +1,11 @@
-import ui.StackView;
+import ui.View;
 import ui.ImageView as ImageView;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.TutorialPlayScreen as TutorialPlayScreen;
 import src.TutorialCraftScreen as TutorialCraftScreen;
 
-exports = Class(ui.StackView, function (supr) {
+exports = Class(ui.View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             x: 0,
@@ -62,7 +62,6 @@ exports = Class(ui.StackView, function (supr) {
 
         this.backButton.on('InputSelect', bind(this, function () {
             this.emit('tutorial:back');
-            this.popAll();
         }));
 
         var muteButton = new MuteButton({
@@ -77,13 +76,13 @@ exports = Class(ui.StackView, function (supr) {
 
     this.playTutorial = function () {
         this.tutorialScreen = new TutorialPlayScreen();
-        this.push(this.tutorialScreen);
+        GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.clipperTutorial();
     };
 
     this.craftTutorial = function () {
         this.tutorialScreen = new TutorialCraftScreen();
-        this.push(this.tutorialScreen);
+        GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.tutor();
     };
 });

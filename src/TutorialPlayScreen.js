@@ -63,16 +63,27 @@ exports = Class(ImageView, function (supr) {
         });
         this.sheep = [];
 
-        /*
+        this.backButton = new Button({
+            superview: this,
+            x: 0,
+            y: 0,
+            zIndex: 9999,
+            width: 80,
+            height: 80,
+            image: 'resources/images/button-return.png'
+        });
+        this.backButton.on('InputSelect', function () {
+            GC.app.titleScreen.back();
+        });
+
         var muteButton = new MuteButton({
             superview: this,
             x: 944,
             y: 0,
-            zIndex: 99,
+            zIndex: 9999,
             width: 80,
             height: 80
         });
-        */
     };
 
     this.clipperTutorial = function () {
@@ -349,6 +360,9 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.runTick = function () {
+        if (this !== GC.app.titleScreen.stackView.getCurrentView()) {
+            return;
+        }
         var i = this.sheep.length;
         while (i--) {
             this.sheep[i].onTick();
