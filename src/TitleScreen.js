@@ -40,7 +40,9 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.back = function _a_back() {
-        if (this.stackView.getCurrentView() !== this) {
+        if (this.stackView.getCurrentView() === this) {
+            return false;
+        } else {
             this.stackView.pop();
         }
     };
