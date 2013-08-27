@@ -20,11 +20,7 @@ import src.WoolCounter as WoolCounter;
 
 exports = Class(ui.View, function (supr) {
     this.init = function _a_init(opts) {
-        opts = merge(opts, {
-            autosize: true,
-            image: new Image({url: 'resources/images/craft.png'})
-        });
-
+        opts = opts || {};
         supr(this, 'init', [opts]);
 
         _myBGOpts = {
@@ -258,7 +254,8 @@ exports = Class(ui.View, function (supr) {
     };
 
     this.updateTabs = function _a_updateTabs() {
-        this.tabs.setImage('resources/images/craft-' + this.selectedGarment.label + '.png');
+        var num = c.garments.indexOf(this.selectedGarment) + 1;
+        this.tabs.setImage('resources/images/tab-' + num + '.png');
     };
 
     /*
