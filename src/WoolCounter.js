@@ -1,19 +1,20 @@
 /*
  * View containing persistent wool counts for each color.
  */
-import ui.View as View;
+import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 import src.constants as constants;
 import src.WoolStorage as WoolStorage;
 import src.util as util;
 
 
-exports = Class(View, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             height: 80,
-            width: 510,
-            clip: false
+            width: 440,
+            clip: false,
+            image: 'resources/images/label-wool.png'
         });
 
         util.assert(opts.storage, "opts.storage is required in WoolCounter's options");
@@ -23,8 +24,8 @@ exports = Class(View, function (supr) {
         supr(this, 'init', [opts]);
 
         var textViewOpts = {
-            width: 80,
-            height: 80,
+            width: 50,
+            height: 30,
             color: '#FFFFFF',
             fontFamily: 'delius',
             strokeWidth: 3,
@@ -33,16 +34,16 @@ exports = Class(View, function (supr) {
             size: 26,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
-        }, i, xPos = 0;
+        }, i, xPos = 15;
 
         this.counts = {};
         for (i = 0; i < constants.colors.length; i++) {
             this.counts[constants.colors[i].label] = new TextView(merge({
                 superview: this,
                 x: xPos,
-                y: 0
+                y: 25
             }, textViewOpts));
-            xPos += 95;
+            xPos += 90;
             this.update(constants.colors[i]);
         }
     };

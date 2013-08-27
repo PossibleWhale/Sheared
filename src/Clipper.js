@@ -5,7 +5,7 @@ import ui.ImageView as ImageView;
 import ui.View as View;
 
 var diamondIndicator = new ImageView({
-    x: 193,
+    x: 142,
     y: 0,
     width: 80,
     height: 80,

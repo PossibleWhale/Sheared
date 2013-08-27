@@ -21,11 +21,11 @@ import src.WoolCounter as WoolCounter;
 import src.adtimer as adtimer;
 
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/play.png',
-            autoSize: true
+            width: 1024,
+            height: 576
         });
 
         supr(this, 'init', [opts]);
@@ -43,9 +43,37 @@ exports = Class(ImageView, function (supr) {
 
         this.sheep = [];
 
+        // header background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-header-wood.png'
+        }));
+
+        // footer background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-footer-wood.png'
+        }));
+
+        // grass background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/background-grass.png'
+        }));
+
+        // wool counter
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 283,
+            x: 292,
             y: 0,
             storage: GC.app.player.wool.copy({persist: false}) // we don't commit our wool until the end of the day
         });
@@ -58,7 +86,7 @@ exports = Class(ImageView, function (supr) {
 
         muteOpts = {
             superview: this,
-            x: 1024-80,
+            x: 944,
             y: 0,
             width: 80,
             height: 80,
@@ -138,7 +166,7 @@ exports = Class(ImageView, function (supr) {
             this.healthBar = new HealthBar({
                 superview: this,
                 x: 387,
-                y: 576-80,
+                y: 496
             });
         }
         this.firstPlay = false;
@@ -458,10 +486,10 @@ function playGame () {
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     this.timer = new Timer({
-        x: 751,
-        y: 576-80,
-        width: 80,
-        height: 60
+        x: 813,
+        y: 496,
+        width: 50,
+        height: 30
     });
     this.addSubview(this.timer);
     this.timer.run();

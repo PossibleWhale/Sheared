@@ -86,7 +86,7 @@ exports = Class(ImageView, function (supr) {
             y: -80,
             width: 1024,
             height: 80,
-            image: 'resources/images/marquee-top.png'
+            image: 'resources/images/background-header-wood.png'
         });
 
         this.marqueeBottom = new ImageView({
@@ -95,7 +95,7 @@ exports = Class(ImageView, function (supr) {
             y: 576,
             width: 1024,
             height: 80,
-            image: 'resources/images/marquee-bottom.png'
+            image: 'resources/images/background-footer-wood.png'
         });
 
         this.exitButton = new ImageView({
@@ -312,7 +312,7 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted();
+            this.muteButton.setMuted(undefined, {silent: true});
         }));
     };
 
