@@ -312,7 +312,7 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted(false, {silent: true});
+            this.muteButton.setMuted();
         }));
     };
 
