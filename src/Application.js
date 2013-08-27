@@ -72,7 +72,7 @@ exports = Class(GC.Application, function (supr) {
         if (NATIVE) {
             device.setBackButtonHandler(bind(this, function () {
                 if (!this.stackView.getCurrentView().noBackButton) {
-                    this.titleScreen.back();
+                    return this.titleScreen.back();
                 }
             }));
         }
