@@ -176,27 +176,34 @@ exports = Class(View, function (supr) {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
-        var dayIntro = new ImageView({
+        var dayIntro = new View({
             x: 1024,
             y: 0,
             width: 1024,
-            height: 576,
-            image: 'resources/images/day.png'
+            height: 576
         });
+        dayIntro.addSubview(new ImageView({
+            x: 192,
+            y: 103,
+            width: 640,
+            height: 120,
+            image: 'resources/images/ribbon.png'
+        }));
         dayIntro.addSubview(new Button({
-            x: 257,
-            y: 108,
-            width: 510,
-            height: 80,
+            x: 267,
+            y: 133,
+            width: 490,
+            height: 60,
             size: 128,
             text: 'Day  ' + (this.day+1)
         }));
 
-        var continueButton = new Button({
-            x: 414,
+        var continueButton = new ImageView({
+            x: 404,
             y: 259,
-            width: 195,
-            height: 60,
+            width: 215,
+            height: 80,
+            image: 'resources/images/button-continue.png'
         });
 
         dayIntro.addSubview(continueButton);
@@ -573,5 +580,5 @@ function emitWool (x, y, numBolts, color) {
 }
 
 function sheepFrequency (day) {
-    return Math.max(2 - (day * 1/6), 0.75)*500;
+    return Math.max(3 - (day * 1/6), 1)*300;
 }
