@@ -526,7 +526,7 @@ function spawnSheep () {
     this.addSubview(sheep);
     this.sheep.push(sheep);
 
-    var diagonalChance = Math.min(0.2, this.day*0.05);
+    var diagonalChance = Math.min(0.5, this.day*0.1);
     if (Math.random() < diagonalChance) {
         sheep.endY = randomY(sheep.style.height);
     } else {
