@@ -25,15 +25,6 @@ exports = Class(ui.View, function (supr) {
         this.garment = garment || c.GARMENT_NAKED;
         this.monogram = monogram || '';
 
-        this.buyButton = new Button({x: 149, y: 283, width: 96, height: 37,
-            superview: this});
-        this.mainWoolCost = new Button({x: 32, y: 134, width: 46, height: 46,
-            superview: this});
-        this.contrastWoolCost = new Button({x: 312, y: 134, width: 46, height: 46,
-            superview: this});
-        this.value = new Button({x: 305, y: 0, width: 76, height: 36,
-            superview: this});
-
         _texture = new ImageView({
             x: 0,
             y: 0,
@@ -54,6 +45,16 @@ exports = Class(ui.View, function (supr) {
         });
 
         this.setImage = bind(this.bg, this.bg.setImage);
+
+        this.buyButton = new Button({x: 149, y: 283, width: 96, height: 37,
+            superview: this});
+        this.mainWoolCost = new Button({x: 35, y: 147, width: 44, height: 30,
+            superview: this});
+        this.contrastWoolCost = new Button({x: 315, y: 147, width: 44, height: 30,
+            superview: this});
+        this.value = new Button({x: 305, y: 0, width: 76, height: 36,
+            superview: this});
+
         this._disableBuy = bind(this, this._enableBuy, false);
 
         this.buyButton.on('InputSelect', bind(this, this.purchased));
