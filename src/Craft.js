@@ -1,10 +1,11 @@
 import ui.ImageView as ImageView;
+import ui.View;
 
 import src.constants as c;
 import src.Button as Button;
 
 
-exports = Class(ImageView, function (supr) {
+exports = Class(ui.View, function (supr) {
     this.init = function (garment, main, contrast, monogram) {
         opts = {x: 0, y: 0, width: 394, height: 325};
         supr(this, 'init', [opts]);
@@ -33,7 +34,7 @@ exports = Class(ImageView, function (supr) {
         this.value = new Button({x: 305, y: 0, width: 76, height: 36,
             superview: this});
 
-        _bg = new ImageView({
+        _texture = new ImageView({
             x: 0,
             y: 0,
             width: 394,
@@ -43,12 +44,32 @@ exports = Class(ImageView, function (supr) {
             superview: this
         });
 
+        this.bg = new ImageView({
+            x: 13,
+            y: 0,
+            width: 368,
+            height: 278,
+            canHandleEvents: false,
+            superview: this
+        });
+
+        this.setImage = bind(this.bg, this.bg.setImage);
+        this._disableBuy = bind(this, this._enableBuy, false);
+
         this.buyButton.on('InputSelect', bind(this, this.purchased));
     };
 
     this.purchased = function () {
         GC.app.audio.playBuyGarment();
         this.emit('largeCraft:purchased');
+    };
+
+    this._enableBuy = function (enabled) {
+        this.buyButton.setImage(
+            enabled || enabled === undefined ?
+                'resources/images/button-craft.png' :
+                'resources/images/button-craft-disabled.png'
+        );
     };
 
     /*
@@ -61,8 +82,10 @@ exports = Class(ImageView, function (supr) {
                     this.garment.label + '-' +
                     this.colors.main.label + '-' +
                     this.colors.contrast.label + '-large.png');
+            this._enableBuy();
         } else {
             this.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
+            this._disableBuy();
         }
         costs = this.cost();
         this.mainWoolCost.setText(costs[0].amount);

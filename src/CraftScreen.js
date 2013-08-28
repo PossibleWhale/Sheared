@@ -306,7 +306,7 @@ exports = Class(ui.View, function (supr) {
         this.largeCraft.removeAllSubviews();
         this.selectedCraft = new Craft(this.selectedGarment, null, null);
         this.largeCraft.addSubview(this.selectedCraft);
-        this.selectedCraft.enable(true);
+        this.selectedCraft.enable(false);
     };
 
     this.showLargeCraft = function _a_showLargeCraft(data) {
