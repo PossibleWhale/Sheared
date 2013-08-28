@@ -1,21 +1,22 @@
 import animate;
 import plugins.billing.billing as billing;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 import ui.View as View;
 import src.constants as constants;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 import src.WoolCounter as WoolCounter;
 import src.Alert as Alert;
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             x: 0,
             y: 0,
             width: 1024,
-            height: 576,
-            image: 'resources/images/store.png'
+            height: 576
         });
 
         supr(this, 'init', [opts]);
@@ -38,12 +39,47 @@ exports = Class(ImageView, function (supr) {
             }
         });
 
+        // header image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-header-wood.png'
+        }));
+
+        // footer image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-footer-wood.png'
+        }));
+
+        // background image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/background-wood.png'
+        }));
+
+        // coin background
+        this.addSubview(new ImageView({
+            x: 390,
+            y: 496,
+            width: 244,
+            height: 80,
+            image: 'resources/images/label-eweros.png'
+        }));
         this.coinsLabel = new TextView({
             superview: this,
             x: 452,
-            y: 520,
-            width: 160,
-            height: 28,
+            y: 516,
+            width: 152,
+            height: 40,
             color: '#333333',
             fontFamily: 'delius',
             horizontalAlign: 'left',
@@ -56,28 +92,28 @@ exports = Class(ImageView, function (supr) {
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/store-upgrades.png'
+                image: 'resources/images/tab-1.png'
             }),
             wool: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/store-wool.png'
+                image: 'resources/images/tab-2.png'
             }),
             eweros: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/store-eweros.png'
+                image: 'resources/images/tab-3.png'
             }),
             ads: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/store-remove-ads.png'
+                image: 'resources/images/tab-4.png'
             })
         };
         this.currentTab = this.tabs.upgrades;
@@ -85,10 +121,18 @@ exports = Class(ImageView, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 283,
+            x: 292,
             y: 0,
             storage: GC.app.player.wool
         });
+
+        this.addSubview(new MuteButton({
+            x: 944,
+            y: 0,
+            zIndex: 9999,
+            width: 80,
+            height: 80
+        }));
 
         this.on('ViewWillAppear', bind(this, function () {
             this.woolCounts.update();
@@ -119,49 +163,53 @@ exports = Class(ImageView, function (supr) {
             this.emit('store:craft');
         }));
 
-        var upgradesTab = new Button({
+        var upgradesTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 113,
+            x: 37,
+            y: 117,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-upgrades.png'
         });
         upgradesTab.on('InputSelect', bind(this, function () {
             this.switchTab('upgrades');
         }));
 
-        var woolTab = new Button({
+        var woolTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 183,
+            x: 37,
+            y: 186,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-wool.png'
         });
         woolTab.on('InputSelect', bind(this, function () {
             this.switchTab('wool');
         }));
 
-        var ewerosTab = new Button({
+        var ewerosTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 255,
+            x: 37,
+            y: 256,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-eweros.png'
         });
         ewerosTab.on('InputSelect', bind(this, function () {
             this.switchTab('eweros');
         }));
 
-        var adsTab = new Button({
+        var adsTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 327,
+            x: 37,
+            y: 326,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-ads.png'
         });
         adsTab.on('InputSelect', bind(this, function () {
             this.switchTab('ads');
@@ -178,6 +226,14 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._buildUpgradeTab = function () {
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 210,
+            y: 40,
+            width: 740,
+            height: 256,
+            image: 'resources/images/store-upgrades.png'
+        }));
+
         this.progressBars = {
             power: new ImageView({
                 superview: this.tabs.upgrades,
@@ -207,9 +263,9 @@ exports = Class(ImageView, function (supr) {
         this.priceDisplays = {
             power: new TextView({
                 superview: this.tabs.upgrades,
-                x: 262,
-                y: 183,
-                width: 102,
+                x: 260,
+                y: 185,
+                width: 104,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -217,9 +273,9 @@ exports = Class(ImageView, function (supr) {
             }),
             multiplier: new TextView({
                 superview: this.tabs.upgrades,
-                x: 452,
-                y: 183,
-                width: 102,
+                x: 450,
+                y: 185,
+                width: 104,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -227,9 +283,9 @@ exports = Class(ImageView, function (supr) {
             }),
             blade: new TextView({
                 superview: this.tabs.upgrades,
-                x: 643,
-                y: 183,
-                width: 102,
+                x: 641,
+                y: 185,
+                width: 104,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -237,9 +293,9 @@ exports = Class(ImageView, function (supr) {
             }),
             diamond: new TextView({
                 superview: this.tabs.upgrades,
-                x: 833,
-                y: 183,
-                width: 102,
+                x: 831,
+                y: 185,
+                width: 104,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -262,7 +318,7 @@ exports = Class(ImageView, function (supr) {
 
         var multiplierButton = new Button({
             superview: this.tabs.upgrades,
-            x: 404,
+            x: 405,
             y: 136,
             width: 160,
             height: 91
@@ -301,6 +357,13 @@ exports = Class(ImageView, function (supr) {
             }));
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0, container;
+        this.tabs.wool.addSubview(new ImageView({
+            x: 177,
+            y: 40,
+            width: 806,
+            height: 275,
+            image: 'resources/images/store-wool.png'
+        }));
         for (i; i < constants.colors.length; i++) {
             //container
             container = new Button({
@@ -314,8 +377,8 @@ exports = Class(ImageView, function (supr) {
             // quantity
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 145,
-                width: 93,
+                y: 147,
+                width: 95,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -326,8 +389,8 @@ exports = Class(ImageView, function (supr) {
             // cost
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 266,
-                width: 93,
+                y: 268,
+                width: 95,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -344,6 +407,13 @@ exports = Class(ImageView, function (supr) {
             });
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0;
+        this.tabs.eweros.addSubview(new ImageView({
+            x: 177,
+            y: 40,
+            width: 806,
+            height: 262,
+            image: 'resources/images/store-eweros.png'
+        }));
         for (i; i < constants.colors.length; i++) {
             //container
             container = new Button({
@@ -381,14 +451,15 @@ exports = Class(ImageView, function (supr) {
     };
 
     this._buildAdsTab = function () {
-        var button = new Button({
-            superview: this.tabs.ads,
-            x: 505,
-            y: 115,
-            width: 150,
-            height: 148
-        });
         var startX = 550, containerStart = 182, gap = 162, i = 0;
+
+        this.tabs.ads.addSubview(new ImageView({
+            x: 435,
+            y: 40,
+            width: 290,
+            height: 228,
+            image: 'resources/images/store-ads.png'
+        }));
         
         // cost
         this.tabs.ads.addSubview(new TextView({
@@ -401,6 +472,14 @@ exports = Class(ImageView, function (supr) {
             horizontalAlign: 'left',
             text: '$' + constants.ADS_PRICE[i]
         }));
+        
+        var button = new Button({
+            superview: this.tabs.ads,
+            x: 505,
+            y: 115,
+            width: 150,
+            height: 148
+        });
 
         button.on('InputSelect', function () {
             billing.purchase('adFree');
