@@ -522,7 +522,7 @@ exports = Class(View, function (supr) {
                 text: text,
                 confirmFn: bind(this, function () {
                     if (woolColor) {
-                        GC.app.player.purchased(false, false, woolColor.label);
+                        GC.app.player.purchased(false, woolColor.label);
                         this.woolCounts.update(woolColor);
                     } else {
                         GC.app.player.purchased(upgrade);

@@ -140,7 +140,6 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 function (i, j, data) {
                     if (data.count === 0) {
                         earnedGarmentAward = false;
-                        return;
                     }
                 });
             if (earnedGarmentAward) {
@@ -168,7 +167,6 @@ AwardTracker = Class(event.Emitter, function (supr) {
                         function (i, j, data) {
                             if (data.count === 0) {
                                 earnedAllAward = false;
-                                return;
                             }
                         });
                 }
