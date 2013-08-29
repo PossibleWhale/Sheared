@@ -4,6 +4,7 @@ import ui.ImageView as ImageView;
 import ui.ScrollView as ScrollView;
 import src.constants as constants;
 import src.Button as Button;
+import src.MuteButton as MuteButton;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -21,101 +22,151 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function() {
+        // header
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80, 
+            image: 'resources/images/background-header-wood.png'
+        }));
+
+        // footer
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-footer-wood.png'
+        }));
+
+        // title
+        this.addSubview(new ImageView({
+            x: 192,
+            y: 0,
+            width: 640,
+            height: 80,
+            image: 'resources/images/header-awards.png'
+        }));
+
+        // background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/background-wood.png'
+        }));
+
+        this.addSubview(new MuteButton({
+            x: 944,
+            y: 0,
+            zIndex: 9999,
+            width: 80,
+            height: 80
+        }));
+
+
         this.tabs = {
             ewes: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/awards-ewes.png'
+                image: 'resources/images/tab-1.png'
             }),
             rams: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/awards-rams.png'
+                image: 'resources/images/tab-2.png'
             }),
             wool: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/awards-wool.png'
+                image: 'resources/images/tab-3.png'
             }),
             crafts: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/awards-crafts.png'
+                image: 'resources/images/tab-4.png'
             }),
             misc: new ImageView({
                 x: 0,
                 y: 80,
                 width: 1024,
                 height: 416,
-                image: 'resources/images/awards-misc.png'
+                image: 'resources/images/tab-5.png'
             })
         };
         this.currentTab = this.tabs.ewes;
         this.addSubview(this.currentTab);
 
-        var ewesTab = new Button({
+        var ewesTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 113,
+            x: 37,
+            y: 117,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-ewes.png'
         });
         ewesTab.on('InputSelect', bind(this, function () {
             this.switchTab('ewes');
         }));
 
-        var ramsTab = new Button({
+        var ramsTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 183,
+            x: 37,
+            y: 186,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-rams.png'
         });
         ramsTab.on('InputSelect', bind(this, function () {
             this.switchTab('rams');
         }));
 
-        var woolTab = new Button({
+        var woolTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 255,
+            x: 37,
+            y: 256,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-wool.png'
         });
         woolTab.on('InputSelect', bind(this, function () {
             this.switchTab('wool');
         }));
 
-        var craftsTab = new Button({
+        var craftsTab = new ImageView({
             superview: this,
-            x: 33,
+            x: 37,
             y: 327,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-crafts.png'
         });
         craftsTab.on('InputSelect', bind(this, function () {
             this.switchTab('crafts');
         }));
 
-        var miscTab = new Button({
+        var miscTab = new ImageView({
             superview: this,
-            x: 33,
-            y: 399,
+            x: 37,
+            y: 396,
             zIndex: 99,
-            width: 137,
-            height: 64
+            width: 133,
+            height: 64,
+            image: 'resources/images/tab-label-misc.png'
         });
         miscTab.on('InputSelect', bind(this, function () {
             this.switchTab('misc');
@@ -144,6 +195,14 @@ exports = Class(ImageView, function (supr) {
 
     this._buildTab = function (tab) {
         this.tabs[tab].removeAllSubviews();
+
+        this.tabs[tab].addSubview(new ImageView({
+            x: 183,
+            y: 46,
+            width: 795,
+            height: 324,
+            image: 'resources/images/awards-background.png'
+        }));
         var view = new View({
             x: 0,
             y: 0,
