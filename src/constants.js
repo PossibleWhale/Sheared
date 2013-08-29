@@ -307,7 +307,7 @@ exports = {
         'crafts.hats': { text: 'Craft all hats', reward: 50 },
         'crafts.mittens': { text: 'Craft all mittens', reward: 100 },
         'crafts.socks': { text: 'Craft all socks', reward: 150 },
-        'crafts.scarves': { text: 'Craft all scarves', reward: 200 },
+        'crafts.scarfs': { text: 'Craft all scarves', reward: 200 },
         'crafts.sweaters': { text: 'Craft all sweaters', reward: 250 },
         'crafts.white': { text: 'Craft all white items', reward: 500 },
         'crafts.red': { text: 'Craft all red items', reward: 750 },
