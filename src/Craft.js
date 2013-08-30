@@ -61,16 +61,20 @@ exports = Class(ui.View, function (supr) {
     };
 
     this.purchased = function () {
-        GC.app.audio.playBuyGarment();
-        this.emit('largeCraft:purchased');
+        if (this.buyButton.getOpts().buyEnabled) {
+            GC.app.audio.playBuyGarment();
+            this.emit('largeCraft:purchased');
+        }
     };
 
     this._enableBuy = function (enabled) {
+        enabled = (enabled === undefined) ? true : enabled;
         this.buyButton.setImage(
             enabled || enabled === undefined ?
                 'resources/images/button-craft.png' :
                 'resources/images/button-craft-disabled.png'
         );
+        this.buyButton.updateOpts({buyEnabled: enabled});
     };
 
     /*

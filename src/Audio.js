@@ -20,7 +20,6 @@ exports = Class(AudioManager, function (supr) {
                 'play-01': {background: true},
                 'play-02': {background: true},
                 'play-5-seconds-remaining': {},
-                'craft-recycle': {},
                 'crafting-01': {},
                 'crafting-02': {},
                 'crafting-03': {},
@@ -76,9 +75,5 @@ exports = Class(AudioManager, function (supr) {
     this.playBuyGarment = function () {
         var index = Math.floor(Math.random() * 4) + 1;
         this.play('crafting-0' + index);
-    };
-
-    this.playRecycle = function () {
-        this.play('craft-recycle');
     };
 });
