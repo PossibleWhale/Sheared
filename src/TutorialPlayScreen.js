@@ -1,4 +1,5 @@
 import animate;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import src.Clipper as Clipper;
 import src.HealthBar as HealthBar;
@@ -15,14 +16,13 @@ import src.MuteButton as MuteButton;
 import src.ThoughtBubble as ThoughtBubble;
 
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             x: 0,
             y: 0,
             width: 1024,
-            height: 576,
-            image: 'resources/images/play.png'
+            height: 576
         });
 
         supr(this, 'init', [opts]);
@@ -31,6 +31,33 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function() {
         this.isTutorial = true;
+
+        // header background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-header-wood.png'
+        }));
+
+        // footer background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-footer-wood.png'
+        }));
+
+        // grass background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/background-grass.png'
+        }));
 
         this.clipper = new Clipper({
             superview: this,

@@ -20,12 +20,58 @@ exports = Class(ui.View, function (supr) {
     };
 
     this.build = function() {
+        // header
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-header-wood.png'
+        }));
 
-        this.menu = new ImageView({
-            superview: this,
+        // footer
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 496,
+            width: 1024,
+            height: 80,
+            image: 'resources/images/background-footer-wood.png'
+        }));
+
+        // title
+        this.addSubview(new ImageView({
+            x: 192,
+            y: 0,
+            width: 640,
+            height: 80,
+            image: 'resources/images/header-tutorials.png'
+        }));
+
+        // background
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/background-wood.png'
+        }));
+
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/tab-0.png'
+        }));
+
+        // tutorial selector
+        this.addSubview(new ImageView({
+            x: 252,
+            y: 113,
+            width: 520,
+            height: 350,
             image: "resources/images/tutorials.png",
-            autoSize: true
-        });
+        }));
 
         var playButton = new Button({
             superview: this,
