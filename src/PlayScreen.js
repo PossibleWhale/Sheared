@@ -350,7 +350,7 @@ exports = Class(View, function (supr) {
             var counts = [], countViews = [];
             for (i = 0; i < constants.colors.length; i++) {
                 var count = this.dailyWool.get(constants.colors[i]).count,
-                    numParticles = Math.min(25, count),
+                    numParticles = Math.min(10, count),
                     countView = new TextView(merge({
                         superview: resultsScreen,
                         x: 252 + 110*i,

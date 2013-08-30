@@ -126,15 +126,17 @@ exports = Class(View, function (supr) {
             storage: GC.app.player.wool
         });
 
-        this.addSubview(new MuteButton({
+        this.muteButton = new MuteButton({
+            superview: this,
             x: 944,
             y: 0,
             zIndex: 9999,
             width: 80,
             height: 80
-        }));
+        });
 
         this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
             this.woolCounts.update();
             this.updateCoinsLabel();
         }));
