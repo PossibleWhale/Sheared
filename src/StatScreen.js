@@ -193,16 +193,18 @@ exports = Class(View, function (supr) {
         this.on('ViewWillAppear', bind(this, function () {
             this._buildTabs();
         }));
+
+        this.on('ViewWillDisappear', bind(this, function () {
+            var tab;
+            for (tab in this.tabs) {
+                if (this.tabs.hasOwnProperty(tab)) {
+                    this.tabs[tab].removeAllSubviews();
+                }
+            }
+        }));
     };
 
     this._buildTabs = function () {
-        var tab;
-        for (tab in this.tabs) {
-            if (this.tabs.hasOwnProperty(tab)) {
-                this.tabs[tab].removeAllSubviews();
-            }
-        }
-
         this.tabs.ewes.addSubview(new ImageView({
             x: 190,
             y: 40,

@@ -197,6 +197,14 @@ exports = Class(ImageView, function (supr) {
             this._buildTab('crafts');
             this._buildTab('misc');
         }));
+
+        this.on('ViewWillDisappear', bind(this, function () {
+            this.tabs.ewes.removeAllSubviews();
+            this.tabs.rams.removeAllSubviews();
+            this.tabs.wool.removeAllSubviews();
+            this.tabs.crafts.removeAllSubviews();
+            this.tabs.misc.removeAllSubviews();
+        }));
     };
 
     this._buildTab = function (tab) {

@@ -139,6 +139,20 @@ exports = Class(View, function (supr) {
             this.muteButton.setMuted({silent: true});
             this.woolCounts.update();
             this.updateCoinsLabel();
+
+            this._buildUpgradeTab();
+            this._buildWoolTab();
+            this._buildEwerosTab();
+            this._buildAdsTab();
+        }));
+
+        this.on('ViewWillDisappear', bind(this, function () {
+            var tab;
+            for (tab in this.tabs) {
+                if (this.tabs.hasOwnProperty(tab)) {
+                    this.tabs[tab].removeAllSubviews();
+                }
+            }
         }));
 
         var backButton = new Button({
@@ -222,11 +236,6 @@ exports = Class(View, function (supr) {
         adsTab.on('InputSelect', bind(this, function () {
             this.switchTab('ads');
         }));
-
-        this._buildUpgradeTab();
-        this._buildWoolTab();
-        this._buildEwerosTab();
-        this._buildAdsTab();
     };
 
     this.updateCoinsLabel = function () {
