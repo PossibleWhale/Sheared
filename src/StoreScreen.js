@@ -141,7 +141,7 @@ exports = Class(View, function (supr) {
             this.updateCoinsLabel();
         }));
 
-        var backButton = new ImageView({
+        var backButton = new Button({
             superview: this,
             x: 0,
             y: 0,
@@ -153,7 +153,7 @@ exports = Class(View, function (supr) {
             this.emit('store:back');
         }));
 
-        craftButton = new ImageView({
+        craftButton = new Button({
             superview: this,
             x: 133,
             y: 496,
@@ -165,7 +165,7 @@ exports = Class(View, function (supr) {
             this.emit('store:craft');
         }));
 
-        var upgradesTab = new ImageView({
+        var upgradesTab = new Button({
             superview: this,
             x: 37,
             y: 117,
@@ -178,7 +178,7 @@ exports = Class(View, function (supr) {
             this.switchTab('upgrades');
         }));
 
-        var woolTab = new ImageView({
+        var woolTab = new Button({
             superview: this,
             x: 37,
             y: 186,
@@ -191,7 +191,7 @@ exports = Class(View, function (supr) {
             this.switchTab('wool');
         }));
 
-        var ewerosTab = new ImageView({
+        var ewerosTab = new Button({
             superview: this,
             x: 37,
             y: 256,
@@ -204,7 +204,7 @@ exports = Class(View, function (supr) {
             this.switchTab('eweros');
         }));
 
-        var adsTab = new ImageView({
+        var adsTab = new Button({
             superview: this,
             x: 37,
             y: 326,

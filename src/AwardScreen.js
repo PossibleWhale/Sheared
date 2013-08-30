@@ -107,7 +107,7 @@ exports = Class(ImageView, function (supr) {
         this.currentTab = this.tabs.ewes;
         this.addSubview(this.currentTab);
 
-        var ewesTab = new ImageView({
+        var ewesTab = new Button({
             superview: this,
             x: 37,
             y: 117,
@@ -120,7 +120,7 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('ewes');
         }));
 
-        var ramsTab = new ImageView({
+        var ramsTab = new Button({
             superview: this,
             x: 37,
             y: 186,
@@ -133,7 +133,7 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('rams');
         }));
 
-        var woolTab = new ImageView({
+        var woolTab = new Button({
             superview: this,
             x: 37,
             y: 256,
@@ -146,7 +146,7 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('wool');
         }));
 
-        var craftsTab = new ImageView({
+        var craftsTab = new Button({
             superview: this,
             x: 37,
             y: 327,
@@ -159,7 +159,7 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('crafts');
         }));
 
-        var miscTab = new ImageView({
+        var miscTab = new Button({
             superview: this,
             x: 37,
             y: 396,
@@ -172,7 +172,7 @@ exports = Class(ImageView, function (supr) {
             this.switchTab('misc');
         }));
 
-        var backButton = new ImageView({
+        var backButton = new Button({
             superview: this,
             x: 0,
             y: 0,

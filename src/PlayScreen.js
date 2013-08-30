@@ -198,7 +198,7 @@ exports = Class(View, function (supr) {
             text: 'Day  ' + (this.day+1)
         }));
 
-        var continueButton = new ImageView({
+        var continueButton = new Button({
             x: 404,
             y: 259,
             width: 215,
@@ -331,7 +331,7 @@ exports = Class(View, function (supr) {
                 width: 200,
                 height: 80
             }),
-            homeButton = new ImageView({
+            homeButton = new Button({
                 x: 0,
                 y: 0,
                 width: 80,
@@ -454,7 +454,7 @@ function playGame () {
     if (this.pauseButton) {
         this.addSubview(this.pauseButton);
     } else {
-        this.pauseButton = new ImageView({
+        this.pauseButton = new Button({
             superview: this,
             x: 0,
             y: 0,

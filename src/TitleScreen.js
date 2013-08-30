@@ -99,7 +99,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         });
 
-        this.exitButton = new ImageView({
+        this.exitButton = new Button({
             superview: this.marqueeTop,
             x: 0,
             y: 0,
@@ -111,7 +111,7 @@ exports = Class(ImageView, function (supr) {
             this.back();
         }));
 
-        this.websiteButton = new ImageView({
+        this.websiteButton = new Button({
             superview: this.marqueeBottom,
             x: 944,
             y: 0,
@@ -123,7 +123,7 @@ exports = Class(ImageView, function (supr) {
             window.open('http://possiblewhale.com');
         });
 
-        this.statsButton = new ImageView({
+        this.statsButton = new Button({
             superview: this.marqueeBottom,
             x: 0,
             y: 0,
@@ -135,7 +135,7 @@ exports = Class(ImageView, function (supr) {
             _goToView(statScreen);
         });
 
-        this.awardsButton = new ImageView({
+        this.awardsButton = new Button({
             superview: this.marqueeBottom,
             x: 216,
             y: 0,
@@ -147,7 +147,7 @@ exports = Class(ImageView, function (supr) {
             _goToView(awardsScreen);
         });
 
-        this.storeButton = new ImageView({
+        this.storeButton = new Button({
             superview: this.marqueeBottom,
             x: 412,
             y: 0,
@@ -159,7 +159,7 @@ exports = Class(ImageView, function (supr) {
             _goToView(storeScreen);
         });
 
-        this.creditsButton = new ImageView({
+        this.creditsButton = new Button({
             superview: this.marqueeBottom,
             x: 728,
             y: 0,
@@ -171,7 +171,7 @@ exports = Class(ImageView, function (supr) {
             _goToView(creditsScreen);
         });
 
-        this.playButton = new ImageView({
+        this.playButton = new Button({
             superview: this,
             x: 435,
             y: 346,
@@ -186,7 +186,7 @@ exports = Class(ImageView, function (supr) {
             _goToView(playScreen);
         });
 
-        this.tutorialButton = new ImageView({
+        this.tutorialButton = new Button({
             superview: this,
             x: 407,
             y: 439,
