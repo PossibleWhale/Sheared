@@ -372,39 +372,50 @@ exports = Class(ui.View, function (supr) {
         costs = craft.cost();
 
         if (this.player.canCraft(craft)) {
-            var particleObjects = GC.app.particleEngine.obtainParticleArray(20), i;
-            for (i = 0; i < particleObjects.length; i++) {
-                var pObj = particleObjects[i];
-                pObj.x = 585 + 394/2;
-                pObj.y = 125 + 325/2;
-                pObj.dx = Math.random() * 300;
-                pObj.dy = Math.random() * 300;
+            // animate the coin "particles"
+            var numCoins = 20, i, numFinished = 0, coins = [];
+            for (i = 0; i < numCoins; i++) {
+                coins.push(new ImageView({
+                    superview: this,
+                    x: 585 + 394/2,
+                    y: 125 + 325/2,
+                    width: 20,
+                    height: 20,
+                    image: 'resources/images/particle-ewero.png'
+                })),
+                x = Math.random() * 150,
+                y = Math.random() * 150;
                 if (Math.random() > 0.5) {
-                    pObj.dx *= -1;
+                    x *= -1;
                 }
                 if (Math.random() > 0.5) {
-                    pObj.dy *= -1;
+                    y *= -1;
                 }
-                pObj.dr = Math.random() * Math.PI / 4;
-                pObj.ax = 30;
-                pObj.ay = 30;
-                pObj.width = 20;
-                pObj.height = 20;
-                pObj.scale = 1.5;
-                pObj.dscale = 1;
-                pObj.opacity = 1;
-                pObj.dopacity = -1;
-                pObj.image = 'resources/images/particle-ewero.png';
+                animate(coins[i]).now({
+                    x: coins[i].style.x + x,
+                    y: coins[i].style.y + y,
+                    opacity: 0}, 1000
+                ).then(bind(this, function () {
+                    numFinished++;
+                    var j;
+                    if (numFinished === numCoins) {
+                        // clean up all the coins
+                        for (j = 0; j < coins.length; j++) {
+                            coins[j].removeFromSuperview();
+                        }
+                        this.crafts.addCraft(craft);
+                        this.emit('craft:addDollars', craft.eweros());
+                        this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
+                        this.wool.addWool(craft.colors.contrast, -1 * costs[1].amount);
+                        this.woolCounts.update();
+                        at.emit('player:crafted', craft);
+                        this._cleanUI();
+                    }
+                }));
             }
-            GC.app.particleEngine.emitParticles(particleObjects);
-            this.crafts.addCraft(craft);
-            this.emit('craft:addDollars', craft.eweros());
-            this.wool.addWool(craft.colors.main, -1 * costs[0].amount);
-            this.wool.addWool(craft.colors.contrast, -1 * costs[1].amount);
-            this.woolCounts.update();
-            at.emit('player:crafted', craft);
+        } else {
+            this._cleanUI();
         }
-        this._cleanUI();
     };
 
     // user selected a new garment

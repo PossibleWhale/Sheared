@@ -124,9 +124,9 @@ exports = {
     ramRarity: 0.2,
 
     UPGRADE_PRICES: {
-        power: [250, 500,  1000, 2000, 4000],
-        mult:  [500, 1000, 2000, 4000, 8000],
-        blade: [750, 1500, 3000, 6000, 12000],
+        power: [1000, 2000, 3000, 4000,  5000],
+        mult:  [3000, 6000, 9000, 12000, 15000],
+        blade: [2000, 4000, 6000, 8000,  10000],
         diamond: 24000,
 
         // wool prices. for now they are all the same... we might want them to be different?
@@ -154,7 +154,7 @@ exports = {
 
     // amount of coins you get from purchasing
     EWEROS_QUANTITIES: [
-        8000, 16000, 24000, 48000, 72000 
+        10000, 20000, 40000, 60000, 80000 
     ],
 
     ADS_PRICE: [1],
@@ -307,7 +307,7 @@ exports = {
         'crafts.hats': { text: 'Craft all hats', reward: 50 },
         'crafts.mittens': { text: 'Craft all mittens', reward: 100 },
         'crafts.socks': { text: 'Craft all socks', reward: 150 },
-        'crafts.scarves': { text: 'Craft all scarves', reward: 200 },
+        'crafts.scarfs': { text: 'Craft all scarves', reward: 200 },
         'crafts.sweaters': { text: 'Craft all sweaters', reward: 250 },
         'crafts.white': { text: 'Craft all white items', reward: 500 },
         'crafts.red': { text: 'Craft all red items', reward: 750 },

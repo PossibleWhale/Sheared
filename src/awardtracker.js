@@ -134,44 +134,57 @@ AwardTracker = Class(event.Emitter, function (supr) {
         });
 
         this.on('player:crafted', function (craft) {
-            var player = GC.app.player, earnedGarmentAward = true;
+            var player = GC.app.player, earnedGarmentAward = true,
+                key = 'crafts.' + craft.garment.label + 's';
             // check for garment award
-            player.crafts.loopGarment(craft.garment.label,
-                function (i, j, data) {
-                    if (data.count === 0) {
-                        earnedGarmentAward = false;
-                    }
-                });
-            if (earnedGarmentAward) {
-                player.earnedAward('crafts.' + craft.garment.label + 's');
+            if (!player.awards.get(key).value) {
+                player.crafts.loopGarment(craft.garment.label,
+                    function (i, j, data) {
+                        if (data.count === 0) {
+                            earnedGarmentAward = false;
+                        }
+                    });
+                if (earnedGarmentAward) {
+                    player.earnedAward(key);
+                }
             }
 
             // check for color award
             var i, j, current, earnedColorAward = true;
-            for (i = 0; i < c.colors.length; i++) {
-                for (j = 0; j < c.garments.length; j++) {
-                    current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
-                    if (!player.crafts.get(current).value) {
-                        earnedColorAward = false;
+            key = 'crafts.' + craft.colors.main.label;
+            console.log(key);
+            if (!player.awards.get(key).value) {
+                for (i = 0; i < c.colors.length; i++) {
+                    for (j = 0; j < c.garments.length; j++) {
+                        if (craft.colors.main.label !== c.colors[i].label) {
+                            current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
+                            console.log(player.crafts.get(current));
+                            if (player.crafts.get(current).count < 1) {
+                                earnedColorAward = false;
+                            }
+                        }
                     }
                 }
-            }
-            if (earnedColorAward) {
-                player.earnedAward('crafts.' + craft.colors.main.label);
+                if (earnedColorAward) {
+                    player.earnedAward(key);
+                }
             }
 
             var earnedAllAward = true;
-            if (earnedGarmentAward && earnedColorAward) {
-                for (i = 0; i < c.garments.length; i++) {
-                    player.crafts.loopGarment(c.garments[i].label,
-                        function (i, j, data) {
-                            if (data.count === 0) {
-                                earnedAllAward = false;
-                            }
-                        });
-                }
-                if (earnedAllAward) {
-                    player.earnedAward('crafts.all');
+            key = 'crafts.all';
+            if (!player.awards.get(key).value) {
+                if (earnedGarmentAward && earnedColorAward) {
+                    for (i = 0; i < c.garments.length; i++) {
+                        player.crafts.loopGarment(c.garments[i].label,
+                            function (i, j, data) {
+                                if (data.count === 0) {
+                                    earnedAllAward = false;
+                                }
+                            });
+                    }
+                    if (earnedAllAward) {
+                        player.earnedAward(key);
+                    }
                 }
             }
         });
