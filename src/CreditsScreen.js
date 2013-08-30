@@ -74,12 +74,13 @@ exports = Class(ImageView, function (supr) {
             height: 80
         }));
 
-        var backButton = new ImageView({
+        var backButton = new Button({
             superview: this,
             x: 0,
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-return.png'
         });
 

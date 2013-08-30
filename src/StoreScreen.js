@@ -147,6 +147,7 @@ exports = Class(View, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-return.png'
         });
         backButton.on('InputSelect', bind(this, function () {
@@ -159,6 +160,7 @@ exports = Class(View, function (supr) {
             y: 496,
             width: 200,
             height: 80,
+            click: true,
             image: 'resources/images/button-crafts-catalog.png'
         });
         craftButton.on('InputSelect', bind(this, function () {
@@ -172,6 +174,7 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-upgrades.png'
         });
         upgradesTab.on('InputSelect', bind(this, function () {
@@ -185,6 +188,7 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-wool.png'
         });
         woolTab.on('InputSelect', bind(this, function () {
@@ -198,6 +202,7 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-eweros.png'
         });
         ewerosTab.on('InputSelect', bind(this, function () {
@@ -211,6 +216,7 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-ads.png'
         });
         adsTab.on('InputSelect', bind(this, function () {
@@ -312,7 +318,8 @@ exports = Class(View, function (supr) {
             x: 215,
             y: 136,
             width: 160,
-            height: 91
+            height: 91,
+            click: true
         });
         powerButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?', 'power');
@@ -323,7 +330,8 @@ exports = Class(View, function (supr) {
             x: 405,
             y: 136,
             width: 160,
-            height: 91
+            height: 91,
+            click: true
         });
         multiplierButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?', 'mult');
@@ -334,7 +342,8 @@ exports = Class(View, function (supr) {
             x: 596,
             y: 136,
             width: 160,
-            height: 91
+            height: 91,
+            click: true
         });
         bladeButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent blade power upgrade. Do you wish to continue?', 'blade');
@@ -345,7 +354,8 @@ exports = Class(View, function (supr) {
             x: 786,
             y: 136,
             width: 160,
-            height: 91
+            height: 91,
+            click: true
         });
         diamondButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?', 'diamond');
@@ -480,7 +490,8 @@ exports = Class(View, function (supr) {
             x: 505,
             y: 115,
             width: 150,
-            height: 148
+            height: 148,
+            click: true
         });
 
         button.on('InputSelect', function () {

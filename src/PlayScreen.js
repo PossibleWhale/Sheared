@@ -203,6 +203,7 @@ exports = Class(View, function (supr) {
             y: 259,
             width: 215,
             height: 80,
+            click: true,
             image: 'resources/images/button-continue.png'
         });
 
@@ -315,27 +316,31 @@ exports = Class(View, function (supr) {
                 x: 414,
                 y: 413,
                 width: 195,
-                height: 60
+                height: 60,
+                click: true
             }),
             storeButton = new Button({
                 superview: resultsScreen,
                 x: 27,
                 y: 248,
                 width: 200,
-                height: 80
+                height: 80,
+                click: true
             }),
             craftButton = new Button({
                 superview: resultsScreen,
                 x: 797,
                 y: 248,
                 width: 200,
-                height: 80
+                height: 80,
+                click: true
             }),
             homeButton = new Button({
                 x: 0,
                 y: 0,
                 width: 80,
                 height: 80,
+                click: true,
                 image: 'resources/images/button-home.png'
             }),
             resultsLabel = new Button({
@@ -386,28 +391,32 @@ exports = Class(View, function (supr) {
                 x: 27,
                 y: 248,
                 width: 200,
-                height: 80
+                height: 80,
+                click: true
             }),
             restartButton = new Button({
                 superview: resultsScreen,
                 x: 414,
                 y: 258,
                 width: 195,
-                height: 60
+                height: 60,
+                click: true
             }),
             homeButton = new Button({
                 superview: resultsScreen,
                 x: 414,
                 y: 360,
                 width: 195,
-                height: 60
+                height: 60,
+                click: true
             }),
             craftButton = new Button({
                 superview: resultsScreen,
                 x: 797,
                 y: 248,
                 width: 200,
-                height: 80
+                height: 80,
+                click: true
             }),
             resultsLabel = new Button({
                 superview: resultsScreen,
@@ -461,6 +470,7 @@ function playGame () {
             zIndex: 999999,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-pause.png'
         });
         this.pauseButton.on('InputSelect', bind(this, function () {

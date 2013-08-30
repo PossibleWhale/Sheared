@@ -114,6 +114,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-ewes.png'
         });
         ewesTab.on('InputSelect', bind(this, function () {
@@ -127,6 +128,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-rams.png'
         });
         ramsTab.on('InputSelect', bind(this, function () {
@@ -140,6 +142,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-wool.png'
         });
         woolTab.on('InputSelect', bind(this, function () {
@@ -153,6 +156,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-crafts.png'
         });
         craftsTab.on('InputSelect', bind(this, function () {
@@ -166,6 +170,7 @@ exports = Class(ImageView, function (supr) {
             zIndex: 99,
             width: 133,
             height: 64,
+            click: true,
             image: 'resources/images/tab-label-misc.png'
         });
         miscTab.on('InputSelect', bind(this, function () {
@@ -178,6 +183,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-return.png'
         });
         backButton.on('InputSelect', bind(this, function () {

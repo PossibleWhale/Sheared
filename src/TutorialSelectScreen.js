@@ -78,7 +78,8 @@ exports = Class(ui.View, function (supr) {
             x: 262,
             y: 188,
             width: 200,
-            height: 200
+            height: 200,
+            click: true
         });
 
         var craftButton = new Button({
@@ -86,7 +87,8 @@ exports = Class(ui.View, function (supr) {
             x: 562,
             y: 188,
             width: 200,
-            height: 200
+            height: 200,
+            click: true
         });
 
         this.backButton = new Button({
@@ -95,6 +97,7 @@ exports = Class(ui.View, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-return.png'
         });
 

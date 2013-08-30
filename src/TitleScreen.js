@@ -105,6 +105,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-exit.png'
         });
         this.exitButton.on('InputSelect', bind(this, function () {
@@ -117,6 +118,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-website.png'
         });
         this.websiteButton.on('InputSelect', function () {
@@ -129,6 +131,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-stats.png'
         });
         this.statsButton.on('InputSelect', function () {
@@ -141,6 +144,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-awards.png'
         });
         this.awardsButton.on('InputSelect', function () {
@@ -153,6 +157,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 200,
             height: 80,
+            click: true,
             image: 'resources/images/button-general-store.png'
         });
         this.storeButton.on('InputSelect', function () {
@@ -165,6 +170,7 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-credits.png'
         });
         this.creditsButton.on('InputSelect', function () {
@@ -180,6 +186,7 @@ exports = Class(ImageView, function (supr) {
             anchorX: 154/2,
             anchorY: 82/2,
             opacity: 0,
+            click: true,
             image: 'resources/images/button-play.png'
         });
         this.playButton.on('InputSelect', function () {
@@ -193,6 +200,7 @@ exports = Class(ImageView, function (supr) {
             width: 210,
             height: 36,
             opacity: 0,
+            click: true,
             image: 'resources/images/button-tutorials.png'
         });
         this.tutorialButton.on('InputSelect', function () {

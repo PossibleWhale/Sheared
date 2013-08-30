@@ -80,12 +80,13 @@ exports = Class(View, function (supr) {
         });
 
         this.inputBuffer = new InputBuffer({superview: this});
-        this.nextButton = new ImageView({
+        this.nextButton = new Button({
             x: 404,
             y: 253,
             zIndex: 9999,
             width: 215,
             height: 70,
+            click: true,
             image: 'resources/images/button-continue.png'
         });
         this.sheep = [];
@@ -97,6 +98,7 @@ exports = Class(View, function (supr) {
             zIndex: 9999,
             width: 80,
             height: 80,
+            click: true,
             image: 'resources/images/button-return.png'
         });
         this.backButton.on('InputSelect', function () {

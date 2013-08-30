@@ -69,7 +69,8 @@ exports = Class(ImageView, function (supr) {
             y: 248,
             zIndex: 99,
             width: 400,
-            height: 40
+            height: 40,
+            click: true
         });
         this.confirmButton.on('InputSelect', bind(this, this.confirmFn));
 
@@ -90,7 +91,8 @@ exports = Class(ImageView, function (supr) {
             y: 0,
             zIndex: 99,
             width: 50,
-            height: 40
+            height: 40,
+            click: true
         });
         this.cancelButton.on('InputSelect', bind(this, this.cancelFn));
     };
