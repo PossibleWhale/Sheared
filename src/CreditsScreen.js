@@ -1,5 +1,6 @@
 import ui.ImageView as ImageView;
 import src.util as util;
+import src.Button as Button
 import src.MuteButton as MuteButton;
 
 exports = Class(ImageView, function (supr) {
