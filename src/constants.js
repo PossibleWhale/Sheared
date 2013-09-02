@@ -136,10 +136,10 @@ exports = {
     soundOffImage: new Image({url: imagePath + 'button-sound-off.png'}),
 
     UPGRADE_PRICES: {
-        power: [1000, 2000, 3000, 4000,  5000],
-        mult:  [3000, 6000, 9000, 12000, 15000],
-        blade: [2000, 4000, 6000, 8000,  10000],
-        diamond: 24000,
+        power: [1000, 2000, 4000,  8000,  16000],
+        mult:  [3000, 6000, 12000, 24000, 48000],
+        blade: [2000, 4000, 8000, 16000,  32000],
+        diamond: 64000,
 
         // wool prices. for now they are all the same... we might want them to be different?
         white: 1000,
