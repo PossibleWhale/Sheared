@@ -527,8 +527,14 @@ exports = Class(View, function (supr) {
         if (woolColor) {
             cost = constants.UPGRADE_PRICES[woolColor.label];
         } else if (upgrade === 'diamond') {
+            if (GC.app.player.upgrades.get('diamond').value) {
+                return; // already have diamonds, so do nothing
+            }
             cost = constants.UPGRADE_PRICES[upgrade];
         } else {
+            if (GC.app.player.upgrades.get(upgrade).value === constants.UPGRADE_MAX[upgrade]) {
+                return; // already maxed out this upgrade, so do nothing
+            }
             cost = constants.UPGRADE_PRICES[upgrade][GC.app.player.upgrades.get(upgrade).value-1];
         }
         if (!GC.app.localConfig.debug && GC.app.player.stats.get('coins').value < cost) {
@@ -604,9 +610,9 @@ exports = Class(View, function (supr) {
     this._upgradeLevels = function () {
         var upgrades = GC.app.player.upgrades;
         return {
-            power: upgrades.get('power').value >= 6 ? 'max' : upgrades.get('power').value,
-            multiplier: upgrades.get('mult').value >= 6 ? 'max' : upgrades.get('mult').value,
-            blade: upgrades.get('blade').value >= 6 ? 'max' : upgrades.get('blade').value
+            power: upgrades.get('power').value >= constants.UPGRADE_MAX.power ? 'max' : upgrades.get('power').value,
+            multiplier: upgrades.get('mult').value >= constants.UPGRADE_MAX.mult ? 'max' : upgrades.get('mult').value,
+            blade: upgrades.get('blade').value >= constants.UPGRADE_MAX.blade ? 'max' : upgrades.get('blade').value
         };
     };
 });

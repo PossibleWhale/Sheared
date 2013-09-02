@@ -150,9 +150,9 @@ exports = {
     },
 
     UPGRADE_MAX: {
-        power: 5,
+        power: 6,
         mult: 6,
-        blade: 5
+        blade: 6
     },
 
 

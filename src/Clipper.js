@@ -26,9 +26,9 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
-        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power+1 &&
+        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power &&
             GC.app.player.upgrades.get('mult').value === constants.UPGRADE_MAX.mult &&
-            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade+1 &&
+            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade &&
             GC.app.player.upgrades.get('diamond').value &&
             !this.getSuperview().isTutorial) {
 
