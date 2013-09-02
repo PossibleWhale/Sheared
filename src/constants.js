@@ -142,27 +142,27 @@ exports = {
         diamond: 64000,
 
         // wool prices. for now they are all the same... we might want them to be different?
-        white: 1000,
-        red: 1500,
-        blue: 1500,
+        white:  1000,
+        red:    1500,
+        blue:   1500,
         yellow: 1500,
-        black: 2000
+        black:  2000
     },
 
     UPGRADE_MAX: {
         power: 6,
-        mult: 6,
+        mult:  6,
         blade: 6
     },
 
 
     // amount of wool you get from purchasing.. might want to change
     WOOL_QUANTITIES: {
-        white: 800,
-        red: 800,
-        blue: 800,
+        white:  800,
+        red:    800,
+        blue:   800,
         yellow: 800,
-        black: 800
+        black:  800
     },
 
     // cost, in real dollars, of coins
@@ -172,29 +172,29 @@ exports = {
 
     // amount of coins you get from purchasing
     EWEROS_QUANTITIES: [
-        10000, 20000, 40000, 60000, 80000 
+        20000, 40000, 60000, 80000, 100000 
     ],
 
     ADS_PRICE: [1],
 
     AWARDS: {
-        'eweros.1000': { text: '1000 Eweros Earned', reward: 75 },
-        'eweros.10000': { text: '10000 Eweros Earned', reward: 150 },
-        'eweros.100000': { text: '100000 Eweros Earned', reward: 300 },
-        'eweros.1000000': { text: '1000000 Eweros Earned', reward: 600 },
-        'eweros.10000000': { text: '10000000 Eweros Earned', reward: 1200 },
+        'eweros.1000': { text: '1000 Eweros Earned',         reward: 100  },
+        'eweros.10000': { text: '10000 Eweros Earned',       reward: 200  },
+        'eweros.100000': { text: '100000 Eweros Earned',     reward: 400  },
+        'eweros.1000000': { text: '1000000 Eweros Earned',   reward: 800  },
+        'eweros.10000000': { text: '10000000 Eweros Earned', reward: 1600 },
 
-        'diamonds.1': { text: 'Collect 1 Diamond', reward: 75 },
-        'diamonds.10': { text: 'Collect 10 Diamonds', reward: 150 },
-        'diamonds.100': { text: 'Collect 100 Diamonds', reward: 300 },
-        'diamonds.1000': { text: 'Collect 1000 Diamonds', reward: 600 },
-        'diamonds.10000': { text: 'Collect 10000 Diamonds', reward: 1200 },
+        'diamonds.10': { text:     'Collect 10 Diamonds',     reward: 100  },
+        'diamonds.100': { text:    'Collect 100 Diamonds',    reward: 200  },
+        'diamonds.1000': { text:   'Collect 1000 Diamonds',   reward: 400  },
+        'diamonds.10000': { text:  'Collect 10000 Diamonds',  reward: 800  },
+        'diamonds.100000': { text: 'Collect 100000 Diamonds', reward: 1600 },
 
-        'batteries.1': { text: 'Collect 1 Battery', reward: 75 },
-        'batteries.10': { text: 'Collect 10 Batteries', reward: 150 },
-        'batteries.100': { text: 'Collect 100 Batteries', reward: 300 },
-        'batteries.1000': { text: 'Collect 1000 Batteries', reward: 600 },
-        'batteries.10000': { text: 'Collect 10000 Batteries', reward: 1200 },
+        'batteries.10': { text:     'Collect 10 Batteries',     reward: 100  },
+        'batteries.100': { text:    'Collect 100 Batteries',    reward: 200  },
+        'batteries.1000': { text:   'Collect 1000 Batteries',   reward: 400  },
+        'batteries.10000': { text:  'Collect 10000 Batteries',  reward: 800  },
+        'batteries.100000': { text: 'Collect 100000 Batteries', reward: 1600 },
 
         'ewes.50': { text: 'Shear 50 Ewes', reward: 50 },
         'ewes.500': { text: 'Shear 500 Ewes', reward: 100 },
@@ -232,11 +232,11 @@ exports = {
         'ewes.black.10000': { text: 'Shear 10000 Black Ewes', reward: 1000 },
         'ewes.black.100000': { text: 'Shear 100000 Black Ewes', reward: 2000 },
 
-        'ewes.gold.1': { text: 'Shear 1 Gold Ewe', reward: 125 },
-        'ewes.gold.10': { text: 'Shear 10 Gold Ewes', reward: 250 },
-        'ewes.gold.100': { text: 'Shear 100 Gold Ewes', reward: 500 },
-        'ewes.gold.1000': { text: 'Shear 1000 Gold Ewes', reward: 1000 },
-        'ewes.gold.10000': { text: 'Shear 10000 Gold Ewes', reward: 2000 },
+        'ewes.gold.10': { text:     'Shear 10 Gold Ewes',      reward: 250 },
+        'ewes.gold.100': { text:    'Shear 100 Gold Ewes',    reward: 500 },
+        'ewes.gold.1000': { text:   'Shear 1000 Gold Ewes',   reward: 1000 },
+        'ewes.gold.10000': { text:  'Shear 10000 Gold Ewes',  reward: 2000 },
+        'ewes.gold.100000': { text: 'Shear 100000 Gold Ewes', reward: 4000 },
 
         'rams.50': { text: 'Shear 50 Rams', reward: 75 },
         'rams.500': { text: 'Shear 500 Rams', reward: 150 },
@@ -274,11 +274,11 @@ exports = {
         'rams.black.10000': { text: 'Shear 10000 Black Rams', reward: 1200 },
         'rams.black.100000': { text: 'Shear 100000 Black Rams', reward: 2400 },
 
-        'rams.gold.1': { text: 'Shear 1 Gold Ram', reward: 125 },
-        'rams.gold.10': { text: 'Shear 10 Gold Rams', reward: 250 },
-        'rams.gold.100': { text: 'Shear 100 Gold Rams', reward: 500 },
-        'rams.gold.1000': { text: 'Shear 1000 Gold Rams', reward: 1000 },
-        'rams.gold.10000': { text: 'Shear 10000 Gold Rams', reward: 2000 },
+        'rams.gold.10': { text:     'Shear 10 Gold Rams',      reward: 250 },
+        'rams.gold.100': { text:    'Shear 100 Gold Rams',    reward: 500 },
+        'rams.gold.1000': { text:   'Shear 1000 Gold Rams',   reward: 1000 },
+        'rams.gold.10000': { text:  'Shear 10000 Gold Rams',  reward: 2000 },
+        'rams.gold.100000': { text: 'Shear 100000 Gold Rams', reward: 4000 },
 
         'power.1': { text: '+1 Clipper Power', reward: 25 },
         'power.2': { text: '+2 Clipper Power', reward: 50 },
@@ -286,11 +286,11 @@ exports = {
         'power.4': { text: '+4 Clipper Power', reward: 200 },
         'power.max': { text: 'Max Clipper Power', reward: 400 },
 
-        'multiplier.2': { text: 'x2 Bolt Multiplier', reward: 50 },
-        'multiplier.3': { text: 'x3 Bolt Multiplier', reward: 100 },
-        'multiplier.4': { text: 'x4 Bolt Multiplier', reward: 200 },
-        'multiplier.5': { text: 'x5 Bolt Multiplier', reward: 400 },
-        'multiplier.max': { text: 'Max Bolt Multiplier', reward: 800 },
+        'multiplier.2': { text:   'x2 Bolt Multiplier', reward:  100 },
+        'multiplier.3': { text:   'x3 Bolt Multiplier', reward:  200 },
+        'multiplier.4': { text:   'x4 Bolt Multiplier', reward:  300 },
+        'multiplier.5': { text:   'x5 Bolt Multiplier', reward:  400 },
+        'multiplier.max': { text: 'Max Bolt Multiplier', reward: 500 },
 
         'bladepower.1': { text: '+1 Blade Power', reward: 75 },
         'bladepower.2': { text: '+2 Blade Power', reward: 150 },
@@ -304,47 +304,47 @@ exports = {
         'wool.100000': { text: 'Collect 100000 bolts of wool', reward: 200 },
         'wool.1000000': { text: 'Collect 1000000 bolts of wool', reward: 400 },
 
-        'wool.white.20': { text: 'Collect 20 bolts of white wool', reward: 50 },
-        'wool.white.200': { text: 'Collect 200 bolts of white wool', reward: 100 },
-        'wool.white.2000': { text: 'Collect 2000 bolts of white wool', reward: 200 },
-        'wool.white.20000': { text: 'Collect 20000 bolts of white wool', reward: 400 },
-        'wool.white.200000': { text: 'Collect 200000 bolts of white wool', reward: 800 },
+        'wool.white.50': { text: 'Collect 20 bolts of white wool', reward: 50 },
+        'wool.white.500': { text: 'Collect 200 bolts of white wool', reward: 100 },
+        'wool.white.5000': { text: 'Collect 2000 bolts of white wool', reward: 200 },
+        'wool.white.50000': { text: 'Collect 20000 bolts of white wool', reward: 400 },
+        'wool.white.500000': { text: 'Collect 200000 bolts of white wool', reward: 800 },
 
-        'wool.red.20': { text: 'Collect 20 bolts of red wool', reward: 75 },
-        'wool.red.200': { text: 'Collect 200 bolts of red wool', reward: 150 },
-        'wool.red.2000': { text: 'Collect 2000 bolts of red wool', reward: 300 },
-        'wool.red.20000': { text: 'Collect 20000 bolts of red wool', reward: 600 },
-        'wool.red.200000': { text: 'Collect 200000 bolts of red wool', reward: 1200 },
+        'wool.red.50': { text: 'Collect 20 bolts of red wool', reward: 75 },
+        'wool.red.500': { text: 'Collect 200 bolts of red wool', reward: 150 },
+        'wool.red.5000': { text: 'Collect 2000 bolts of red wool', reward: 300 },
+        'wool.red.50000': { text: 'Collect 20000 bolts of red wool', reward: 600 },
+        'wool.red.500000': { text: 'Collect 200000 bolts of red wool', reward: 1200 },
 
-        'wool.blue.20': { text: 'Collect 20 bolts of blue wool', reward: 75 },
-        'wool.blue.200': { text: 'Collect 200 bolts of blue wool', reward: 150 },
-        'wool.blue.2000': { text: 'Collect 2000 bolts of blue wool', reward: 300 },
-        'wool.blue.20000': { text: 'Collect 20000 bolts of blue wool', reward: 600 },
-        'wool.blue.200000': { text: 'Collect 200000 bolts of blue wool', reward: 1200 },
+        'wool.blue.50': { text: 'Collect 20 bolts of blue wool', reward: 75 },
+        'wool.blue.500': { text: 'Collect 200 bolts of blue wool', reward: 150 },
+        'wool.blue.5000': { text: 'Collect 2000 bolts of blue wool', reward: 300 },
+        'wool.blue.50000': { text: 'Collect 20000 bolts of blue wool', reward: 600 },
+        'wool.blue.500000': { text: 'Collect 200000 bolts of blue wool', reward: 1200 },
 
-        'wool.yellow.20': { text: 'Collect 20 bolts of yellow wool', reward: 75 },
-        'wool.yellow.200': { text: 'Collect 200 bolts of yellow wool', reward: 150 },
-        'wool.yellow.2000': { text: 'Collect 2000 bolts of yellow wool', reward: 300 },
-        'wool.yellow.20000': { text: 'Collect 20000 bolts of yellow wool', reward: 600 },
-        'wool.yellow.200000': { text: 'Collect 200000 bolts of yellow wool', reward: 1200 },
+        'wool.yellow.50': { text: 'Collect 20 bolts of yellow wool', reward: 75 },
+        'wool.yellow.500': { text: 'Collect 200 bolts of yellow wool', reward: 150 },
+        'wool.yellow.5000': { text: 'Collect 2000 bolts of yellow wool', reward: 300 },
+        'wool.yellow.50000': { text: 'Collect 20000 bolts of yellow wool', reward: 600 },
+        'wool.yellow.500000': { text: 'Collect 200000 bolts of yellow wool', reward: 1200 },
 
-        'wool.black.20': { text: 'Collect 20 bolts of black wool', reward: 100 },
-        'wool.black.200': { text: 'Collect 200 bolts of black wool', reward: 200 },
-        'wool.black.2000': { text: 'Collect 2000 bolts of black wool', reward: 400 },
-        'wool.black.20000': { text: 'Collect 20000 bolts of black wool', reward: 800 },
-        'wool.black.200000': { text: 'Collect 200000 bolts of black wool', reward: 1600 },
+        'wool.black.50': { text: 'Collect 20 bolts of black wool', reward: 100 },
+        'wool.black.500': { text: 'Collect 200 bolts of black wool', reward: 200 },
+        'wool.black.5000': { text: 'Collect 2000 bolts of black wool', reward: 400 },
+        'wool.black.50000': { text: 'Collect 20000 bolts of black wool', reward: 800 },
+        'wool.black.500000': { text: 'Collect 200000 bolts of black wool', reward: 1600 },
 
-        'crafts.hats': { text: 'Craft all hats', reward: 50 },
-        'crafts.mittens': { text: 'Craft all mittens', reward: 100 },
-        'crafts.socks': { text: 'Craft all socks', reward: 150 },
-        'crafts.scarfs': { text: 'Craft all scarves', reward: 200 },
-        'crafts.sweaters': { text: 'Craft all sweaters', reward: 250 },
-        'crafts.white': { text: 'Craft all white items', reward: 500 },
-        'crafts.red': { text: 'Craft all red items', reward: 750 },
-        'crafts.blue': { text: 'Craft all blue items', reward: 750 },
-        'crafts.yellow': { text: 'Craft all yellow items', reward: 750 },
-        'crafts.black': { text: 'Craft all black items', reward: 1000 },
-        'crafts.all': { text: 'Craft all items', reward: 3000 }
+        'crafts.hats': { text:     'Craft all hats',         reward: 100  },
+        'crafts.mittens': { text:  'Craft all mittens',      reward: 200  },
+        'crafts.socks': { text:    'Craft all socks',        reward: 300  },
+        'crafts.scarfs': { text:   'Craft all scarves',      reward: 400  },
+        'crafts.sweaters': { text: 'Craft all sweaters',     reward: 500  },
+        'crafts.white': { text:    'Craft all white items',  reward: 250  },
+        'crafts.red': { text:      'Craft all red items',    reward: 500  },
+        'crafts.blue': { text:     'Craft all blue items',   reward: 500  },
+        'crafts.yellow': { text:   'Craft all yellow items', reward: 500  },
+        'crafts.black': { text:    'Craft all black items',  reward: 1000 },
+        'crafts.all': { text:      'Craft all items',        reward: 2000 }
     }
 };
 
