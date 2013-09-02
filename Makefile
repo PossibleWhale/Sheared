@@ -36,6 +36,9 @@ all: manifest.json register $(PLUGINS) $(APK)
 
 debug: all
 
+ios: manifest.json register $(PLUGINS) $(XCODE)
+	basil debug native-ios
+
 release:
 	$(MAKE) BUILD=release clean $(GC_DIR)/config.json all
 
