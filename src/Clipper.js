@@ -26,6 +26,16 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
+        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power &&
+            GC.app.player.upgrades.get('mult').value === constants.UPGRADE_MAX.mult &&
+            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade &&
+            GC.app.player.upgrades.get('diamond').value &&
+            !this.getSuperview().isTutorial) {
+
+            this.isGold = true;
+            this.setImage('resources/images/clipper-gold-regular.png');
+        }
+
         this.marginSize = 10;
 
         this.clipperBox = new View({
@@ -46,7 +56,11 @@ exports = Class(ImageView, function (supr) {
         this.countdown = 5;
 
         this.isDiamond = true;
-        this.setImage('resources/images/clipper-diamond.png');
+        if (this.isGold) {
+            this.setImage('resources/images/clipper-gold-diamond.png');
+        } else {
+            this.setImage('resources/images/clipper-diamond.png');
+        }
 
         this.getSuperview().addSubview(diamondIndicator);
 
@@ -58,7 +72,11 @@ exports = Class(ImageView, function (supr) {
     this.becomeRegular = function () {
         clearInterval(this.interval);
         this.isDiamond = false;
-        this.setImage('resources/images/clipper-regular.png');
+        if (this.isGold) {
+            this.setImage('resources/images/clipper-gold-regular.png');
+        } else {
+            this.setImage('resources/images/clipper-regular.png');
+        }
         if (this.getSuperview()) {
             this.getSuperview().removeSubview(diamondIndicator);
         }
@@ -98,15 +116,27 @@ exports = Class(ImageView, function (supr) {
         });
         this.blades.push(newBlade);
         this.bladeOut = true;
-        this.setImage('resources/images/clipper-none.png');
+        if (this.isGold) {
+            this.setImage('resources/images/clipper-gold-none.png');
+        } else {
+            this.setImage('resources/images/clipper-none.png');
+        }
         newBlade.run();
     };
 
     this.reloadBlade = function () {
         if (this.isDiamond) {
-            this.setImage('resources/images/clipper-diamond.png');
+            if (this.isGold) {
+                this.setImage('resources/images/clipper-gold-diamond.png');
+            } else {
+                this.setImage('resources/images/clipper-diamond.png');
+            }
         } else {
-            this.setImage('resources/images/clipper-regular.png');
+            if (this.isGold) {
+                this.setImage('resources/images/clipper-gold-regular.png');
+            } else {
+                this.setImage('resources/images/clipper-regular.png');
+            }
         }
     };
 

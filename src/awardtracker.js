@@ -44,34 +44,46 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 i *= 10;
             }
 
-            // check for ewe/ram of specific color award
-            i = 10;
-            while (i <= 100000) {
-                awardKey = prefix + sheep.color.label + '.' + i;
-                if (!player.awards.get(awardKey).value && colorSheared >= i) {
-                    player.earnedAward(awardKey);
+            if (sheep.color.label !== 'gold') {
+                // check for ewe/ram of specific color award
+                i = 10;
+                while (i <= 100000) {
+                    awardKey = prefix + sheep.color.label + '.' + i;
+                    if (!player.awards.get(awardKey).value && colorSheared >= i) {
+                        player.earnedAward(awardKey);
+                    }
+                    i *= 10;
                 }
-                i *= 10;
-            }
 
-            // check for wool of any color award
-            i = 100;
-            while (i <= 1000000) {
-                awardKey = 'wool.' + i;
-                if (!player.awards.get(awardKey).value && player.stats.get('wool').value >= i) {
-                    player.earnedAward(awardKey);
+                // check for wool of any color award
+                i = 100;
+                while (i <= 1000000) {
+                    awardKey = 'wool.' + i;
+                    if (!player.awards.get(awardKey).value && player.stats.get('wool').value >= i) {
+                        player.earnedAward(awardKey);
+                    }
+                    i *= 10;
                 }
-                i *= 10;
-            }
 
-            // check for wool of specific color award
-            i = 20;
-            while (i <= 200000) {
-                awardKey = 'wool.' + sheep.color.label + '.' + i;
-                if (!player.awards.get(awardKey).value && player.stats.get('wool.' + sheep.color.label).value >= i) {
-                    player.earnedAward(awardKey);
+                // check for wool of specific color award
+                i = 20;
+                while (i <= 200000) {
+                    awardKey = 'wool.' + sheep.color.label + '.' + i;
+                    if (!player.awards.get(awardKey).value && player.stats.get('wool.' + sheep.color.label).value >= i) {
+                        player.earnedAward(awardKey);
+                    }
+                    i *= 10;
                 }
-                i *= 10;
+            } else { // gold sheep
+                // check for ewe/ram gold award
+                i = 1;
+                while (i <= 10000) {
+                    awardKey = prefix + sheep.color.label + '.' + i;
+                    if (!player.awards.get(awardKey).value && colorSheared >= i) {
+                        player.earnedAward(awardKey);
+                    }
+                    i *= 10;
+                }
             }
         });
 
