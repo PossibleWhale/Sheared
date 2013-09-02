@@ -214,9 +214,10 @@ exports = Class(View, function (supr) {
         }));
 
         // labels for number of ewes sheared
-        var i = 0, startX = 195, gap = 162, total = 0, current;
-        for (i; i < constants.colors.length; i++) {
-            current = GC.app.player.stats.get('ewesSheared.' + constants.colors[i].label).value;
+        var i = 0, startX = 195, gap = 130, total = 0, current,
+            colors = constants.colors.concat([constants.COLOR_GOLD]);
+        for (i; i < colors.length; i++) {
+            current = GC.app.player.stats.get('ewesSheared.' + colors[i].label).value;
             this.tabs.ewes.addSubview(new TextView({
                 x: startX + i*gap,
                 y: 194,
@@ -249,10 +250,10 @@ exports = Class(View, function (supr) {
         // labels for number of rams sheared
         i = 0;
         startX = 195;
-        gap = 162;
+        gap = 130;
         total = 0;
-        for (i; i < constants.colors.length; i++) {
-            current = GC.app.player.stats.get('ramsSheared.' + constants.colors[i].label).value;
+        for (i; i < colors.length; i++) {
+            current = GC.app.player.stats.get('ramsSheared.' + colors[i].label).value;
             this.tabs.rams.addSubview(new TextView({
                 x: startX + i*gap,
                 y: 220,
