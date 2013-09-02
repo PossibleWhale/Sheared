@@ -27,7 +27,7 @@ LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/tapjoyads/ads.js
+PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/tapjoyads/ads.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
@@ -50,6 +50,9 @@ $(GC_DIR)/config.json: $(RELEASE_KEY)
 
 $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
+
+$(PLUGINS_DIR)/backbutton/backbutton.js:
+	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
 $(PLUGINS_DIR)/tapjoyads/ads.js:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
@@ -81,6 +84,7 @@ clean:
 	rm -vf $(APK)
 	rm -vf manifest.json
 	rm -vf $(GC_DIR)/addons/tapjoyads
+	rm -vf $(GC_DIR)/addons/backbutton
 
 localconfig: $(LOCALCONFIG)
 

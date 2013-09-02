@@ -10,6 +10,8 @@ import ui.View;
 import ui.ImageView as ImageView;
 import animate;
 
+import plugins.backbutton.backbutton as backbutton;
+
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
@@ -109,7 +111,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-exit.png'
         });
         this.exitButton.on('InputSelect', bind(this, function () {
-            this.back();
+            backbutton.back();
         }));
 
         this.websiteButton = new Button({
