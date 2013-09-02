@@ -1,6 +1,7 @@
 // common mute button on all screens
 
 import src.Button as Button;
+import src.constants as constants;
 
 
 exports = Class(Button, function proto(supr) {
@@ -34,9 +35,9 @@ exports = Class(Button, function proto(supr) {
         this.audio.setMuted(muted);
 
         if (muted) {
-            this.setImage('resources/images/button-sound-off.png');
+            this.setImage(constants.soundOffImage);
         } else {
-            this.setImage('resources/images/button-sound-on.png');
+            this.setImage(constants.soundOnImage);
             // manually play the click sound when sound is turned on.
             if (! options.silent) {
                 this.audio.playButton();

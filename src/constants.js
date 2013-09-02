@@ -1,3 +1,4 @@
+import ui.resource.Image as Image;
 var imagePath = 'resources/images/';
 
 exports = {
@@ -49,32 +50,32 @@ exports = {
 
     COLOR_WHITE: {
         label: 'white',
-        eweImage: imagePath + 'ewe-white.png',
-        ramImage: imagePath + 'ram-white.png',
+        eweImage: new Image({url: imagePath + 'ewe-white.png'}),
+        ramImage: new Image({url: imagePath + 'ram-white.png'}),
         rarity: 1.00
     },
     COLOR_RED: {
         label: 'red',
-        eweImage: imagePath + 'ewe-red.png',
-        ramImage: imagePath + 'ram-red.png',
+        eweImage: new Image({url: imagePath + 'ewe-red.png'}),
+        ramImage: new Image({url: imagePath + 'ram-red.png'}),
         rarity: 0.57
     },
     COLOR_BLUE: {
         label: 'blue',
-        eweImage: imagePath + 'ewe-blue.png',
-        ramImage: imagePath + 'ram-blue.png',
+        eweImage: new Image({url: imagePath + 'ewe-blue.png'}),
+        ramImage: new Image({url: imagePath + 'ram-blue.png'}),
         rarity: 0.57
     },
     COLOR_YELLOW: {
         label: 'yellow',
-        eweImage: imagePath + 'ewe-yellow.png',
-        ramImage: imagePath + 'ram-yellow.png',
+        eweImage: new Image({url: imagePath + 'ewe-yellow.png'}),
+        ramImage: new Image({url: imagePath + 'ram-yellow.png'}),
         rarity: 0.57
     },
     COLOR_BLACK: {
         label: 'black',
-        eweImage: imagePath + 'ewe-black.png',
-        ramImage: imagePath + 'ram-black.png',
+        eweImage: new Image({url: imagePath + 'ewe-black.png'}),
+        ramImage: new Image({url: imagePath + 'ram-black.png'}),
         rarity: 0.40
     },
 
@@ -122,6 +123,11 @@ exports = {
     fenceSize: 80,
     laneSize: 52,
     ramRarity: 0.2,
+
+    diamondImage: new Image({url: imagePath + 'diamond.png'}),
+    batteryImage: new Image({url: imagePath + 'battery.png'}),
+    soundOnImage: new Image({url: imagePath + 'button-sound-on.png'}),
+    soundOffImage: new Image({url: imagePath + 'button-sound-off.png'}),
 
     UPGRADE_PRICES: {
         power: [1000, 2000, 3000, 4000,  5000],

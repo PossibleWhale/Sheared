@@ -1,9 +1,10 @@
+import src.constants as constants;
 import src.Pickup as Pickup;
 
 exports = Class(Pickup, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/diamond.png'
+            image: constants.diamondImage
         });
 
         supr(this, 'init', [opts]);

@@ -1,3 +1,4 @@
+import ui.resource.Image as Image;
 import ui.View as View;
 import ui.TextView as TextView;
 import ui.ImageView as ImageView;
@@ -5,6 +6,10 @@ import ui.ScrollView as ScrollView;
 import src.constants as constants;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
+
+var filledStar = new Image({url: 'resources/images/gold-star-award.png'});
+var emptyStar = new Image({url: 'resources/images/gold-star-empty.png'});
+var ewero = new Image({url: 'resources/images/award-ewero.png'});
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -267,17 +272,24 @@ exports = Class(ImageView, function (supr) {
                     totalHeight += 50;
                 }
 
-                star = new ImageView({
-                    superview: view,
-                    x: 20,
-                    y: yIndex,
-                    width: 30,
-                    height: 30
-                });
                 if (GC.app.player.awards.get(key).value) {
-                    star.setImage('resources/images/gold-star-award.png');
+                    star = new ImageView({
+                        superview: view,
+                        x: 20,
+                        y: yIndex,
+                        width: 30,
+                        height: 30,
+                        image: filledStar
+                    });
                 } else {
-                    star.setImage('resources/images/gold-star-empty.png');
+                    star = new ImageView({
+                        superview: view,
+                        x: 20,
+                        y: yIndex,
+                        width: 30,
+                        height: 30,
+                        image: emptyStar
+                    });
                 }
 
                 view.addSubview(new TextView({
@@ -308,7 +320,7 @@ exports = Class(ImageView, function (supr) {
                     y: yIndex,
                     width: 30,
                     height: 30,
-                    image: 'resources/images/award-ewero.png'
+                    image: ewero
                 }));
 
                 yIndex += 50;
