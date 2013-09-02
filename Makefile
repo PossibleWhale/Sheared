@@ -14,7 +14,7 @@ BUILD_COMMAND =     $(BUILD)
 APK =               build/$(BUILD)/native-android/sheared.apk
 
 JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
-PNG_FILES =         $(wildcard resouces/images/*.png) $(wildcard resources/icons/*.png) $(wildcard resources/splash/*.png)
+PNG_FILES =         $(wildcard resources/images/*.png) $(wildcard resources/icons/*.png) $(wildcard resources/splash/*.png)
 MP3_FILES =         $(wildcard resources/sounds/*.mp3)
 TTF_FILES =         $(wildcard resources/fonts/*.ttf)
 MANIFESTS =         manifest.json $(wildcard resources/*/*.json)
@@ -31,12 +31,16 @@ PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
+XCODEPROJ =         $(GC_DIR)/addons/native-ios/build/sheared/tealeaf/TeaLeafIOS.xcodeproj/project.pbxproj
+
 
 all: manifest.json register $(PLUGINS) $(APK)
 
 debug: all
 
-ios: manifest.json register $(PLUGINS) $(XCODE)
+ios: manifest.json register $(PLUGINS) $(XCODEPROJ)
+
+$(XCODEPROJ): $(ALL_APK_DEPS)
 	basil debug native-ios
 
 release:
