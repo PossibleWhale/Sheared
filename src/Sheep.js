@@ -17,6 +17,10 @@ exports = Class(View, function (supr) {
 
         supr(this, 'init', [opts]);
 
+        if (color.label === 'gold' && !opts.fromTutorial) {
+            this.isGold = true;
+        }
+
         this.image = new ImageView({
             superview: this,
             image: color.eweImage,
@@ -81,15 +85,19 @@ exports = Class(View, function (supr) {
                         if (Math.random() < 0.25) {
                             GC.app.audio.playBaa();
                         }
-                        if (wool) {
+                        if (wool && !this.isGold) {
                             wool.addWool(this.color, this.bolts);
+                        } else if (this.isGold) {
+                            GC.app.player.addCoins(this.bolts*10);
                         }
                         GC.app.player.shearedSheep(this);
                         GC.app.player.hitWithBlade(blade.isDiamond);
                         this.emit('sheep:sheared');
                         this.emitWool();
-                        superview.woolCounts.wool.addWool(this.color, this.bolts);
-                        superview.woolCounts.update(this.color);
+                        if (!this.isGold) {
+                            superview.woolCounts.wool.addWool(this.color, this.bolts);
+                            superview.woolCounts.update(this.color);
+                        }
                         this.die();
                     } else {
                         blade.ricochet();
@@ -173,7 +181,8 @@ exports = Class(View, function (supr) {
             pObj.dscale = 0.5;
             pObj.opacity = 1;
             pObj.dopacity = -1;
-            pObj.image = 'resources/images/particle-' + this.color.label + '.png';
+            pObj.image = this.isGold ? 'resources/images/particle-ewero.png' :
+                        'resources/images/particle-' + this.color.label + '.png';
         }
         GC.app.particleEngine.emitParticles(particleObjects);
     };
@@ -214,16 +223,16 @@ exports = Class(View, function (supr) {
 
 // return a random color taking into account rarity
 function randomColor () {
-    var rarityTotal = 0, i = constants.colors.length,
-        r, currentTotal = 0;
+    var rarityTotal = 0, colors = constants.colors.concat([constants.COLOR_GOLD]),
+        i = colors.length, r, currentTotal = 0;
     while (i--) {
-        rarityTotal += constants.colors[i].rarity;
+        rarityTotal += colors[i].rarity;
     }
     r = Math.random()*rarityTotal;
-    for (i = 0; i < constants.colors.length; i++) {
-        currentTotal += constants.colors[i].rarity;
+    for (i = 0; i < colors.length; i++) {
+        currentTotal += colors[i].rarity;
         if (r < currentTotal) {
-            return constants.colors[i];
+            return colors[i];
         }
     }
 }

@@ -89,8 +89,10 @@ exports = Class(Emitter, function Player(supr) {
             this.stats.increment('ewesSheared');
             this.stats.increment('ewesSheared.' + sheep.color.label);
         }
-        this.stats.increment('wool', sheep.bolts);
-        this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
+        if (!sheep.isGold) {
+            this.stats.increment('wool', sheep.bolts);
+            this.stats.increment('wool.' + sheep.color.label, sheep.bolts);
+        }
 
         at.emit('player:sheared', sheep);
     };

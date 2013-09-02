@@ -78,6 +78,12 @@ exports = {
         ramImage: new Image({url: imagePath + 'ram-black.png'}),
         rarity: 0.40
     },
+    COLOR_GOLD: {
+        label: 'gold',
+        eweImage: new Image({url: imagePath + 'ewe-gold.png'}),
+        ramImage: new Image({url: imagePath + 'ram-gold.png'}),
+        rarity: 0.05
+    },
 
     GARMENT_NAKED: {label: 'naked'},
 
@@ -141,6 +147,12 @@ exports = {
         blue: 1500,
         yellow: 1500,
         black: 2000
+    },
+
+    UPGRADE_MAX: {
+        power: 5,
+        mult: 6,
+        blade: 5
     },
 
 
@@ -220,6 +232,12 @@ exports = {
         'ewes.black.10000': { text: 'Shear 10000 Black Ewes', reward: 1000 },
         'ewes.black.100000': { text: 'Shear 100000 Black Ewes', reward: 2000 },
 
+        'ewes.gold.1': { text: 'Shear 1 Gold Ewe', reward: 125 },
+        'ewes.gold.10': { text: 'Shear 10 Gold Ewes', reward: 250 },
+        'ewes.gold.100': { text: 'Shear 100 Gold Ewes', reward: 500 },
+        'ewes.gold.1000': { text: 'Shear 1000 Gold Ewes', reward: 1000 },
+        'ewes.gold.10000': { text: 'Shear 10000 Gold Ewes', reward: 2000 },
+
         'rams.50': { text: 'Shear 50 Rams', reward: 75 },
         'rams.500': { text: 'Shear 500 Rams', reward: 150 },
         'rams.5000': { text: 'Shear 5000 Rams', reward: 300 },
@@ -255,6 +273,12 @@ exports = {
         'rams.black.1000': { text: 'Shear 1000 Black Rams', reward: 600 },
         'rams.black.10000': { text: 'Shear 10000 Black Rams', reward: 1200 },
         'rams.black.100000': { text: 'Shear 100000 Black Rams', reward: 2400 },
+
+        'rams.gold.1': { text: 'Shear 1 Gold Ram', reward: 125 },
+        'rams.gold.10': { text: 'Shear 10 Gold Rams', reward: 250 },
+        'rams.gold.100': { text: 'Shear 100 Gold Rams', reward: 500 },
+        'rams.gold.1000': { text: 'Shear 1000 Gold Rams', reward: 1000 },
+        'rams.gold.10000': { text: 'Shear 10000 Gold Rams', reward: 2000 },
 
         'power.1': { text: '+1 Clipper Power', reward: 25 },
         'power.2': { text: '+2 Clipper Power', reward: 50 },

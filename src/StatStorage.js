@@ -8,12 +8,14 @@ stats = [
 {name: 'ewesSheared.yellow', value: 0},
 {name: 'ewesSheared.red', value: 0},
 {name: 'ewesSheared.black', value: 0},
+{name: 'ewesSheared.gold', value: 0},
 {name: 'ramsSheared', value: 0},
 {name: 'ramsSheared.white', value: 0},
 {name: 'ramsSheared.blue', value: 0},
 {name: 'ramsSheared.yellow', value: 0},
 {name: 'ramsSheared.red', value: 0},
 {name: 'ramsSheared.black', value: 0},
+{name: 'ramsSheared.gold', value: 0},
 {name: 'wool', value: 0},
 {name: 'wool.white', value: 0},
 {name: 'wool.blue', value: 0},
@@ -47,7 +49,7 @@ exports = Class(Storage, function (supr) {
         opts = opts || {};
         supr(this, 'init', [opts]);
 
-        if (this.get('coins') === null) {
+        if (this.get('ewesSheared.gold') === null) {
             this.add(stats);
         }
 
