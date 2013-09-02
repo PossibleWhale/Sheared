@@ -146,7 +146,7 @@ exports = Class(View, function (supr) {
             this._buildAdsTab();
         }));
 
-        this.on('ViewWillDisappear', bind(this, function () {
+        this.on('ViewDidDisappear', bind(this, function () {
             var tab;
             for (tab in this.tabs) {
                 if (this.tabs.hasOwnProperty(tab)) {

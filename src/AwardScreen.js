@@ -203,7 +203,7 @@ exports = Class(ImageView, function (supr) {
             this._buildTab('misc');
         }));
 
-        this.on('ViewWillDisappear', bind(this, function () {
+        this.on('ViewDidDisappear', bind(this, function () {
             this.tabs.ewes.removeAllSubviews();
             this.tabs.rams.removeAllSubviews();
             this.tabs.wool.removeAllSubviews();
