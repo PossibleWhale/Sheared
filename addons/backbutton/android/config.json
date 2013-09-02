@@ -4,7 +4,5 @@
 		"libraries": [
 		],
 		"jars": [
-		],
-		"injectionXML": "manifest.xml",
-		"injectionXSL": "manifest.xsl"
+		]
 }
