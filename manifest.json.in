@@ -46,7 +46,8 @@
 	],
     "addons": [
         "tapjoyads",
-        "billing"
+        "billing",
+        "backbutton"
     ],
 	"sdkVersion": "release-0.1.27"
 }
