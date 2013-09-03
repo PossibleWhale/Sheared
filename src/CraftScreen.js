@@ -71,8 +71,8 @@ exports = Class(ui.View, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 283,
-            y: 0,
+            x: 300,
+            y: 8,
             storage: this.wool
         });
 
