@@ -165,13 +165,11 @@ AwardTracker = Class(event.Emitter, function (supr) {
             // check for color award
             var i, j, current, earnedColorAward = true;
             key = 'crafts.' + craft.colors.main.label;
-            console.log(key);
             if (!player.awards.get(key).value) {
                 for (i = 0; i < c.colors.length; i++) {
                     for (j = 0; j < c.garments.length; j++) {
                         if (craft.colors.main.label !== c.colors[i].label) {
                             current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
-                            console.log(player.crafts.get(current));
                             if (player.crafts.get(current).count < 1) {
                                 earnedColorAward = false;
                             }

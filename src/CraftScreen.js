@@ -309,20 +309,18 @@ exports = Class(ui.View, function (supr) {
         this.selectedCraft.enable(false);
     };
 
-    this.showLargeCraft = function _a_showLargeCraft(data) {
+    this.showLargeCraft = function _a_showLargeCraft(craft) {
         var isEnabled;
 
         this.largeCraft.removeAllSubviews();
+        isEnabled = this.player.canCraft(craft);
+        this.largeCraft.addSubview(craft);
+        craft.enable(isEnabled);
 
-        this.selectedCraft = new Craft(this.selectedGarment, data.main, data.contrast);
-        isEnabled = this.player.canCraft(this.selectedCraft);
-
-        this.largeCraft.addSubview(this.selectedCraft);
-        this.selectedCraft.enable(isEnabled);
-
-        this.selectedCraft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
-            this.buyCraft(this.selectedCraft);
-            this.showLargeCraft(data);
+        craft.removeAllListeners();
+        craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
+            craft.enable(false);
+            this.buyCraft(craft);
         }));
     };
 
@@ -337,9 +335,12 @@ exports = Class(ui.View, function (supr) {
             purchaseable: true
         });
 
+
+        var craft = new Craft(me.selectedGarment, btn.getOpts().item.main, btn.getOpts().item.contrast);
+
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
-                me.showLargeCraft(_btn.getOpts().item);
+                me.showLargeCraft(craft);
             };
         })(btn));
 
@@ -410,6 +411,7 @@ exports = Class(ui.View, function (supr) {
                         this.woolCounts.update();
                         at.emit('player:crafted', craft);
                         this._cleanUI();
+                        this.showLargeCraft(craft);
                     }
                 }));
             }
