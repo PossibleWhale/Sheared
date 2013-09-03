@@ -15,8 +15,9 @@ var diamondIndicator = new ImageView({
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: 'resources/images/clipper-regular.png',
-            autoSize: true
+            width: 128,
+            height: 46,
+            image: 'resources/images/clipper-regular.png'
         });
 
         supr(this, 'init', [opts]);

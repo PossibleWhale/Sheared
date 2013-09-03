@@ -10,8 +10,8 @@ exports = Class(View, function (supr) {
         var color = opts.color || randomColor();
 
         opts = merge(opts, {
-            width: 108,
-            height: 82,
+            width: 82,
+            height: 56,
             clip: false
         });
 
@@ -55,18 +55,10 @@ exports = Class(View, function (supr) {
             }
             //this.emitDust()
 
-            var hitBox = new Rect({
-                x: this.style.x + 5,
-                y: this.style.y + 5,
-                width: this.style.width - 10,
-                height: this.style.height - 10,
-                r: this.style.r
-            });
-
             i = superview.clipper.blades.length;
             while (i--) {
                 blade = superview.clipper.blades[i];
-                if (blade.getSuperview() && intersect.rectAndRect(hitBox, blade.style)) {
+                if (blade.getSuperview() && intersect.rectAndRect(this.style, blade.style)) {
 
                     var wool = superview.dailyWool;
 
@@ -106,7 +98,7 @@ exports = Class(View, function (supr) {
                     return;
                 }
             }
-            if (intersect.rectAndRect(hitBox,
+            if (intersect.rectAndRect(this.style,
                 new Rect({
                     x: superview.clipper.style.x + superview.clipper.marginSize,
                     y: superview.clipper.style.y + superview.clipper.marginSize,

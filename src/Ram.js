@@ -4,8 +4,8 @@ import ui.View as View;
 exports = Class(Sheep, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            width: 143,
-            height: 134
+            width: 117,
+            height: 108
         });
         supr(this, 'init', [opts]);
         this.setImage(this.color.ramImage);

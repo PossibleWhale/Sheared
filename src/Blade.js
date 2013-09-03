@@ -12,7 +12,8 @@ var timeOnScreen = 1000;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            autoSize: true
+            width: 32,
+            height: 40
         });
 
         supr(this, 'init', [opts]);

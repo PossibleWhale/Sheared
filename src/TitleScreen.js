@@ -291,11 +291,6 @@ exports = Class(ImageView, function (supr) {
             this.back();
         }));
 
-        playScreen.on('playscreen:gameover', function () {
-            storeScreen.updateProgressBars();
-            storeScreen.updatePriceDisplays();
-        });
-
         GC.app.player.on('player:purchased', function () {
             GC.app.player.setUpgrades();
         });

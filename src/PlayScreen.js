@@ -294,7 +294,6 @@ exports = Class(View, function (supr) {
     this.gameOver = function () {
         this.endDay();
         this._showResults(false);
-        this.emit('playscreen:gameover');
     };
 
     this.timeOver = function () {
