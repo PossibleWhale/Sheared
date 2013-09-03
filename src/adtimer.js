@@ -55,6 +55,7 @@ AdTimer = Class(event.Emitter, function (supr) {
                 callback.apply(cbArgs);
                 GC.app.engine.getView().removeSubview(spinner);
             }));
+            this.start();
         } else {
             callback.apply(cbArgs);
         }
