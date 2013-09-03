@@ -73,8 +73,8 @@ exports = Class(View, function (supr) {
         // wool counter
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 292,
-            y: 0,
+            x: 300,
+            y: 8,
             storage: GC.app.player.wool.copy({persist: false}) // we don't commit our wool until the end of the day
         });
 
