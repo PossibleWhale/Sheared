@@ -111,6 +111,31 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_award.bladepower.max', JSON.stringify({name: 'bladepower.max', value: false}));
     };
 
+    this.upgrade_7_to_8 = function _a_upgrade_7_to_8() {
+        assert(parseInt(lsGet('pw_version'), 10) === 7);
+        lsSet('pw_version', 8);
+        lsSet('pw_store_award.ewes.gold.5', JSON.stringify({name: 'ewes.gold.5', value: false}));
+        lsSet('pw_store_award.ewes.gold.50', JSON.stringify({name: 'ewes.gold.50', value: false}));
+        lsSet('pw_store_award.ewes.gold.500', JSON.stringify({name: 'ewes.gold.500', value: false}));
+        lsSet('pw_store_award.ewes.gold.5000', JSON.stringify({name: 'ewes.gold.5000', value: false}));
+        lsSet('pw_store_award.ewes.gold.50000', JSON.stringify({name: 'ewes.gold.50000', value: false}));
+        lsSet('pw_store_award.rams.gold.5', JSON.stringify({name: 'rams.gold.5', value: false}));
+        lsSet('pw_store_award.rams.gold.50', JSON.stringify({name: 'rams.gold.50', value: false}));
+        lsSet('pw_store_award.rams.gold.500', JSON.stringify({name: 'rams.gold.500', value: false}));
+        lsSet('pw_store_award.rams.gold.5000', JSON.stringify({name: 'rams.gold.5000', value: false}));
+        lsSet('pw_store_award.rams.gold.50000', JSON.stringify({name: 'rams.gold.50000', value: false}));
+        lsSet('pw_store_award.ewes.20', JSON.stringify({name: 'ewes.20', value: false}));
+        lsSet('pw_store_award.ewes.200', JSON.stringify({name: 'ewes.200', value: false}));
+        lsSet('pw_store_award.ewes.2000', JSON.stringify({name: 'ewes.2000', value: false}));
+        lsSet('pw_store_award.ewes.20000', JSON.stringify({name: 'ewes.20000', value: false}));
+        lsSet('pw_store_award.ewes.200000', JSON.stringify({name: 'ewes.200000', value: false}));
+        lsSet('pw_store_award.rams.10', JSON.stringify({name: 'rams.10', value: false}));
+        lsSet('pw_store_award.rams.100', JSON.stringify({name: 'rams.100', value: false}));
+        lsSet('pw_store_award.rams.1000', JSON.stringify({name: 'rams.1000', value: false}));
+        lsSet('pw_store_award.rams.10000', JSON.stringify({name: 'rams.10000', value: false}));
+        lsSet('pw_store_award.rams.100000', JSON.stringify({name: 'rams.100000', value: false}));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */

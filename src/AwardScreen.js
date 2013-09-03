@@ -11,14 +11,13 @@ var filledStar = new Image({url: 'resources/images/gold-star-award.png'});
 var emptyStar = new Image({url: 'resources/images/gold-star-empty.png'});
 var ewero = new Image({url: 'resources/images/award-ewero.png'});
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
             x: 0,
             y: 0,
             width: 1024,
-            height: 576,
-            image: 'resources/images/awards.png'
+            height: 576
         });
 
         supr(this, 'init', [opts]);

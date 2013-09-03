@@ -23,7 +23,7 @@ AwardTracker = Class(event.Emitter, function (supr) {
         });
 
         this.on('player:sheared', function (sheep) {
-            var player = GC.app.player, totalSheared, colorSheared, prefix, i, awardKey;
+            var player = GC.app.player, totalSheared, colorSheared, prefix, i, awardKey, max;
             if (sheep.isRam) {
                 prefix = 'rams.';
                 numSheared = player.stats.get('ramsSheared').value;
@@ -35,8 +35,9 @@ AwardTracker = Class(event.Emitter, function (supr) {
             }
 
             // check for ewe/ram of any color award
-            i = 50;
-            while (i <= 500000) {
+            i = sheep.isRam? 10 : 20;
+            max = sheep.isRam? 100000 : 200000;
+            while (i <= max) {
                 awardKey = prefix + i;
                 if (!player.awards.get(awardKey).value && numSheared >= i) {
                     player.earnedAward(awardKey);
@@ -66,8 +67,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 }
 
                 // check for wool of specific color award
-                i = 20;
-                while (i <= 200000) {
+                i = 50;
+                while (i <= 500000) {
                     awardKey = 'wool.' + sheep.color.label + '.' + i;
                     if (!player.awards.get(awardKey).value && player.stats.get('wool.' + sheep.color.label).value >= i) {
                         player.earnedAward(awardKey);
@@ -76,8 +77,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 }
             } else { // gold sheep
                 // check for ewe/ram gold award
-                i = 1;
-                while (i <= 10000) {
+                i = 5;
+                while (i <= 50000) {
                     awardKey = prefix + sheep.color.label + '.' + i;
                     if (!player.awards.get(awardKey).value && colorSheared >= i) {
                         player.earnedAward(awardKey);
@@ -88,8 +89,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
         });
 
         this.on('player:battery', function () {
-            var player = GC.app.player, i = 1, awardKey;
-            while (i <= 10000) {
+            var player = GC.app.player, i = 10, awardKey;
+            while (i <= 100000) {
                 awardKey = 'batteries.' + i;
                 if (!player.awards.get(awardKey).value && player.stats.get('batteries').value >= i) {
                     player.earnedAward(awardKey);
@@ -99,8 +100,8 @@ AwardTracker = Class(event.Emitter, function (supr) {
         });
 
         this.on('player:diamond', function () {
-            var player = GC.app.player, i = 1, awardKey;
-            while (i <= 10000) {
+            var player = GC.app.player, i = 10, awardKey;
+            while (i <= 100000) {
                 awardKey = 'diamonds.' + i;
                 if (!player.awards.get(awardKey).value && player.stats.get('diamonds').value >= i) {
                     player.earnedAward(awardKey);

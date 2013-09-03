@@ -27,7 +27,7 @@ exports = {
     COLOR_NONE: {label: 'none'},
 
     SCHEMA: {
-        version: 7,
+        version: 8,
         stores: {
             wool: {key: 'color', value: 'count'},
             craft: {key: 'motif', value: 'count'},
@@ -238,11 +238,11 @@ exports = {
         'ewes.gold.5000': { text:  'Shear 5000 Gold Ewes',  reward: 800  },
         'ewes.gold.50000': { text: 'Shear 50000 Gold Ewes', reward: 1600 },
 
-        'rams.10': { text:     'Shear 10 Rams',     reward: reward: 100  },
-        'rams.100': { text:    'Shear 100 Rams',    reward: reward: 200  },
-        'rams.1000': { text:   'Shear 1000 Rams',   reward: reward: 400  },
-        'rams.10000': { text:  'Shear 10000 Rams',  reward: reward: 800  },
-        'rams.100000': { text: 'Shear 100000 Rams', reward: reward: 1600 },
+        'rams.10': { text:     'Shear 10 Rams',     reward: 100  },
+        'rams.100': { text:    'Shear 100 Rams',    reward: 200  },
+        'rams.1000': { text:   'Shear 1000 Rams',   reward: 400  },
+        'rams.10000': { text:  'Shear 10000 Rams',  reward: 800  },
+        'rams.100000': { text: 'Shear 100000 Rams', reward: 1600 },
 
         'rams.white.10': { text:     'Shear 10 White Rams',     reward: 100  },
         'rams.white.100': { text:    'Shear 100 White Rams',    reward: 200  },
