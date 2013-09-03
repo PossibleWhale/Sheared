@@ -129,7 +129,7 @@ exports = Class(ui.View, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.matchStorage();
+            this.woolCounts.update();
             this.total = this.player.stats.get('coins').value;
             this.updateTotal();
         }));
