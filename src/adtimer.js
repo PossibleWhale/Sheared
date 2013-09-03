@@ -54,8 +54,8 @@ AdTimer = Class(event.Emitter, function (supr) {
                 }
                 callback.apply(cbArgs);
                 GC.app.engine.getView().removeSubview(spinner);
+                this.start();
             }));
-            this.start();
         } else {
             callback.apply(cbArgs);
         }
@@ -72,9 +72,9 @@ AdTimer = Class(event.Emitter, function (supr) {
 
     var storage = new UpgradeStorage();
     if (!storage.get('adFree').value) {
-        this.interrupt = bind(this, this._interruptNormal);
+        this.interrupt = this._interruptNormal;
     } else {
-        this.interrupt = bind(this, this._interruptNoAds);
+        this.interrupt = this._interruptNoAds;
     }
 
 });
