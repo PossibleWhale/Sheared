@@ -34,14 +34,14 @@ exports = Class(ImageView, function (supr) {
             size: 26,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
-        }, i, xPos = 15;
+        }, i, xPos = 7;
 
         this.counts = {};
         for (i = 0; i < constants.colors.length; i++) {
             this.counts[constants.colors[i].label] = new TextView(merge({
                 superview: this,
                 x: xPos,
-                y: 25
+                y: 17
             }, textViewOpts));
             xPos += 90;
             this.update(constants.colors[i]);

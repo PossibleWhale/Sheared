@@ -121,8 +121,8 @@ exports = Class(View, function (supr) {
 
         this.woolCounts = new WoolCounter({
             superview: this,
-            x: 292,
-            y: 0,
+            x: 300,
+            y: 8,
             storage: GC.app.player.wool
         });
 
