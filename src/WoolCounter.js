@@ -11,10 +11,10 @@ import src.util as util;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            height: 80,
-            width: 440,
+            height: 64,
+            width: 424,
             clip: false,
-            image: 'resources/images/label-wool.png'
+            image: 'resources/images/wool.png'
         });
 
         util.assert(opts.storage, "opts.storage is required in WoolCounter's options");
@@ -25,7 +25,7 @@ exports = Class(ImageView, function (supr) {
 
         var textViewOpts = {
             width: 50,
-            height: 30,
+            height: 28,
             color: '#FFFFFF',
             fontFamily: 'delius',
             strokeWidth: 3,
