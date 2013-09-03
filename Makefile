@@ -17,7 +17,7 @@ JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
 PNG_FILES =         $(wildcard resources/images/*.png) $(wildcard resources/icons/*.png) $(wildcard resources/splash/*.png)
 MP3_FILES =         $(wildcard resources/sounds/*.mp3)
 TTF_FILES =         $(wildcard resources/fonts/*.ttf)
-MANIFESTS =         manifest.json $(wildcard resources/*/*.json)
+MANIFESTS =         manifest.json
 
 ADDON_FILES =       $(wildcard addons/*/android/*.java) $(wildcard addons/*/android/manifest.*) $(wildcard addons/*/android/*.json) $(wildcard addons/*/js/*.js)
 
@@ -73,7 +73,10 @@ androidstorepass.txt: ~/Dropbox/possiblewhale/androidstorepass.txt
 possiblewhale.keystore: ~/Dropbox/possiblewhale/possiblewhale.keystore
 	ln -s ~/Dropbox/possiblewhale/possiblewhale.keystore possiblewhale.keystore
 
-register:
+check-register:
+	grep `pwd` $(GC_DIR)/config.json
+
+register: check-register
 	basil register .
 
 $(APK): $(ALL_APK_DEPS)
