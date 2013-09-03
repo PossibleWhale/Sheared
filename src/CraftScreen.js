@@ -319,7 +319,7 @@ exports = Class(ui.View, function (supr) {
 
         craft.removeAllListeners();
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
-            craft.enable(false);
+            craft._disableBuy();
             this.buyCraft(craft);
         }));
     };
@@ -336,10 +336,9 @@ exports = Class(ui.View, function (supr) {
         });
 
 
-        var craft = new Craft(me.selectedGarment, btn.getOpts().item.main, btn.getOpts().item.contrast);
-
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
+                var craft = new Craft(me.selectedGarment, _btn.getOpts().item.main, _btn.getOpts().item.contrast);
                 me.showLargeCraft(craft);
             };
         })(btn));
