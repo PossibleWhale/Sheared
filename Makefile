@@ -74,7 +74,7 @@ possiblewhale.keystore: ~/Dropbox/possiblewhale/possiblewhale.keystore
 	ln -s ~/Dropbox/possiblewhale/possiblewhale.keystore possiblewhale.keystore
 
 check-register:
-	grep `pwd` $(GC_DIR)/config.json
+	grep -i `pwd` $(GC_DIR)/config.json
 
 register: check-register
 	basil register .
