@@ -3,7 +3,7 @@
  */
 
 import animate;
-import ui.View;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
 import math.geom.Point as Point;
@@ -18,7 +18,7 @@ import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
 
 
-exports = Class(ui.View, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function _a_init(opts) {
         opts = opts || {};
         supr(this, 'init', [opts]);
@@ -97,7 +97,7 @@ exports = Class(ui.View, function (supr) {
         });
 
         var pt = this.tabs.localizePoint(new Point(585, 125));
-        this.largeCraft = new ui.View({
+        this.largeCraft = new View({
             x: pt.x,
             y: pt.y,
             width: 394,
@@ -319,6 +319,13 @@ exports = Class(ui.View, function (supr) {
 
         craft.removeAllListeners();
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
+            this.inputBlock = new View({
+                superview: this,
+                x: 0,
+                y: 80,
+                width: 1024,
+                height: 416
+            });
             craft._disableBuy();
             this.buyCraft(craft);
         }));
@@ -410,6 +417,7 @@ exports = Class(ui.View, function (supr) {
                         this.woolCounts.update();
                         at.emit('player:crafted', craft);
                         this._cleanUI();
+                        this.inputBlock.removeFromSuperview();
                         this.showLargeCraft(craft);
                     }
                 }));
