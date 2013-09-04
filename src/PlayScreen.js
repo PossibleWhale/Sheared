@@ -165,8 +165,8 @@ exports = Class(View, function (supr) {
             this._beginDay();
             this.healthBar = new HealthBar({
                 superview: this,
-                x: 387,
-                y: 496
+                x: 404,
+                y: 518
             });
         }
         this.firstPlay = false;
