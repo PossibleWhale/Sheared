@@ -343,7 +343,7 @@ exports = Class(ui.View, function (supr) {
             };
         })(btn));
 
-        this.animateCraft(btn);
+        //this.animateCraft(btn);
 
         return btn;
     };
@@ -355,7 +355,7 @@ exports = Class(ui.View, function (supr) {
         btn = this.defaultButtonFactory(region, 'craftStars');
         btn.hide();
 
-        this.animateStar(btn);
+        //this.animateStar(btn);
 
         return btn;
     };
