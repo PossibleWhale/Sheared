@@ -71,6 +71,8 @@ exports = Class(Emitter, function Player(supr) {
         if (upgradeName) {
             at.emit('player:purchased' + upgradeName);
         }
+
+        GC.app.audio.playPurchase();
     };
 
     // add a specified amount of coins to the player's wallet

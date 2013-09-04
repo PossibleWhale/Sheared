@@ -23,7 +23,8 @@ exports = Class(AudioManager, function (supr) {
                 'crafting-01': {},
                 'crafting-02': {},
                 'crafting-03': {},
-                'crafting-04': {}
+                'crafting-04': {},
+                'store-purchase': {}
             }
         };
         supr(this, 'init', [opts]);
@@ -75,5 +76,9 @@ exports = Class(AudioManager, function (supr) {
     this.playBuyGarment = function () {
         var index = Math.floor(Math.random() * 4) + 1;
         this.play('crafting-0' + index);
+    };
+
+    this.playPurchase = function () {
+        this.play('store-purchase');
     };
 });

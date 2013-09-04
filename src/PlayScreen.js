@@ -378,6 +378,7 @@ exports = Class(View, function (supr) {
                         width: 50,
                         height: 28,
                         text: '' + count,
+                        strokeWidth: 3,
                         size: 128,
                         autoFontSize: true,
                     }, constants.TEXT_OPTIONS));
