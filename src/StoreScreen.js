@@ -170,10 +170,10 @@ exports = Class(View, function (supr) {
 
         craftButton = new Button({
             superview: this,
-            x: 133,
-            y: 496,
-            width: 200,
-            height: 80,
+            x: 141,
+            y: 506,
+            width: 184,
+            height: 60,
             click: true,
             image: 'resources/images/button-crafts-catalog.png'
         });
