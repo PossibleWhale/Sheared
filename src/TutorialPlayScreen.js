@@ -81,11 +81,11 @@ exports = Class(View, function (supr) {
 
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new Button({
-            x: 404,
-            y: 253,
+            x: 412,
+            y: 344,
             zIndex: 9999,
-            width: 215,
-            height: 70,
+            width: 200,
+            height: 64,
             click: true,
             image: 'resources/images/button-continue.png'
         });
