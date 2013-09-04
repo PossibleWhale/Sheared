@@ -155,10 +155,10 @@ exports = Class(ImageView, function (supr) {
 
         this.storeButton = new Button({
             superview: this.marqueeBottom,
-            x: 412,
-            y: 0,
-            width: 200,
-            height: 80,
+            x: 420,
+            y: 10,
+            width: 184,
+            height: 60,
             click: true,
             image: 'resources/images/button-general-store.png'
         });
