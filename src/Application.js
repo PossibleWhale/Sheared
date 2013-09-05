@@ -13,6 +13,7 @@ import src.Audio as Audio;
 import src.constants as c;
 import src.debughack as dh;
 import src.Storage as Storage;
+import src.spinner as spinner;
 
 
 // DO NOT QUESTION THIS MATH
@@ -95,5 +96,15 @@ exports = Class(GC.Application, function (supr) {
         });
 
         this.titleScreen.animateIntro();
+    };
+
+    this.startSpinner = function _a_startSpinner(delay) {
+        this.view.addSubview(spinner);
+        spinner.go(delay);
+    };
+
+    this.stopSpinner = function _a_stopSpinner() {
+        spinner.hide();
+        this.view.removeSubview(spinner);
     };
 });

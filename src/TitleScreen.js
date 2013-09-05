@@ -23,7 +23,8 @@ import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
 import src.AwardAlert as AwardAlert;
-import src.constants as constants;
+import src.constants as c;
+import src.spinner as spinner;
 
 
 /* The title screen is added to the scene graph when it becomes
@@ -41,6 +42,9 @@ exports = Class(ImageView, function (supr) {
         this.build();
     };
 
+    /*
+     * pop the stackview stack, unless we are on the title screen already
+     */
     this.back = function _a_back() {
         if (this.stackView.getCurrentView() === this) {
             return false;
@@ -49,18 +53,36 @@ exports = Class(ImageView, function (supr) {
         }
     };
 
+    /*
+     * A child of a stackview may have a spinner wrapper, which causes the
+     * spinner to appear if the view takes too long to load. This method sets
+     * up the necessary events.
+     */
+    this.wrapSpinner = function _a_wrapSpinner(stackViewChild) {
+        stackViewChild.on('ViewWillAppear', bind(this, function _a_wrappedViewWillAppear() {
+            GC.app.startSpinner(c.SPIN_DELAY);
+        }));
+        stackViewChild.on('ViewDidAppear', bind(this, function _a_awardsViewDidAppear() {
+            GC.app.stopSpinner();
+        }));
+    };
+
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
             playScreen, modeScreen, stackView, creditsScreen,
             credOpts, tutorialScreen, storeScreen, statScreen, awardsScreen;
 
         craftScreen = new CraftScreen();
+        this.wrapSpinner(craftScreen);
         creditsScreen = new CreditsScreen();
+        this.wrapSpinner(creditsScreen);
         tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
+        this.wrapSpinner(statScreen);
         awardsScreen = new AwardScreen();
+        this.wrapSpinner(awardsScreen);
 
         stackView = this.stackView = this.getSuperview();
 
@@ -361,7 +383,7 @@ exports = Class(ImageView, function (supr) {
             pObj.dscale = 0.5;
             pObj.opacity = 1;
             pObj.dopacity = -1;
-            pObj.image = 'resources/images/particle-' + constants.colors[0].label +'.png';
+            pObj.image = 'resources/images/particle-' + c.colors[0].label +'.png';
         }
         GC.app.particleEngine.emitParticles(particleObjects);
     };
