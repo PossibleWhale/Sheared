@@ -76,8 +76,8 @@ exports = Class(View, function (supr) {
         }));
         this.coinsLabel = new TextView({
             superview: this,
-            x: 453,
-            y: 522,
+            x: 451,
+            y: 519,
             width: 150,
             height: 28,
             color: '#333333',
