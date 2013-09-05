@@ -165,8 +165,8 @@ exports = Class(View, function (supr) {
             this._beginDay();
             this.healthBar = new HealthBar({
                 superview: this,
-                x: 387,
-                y: 496
+                x: 404,
+                y: 518
             });
         }
         this.firstPlay = false;
@@ -184,25 +184,25 @@ exports = Class(View, function (supr) {
         });
         dayIntro.addSubview(new ImageView({
             x: 192,
-            y: 103,
-            width: 640,
-            height: 120,
+            y: 113,
+            width: 628,
+            height: 108,
             image: 'resources/images/ribbon.png'
         }));
         dayIntro.addSubview(new Button({
-            x: 267,
-            y: 133,
-            width: 490,
-            height: 60,
+            x: 270,
+            y: 140,
+            width: 484,
+            height: 54,
             size: 128,
             text: 'Day  ' + (this.day+1)
         }));
 
         var continueButton = new Button({
-            x: 404,
-            y: 259,
-            width: 215,
-            height: 80,
+            x: 412,
+            y: 344,
+            width: 200,
+            height: 64,
             click: true,
             image: 'resources/images/button-continue.png'
         });
@@ -304,35 +304,59 @@ exports = Class(View, function (supr) {
     this._showResults = function (finishedDay) {
         var i, resultsScreen, continueButton;
         if (finishedDay) {
-            resultsScreen = new ImageView({
+            resultsScreen = new View({
                 x: 1024,
                 y: 0,
                 width: 1024,
-                height: 576,
-                image: 'resources/images/results.png'
+                height: 576
             });
+            resultsScreen.addSubview(new ImageView({
+                x: 198,
+                y: 113,
+                width: 628,
+                height: 108,
+                image: 'resources/images/ribbon.png'
+            }));
+            resultsScreen.addSubview(new Button({
+                x: 270,
+                y: 140,
+                width: 484,
+                height: 54,
+                size: 128,
+                text: 'Results'
+            }));
+            resultsScreen.addSubview(new ImageView({
+                x: 300,
+                y: 250,
+                width: 424,
+                height: 64,
+                image: 'resources/images/wool.png'
+            }));
             continueButton = new Button({
-                x: 414,
-                y: 413,
-                width: 195,
-                height: 60,
-                click: true
+                x: 411,
+                y: 344,
+                width: 200,
+                height: 64,
+                click: true,
+                image: 'resources/images/button-continue.png'
             }),
             storeButton = new Button({
                 superview: resultsScreen,
-                x: 27,
-                y: 248,
-                width: 200,
-                height: 80,
-                click: true
+                x: 59,
+                y: 252,
+                width: 184,
+                height: 60,
+                click: true,
+                image: 'resources/images/button-general-store.png'
             }),
             craftButton = new Button({
                 superview: resultsScreen,
-                x: 797,
-                y: 248,
-                width: 200,
-                height: 80,
-                click: true
+                x: 781,
+                y: 252,
+                width: 184,
+                height: 60,
+                click: true,
+                image: 'resources/images/button-crafts-catalog.png'
             }),
             homeButton = new Button({
                 x: 0,
@@ -341,14 +365,6 @@ exports = Class(View, function (supr) {
                 height: 80,
                 click: true,
                 image: 'resources/images/button-home.png'
-            }),
-            resultsLabel = new Button({
-                superview: resultsScreen,
-                x: 257,
-                y: 113,
-                width: 510,
-                height: 80,
-                text: 'Results'
             });
 
             var counts = [], countViews = [];
@@ -357,11 +373,12 @@ exports = Class(View, function (supr) {
                     numParticles = Math.min(10, count),
                     countView = new TextView(merge({
                         superview: resultsScreen,
-                        x: 252 + 110*i,
-                        y: 343,
-                        width: 80,
-                        height: 40,
+                        x: 307 + 90*i,
+                        y: 268,
+                        width: 50,
+                        height: 28,
                         text: '' + count,
+                        strokeWidth: 3,
                         size: 128,
                         autoFontSize: true,
                     }, constants.TEXT_OPTIONS));
@@ -378,52 +395,62 @@ exports = Class(View, function (supr) {
                 }));
             }));
         } else {
-            resultsScreen = new ImageView({
+            resultsScreen = new View({
                 x: 1024,
                 y: 0,
                 width: 1024,
-                height: 576,
-                image: 'resources/images/game-over.png'
-            }),
+                height: 576
+            });
+            resultsScreen.addSubview(new ImageView({
+                x: 198,
+                y: 113,
+                width: 628,
+                height: 108,
+                image: 'resources/images/ribbon.png'
+            }));
+            resultsScreen.addSubview(new Button({
+                x: 270,
+                y: 140,
+                width: 484,
+                height: 54,
+                size: 128,
+                text: 'Game Over'
+            }));
             storeButton = new Button({
                 superview: resultsScreen,
-                x: 27,
-                y: 248,
-                width: 200,
-                height: 80,
-                click: true
+                x: 59,
+                y: 252,
+                width: 184,
+                height: 60,
+                click: true,
+                image: 'resources/images/button-general-store.png'
             }),
             restartButton = new Button({
                 superview: resultsScreen,
-                x: 414,
-                y: 258,
-                width: 195,
-                height: 60,
-                click: true
+                x: 412,
+                y: 250,
+                width: 200,
+                height: 64,
+                click: true,
+                image: 'resources/images/button-restart.png'
             }),
             homeButton = new Button({
                 superview: resultsScreen,
-                x: 414,
-                y: 360,
-                width: 195,
-                height: 60,
-                click: true
+                x: 412,
+                y: 344,
+                width: 200,
+                height: 64,
+                click: true,
+                image: 'resources/images/button-mainmenu.png'
             }),
             craftButton = new Button({
                 superview: resultsScreen,
-                x: 797,
-                y: 248,
-                width: 200,
-                height: 80,
-                click: true
-            }),
-            resultsLabel = new Button({
-                superview: resultsScreen,
-                x: 257,
-                y: 113,
-                width: 510,
-                height: 80,
-                text: 'Game Over'
+                x: 781,
+                y: 252,
+                width: 184,
+                height: 60,
+                click: true,
+                image: 'resources/images/button-crafts-catalog.png'
             });
 
             restartButton.on('InputSelect', bind(this, function () {

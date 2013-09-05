@@ -3,7 +3,7 @@
  */
 
 import animate;
-import ui.View;
+import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.resource.Image as Image;
 import math.geom.Point as Point;
@@ -18,7 +18,7 @@ import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
 
 
-exports = Class(ui.View, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function _a_init(opts) {
         opts = opts || {};
         supr(this, 'init', [opts]);
@@ -53,10 +53,10 @@ exports = Class(ui.View, function (supr) {
         }, _myBGOpts));
 
         _totalEwerosBG = new ImageView(merge({
-            x: 390,
-            y: 496,
-            height: 80,
-            width: 244,
+            x: 398,
+            y: 504,
+            width: 228,
+            height: 64,
             image: 'resources/images/label-eweros.png'
         }, _myBGOpts));
 
@@ -97,7 +97,7 @@ exports = Class(ui.View, function (supr) {
         });
 
         var pt = this.tabs.localizePoint(new Point(585, 125));
-        this.largeCraft = new ui.View({
+        this.largeCraft = new View({
             x: pt.x,
             y: pt.y,
             width: 394,
@@ -319,6 +319,13 @@ exports = Class(ui.View, function (supr) {
 
         craft.removeAllListeners();
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
+            this.inputBlock = new View({
+                superview: this,
+                x: 0,
+                y: 80,
+                width: 1024,
+                height: 416
+            });
             craft._disableBuy();
             this.buyCraft(craft);
         }));
@@ -343,7 +350,7 @@ exports = Class(ui.View, function (supr) {
             };
         })(btn));
 
-        this.animateCraft(btn);
+        //this.animateCraft(btn);
 
         return btn;
     };
@@ -355,7 +362,7 @@ exports = Class(ui.View, function (supr) {
         btn = this.defaultButtonFactory(region, 'craftStars');
         btn.hide();
 
-        this.animateStar(btn);
+        //this.animateStar(btn);
 
         return btn;
     };
@@ -410,6 +417,7 @@ exports = Class(ui.View, function (supr) {
                         this.woolCounts.update();
                         at.emit('player:crafted', craft);
                         this._cleanUI();
+                        this.inputBlock.removeFromSuperview();
                         this.showLargeCraft(craft);
                     }
                 }));
@@ -579,7 +587,7 @@ total: [
     }
 ],
 store: [
-    {x: 143, y: 496, width: 180, height: 80, image: 'resources/images/button-general-store.png'}
+    {x: 141, y: 506, width: 184, height: 60, image: 'resources/images/button-general-store.png'}
 ],
 backButton: [
     {x: 0, y: 0, width: 80, height: 80, image: 'resources/images/button-return.png'}

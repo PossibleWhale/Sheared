@@ -81,11 +81,11 @@ exports = Class(CraftScreen, function (supr) {
         });
 
         this.nextButton = new ImageView({
-            x: 404,
-            y: 253,
+            x: 412,
+            y: 344,
             zIndex: 9999,
-            width: 215,
-            height: 70,
+            width: 200,
+            height: 64,
             image: 'resources/images/button-continue.png',
             superview: this,
             opacity: 0.0

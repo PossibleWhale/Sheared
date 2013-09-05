@@ -77,11 +77,6 @@ exports = Class(View, function (supr) {
                         if (Math.random() < 0.25) {
                             GC.app.audio.playBaa();
                         }
-                        if (wool && !this.isGold) {
-                            wool.addWool(this.color, this.bolts);
-                        } else if (this.isGold) {
-                            GC.app.player.addCoins(this.bolts*10);
-                        }
                         GC.app.player.shearedSheep(this);
                         GC.app.player.hitWithBlade(blade.isDiamond);
                         this.emit('sheep:sheared');
@@ -89,6 +84,11 @@ exports = Class(View, function (supr) {
                         if (!this.isGold) {
                             superview.woolCounts.wool.addWool(this.color, this.bolts);
                             superview.woolCounts.update(this.color);
+                            if (wool) {
+                                wool.addWool(this.color, this.bolts);
+                            }
+                        } else {
+                            GC.app.player.addCoins(this.bolts*10);
                         }
                         this.die();
                     } else {
