@@ -68,18 +68,18 @@ exports = Class(View, function (supr) {
 
         // coin background
         this.addSubview(new ImageView({
-            x: 390,
-            y: 496,
-            width: 244,
-            height: 80,
+            x: 398,
+            y: 504,
+            width: 228,
+            height: 64,
             image: 'resources/images/label-eweros.png'
         }));
         this.coinsLabel = new TextView({
             superview: this,
-            x: 452,
-            y: 516,
-            width: 152,
-            height: 40,
+            x: 453,
+            y: 522,
+            width: 150,
+            height: 28,
             color: '#333333',
             fontFamily: 'delius',
             horizontalAlign: 'left',

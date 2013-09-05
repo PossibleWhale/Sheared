@@ -53,10 +53,10 @@ exports = Class(View, function (supr) {
         }, _myBGOpts));
 
         _totalEwerosBG = new ImageView(merge({
-            x: 390,
-            y: 496,
-            height: 80,
-            width: 244,
+            x: 398,
+            y: 504,
+            width: 228,
+            height: 64,
             image: 'resources/images/label-eweros.png'
         }, _myBGOpts));
 
