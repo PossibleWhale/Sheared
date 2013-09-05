@@ -22,7 +22,11 @@ exports = {
         autoFontSize: true
     },
 
-    SPLASH_TIME: 3000, // how long the GameClosure splash screen will be shown, in milliseconds
+    SPLASH_TIME: 3000, // How long the GameClosure splash screen will be
+                       // shown, in ms
+
+    SPIN_DELAY: 300, // If a view takes too long to load, this is the delay
+                     // before a spinner appears
 
     COLOR_NONE: {label: 'none'},
 

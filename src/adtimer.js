@@ -6,7 +6,6 @@ import plugins.tapjoyads.ads as ads;
 import src.constants as c;
 import src.debughack as dh;
 import src.UpgradeStorage as UpgradeStorage;
-import src.Spinner as Spinner;
 
 
 AdTimer = Class(event.Emitter, function (supr) {
@@ -37,7 +36,7 @@ AdTimer = Class(event.Emitter, function (supr) {
      *  defined.
      */
     this._interruptNormal = function (callback) {
-        var cbArgs = Array.prototype.slice.apply(arguments), spinner;
+        var cbArgs = Array.prototype.slice.apply(arguments);
 
         dh.pre_ads(this);
 
