@@ -574,10 +574,11 @@ craftStars: [
     ],
 total: [
     {
-        x: 453,
-        y: 516,
-        width: 152,
-        height: 40,
+        superview: this,
+        x: 451,
+        y: 519,
+        width: 150,
+        height: 28,
         color: '#333333',
         strokeWidth: 0,
         strokeColor: undefined,
