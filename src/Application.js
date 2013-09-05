@@ -96,4 +96,13 @@ exports = Class(GC.Application, function (supr) {
 
         this.titleScreen.animateIntro();
     };
+
+    this.startSpinner = function _a_startSpinner() {
+        this.view.addSubview(spinner);
+        spinner.go();
+    };
+
+    this.stopSpinner = function _a_stopSpinner() {
+        this.view.removeSubview(spinner);
+    };
 });

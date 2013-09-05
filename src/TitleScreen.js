@@ -24,6 +24,7 @@ import src.MuteButton as MuteButton;
 import src.adtimer as adtimer;
 import src.AwardAlert as AwardAlert;
 import src.constants as constants;
+import src.spinner as spinner;
 
 
 /* The title screen is added to the scene graph when it becomes

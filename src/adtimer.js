@@ -45,7 +45,7 @@ AdTimer = Class(event.Emitter, function (supr) {
 
         if (!this.isSuppressed) {
             this.isSuppressed = true;
-            spinner = new Spinner({x: 512, y: 288, width: 72, height: 58, superview: GC.app.engine.getView()});
+            GC.app.startSpinner();
             ads.showAd(bind(this, function _a_onShowAd(evt) {
                 if (evt.errorCode) {
                     console.log("[APP] Response from Plugin: message='" + evt.message + "' code=" + evt.errorCode);
@@ -53,7 +53,7 @@ AdTimer = Class(event.Emitter, function (supr) {
                     console.log("[APP] Response from Plugin: message=" + evt.message);
                 }
                 callback.apply(cbArgs);
-                GC.app.engine.getView().removeSubview(spinner);
+                GC.app.stopSpinner();
                 this.start();
             }));
         } else {
