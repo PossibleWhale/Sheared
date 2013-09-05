@@ -27,16 +27,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.build = function () {
-        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power &&
-            GC.app.player.upgrades.get('mult').value === constants.UPGRADE_MAX.mult &&
-            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade &&
-            GC.app.player.upgrades.get('diamond').value &&
-            !this.getSuperview().isTutorial) {
-
-            this.isGold = true;
-            this.setImage('resources/images/clipper-gold-regular.png');
-        }
-
+        this.checkGold();
         this.marginSize = 10;
 
         this.clipperBox = new View({
@@ -51,6 +42,18 @@ exports = Class(ImageView, function (supr) {
         this.bladeOut = false;
         this.blades = [];
 
+    };
+
+    this.checkGold = function () {
+        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power &&
+            GC.app.player.upgrades.get('mult').value === constants.UPGRADE_MAX.mult &&
+            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade &&
+            GC.app.player.upgrades.get('diamond').value &&
+            !this.getSuperview().isTutorial) {
+
+            this.isGold = true;
+            this.setImage('resources/images/clipper-gold-regular.png');
+        }
     };
 
     this.becomeDiamond = function (infinite) {

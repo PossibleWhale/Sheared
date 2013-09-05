@@ -271,7 +271,6 @@ exports = Class(View, function (supr) {
         while (j--) {
             this.clipper.blades[j].die();
         }
-        this.clipper.blades = [];
         if (this.diamond) {
             this.diamond.animator.clear();
             this.removeSubview(this.diamond);
@@ -501,6 +500,7 @@ function playGame () {
         this.clipper.style.x = 0;
         this.clipper.style.y = laneCoord(4) + 5;
         this.clipper.infiniteDiamond = GC.app.player.upgrades.get('diamond').value;
+        this.clipper.checkGold();
         this.addSubview(this.clipper);
     }
     if (this.clipper.infiniteDiamond) {
