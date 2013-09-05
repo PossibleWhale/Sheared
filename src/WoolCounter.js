@@ -71,6 +71,7 @@ exports = Class(ImageView, function (supr) {
         var i = constants.colors.length, col;
         while (i--) {
             col = constants.colors[i];
+            this.wool.add(col.label, GC.app.player.wool.get(col.label).count);
             this.counts[col.label].setText(GC.app.player.wool.get(col).count);
         }
     };
