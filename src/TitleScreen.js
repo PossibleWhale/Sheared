@@ -125,10 +125,10 @@ exports = Class(ImageView, function (supr) {
 
         this.exitButton = new Button({
             superview: this.marqueeTop,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-exit.png'
         });
@@ -138,10 +138,10 @@ exports = Class(ImageView, function (supr) {
 
         this.websiteButton = new Button({
             superview: this.marqueeBottom,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-website.png'
         });
@@ -151,10 +151,10 @@ exports = Class(ImageView, function (supr) {
 
         this.statsButton = new Button({
             superview: this.marqueeBottom,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-stats.png'
         });
@@ -164,10 +164,10 @@ exports = Class(ImageView, function (supr) {
 
         this.awardsButton = new Button({
             superview: this.marqueeBottom,
-            x: 216,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 224,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-awards.png'
         });
@@ -190,10 +190,10 @@ exports = Class(ImageView, function (supr) {
 
         this.creditsButton = new Button({
             superview: this.marqueeBottom,
-            x: 728,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 736,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-credits.png'
         });
@@ -255,10 +255,10 @@ exports = Class(ImageView, function (supr) {
 
         muteOpts = {
             superview: this.marqueeTop,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64
         };
         this.muteButton = new MuteButton(muteOpts);
 
