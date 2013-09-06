@@ -1,0 +1,18 @@
+#!/bin/bash
+while true; do 
+
+adb shell dumpsys meminfo com.possiblewhale.sheared | grep TOTAL | awk '{print $2}' >> data.txt
+
+gnuplot > graph.txt << EOF 
+set term dumb
+# set xrange [0:21]
+# set yrange [50000:250000]
+plot "< tail -20 data.txt | nl -ba -nln -s$'\t' -w 1" notitle with lines
+EOF
+
+sleep 1
+clear
+cat graph.txt 
+
+done
+

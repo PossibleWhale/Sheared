@@ -53,36 +53,18 @@ exports = Class(ImageView, function (supr) {
         }
     };
 
-    /*
-     * A child of a stackview may have a spinner wrapper, which causes the
-     * spinner to appear if the view takes too long to load. This method sets
-     * up the necessary events.
-     */
-    this.wrapSpinner = function _a_wrapSpinner(stackViewChild) {
-        stackViewChild.on('ViewWillAppear', bind(this, function _a_wrappedViewWillAppear() {
-            GC.app.startSpinner(c.SPIN_DELAY);
-        }));
-        stackViewChild.on('ViewDidAppear', bind(this, function _a_awardsViewDidAppear() {
-            GC.app.stopSpinner();
-        }));
-    };
-
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
             playScreen, modeScreen, stackView, creditsScreen,
             credOpts, tutorialScreen, storeScreen, statScreen, awardsScreen;
 
         craftScreen = new CraftScreen();
-        this.wrapSpinner(craftScreen);
         creditsScreen = new CreditsScreen();
-        this.wrapSpinner(creditsScreen);
         tutorialScreen = new TutorialSelectScreen();
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
-        this.wrapSpinner(statScreen);
         awardsScreen = new AwardScreen();
-        this.wrapSpinner(awardsScreen);
 
         stackView = this.stackView = this.getSuperview();
 
@@ -125,10 +107,10 @@ exports = Class(ImageView, function (supr) {
 
         this.exitButton = new Button({
             superview: this.marqueeTop,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-exit.png'
         });
@@ -138,10 +120,10 @@ exports = Class(ImageView, function (supr) {
 
         this.websiteButton = new Button({
             superview: this.marqueeBottom,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-website.png'
         });
@@ -151,10 +133,10 @@ exports = Class(ImageView, function (supr) {
 
         this.statsButton = new Button({
             superview: this.marqueeBottom,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-stats.png'
         });
@@ -164,10 +146,10 @@ exports = Class(ImageView, function (supr) {
 
         this.awardsButton = new Button({
             superview: this.marqueeBottom,
-            x: 216,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 224,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-awards.png'
         });
@@ -190,10 +172,10 @@ exports = Class(ImageView, function (supr) {
 
         this.creditsButton = new Button({
             superview: this.marqueeBottom,
-            x: 728,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 736,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-credits.png'
         });
@@ -255,10 +237,10 @@ exports = Class(ImageView, function (supr) {
 
         muteOpts = {
             superview: this.marqueeTop,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64
         };
         this.muteButton = new MuteButton(muteOpts);
 
@@ -275,6 +257,7 @@ exports = Class(ImageView, function (supr) {
 
         // checks to see whether toView is in the stackView.
         function _goToView(toView) {
+
             var stack = stackView.getStack(), i = stack.length;
             if (stackView.hasView(toView)) {
                 while (i--) {
@@ -286,7 +269,11 @@ exports = Class(ImageView, function (supr) {
                     }
                 }
             } else {
+                GC.app.startSpinner(c.SPIN_DELAY);
                 stackView.push(toView);
+                toView.once('ViewDidAppear', bind(this, function _a_viewAppearedFromTitleScreen() {
+                    GC.app.stopSpinner();
+                }));
             }
         }
 
