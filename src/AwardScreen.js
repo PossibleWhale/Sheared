@@ -117,11 +117,11 @@ exports = Class(View, function (supr) {
 
         var ewesTab = new Button({
             superview: this,
-            x: 37,
-            y: 117,
+            x: 33,
+            y: 113,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-ewes.png'
         });
@@ -131,11 +131,11 @@ exports = Class(View, function (supr) {
 
         var ramsTab = new Button({
             superview: this,
-            x: 37,
-            y: 186,
+            x: 33,
+            y: 184,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-rams.png'
         });
@@ -145,11 +145,11 @@ exports = Class(View, function (supr) {
 
         var woolTab = new Button({
             superview: this,
-            x: 37,
-            y: 256,
+            x: 33,
+            y: 254,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-wool.png'
         });
@@ -159,11 +159,11 @@ exports = Class(View, function (supr) {
 
         var craftsTab = new Button({
             superview: this,
-            x: 37,
-            y: 327,
+            x: 33,
+            y: 324,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-crafts.png'
         });
@@ -173,11 +173,11 @@ exports = Class(View, function (supr) {
 
         var miscTab = new Button({
             superview: this,
-            x: 37,
-            y: 396,
+            x: 33,
+            y: 395,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-misc.png'
         });
