@@ -191,8 +191,8 @@ exports = Class(View, function (supr) {
             x: 33,
             y: 113,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-upgrades.png'
         });
@@ -202,11 +202,11 @@ exports = Class(View, function (supr) {
 
         var woolTab = new Button({
             superview: this,
-            x: 37,
-            y: 186,
+            x: 33,
+            y: 184,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-wool.png'
         });
@@ -216,11 +216,11 @@ exports = Class(View, function (supr) {
 
         var ewerosTab = new Button({
             superview: this,
-            x: 37,
-            y: 256,
+            x: 33,
+            y: 254,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-eweros.png'
         });
@@ -230,11 +230,11 @@ exports = Class(View, function (supr) {
 
         var adsTab = new Button({
             superview: this,
-            x: 37,
-            y: 326,
+            x: 33,
+            y: 324,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-ads.png'
         });
