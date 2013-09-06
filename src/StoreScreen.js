@@ -66,6 +66,15 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-wood.png'
         }));
 
+        // tab background image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/tab-0.png'
+        }));
+
         // coin background
         this.addSubview(new ImageView({
             x: 398,
@@ -87,33 +96,29 @@ exports = Class(View, function (supr) {
         });
 
         this.tabs = {
-            upgrades: new ImageView({
+            upgrades: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-1.png'
+                height: 416
             }),
-            wool: new ImageView({
+            wool: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-2.png'
+                height: 416
             }),
-            eweros: new ImageView({
+            eweros: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-3.png'
+                height: 416
             }),
-            ads: new ImageView({
+            ads: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-4.png'
+                height: 416
             })
         };
         this.currentTab = this.tabs.upgrades;
@@ -243,6 +248,13 @@ exports = Class(View, function (supr) {
     };
 
     this._buildUpgradeTab = function () {
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-1.png'
+        }));
         this.tabs.upgrades.addSubview(new ImageView({
             x: 210,
             y: 40,
@@ -379,6 +391,13 @@ exports = Class(View, function (supr) {
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0, container;
         this.tabs.wool.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-2.png'
+        }));
+        this.tabs.wool.addSubview(new ImageView({
             x: 177,
             y: 40,
             width: 806,
@@ -429,6 +448,13 @@ exports = Class(View, function (supr) {
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0;
         this.tabs.eweros.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-3.png'
+        }));
+        this.tabs.eweros.addSubview(new ImageView({
             x: 177,
             y: 40,
             width: 806,
@@ -473,7 +499,13 @@ exports = Class(View, function (supr) {
 
     this._buildAdsTab = function () {
         var startX = 550, containerStart = 182, gap = 162, i = 0;
-
+        this.tabs.ads.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-4.png'
+        }));
         this.tabs.ads.addSubview(new ImageView({
             x: 435,
             y: 40,

@@ -19,7 +19,7 @@ exports = Class(View, function (supr) {
     };
 
     this.build = function() {
-        // header
+        // header image
         this.addSubview(new ImageView({
             x: 0,
             y: 0,
@@ -28,7 +28,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-header-wood.png'
         }));
 
-        // footer
+        // footer image
         this.addSubview(new ImageView({
             x: 0,
             y: 496,
@@ -46,7 +46,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/header-statistics.png'
         }));
 
-        // background
+        // background image
         this.addSubview(new ImageView({
             x: 0,
             y: 80,
@@ -55,66 +55,65 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-wood.png'
         }));
 
+        // tab background image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/tab-0.png'
+        }));
+
         var backButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-return.png'
         });
         util.reissue(backButton, 'InputSelect', this, 'stats:back');
 
         this.addSubview(new MuteButton({
-            x: 944,
-            y: 0,
+            x: 952,
+            y: 8,
             zIndex: 9999,
-            width: 80,
-            height: 80
+            width: 64,
+            height: 64
         }));
 
         this.tabs = {
-            ewes:
-                new ImageView({
+            ewes: new View({
                     x: 0,
                     y: 80,
                     width: 1024,
-                    height: 416,
-                    image: 'resources/images/tab-1.png'
-                }),
-            rams:
-                new ImageView({
+                    height: 416
+            }),
+            rams: new View({
                     x: 0,
                     y: 80,
                     width: 1024,
-                    height: 416,
-                    image: 'resources/images/tab-2.png'
-                }),
-            wool:
-                new ImageView({
+                    height: 416
+            }),
+            wool: new View({
                     x: 0,
                     y: 80,
                     width: 1024,
-                    height: 416,
-                    image: 'resources/images/tab-3.png'
-                }),
-            crafts:
-                new ImageView({
+                    height: 416
+            }),
+            crafts: new View({
                     x: 0,
                     y: 80,
                     width: 1024,
-                    height: 416,
-                    image: 'resources/images/tab-4.png'
-                }),
-            misc:
-                new ImageView({
+                    height: 416
+            }),
+            misc: new View({
                     x: 0,
                     y: 80,
                     width: 1024,
-                    height: 416,
-                    image: 'resources/images/tab-5.png'
-                })
+                    height: 416
+            })
         };
 
         this.currentTab = this.tabs.ewes;
@@ -229,6 +228,13 @@ exports = Class(View, function (supr) {
             }));
             total += current;
         }
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-1.png'
+        }));
         this.tabs.ewes.addSubview(new TextView({
             x: 400,
             y: 320,
@@ -238,7 +244,13 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
-
+        this.tabs.rams.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-2.png'
+        }));
         this.tabs.rams.addSubview(new ImageView({
             x: 190,
             y: 40,
@@ -274,7 +286,13 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
-
+        this.tabs.wool.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-3.png'
+        }));
         this.tabs.wool.addSubview(new ImageView({
             x: 190,
             y: 40,
@@ -310,7 +328,13 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
-
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-4.png'
+        }));
         this.tabs.crafts.addSubview(new ImageView({
             x: 190,
             y: 40,
@@ -348,7 +372,13 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
-
+        this.tabs.misc.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-5.png'
+        }));
         this.tabs.misc.addSubview(new ImageView({
             x: 370,
             y: 40,
