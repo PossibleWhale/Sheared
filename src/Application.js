@@ -100,7 +100,7 @@ exports = Class(GC.Application, function (supr) {
 
     this.startSpinner = function _a_startSpinner(delay) {
         this.view.addSubview(spinner);
-        spinner.go(delay);
+        spinner.go();
     };
 
     this.stopSpinner = function _a_stopSpinner() {

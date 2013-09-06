@@ -15,13 +15,9 @@ Spinner = Class(ImageView, function (supr) {
         this.hide();
     };
 
-    this.go = function _a_go(delay) {
-        delay = delay ? delay : 0;
-        util.assert(delay >= 0);
-        setTimeout(bind(this, function _a_go() {
-            this.show();
-            this.spin();
-        }), delay);
+    this.go = function _a_go() {
+        this.show();
+        this.spin();
     };
 
     this.spin = function _a_spin() {
