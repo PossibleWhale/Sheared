@@ -204,14 +204,6 @@ exports = Class(View, function (supr) {
     };
 
     this._buildTabs = function () {
-        this.tabs.ewes.addSubview(new ImageView({
-            x: 190,
-            y: 40,
-            width: 780,
-            height: 325,
-            image: 'resources/images/statistics-ewes.png'
-        }));
-
         // labels for number of ewes sheared
         var i = 0, startX = 195, gap = 130, total = 0, current,
             colors = constants.colors.concat([constants.COLOR_GOLD]);
@@ -228,6 +220,8 @@ exports = Class(View, function (supr) {
             }));
             total += current;
         }
+        
+        // ewes tab
         this.tabs.ewes.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -235,6 +229,85 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-1.png'
         }));
+        
+        // ewes by color title
+        this.tabs.ewes.addSubview(new TextView({
+            x: 370,
+            y: 54,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Ewes sheared by color'
+        }));
+
+        // ewe white
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 214,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-white.png'
+        }));
+
+        // ewe red
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 346,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-red.png'
+        }));
+
+        // ewe blue
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 474,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-blue.png'
+        }));
+
+        // ewe yellow
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 605,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-yellow.png'
+        }));
+
+        // ewe black
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 735,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-black.png'
+        }));
+
+        // ewe gold
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 865,
+            y: 125,
+            width: 82,
+            height: 56,
+            image: 'resources/images/ewe-gold.png'
+        }));
+
+        // ewes total title
+        this.tabs.ewes.addSubview(new TextView({
+            x: 370,
+            y: 272,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Total ewes sheared'
+        }));
+
         this.tabs.ewes.addSubview(new TextView({
             x: 400,
             y: 320,
@@ -244,6 +317,7 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
+
         this.tabs.rams.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -251,12 +325,83 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-2.png'
         }));
+
+        // rams by color title
+        this.tabs.rams.addSubview(new TextView({
+            x: 370,
+            y: 54,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Rams sheared by color'
+        }));
+
+        // ram white
         this.tabs.rams.addSubview(new ImageView({
-            x: 190,
-            y: 40,
-            width: 780,
-            height: 325,
-            image: 'resources/images/statistics-rams.png'
+            x: 198,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-white.png'
+        }));
+
+        // ram red
+        this.tabs.rams.addSubview(new ImageView({
+            x: 329,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-red.png'
+        }));
+
+        // ram blue
+        this.tabs.rams.addSubview(new ImageView({
+            x: 456,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-blue.png'
+        }));
+
+        // ram yellow
+        this.tabs.rams.addSubview(new ImageView({
+            x: 589,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-yellow.png'
+        }));
+
+        // ram black
+        this.tabs.rams.addSubview(new ImageView({
+            x: 719,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-black.png'
+        }));
+
+        // ram gold
+        this.tabs.rams.addSubview(new ImageView({
+            x: 850,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-gold.png'
+        }));
+
+        // rams total title
+        this.tabs.rams.addSubview(new TextView({
+            x: 370,
+            y: 272,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Total rams sheared'
         }));
 
         // labels for number of rams sheared

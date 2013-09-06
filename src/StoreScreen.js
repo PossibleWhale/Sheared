@@ -86,11 +86,12 @@ exports = Class(View, function (supr) {
         this.coinsLabel = new TextView({
             superview: this,
             x: 451,
-            y: 519,
+            y: 521,
             width: 150,
             height: 28,
             color: '#333333',
             fontFamily: 'delius',
+            size: 24,
             horizontalAlign: 'left',
             text: '' + GC.app.player.stats.get('coins').value
         });
@@ -298,6 +299,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             multiplier: new TextView({
@@ -308,6 +310,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             blade: new TextView({
@@ -318,6 +321,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             diamond: new TextView({
@@ -328,6 +332,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             })
         };
@@ -422,6 +427,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
@@ -434,6 +440,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.UPGRADE_PRICES[constants.colors[i].label]
             }));
@@ -479,6 +486,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.EWEROS_QUANTITIES[i]
             }));
@@ -491,6 +499,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '$' + constants.EWEROS_PRICES[i]
             }));
@@ -522,6 +531,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#333333',
             fontFamily: 'delius',
+            size: 24,
             horizontalAlign: 'left',
             text: '$' + constants.ADS_PRICE[i]
         }));

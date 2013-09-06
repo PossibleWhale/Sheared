@@ -29,7 +29,7 @@ exports = Class(ui.View, function (supr) {
             x: 0,
             y: 0,
             width: 394,
-            height: 325,
+            height: 324,
             canHandleEvents: false,
             image: 'resources/images/craft-preview-background.png',
             superview: this
@@ -44,16 +44,17 @@ exports = Class(ui.View, function (supr) {
             superview: this
         });
 
-        this.setImage = bind(this.bg, this.bg.setImage);
+        this.buyButton = new Button({x: 148, y: 280, width: 96, height: 37,
+            superview: this});
+        this.mainWoolCost = new Button({x: 37, y: 145, width: 50, height: 28,
+            superview: this});
+        this.contrastWoolCost = new Button({x: 307, y: 145, width: 50, height: 28,
+            superview: this});
+        this.value = new Button({x: 308, y: 6, width: 73, height: 28,
+            superview: this});
 
-        this.buyButton = new Button({x: 149, y: 283, width: 96, height: 37,
-            superview: this});
-        this.mainWoolCost = new Button({x: 35, y: 147, width: 44, height: 30,
-            superview: this});
-        this.contrastWoolCost = new Button({x: 315, y: 147, width: 44, height: 30,
-            superview: this});
-        this.value = new Button({x: 305, y: 0, width: 76, height: 36,
-            superview: this});
+        this.pvSwatch = new ImageView({x: 13, y: 44, width: 368, height: 230, superview: this});
+        this.pvItem = new ImageView({x: 111, y: 73, width: 172, height: 172, superview: this});
 
         this._disableBuy = bind(this, this._enableBuy, false);
 
@@ -83,13 +84,17 @@ exports = Class(ui.View, function (supr) {
     this.enable = function (enabled) {
         var costs, eweros;
         if (enabled === undefined || enabled) {
-            this.setImage('resources/images/' +
+            this.pvSwatch.setImage('resources/images/swatch-' +
+                    this.colors.main.label + '-' +
+                    this.colors.contrast.label + '.png');
+            this.pvItem.setImage('resources/images/' +
                     this.garment.label + '-' +
                     this.colors.main.label + '-' +
                     this.colors.contrast.label + '-large.png');
             this._enableBuy();
         } else {
-            this.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
+            this.pvSwatch.setImage(undefined);
+            this.pvItem.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
             this._disableBuy();
         }
         costs = this.cost();
