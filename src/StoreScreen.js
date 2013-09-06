@@ -188,8 +188,8 @@ exports = Class(View, function (supr) {
 
         var upgradesTab = new Button({
             superview: this,
-            x: 37,
-            y: 117,
+            x: 33,
+            y: 113,
             zIndex: 99,
             width: 133,
             height: 64,
