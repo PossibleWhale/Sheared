@@ -26,7 +26,7 @@ exports = Class(View, function (supr) {
     };
 
     this.build = function() {
-        // header
+        // header image
         this.addSubview(new ImageView({
             x: 0,
             y: 0,
@@ -35,7 +35,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-header-wood.png'
         }));
 
-        // footer
+        // footer image
         this.addSubview(new ImageView({
             x: 0,
             y: 496,
@@ -44,7 +44,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         }));
 
-        // title
+        // header title
         this.addSubview(new ImageView({
             x: 192,
             y: 0,
@@ -53,7 +53,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/header-awards.png'
         }));
 
-        // background
+        // background image
         this.addSubview(new ImageView({
             x: 0,
             y: 80,
@@ -62,50 +62,54 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-wood.png'
         }));
 
-        this.addSubview(new MuteButton({
-            x: 944,
-            y: 0,
-            zIndex: 9999,
-            width: 80,
-            height: 80
+        // tab background image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/tab-0.png'
         }));
 
+        // sound toggle button
+        this.addSubview(new MuteButton({
+            x: 952,
+            y: 8,
+            zIndex: 9999,
+            width: 64,
+            height: 64
+        }));
 
         this.tabs = {
-            ewes: new ImageView({
+            ewes: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-1.png'
+                height: 416
             }),
-            rams: new ImageView({
+            rams: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-2.png'
+                height: 416
             }),
-            wool: new ImageView({
+            wool: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-3.png'
+                height: 416
             }),
-            crafts: new ImageView({
+            crafts: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-4.png'
+                height: 416
             }),
-            misc: new ImageView({
+            misc: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-5.png'
+                height: 416
             })
         };
         this.currentTab = this.tabs.ewes;
@@ -183,10 +187,10 @@ exports = Class(View, function (supr) {
 
         var backButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-return.png'
         });
@@ -213,7 +217,46 @@ exports = Class(View, function (supr) {
 
     this._buildTab = function (tab) {
         this.tabs[tab].removeAllSubviews();
-
+        // ewes
+        this.tabs.ewes.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-1.png'
+        }));
+        // rams
+        this.tabs.rams.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-2.png'
+        }));
+        // wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-3.png'
+        }));
+        // crafts
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-4.png'
+        }));
+        // misc
+        this.tabs.misc.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-5.png'
+        }));
         this.tabs[tab].addSubview(new ImageView({
             x: 183,
             y: 46,
@@ -258,7 +301,8 @@ exports = Class(View, function (supr) {
                         height: 30,
                         horizontalAlign: 'left',
                         color: '#333333',
-                        fontFamily: 'delius'
+                        fontFamily: 'delius',
+                        size: 24,
                     });
                     if (category === prefix) {
                         heading.setText(prefix.charAt(0).toUpperCase() + prefix.slice(1));
@@ -299,6 +343,7 @@ exports = Class(View, function (supr) {
                     horizontalAlign: 'left',
                     color: '#333333',
                     fontFamily: 'delius',
+                    size: 20,
                     text: constants.AWARDS[key].text
                 }));
 
