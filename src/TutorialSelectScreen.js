@@ -93,10 +93,10 @@ exports = Class(ui.View, function (supr) {
 
         this.backButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-return.png'
         });
@@ -115,11 +115,11 @@ exports = Class(ui.View, function (supr) {
 
         var muteButton = new MuteButton({
             superview: this,
-            x: 944,
-            y: 0,
+            x: 952,
+            y: 8,
             zIndex: 9999,
-            width: 80,
-            height: 80
+            width: 64,
+            height: 64
         });
     };
 

@@ -1,14 +1,13 @@
 import animate;
 import src.constants as constants;
+import src.util as util
 import ui.ImageView as ImageView;
 import ui.View as View;
 import math.geom.intersect as intersect;
 import math.geom.Rect as Rect;
 
-exports = Class(View, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
-        var color = opts.color || randomColor();
-
         opts = merge(opts, {
             width: 82,
             height: 56,
@@ -17,26 +16,55 @@ exports = Class(View, function (supr) {
 
         supr(this, 'init', [opts]);
 
-        if (color.label === 'gold' && !opts.fromTutorial) {
-            this.isGold = true;
-        }
-
         this.image = new ImageView({
             superview: this,
-            image: color.eweImage,
-            width: this.style.width,
-            height: this.style.height,
-            anchorX: 108/2,
-            anchorY: 82/2
+            width: 82,
+            height: 56,
+            anchorX: 41,
+            anchorY: 28
         });
 
-        this.color = color;
+        this.color = opts.color;
+        this.fromTutorial = opts.fromTutorial;
+
         if (opts.fromTutorial) {
             this.bolts = 1;
         } else {
             this.bolts = GC.app.player.boltMultiplier;
         }
         this.isRam = false;
+    };
+
+    this.onObtain = function () {
+        var color = this.color || randomColor();
+
+        if (color.label === 'gold' && !this.fromTutorial) {
+            this.isGold = true;
+        }
+
+        this.setImage(color.eweImage);
+        this.style.x = 1024;
+        this.style.y = util.randomY(this.style.height);
+        this.startY = this.style.y;
+        this.style.visible = true;
+
+        var diagonalChance;
+        if (!this.fromTutorial) {
+            diagonalChance = 0.5;//Math.min(0.5, this.getSuperview().day*0.1);
+        } else {
+            diagonalChance = 0;
+        }
+        if (Math.random() < diagonalChance) {
+            this.endY = util.randomY(this.style.height);
+        } else {
+            this.endY = this.startY;
+        }
+
+        this.color = color;
+    };
+
+    this.setImage = function (image) {
+        this.image.setImage(image);
     };
 
     this._calcTrajectory = function () {
@@ -115,12 +143,8 @@ exports = Class(View, function (supr) {
         }
     };
 
-    this.setImage = function (image) {
-        this.image.setImage(image);
-    };
-
     this.continuousAnimate = function () {
-        animate(this.image).clear().now({r: -1*constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
+        this.rotation = animate(this.image).clear().now({r: -1*constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
             .then({r: constants.WIGGLE_RADIANS}, this.timeToLive/10, animate.easeIn)
             .then(this.continuousAnimate.bind(this));
     };
@@ -137,7 +161,9 @@ exports = Class(View, function (supr) {
 
     this.die = function () {
         this.animator.clear();
+        this.rotation.clear();
         if (this.getSuperview()) {
+            this.getSuperview().sheepPool.releaseView(this);
             this.getSuperview().removeSheep(this);
         }
         this.removeAllListeners();

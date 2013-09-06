@@ -66,6 +66,15 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-wood.png'
         }));
 
+        // tab background image
+        this.addSubview(new ImageView({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416,
+            image: 'resources/images/tab-0.png'
+        }));
+
         // coin background
         this.addSubview(new ImageView({
             x: 398,
@@ -77,43 +86,40 @@ exports = Class(View, function (supr) {
         this.coinsLabel = new TextView({
             superview: this,
             x: 451,
-            y: 519,
+            y: 521,
             width: 150,
             height: 28,
             color: '#333333',
             fontFamily: 'delius',
+            size: 24,
             horizontalAlign: 'left',
             text: '' + GC.app.player.stats.get('coins').value
         });
 
         this.tabs = {
-            upgrades: new ImageView({
+            upgrades: new View({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-1.png'
+                height: 416
             }),
-            wool: new ImageView({
+            wool: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-2.png'
+                height: 416
             }),
-            eweros: new ImageView({
+            eweros: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-3.png'
+                height: 416
             }),
-            ads: new ImageView({
+            ads: new View ({
                 x: 0,
                 y: 80,
                 width: 1024,
-                height: 416,
-                image: 'resources/images/tab-4.png'
+                height: 416
             })
         };
         this.currentTab = this.tabs.upgrades;
@@ -128,11 +134,11 @@ exports = Class(View, function (supr) {
 
         this.muteButton = new MuteButton({
             superview: this,
-            x: 944,
-            y: 0,
+            x: 952,
+            y: 8,
             zIndex: 9999,
-            width: 80,
-            height: 80
+            width: 64,
+            height: 64
         });
 
         this.on('ViewWillAppear', bind(this, function () {
@@ -157,10 +163,10 @@ exports = Class(View, function (supr) {
 
         var backButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-return.png'
         });
@@ -183,11 +189,11 @@ exports = Class(View, function (supr) {
 
         var upgradesTab = new Button({
             superview: this,
-            x: 37,
-            y: 117,
+            x: 33,
+            y: 113,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-upgrades.png'
         });
@@ -197,11 +203,11 @@ exports = Class(View, function (supr) {
 
         var woolTab = new Button({
             superview: this,
-            x: 37,
-            y: 186,
+            x: 33,
+            y: 184,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-wool.png'
         });
@@ -211,11 +217,11 @@ exports = Class(View, function (supr) {
 
         var ewerosTab = new Button({
             superview: this,
-            x: 37,
-            y: 256,
+            x: 33,
+            y: 254,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-eweros.png'
         });
@@ -225,11 +231,11 @@ exports = Class(View, function (supr) {
 
         var adsTab = new Button({
             superview: this,
-            x: 37,
-            y: 326,
+            x: 33,
+            y: 324,
             zIndex: 99,
-            width: 133,
-            height: 64,
+            width: 135,
+            height: 68,
             click: true,
             image: 'resources/images/tab-label-ads.png'
         });
@@ -243,6 +249,13 @@ exports = Class(View, function (supr) {
     };
 
     this._buildUpgradeTab = function () {
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-1.png'
+        }));
         this.tabs.upgrades.addSubview(new ImageView({
             x: 210,
             y: 40,
@@ -286,6 +299,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             multiplier: new TextView({
@@ -296,6 +310,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             blade: new TextView({
@@ -306,6 +321,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             }),
             diamond: new TextView({
@@ -316,6 +332,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: "left"
             })
         };
@@ -379,6 +396,13 @@ exports = Class(View, function (supr) {
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0, container;
         this.tabs.wool.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-2.png'
+        }));
+        this.tabs.wool.addSubview(new ImageView({
             x: 177,
             y: 40,
             width: 806,
@@ -403,6 +427,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
@@ -415,6 +440,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.UPGRADE_PRICES[constants.colors[i].label]
             }));
@@ -428,6 +454,13 @@ exports = Class(View, function (supr) {
             });
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0;
+        this.tabs.eweros.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-3.png'
+        }));
         this.tabs.eweros.addSubview(new ImageView({
             x: 177,
             y: 40,
@@ -453,6 +486,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '' + constants.EWEROS_QUANTITIES[i]
             }));
@@ -465,6 +499,7 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
+                size: 24,
                 horizontalAlign: 'left',
                 text: '$' + constants.EWEROS_PRICES[i]
             }));
@@ -473,7 +508,13 @@ exports = Class(View, function (supr) {
 
     this._buildAdsTab = function () {
         var startX = 550, containerStart = 182, gap = 162, i = 0;
-
+        this.tabs.ads.addSubview(new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
+            image: 'resources/images/tab-4.png'
+        }));
         this.tabs.ads.addSubview(new ImageView({
             x: 435,
             y: 40,
@@ -490,6 +531,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#333333',
             fontFamily: 'delius',
+            size: 24,
             horizontalAlign: 'left',
             text: '$' + constants.ADS_PRICE[i]
         }));
