@@ -68,6 +68,16 @@ exports = {
             ret = '0' + ret;
         }
         return ret;
+    },
+
+    randomY: function (spriteHeight) {
+        var ret;
+        if (!spriteHeight) {
+            spriteHeight = 0;
+        }
+        ret = Math.floor((Math.random() * (576 - 2*80 - spriteHeight)) + 80);
+        assert(ret >= 0 && ret <= 576);
+        return ret;
     }
 }
 

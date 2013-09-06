@@ -3,6 +3,7 @@ import animate;
 import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
+import ui.ViewPool as ViewPool;
 
 import src.Sheep as Sheep;
 import src.Ram as Ram;
@@ -19,6 +20,7 @@ import src.HealthBar as HealthBar;
 import src.WoolCounter as WoolCounter;
 
 import src.adtimer as adtimer;
+import src.util as util;
 
 
 exports = Class(View, function (supr) {
@@ -76,6 +78,21 @@ exports = Class(View, function (supr) {
             x: 300,
             y: 8,
             storage: GC.app.player.wool.copy({persist: false}) // we don't commit our wool until the end of the day
+        });
+
+        this.sheepPool = new ViewPool({
+            ctor: Sheep,
+            initCount: 20,
+            initOpts: {
+                superview: this
+            }
+        });
+        this.ramPool = new ViewPool({
+            ctor: Ram,
+            initCount: 10,
+            initOpts: {
+                superview: this
+            }
         });
 
         // anything that must happen when the screen appears goes here.
@@ -242,7 +259,7 @@ exports = Class(View, function (supr) {
         this.diamond = new Diamond({
             x: 1024
         });
-        this.diamond.style.y = randomY(this.diamond.style.height);
+        this.diamond.style.y = util.randomY(this.diamond.style.height);
 
         this.addSubview(this.diamond);
         this.diamond.run();
@@ -252,7 +269,7 @@ exports = Class(View, function (supr) {
         this.battery = new Battery({
             x: 1024
         });
-        this.battery.style.y = randomY(this.battery.style.height);
+        this.battery.style.y = util.randomY(this.battery.style.height);
 
         this.addSubview(this.battery);
         this.battery.run();
@@ -281,6 +298,7 @@ exports = Class(View, function (supr) {
         }
         clearInterval(this.interval);
         this.removeSubview(this.timer);
+        this.timer = false;
         this.removeSubview(this.clipper);
         this.removeSubview(this.inputBuffer);
         this.removeSubview(this.pauseButton);
@@ -535,26 +553,11 @@ function spawnSheep () {
     }
     var sheep, r = Math.random();
     if (r > constants.ramRarity) {
-        sheep = new Sheep({
-            x: 1024
-        });
+        sheep = this.sheepPool.obtainView();
     } else {
-        sheep = new Ram({
-            x: 1024
-        });
+        sheep = this.ramPool.obtainView();
     }
-
-    sheep.style.y = randomY(sheep.style.height);
-    sheep.startY = sheep.style.y;
-    this.addSubview(sheep);
     this.sheep.push(sheep);
-
-    var diagonalChance = Math.min(0.5, this.day*0.1);
-    if (Math.random() < diagonalChance) {
-        sheep.endY = randomY(sheep.style.height);
-    } else {
-        sheep.endY = sheep.startY;
-    }
     sheep.run();
 }
 
@@ -565,13 +568,6 @@ function randomLaneCoord (numLanes) {
 
 function laneCoord (index) {
     return (index * constants.laneSize) + constants.fenceSize;
-}
-
-function randomY (spriteHeight) {
-    if (!spriteHeight) {
-        spriteHeight = 0;
-    }
-    return Math.floor((Math.random() * (576 - 2*constants.fenceSize - spriteHeight)) + constants.fenceSize);
 }
 
 function emitWool (x, y, numBolts, color) {
