@@ -11,7 +11,8 @@ exports = Class(ImageView, function (supr) {
         opts = merge(opts, {
             width: 82,
             height: 56,
-            clip: false
+            clip: false,
+            blockEvents: true
         });
 
         supr(this, 'init', [opts]);
