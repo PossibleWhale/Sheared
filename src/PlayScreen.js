@@ -266,14 +266,11 @@ exports = Class(View, function (supr) {
         this.clipper.reloadBlade();
         this.clipper.pauseCountdown();
         while (i--) {
-            this.sheep[i].animator.clear();
-            this.removeSubview(this.sheep[i]);
+            this.sheep[i].die();
         }
         while (j--) {
-            this.clipper.blades[j].animator.clear();
-            this.removeSubview(this.clipper.blades[j]);
+            this.clipper.blades[j].die();
         }
-        this.clipper.blades = [];
         if (this.diamond) {
             this.diamond.animator.clear();
             this.removeSubview(this.diamond);
@@ -325,12 +322,12 @@ exports = Class(View, function (supr) {
                 size: 128,
                 text: 'Results'
             }));
-            resultsScreen.addSubview(new ImageView({
+            resultsScreen.addSubview(new WoolCounter({
                 x: 300,
                 y: 250,
                 width: 424,
                 height: 64,
-                image: 'resources/images/wool.png'
+                storage: this.dailyWool
             }));
             continueButton = new Button({
                 x: 411,
@@ -367,23 +364,11 @@ exports = Class(View, function (supr) {
                 image: 'resources/images/button-home.png'
             });
 
-            var counts = [], countViews = [];
+            var counts = [];
             for (i = 0; i < constants.colors.length; i++) {
                 var count = this.dailyWool.get(constants.colors[i]).count,
-                    numParticles = Math.min(10, count),
-                    countView = new TextView(merge({
-                        superview: resultsScreen,
-                        x: 307 + 90*i,
-                        y: 268,
-                        width: 50,
-                        height: 28,
-                        text: '' + count,
-                        strokeWidth: 3,
-                        size: 128,
-                        autoFontSize: true,
-                    }, constants.TEXT_OPTIONS));
+                    numParticles = Math.min(10, count);
                 counts.push(numParticles);
-                countViews.push(countView);
             }
 
             resultsScreen.addSubview(continueButton);
@@ -455,6 +440,7 @@ exports = Class(View, function (supr) {
 
             restartButton.on('InputSelect', bind(this, function () {
                 GC.app.titleScreen.emit('playscreen:restart');
+                resultsScreen.removeFromSuperview();
             }));
         }
 
@@ -471,12 +457,11 @@ exports = Class(View, function (supr) {
         this.addSubview(resultsScreen);
         animate(resultsScreen).now({x: 0}).then(bind(this, function () {
             if (finishedDay) {
-                var i;
+                var i, startX = 333, gap = 90;
                 resultsScreen.addSubview(homeButton);
                 for (i = 0; i < constants.colors.length; i++) {
-                    emitWool(countViews[i].style.x + countViews[i].style.width/2,
-                             countViews[i].style.y + countViews[i].style.height/2,
-                             counts[i], constants.colors[i].label);
+                    emitWool(startX + i*gap,
+                             294, counts[i], constants.colors[i].label);
                 }
             }
         }));
@@ -515,6 +500,7 @@ function playGame () {
         this.clipper.style.x = 0;
         this.clipper.style.y = laneCoord(4) + 5;
         this.clipper.infiniteDiamond = GC.app.player.upgrades.get('diamond').value;
+        this.clipper.checkGold();
         this.addSubview(this.clipper);
     }
     if (this.clipper.infiniteDiamond) {
