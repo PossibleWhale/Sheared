@@ -509,7 +509,7 @@ exports = Class(View, function (supr) {
             text: 'Total wool collected'
         }));
 
-        // labels for number of bolt collected
+        // labels for number of wool collected
         i = 0;
         startX = 195;
         gap = 162;
