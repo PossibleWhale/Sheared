@@ -46,22 +46,28 @@ exports = Class(ui.View, function (supr) {
             superview: this
         });
 
-        this.buyButton = new Button({x: 148, y: 280, width: 96, height: 37,
-            superview: this});
-        this.mainWoolCost = new Button({x: 37, y: 145, width: 50, height: 28,
-            superview: this});
-        this.contrastWoolCost = new Button({x: 307, y: 145, width: 50, height: 28,
-            superview: this});
-        this.value = new Button({x: 308, y: 6, width: 73, height: 28,
-            superview: this});
-
-        this.pvSwatch = new ImageView({x: 13, y: 44, width: 368, height: 230, superview: this});
-        this.pvItem = new ImageView({x: 111, y: 73, width: 172, height: 172, superview: this});
-        this.pvText = new Button({x: 13, y: 6, width: 232, height: 28, superview: this, 
+        this.pvSwatch = new ImageView({x: 13, y: 44, width: 368, height: 230, superview: this,
+            canHandleEvents: false});
+        this.pvItem = new ImageView({x: 111, y: 73, width: 172, height: 172, superview: this,
+            canHandleEvents: false});
+        this.pvText = new Button({x: 13, y: 6, width: 232, height: 28, superview: this,
             canHandleEvents: false, horizontalAlign: 'left', color: 'black', strokeWidth: 0});
         this.pvText.setText("Placeholder");
+        this.pvMain = new ImageView({x: 30, y: 127, width: 64, height: 64, superview: this,
+            canHandleEvents: false});
+        this.pvContrast = new ImageView({x: 300, y: 127, width: 64, height: 64, superview: this,
+            canHandleEvents: false});
 
         this._disableBuy = bind(this, this._enableBuy, false);
+
+        this.buyButton = new Button({x: 148, y: 280, width: 96, height: 37,
+            superview: this, zIndex: 6000000});
+        this.mainWoolCost = new Button({x: 37, y: 145, width: 50, height: 28,
+            superview: this, canHandleEvents: false});
+        this.contrastWoolCost = new Button({x: 307, y: 145, width: 50, height: 28,
+            superview: this, canHandleEvents: false});
+        this.value = new Button({x: 308, y: 6, width: 73, height: 28,
+            superview: this, canHandleEvents: false});
 
         this.buyButton.on('InputSelect', bind(this, this.purchased));
     };
@@ -99,10 +105,14 @@ exports = Class(ui.View, function (supr) {
             this.pvItem.setImage('resources/images/' +
                     garm + '-' + main + '-' + cont + '-large.png');
             this.pvText.setText(util.capitalize(main) + ' & ' + util.capitalize(cont) + ' ' + util.capitalize(garm));
+            this.pvMain.setImage('resources/images/wool-' + main + '.png');
+            this.pvContrast.setImage('resources/images/wool-' + cont + '.png');
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
             this.pvItem.setImage('resources/images/' + garm + '-disabled-large.png');
+            this.pvMain.setImage('resources/images/wool-main-disabled.png');
+            this.pvContrast.setImage('resources/images/wool-contrast-disabled.png');
             this._disableBuy();
         }
         if (label) {
