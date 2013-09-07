@@ -1,6 +1,7 @@
 import animate;
 import ui.View as View;
 import ui.ImageView as ImageView;
+import ui.ViewPool as ViewPool;
 import src.Clipper as Clipper;
 import src.HealthBar as HealthBar;
 import src.constants as constants;
@@ -63,12 +64,12 @@ exports = Class(View, function (supr) {
             superview: this,
             x: 0
         });
-        this.clipper.style.y = 576/2 - this.clipper.style.width/2;
+        this.clipper.style.y = 576/2 - this.clipper.style.height/2;
 
         this.healthBar = new HealthBar({
             superview: this,
-            x: 387,
-            y: 576-80,
+            x: 404,
+            y: 518,
             health: 5
         });
 
@@ -112,6 +113,23 @@ exports = Class(View, function (supr) {
             zIndex: 9999,
             width: 80,
             height: 80
+        });
+
+        this.sheepPool = new ViewPool({
+            ctor: Sheep,
+            initCount: 5,
+            initOpts: {
+                superview: this,
+                fromTutorial: true
+            }
+        });
+        this.ramPool = new ViewPool({
+            ctor: Ram,
+            initCount: 5,
+            initOpts: {
+                superview: this,
+                fromTutorial: true
+            }
         });
     };
 
@@ -359,19 +377,15 @@ exports = Class(View, function (supr) {
     this._spawnSheep = function (color, y, fn, allowCollision, isRam) {
         var sheep;
         if (isRam) {
-            sheep = new Ram({
-                x: 1024,
-                color: color,
-                fromTutorial: true
-            });
+            sheep = this.ramPool.obtainView();
+            sheep.color = color;
+            sheep.setImage(color.ramImage);
         } else {
-            sheep = new Sheep({
-                x: 1024,
-                color: color,
-                fromTutorial: true
-            });
+            sheep = this.sheepPool.obtainView()
+            sheep.color = color;
+            sheep.setImage(color.eweImage);
         }
-        sheep.startY = sheep.endY = sheep.style.y = y - sheep.style.width/2;
+        sheep.startY = sheep.endY = sheep.style.y = y - sheep.style.height/2;
         this.addSubview(sheep);
         this.sheep.push(sheep);
         sheep.run();

@@ -25,7 +25,6 @@ exports = Class(ImageView, function (supr) {
             anchorY: 28
         });
 
-        this.color = opts.color;
         this.fromTutorial = opts.fromTutorial;
 
         if (opts.fromTutorial) {
