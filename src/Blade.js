@@ -28,10 +28,10 @@ exports = Class(ImageView, function (supr) {
 
     this.run = function () {
         if (this.getSuperview().clipper.isDiamond) {
-            this.setImage('resources/images/blade-diamond.png');
+            this.setImage(constants.diamondBladeImage);
             this.isDiamond = true;
         } else {
-            this.setImage('resources/images/blade-regular.png');
+            this.setImage(constants.regularBladeImage);
             this.isDiamond = false;
         }
 
@@ -39,11 +39,11 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.die = function () {
+        this.animator.clear();
         var superview = this.getSuperview();
         superview.clipper.blades.splice(superview.clipper.blades.indexOf(this), 1);
         superview.clipper.bladeOut = false;
         superview.clipper.reloadBlade();
-        this.animator.clear();
         this.removeFromSuperview();
     };
 

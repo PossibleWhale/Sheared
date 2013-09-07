@@ -138,6 +138,8 @@ exports = {
     batteryImage: new Image({url: imagePath + 'battery.png'}),
     soundOnImage: new Image({url: imagePath + 'button-sound-on.png'}),
     soundOffImage: new Image({url: imagePath + 'button-sound-off.png'}),
+    regularBladeImage: new Image({url: imagePath + 'blade-regular.png'}),
+    diamondBladeImage: new Image({url: imagePath + 'blade-diamond.png'}),
 
     UPGRADE_PRICES: {
         power: [1000, 2000, 4000,  8000,  16000],

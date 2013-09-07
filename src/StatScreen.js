@@ -317,6 +317,7 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
+
         this.tabs.rams.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -324,12 +325,83 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-2.png'
         }));
+
+        // rams by color title
+        this.tabs.rams.addSubview(new TextView({
+            x: 370,
+            y: 54,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Rams sheared by color'
+        }));
+
+        // ram white
         this.tabs.rams.addSubview(new ImageView({
-            x: 190,
-            y: 40,
-            width: 780,
-            height: 325,
-            image: 'resources/images/statistics-rams.png'
+            x: 198,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-white.png'
+        }));
+
+        // ram red
+        this.tabs.rams.addSubview(new ImageView({
+            x: 329,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-red.png'
+        }));
+
+        // ram blue
+        this.tabs.rams.addSubview(new ImageView({
+            x: 456,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-blue.png'
+        }));
+
+        // ram yellow
+        this.tabs.rams.addSubview(new ImageView({
+            x: 589,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-yellow.png'
+        }));
+
+        // ram black
+        this.tabs.rams.addSubview(new ImageView({
+            x: 719,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-black.png'
+        }));
+
+        // ram gold
+        this.tabs.rams.addSubview(new ImageView({
+            x: 850,
+            y: 101,
+            width: 117,
+            height: 108,
+            image: 'resources/images/ram-gold.png'
+        }));
+
+        // rams total title
+        this.tabs.rams.addSubview(new TextView({
+            x: 370,
+            y: 272,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Total rams sheared'
         }));
 
         // labels for number of rams sheared
@@ -359,6 +431,7 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
+
         this.tabs.wool.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -366,15 +439,77 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-3.png'
         }));
-        this.tabs.wool.addSubview(new ImageView({
-            x: 190,
-            y: 40,
-            width: 780,
-            height: 325,
-            image: 'resources/images/statistics-wool.png'
+
+        // wool by color title
+        this.tabs.wool.addSubview(new TextView({
+            x: 370,
+            y: 54,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Wool collected by color'
         }));
 
-        // labels for number of bolt collected
+        // wool white
+        this.tabs.wool.addSubview(new ImageView({
+            x: 223,
+            y: 121,
+            width: 64,
+            height: 64,
+            image: 'resources/images/wool-white.png'
+        }));
+
+        // wool red
+        this.tabs.wool.addSubview(new ImageView({
+            x: 386,
+            y: 121,
+            width: 64,
+            height: 64,
+            image: 'resources/images/wool-red.png'
+        }));
+
+        // wool blue
+        this.tabs.wool.addSubview(new ImageView({
+            x: 549,
+            y: 121,
+            width: 64,
+            height: 64,
+            image: 'resources/images/wool-blue.png'
+        }));
+
+        // wool yellow
+        this.tabs.wool.addSubview(new ImageView({
+            x: 711,
+            y: 121,
+            width: 64,
+            height: 64,
+            image: 'resources/images/wool-yellow.png'
+        }));
+
+        // wool black
+        this.tabs.wool.addSubview(new ImageView({
+            x: 874,
+            y: 121,
+            width: 64,
+            height: 64,
+            image: 'resources/images/wool-black.png'
+        }));
+
+        // wool total title
+        this.tabs.wool.addSubview(new TextView({
+            x: 370,
+            y: 272,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Total wool collected'
+        }));
+
+        // labels for number of wool collected
         i = 0;
         startX = 195;
         gap = 162;

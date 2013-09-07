@@ -3,6 +3,7 @@ import src.constants as constants;
 import src.Blade as Blade;
 import ui.ImageView as ImageView;
 import ui.View as View;
+import ui.ViewPool as ViewPool;
 
 var diamondIndicator = new ImageView({
     x: 142,
@@ -41,6 +42,11 @@ exports = Class(ImageView, function (supr) {
         this.isDiamond = false;
         this.bladeOut = false;
         this.blades = [];
+
+        this.bladePool = new ViewPool({
+            ctor: Blade,
+            initCount: 10,
+        });
 
     };
 
@@ -112,11 +118,13 @@ exports = Class(ImageView, function (supr) {
         if (this.bladeOut) {
             return;
         }
-        newBlade = new Blade({
+        newBlade = this.bladePool.obtainView();
+        newBlade.updateOpts({
             superview: superview,
             x: this.style.x + this.style.width,
             y: this.style.y + 3,
-            fromTutorial: superview.isTutorial
+            fromTutorial: superview.isTutorial,
+            visible: true
         });
         this.blades.push(newBlade);
         this.bladeOut = true;

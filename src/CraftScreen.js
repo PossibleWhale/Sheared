@@ -76,13 +76,23 @@ exports = Class(View, function (supr) {
             storage: this.wool
         });
 
-        this.tabs = new ImageView({
+        // tab background image
+        this.tabBG = new ImageView({
+            superview: this,
             x: 0,
             y: 80,
             width: 1024,
-            height: 576-160,
+            height: 416,
+            image: 'resources/images/tab-0.png'
+        });
+
+        this.tabs = new ImageView({
+            x: 33,
+            y: 33,
+            width: 137,
+            height: 350,
             image: 'resources/images/tab-1.png',
-            superview: this,
+            superview: this.tabBG,
             buttonKind: "tabs"
         });
 
