@@ -6,11 +6,11 @@ import ui.View as View;
 import ui.ViewPool as ViewPool;
 
 var diamondIndicator = new ImageView({
-    x: 142,
-    y: 0,
-    width: 80,
-    height: 80,
-    image: 'resources/images/active-diamond.png'
+    x: 159,
+    y: 13,
+    width: 54,
+    height: 54,
+    image: 'resources/images/diamond.png'
 });
 
 exports = Class(ImageView, function (supr) {
