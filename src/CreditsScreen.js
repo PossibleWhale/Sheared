@@ -1,14 +1,12 @@
+import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
 import src.util as util;
 import src.Button as Button
 import src.MuteButton as MuteButton;
 
-exports = Class(ImageView, function (supr) {
+exports = Class(View, function (supr) {
     this.init = function (opts) {
-        opts = merge(opts, {
-            image: "resources/images/credits.png"
-        });
 
         supr(this, 'init', [opts]);
 
