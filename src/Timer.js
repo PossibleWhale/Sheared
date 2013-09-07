@@ -1,15 +1,29 @@
 import ui.TextView as TextView;
+import ui.ImageView as ImageView;
 
 import src.debughack as dh;
 
 
-exports = Class(TextView, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         var initialTime = 30;
 
         opts = merge(opts, {
+             width: 54,
+             height: 62,
+             image: 'resources/images/timer.png'
+        });
+
+        supr(this, 'init', [opts]);
+
+        this.text = new TextView({
+            superview: this,
+            x: 17,
+            y: 24,
+            width: 20,
+            height: 20,
             color: '#333333',
-            size: 72,
+            size: 20,
             autoFontSize: true,
             fontFamily: 'delius',
             text: initialTime,
@@ -17,9 +31,9 @@ exports = Class(TextView, function (supr) {
             vertcalAlign: 'middle'
         });
 
-        supr(this, 'init', [opts]);
 
         this.time = initialTime;
+        this.setText(initialTime);
 
         this.diamondTime1 = Math.floor(Math.random() * 10) + 5;
         this.diamondTime2 = this.diamondTime1 + Math.floor(Math.random() * 5) + 10;
@@ -29,6 +43,10 @@ exports = Class(TextView, function (supr) {
         this.batteryTime2 = this.batteryTime1 + Math.floor(Math.random() * 10) + 10;
 
         dh.post_initTimer(this);
+    };
+
+    this.setText = function (text) {
+        this.text.setText(text);
     };
 
     this.run = function () {

@@ -16,6 +16,7 @@ import src.Craft as Craft;
 import src.debughack as dh;
 import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
+import src.CoinLabel as CoinLabel;
 
 
 exports = Class(View, function (supr) {
@@ -52,6 +53,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         }, _myBGOpts));
 
+        /*
         _totalEwerosBG = new ImageView(merge({
             x: 398,
             y: 504,
@@ -59,10 +61,16 @@ exports = Class(View, function (supr) {
             height: 64,
             image: 'resources/images/label-eweros.png'
         }, _myBGOpts));
+        */
+        this.coinsLabel = new CoinLabel({
+            superview: this,
+            x: 398,
+            y: 504
+        });
 
         this.buttons = {};
         this.player = opts.player || GC.app.player;
-        this.total = Math.round(this.player.stats.get('coins').value, 0);
+        //this.total = Math.round(this.player.stats.get('coins').value, 0);
         this.wool = this.player.wool;
         this.crafts = this.player.crafts;
 
@@ -116,7 +124,7 @@ exports = Class(View, function (supr) {
         });
 
         // load up alllll dem buttons
-        var kinds = ["garment", "craftBuy", "craftStars", "total", "store", "backButton"];
+        var kinds = ["garment", "craftBuy", "craftStars", "store", "backButton"];
         for (kk = 0; kk < kinds.length; kk++) {
             var k = kinds[kk], factory, rgns, btnArray;
 
@@ -140,8 +148,7 @@ exports = Class(View, function (supr) {
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
             this.woolCounts.update();
-            this.total = this.player.stats.get('coins').value;
-            this.updateTotal();
+            this.coinsLabel.update();
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
@@ -274,7 +281,7 @@ exports = Class(View, function (supr) {
     this._cleanUI = function _a_cleanUI() {
         this.updateCraftBuyButtons();
         this.updateTabs();
-        this.updateTotal();
+        this.coinsLabel.update();
     };
 
     // creates a button on one of the regions defined at the bottom
@@ -284,10 +291,6 @@ exports = Class(View, function (supr) {
         opts = merge(merge({}, commonOpts), region);
         btn = new Button(opts);
         return btn;
-    };
-
-    this.totalFactory = function _a_totalFactory(region) {
-        this.totalButton = this.defaultButtonFactory(region, 'total');
     };
 
     this.backButtonFactory = function _a_backButtonFactory(region) {
@@ -451,14 +454,6 @@ exports = Class(View, function (supr) {
         this.setGarment(c.GARMENT_HAT);
     };
 
-    // display the new cash total in the box
-    this.updateTotal = function _a_updateTotal() {
-        // 0.0001 adjustment because there is an apparent bug with (0).toFixed()
-        // -- it sometimes appears negative, most likely due to floating
-        // point error.
-        this.totalButton.setText('' + this.total /* + 0.0001).toFixed(2) */);
-    };
-
     /*
      * animate a gentle swaying of the crafts
      */
@@ -581,21 +576,6 @@ craftStars: [
             {item: {main: c.COLOR_BLACK, contrast: c.COLOR_BLUE},   x: 442, y: 389, width: 30, height: 60},
             {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW}, x: 542, y: 389, width: 30, height: 60}
         ]
-    ],
-total: [
-    {
-        superview: this,
-        x: 451,
-        y: 519,
-        width: 150,
-        height: 28,
-        color: '#333333',
-        strokeWidth: 0,
-        strokeColor: undefined,
-        fontFamily: 'delius',
-        horizontalAlign: 'left',
-        text: '0'
-    }
 ],
 store: [
     {x: 141, y: 506, width: 184, height: 60, image: 'resources/images/button-general-store.png'}
@@ -608,6 +588,5 @@ backButton: [
 regions.garment.factory = 'garmentFactory';
 regions.craftBuy.factory = 'craftBuyFactory';
 regions.craftStars.factory = 'craftStarsFactory';
-regions.total.factory = 'totalFactory';
 regions.store.factory = 'storeFactory';
 regions.backButton.factory = 'backButtonFactory';

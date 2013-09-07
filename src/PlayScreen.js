@@ -103,10 +103,10 @@ exports = Class(View, function (supr) {
 
         muteOpts = {
             superview: this,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80,
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64,
             zIndex: 99999 // this must position above the clickable area of the screen
         };
         this.muteButton = new MuteButton(muteOpts);
@@ -374,10 +374,10 @@ exports = Class(View, function (supr) {
                 image: 'resources/images/button-crafts-catalog.png'
             }),
             homeButton = new Button({
-                x: 0,
-                y: 0,
-                width: 80,
-                height: 80,
+                x: 8,
+                y: 8,
+                width: 64,
+                height: 64,
                 click: true,
                 image: 'resources/images/button-home.png'
             });
@@ -494,11 +494,11 @@ function playGame () {
     } else {
         this.pauseButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
+            x: 8,
+            y: 8,
             zIndex: 999999,
-            width: 80,
-            height: 80,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-pause.png'
         });
@@ -534,10 +534,8 @@ function playGame () {
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     this.timer = new Timer({
-        x: 813,
-        y: 496,
-        width: 50,
-        height: 30
+        x: 836,
+        y: 505
     });
     this.addSubview(this.timer);
     this.timer.run();

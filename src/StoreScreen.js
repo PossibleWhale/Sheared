@@ -9,6 +9,7 @@ import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.WoolCounter as WoolCounter;
 import src.Alert as Alert;
+import src.CoinLabel as CoinLabel;
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
@@ -33,7 +34,7 @@ exports = Class(View, function (supr) {
 
             if (name === 'coins') {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
-                this.updateCoinsLabel();
+                this.coinsLabel.update();
             } else if (item === 'adFree') {
                 GC.app.player.upgrades.add('adFree', true);
             }
@@ -75,25 +76,10 @@ exports = Class(View, function (supr) {
             image: 'resources/images/tab-0.png'
         }));
 
-        // coin background
-        this.addSubview(new ImageView({
-            x: 398,
-            y: 504,
-            width: 228,
-            height: 64,
-            image: 'resources/images/label-eweros.png'
-        }));
-        this.coinsLabel = new TextView({
+        this.coinsLabel = new CoinLabel({
             superview: this,
-            x: 451,
-            y: 521,
-            width: 150,
-            height: 28,
-            color: '#333333',
-            fontFamily: 'delius',
-            size: 24,
-            horizontalAlign: 'left',
-            text: '' + GC.app.player.stats.get('coins').value
+            x: 398,
+            y: 504
         });
 
         this.tabs = {
@@ -144,7 +130,7 @@ exports = Class(View, function (supr) {
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted({silent: true});
             this.woolCounts.update();
-            this.updateCoinsLabel();
+            this.coinsLabel.update();
 
             this._buildUpgradeTab();
             this._buildWoolTab();
@@ -242,10 +228,6 @@ exports = Class(View, function (supr) {
         adsTab.on('InputSelect', bind(this, function () {
             this.switchTab('ads');
         }));
-    };
-
-    this.updateCoinsLabel = function () {
-        this.coinsLabel.setText('' + GC.app.player.stats.get('coins').value);
     };
 
     this._buildUpgradeTab = function () {
@@ -599,7 +581,7 @@ exports = Class(View, function (supr) {
                         this.updateProgressBars();
                         this.updatePriceDisplays();
                     }
-                    this.updateCoinsLabel();
+                    this.coinsLabel.update();
                 }),
                 confirmText: 'OK'
             });
