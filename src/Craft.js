@@ -107,20 +107,26 @@ exports = Class(ui.View, function (supr) {
             this.pvText.setText(util.capitalize(main) + ' & ' + util.capitalize(cont) + ' ' + util.capitalize(garm));
             this.pvMain.setImage('resources/images/wool-' + main + '.png');
             this.pvContrast.setImage('resources/images/wool-' + cont + '.png');
+
+            costs = this.cost();
+            this.mainWoolCost.setText(costs[0].amount);
+            this.contrastWoolCost.setText(costs[1].amount);
+
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
             this.pvItem.setImage('resources/images/' + garm + '-disabled-large.png');
             this.pvMain.setImage('resources/images/wool-main-disabled.png');
             this.pvContrast.setImage('resources/images/wool-contrast-disabled.png');
+
+            this.mainWoolCost.setText('-');
+            this.contrastWoolCost.setText('-');
+
             this._disableBuy();
         }
         if (label) {
             this.pvText.setText(label);
         }
-        costs = this.cost();
-        this.mainWoolCost.setText(costs[0].amount);
-        this.contrastWoolCost.setText(costs[1].amount);
 
         eweros = this.eweros();
         this.value.setText(eweros ? eweros : '-');
