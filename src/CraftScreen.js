@@ -306,7 +306,7 @@ exports = Class(View, function (supr) {
         this.largeCraft.removeAllSubviews();
         this.selectedCraft = new Craft(this.selectedGarment, null, null);
         this.largeCraft.addSubview(this.selectedCraft);
-        this.selectedCraft.enable(false);
+        this.selectedCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
     };
 
     this.showLargeCraft = function _a_showLargeCraft(craft) {
@@ -315,7 +315,7 @@ exports = Class(View, function (supr) {
         this.largeCraft.removeAllSubviews();
         isEnabled = this.player.canCraft(craft);
         this.largeCraft.addSubview(craft);
-        craft.enable(isEnabled);
+        craft.enable(isEnabled, isEnabled ? undefined : 'Requires more wool');
 
         craft.removeAllListeners();
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {

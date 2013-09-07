@@ -48,6 +48,10 @@ exports = {
         }));
     },
 
+    /*
+     * throw an exception if expr evalutes to a false-value, and optionally
+     * add a message
+     */
     assert: function (expr, message) {
         if (! expr) {
             if (message) {
@@ -70,6 +74,10 @@ exports = {
         return ret;
     },
 
+    /*
+     * choose a y coordinate at random within the vertical field, taking into
+     * account the height of the sprite so as not to overlap the edges
+     */
     randomY: function (spriteHeight) {
         var ret;
         if (!spriteHeight) {
@@ -78,6 +86,13 @@ exports = {
         ret = Math.floor((Math.random() * (576 - 2*80 - spriteHeight)) + 80);
         assert(ret >= 0 && ret <= 576);
         return ret;
+    },
+
+    /*
+     * uppercase the first letter of a string
+     */
+    capitalize: function _a_capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
 

@@ -1,8 +1,10 @@
 import ui.ImageView as ImageView;
+import ui.TextView as TextView;
 import ui.View;
 
 import src.constants as c;
 import src.Button as Button;
+import src.util as util;
 
 
 exports = Class(ui.View, function (supr) {
@@ -55,6 +57,9 @@ exports = Class(ui.View, function (supr) {
 
         this.pvSwatch = new ImageView({x: 13, y: 44, width: 368, height: 230, superview: this});
         this.pvItem = new ImageView({x: 111, y: 73, width: 172, height: 172, superview: this});
+        this.pvText = new Button({x: 13, y: 6, width: 232, height: 28, superview: this, 
+            canHandleEvents: false, horizontalAlign: 'left', color: 'black', strokeWidth: 0});
+        this.pvText.setText("Placeholder");
 
         this._disableBuy = bind(this, this._enableBuy, false);
 
@@ -79,23 +84,29 @@ exports = Class(ui.View, function (supr) {
     };
 
     /*
-     * display the widget somewhere
+     * Display the widget somewhere.
+     *
+     * If label is given, use label as the text of the item being displayed.
      */
-    this.enable = function (enabled) {
-        var costs, eweros;
+    this.enable = function (enabled, label) {
+        var costs, eweros,
+            garm = this.garment.label,
+            main = this.colors.main.label,
+            cont = this.colors.contrast.label;
         if (enabled === undefined || enabled) {
             this.pvSwatch.setImage('resources/images/swatch-' +
-                    this.colors.main.label + '-' +
-                    this.colors.contrast.label + '.png');
+                    main + '-' + cont + '.png');
             this.pvItem.setImage('resources/images/' +
-                    this.garment.label + '-' +
-                    this.colors.main.label + '-' +
-                    this.colors.contrast.label + '-large.png');
+                    garm + '-' + main + '-' + cont + '-large.png');
+            this.pvText.setText(util.capitalize(main) + ' & ' + util.capitalize(cont) + ' ' + util.capitalize(garm));
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
-            this.pvItem.setImage('resources/images/' + this.garment.label + '-disabled-large.png');
+            this.pvItem.setImage('resources/images/' + garm + '-disabled-large.png');
             this._disableBuy();
+        }
+        if (label) {
+            this.pvText.setText(label);
         }
         costs = this.cost();
         this.mainWoolCost.setText(costs[0].amount);
