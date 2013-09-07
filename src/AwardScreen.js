@@ -3,9 +3,11 @@ import ui.View as View;
 import ui.TextView as TextView;
 import ui.ImageView as ImageView;
 import ui.ScrollView as ScrollView;
+
 import src.constants as constants;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
+import src.util as util;
 
 var filledStar = new Image({url: 'resources/images/gold-star-award.png'});
 var emptyStar = new Image({url: 'resources/images/gold-star-empty.png'});
@@ -31,7 +33,7 @@ exports = Class(View, function (supr) {
             x: 0,
             y: 0,
             width: 1024,
-            height: 80, 
+            height: 80,
             image: 'resources/images/background-header-wood.png'
         }));
 
@@ -305,10 +307,10 @@ exports = Class(View, function (supr) {
                         size: 24,
                     });
                     if (category === prefix) {
-                        heading.setText(prefix.charAt(0).toUpperCase() + prefix.slice(1));
+                        heading.setText(util.capitalize(prefix));
                     } else {
-                        heading.setText(prefix.charAt(0).toUpperCase() + prefix.slice(1) + ' (' +
-                              category.charAt(0).toUpperCase() + category.slice(1) + ')');
+                        heading.setText(util.capitalize(prefix) +
+                              ' (' + util.capitalize(category) + ')');
                     }
                     lastCategory = category;
                     yIndex += 50;

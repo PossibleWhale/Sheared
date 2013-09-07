@@ -518,7 +518,7 @@ exports = Class(View, function (supr) {
             current = GC.app.player.stats.get('wool.' + constants.colors[i].label).value;
             this.tabs.wool.addSubview(new TextView({
                 x: startX + i*gap,
-                y: 220,
+                y: 200,
                 width: 120,
                 height: 28,
                 color: '#333333',
@@ -527,6 +527,7 @@ exports = Class(View, function (supr) {
             }));
             total += current;
         }
+
         this.tabs.wool.addSubview(new TextView({
             x: 400,
             y: 320,
@@ -536,6 +537,8 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             text: '' + total
         }));
+        
+        // tab crafts
         this.tabs.crafts.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -543,12 +546,74 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-4.png'
         }));
+        
+        // crafts by type title
+        this.tabs.crafts.addSubview(new TextView({
+            x: 370,
+            y: 54,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Crafts completed by type'
+        }));
+
+        // crafts hats
         this.tabs.crafts.addSubview(new ImageView({
-            x: 190,
-            y: 40,
-            width: 780,
-            height: 325,
-            image: 'resources/images/statistics-crafts.png'
+            x: 215,
+            y: 113,
+            width: 80,
+            height: 80,
+            image: 'resources/images/statistics-hat.png'
+        }));
+
+        // crafts mittens
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 378,
+            y: 113,
+            width: 80,
+            height: 80,
+            image: 'resources/images/statistics-mitten.png'
+        }));
+
+        // crafts socks
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 541,
+            y: 113,
+            width: 80,
+            height: 80,
+            image: 'resources/images/statistics-sock.png'
+        }));
+
+        // crafts scarves
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 703,
+            y: 113,
+            width: 80,
+            height: 80,
+            image: 'resources/images/statistics-scarf.png'
+        }));
+
+        // crafts sweaters
+        this.tabs.crafts.addSubview(new ImageView({
+            x: 866,
+            y: 113,
+            width: 80,
+            height: 80,
+            image: 'resources/images/statistics-sweater.png'
+        }));
+
+        // crafts total title
+        this.tabs.crafts.addSubview(new TextView({
+            x: 370,
+            y: 272,
+            width: 420,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Total crafts completed'
         }));
 
         // labels for craft counts
