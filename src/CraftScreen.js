@@ -142,7 +142,6 @@ exports = Class(View, function (supr) {
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
-            this.total += amount;
             this.player.addCoins(amount);
             this._cleanUI();
         });
