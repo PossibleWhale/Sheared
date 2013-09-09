@@ -53,15 +53,6 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         }, _myBGOpts));
 
-        /*
-        _totalEwerosBG = new ImageView(merge({
-            x: 398,
-            y: 504,
-            width: 228,
-            height: 64,
-            image: 'resources/images/label-eweros.png'
-        }, _myBGOpts));
-        */
         this.coinsLabel = new CoinLabel({
             superview: this,
             x: 398,
@@ -70,7 +61,6 @@ exports = Class(View, function (supr) {
 
         this.buttons = {};
         this.player = opts.player || GC.app.player;
-        //this.total = Math.round(this.player.stats.get('coins').value, 0);
         this.wool = this.player.wool;
         this.crafts = this.player.crafts;
 
