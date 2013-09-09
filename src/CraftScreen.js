@@ -104,13 +104,13 @@ exports = Class(View, function (supr) {
             superview: this
         });
 
-        var pt = this.tabs.localizePoint(new Point(585, 125));
+        var pt = this.tabBG.localizePoint(new Point(585, 125));
         this.largeCraft = new View({
             x: pt.x,
             y: pt.y,
             width: 394,
             height: 324,
-            superview: this.tabs
+            superview: this.tabBG
         });
 
         // load up alllll dem buttons
