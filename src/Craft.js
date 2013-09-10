@@ -51,7 +51,7 @@ exports = Class(ui.View, function (supr) {
         this.pvItem = new ImageView({x: 111, y: 73, width: 172, height: 172, superview: this,
             canHandleEvents: false});
         this.pvText = new Button({x: 13, y: 6, width: 232, height: 28, superview: this,
-            canHandleEvents: false, horizontalAlign: 'left', color: 'black', strokeWidth: 0});
+            canHandleEvents: false, horizontalAlign: 'left', color: 'black', size: 24, strokeWidth: 0});
         this.pvText.setText("Placeholder");
         this.pvMain = new ImageView({x: 30, y: 127, width: 64, height: 64, superview: this,
             canHandleEvents: false});
