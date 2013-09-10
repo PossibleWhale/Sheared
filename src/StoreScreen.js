@@ -36,7 +36,8 @@ exports = Class(View, function (supr) {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
                 this.coinsLabel.update();
             } else if (item === 'adFree') {
-                GC.app.player.upgrades.add('adFree', true);
+                GC.app.player.upgrades.addToUpgrade('adFree', true);
+                this.adsPrice.setText('Purchased!');
             }
         });
 
@@ -489,7 +490,7 @@ exports = Class(View, function (supr) {
     };
 
     this._buildAdsTab = function () {
-        var startX = 550, containerStart = 182, gap = 162, i = 0;
+        var startX = 550, containerStart = 182;
         this.tabs.ads.addSubview(new ImageView({
             x: 33,
             y: 33,
@@ -506,8 +507,9 @@ exports = Class(View, function (supr) {
         }));
         
         // cost
-        this.tabs.ads.addSubview(new TextView({
-            x: startX + gap*i,
+        this.adsPrice = new TextView({
+            superview: this.tabs.ads,
+            x: startX,
             y: 223,
             width: 93,
             height: 28,
@@ -515,8 +517,8 @@ exports = Class(View, function (supr) {
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'left',
-            text: '$' + constants.ADS_PRICE[i]
-        }));
+            text: GC.app.player.upgrades.get('adFree').value ? 'Purchased!' : '$' + constants.ADS_PRICE
+        });
         
         var button = new Button({
             superview: this.tabs.ads,
@@ -528,7 +530,9 @@ exports = Class(View, function (supr) {
         });
 
         button.on('InputSelect', function () {
-            billing.purchase('adFree');
+            if (!GC.app.player.upgrades.get('adFree').value) {
+                billing.purchase('adFree');
+            }
         });
     };
 
@@ -628,6 +632,10 @@ exports = Class(View, function (supr) {
             this.priceDisplays.diamond.setText('Purchased!');
         } else {
             this.priceDisplays.diamond.setText(constants.UPGRADE_PRICES.diamond);
+        }
+
+        if (GC.app.player.upgrades.get('adFree').value) {
+            this.adsPrice.setText('Purchased!');
         }
     };
 

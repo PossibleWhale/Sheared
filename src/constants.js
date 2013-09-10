@@ -181,7 +181,7 @@ exports = {
         20000, 40000, 60000, 80000, 100000 
     ],
 
-    ADS_PRICE: [1],
+    ADS_PRICE: 1,
 
     AWARDS: {
         'eweros.1000': { text:     '1000 Eweros Earned',     reward: 100  },
