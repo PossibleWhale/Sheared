@@ -124,10 +124,10 @@ exports = Class(View, function (supr) {
 
         muteOpts = {
             superview: this,
-            x: 944,
-            y: 0,
-            width: 80,
-            height: 80
+            x: 952,
+            y: 8,
+            width: 64,
+            height: 64
         };
         this.muteButton = new MuteButton(muteOpts);
 
@@ -570,7 +570,7 @@ store: [
     {x: 141, y: 506, width: 184, height: 60, image: 'resources/images/button-general-store.png'}
 ],
 backButton: [
-    {x: 0, y: 0, width: 80, height: 80, image: 'resources/images/button-return.png'}
+    {x: 8, y: 8, width: 64, height: 64, image: 'resources/images/button-return.png'}
 ]
 }
 
