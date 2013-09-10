@@ -142,19 +142,26 @@ exports = Class(View, function (supr) {
         fireText = new ThoughtBubble({
             superview: this,
             text: 'Tap on the right side of the screen to fire a blade.',
+        }),
+        hintText = new ThoughtBubble({
+            superview: this,
+            text: 'Give it a try now.'
         });
 
         animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-        animate(moveText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+        this._animate(moveText).then(bind(this, function () {
 
             animate(this.inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-            animate(fireText).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function (){
+            this._animate(fireText).then(
+                bind(this, function () {
+                    this._animate(hintText).then(bind(this, function (){
 
-                this.addSubview(this.nextButton);
-                this.nextButton.on('InputSelect', bind(this, function () {
-                    this.nextButton.removeFromSuperview();
-                    this.eweTutorial();
-                }));
+                    this.addSubview(this.nextButton);
+                    this.nextButton.on('InputSelect', bind(this, function () {
+                        this.nextButton.removeFromSuperview();
+                        this.eweTutorial();
+                    }));
+                }))
             }));
         }));
     };
@@ -167,8 +174,13 @@ exports = Class(View, function (supr) {
         var text = new ThoughtBubble({
             superview: this,
             text: 'Your regular clipper blade shears ewes.',
+        }),
+        hintText = new ThoughtBubble({
+            superview: this,
+            text: 'Try to shear the ewe.'
         });
-        animate(text).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000).then(bind(this, function () {
+        this._animate(text).then(bind(this, function () {
+            this._animate(hintText).then(bind(this, function () {
             var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.eweTutorial);
 
             sheep.on('sheep:sheared', bind(this, function() {
@@ -205,6 +217,7 @@ exports = Class(View, function (supr) {
                 }));
             }));
         }));
+        }));
     };
 
     this.powerTutorial = function () {
@@ -216,8 +229,13 @@ exports = Class(View, function (supr) {
         var text = new ThoughtBubble({
             superview: this,
             text: 'Your clipper has five power cells. When a sheep collides with it, it loses one cell.'
+        }),
+        hintText = new ThoughtBubble({
+            superview: this,
+            text: 'Watch now.'
         });
         this._animate(text).then(bind(this, function () {
+            this._animate(hintText).then(bind(this, function () {
             var sheep = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.powerTutorial, true);
             sheep.on('sheep:collision', bind(this, function () {
                 text = new ThoughtBubble({
@@ -242,6 +260,7 @@ exports = Class(View, function (supr) {
                 }));
             }));
         }));
+        }));
     };
 
     this.ramTutorial = function () {
@@ -252,8 +271,13 @@ exports = Class(View, function (supr) {
         var text = new ThoughtBubble({
             superview: this,
             text: 'Your regular clipper blade shears ewes, but rams deflect those with their horns.'
+        }),
+        hintText = new ThoughtBubble({
+            superview: this,
+            text: 'Try to shear the ram.'
         });
         this._animate(text).then(bind(this, function () {
+            this._animate(hintText).then(bind(this, function () {
             var ram = this._spawnSheep(constants.COLOR_WHITE, 576/2, this.ramTutorial, true, true),
                 showText = function () {
                     text = new ThoughtBubble({
@@ -278,6 +302,7 @@ exports = Class(View, function (supr) {
                 bind(this, showText)();
                 ram.removeAllListeners();
             }));
+        }));
         }));
     };
 
