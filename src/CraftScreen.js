@@ -316,6 +316,9 @@ exports = Class(View, function (supr) {
 
         this.largeCraft.removeAllSubviews();
         isEnabled = this.player.canCraft(craft);
+        if (isEnabled) {
+            this.animateCraft(craft.pvItem);
+        }
         this.largeCraft.addSubview(craft);
         craft.enable(isEnabled, isEnabled ? undefined : 'Requires more wool');
 
@@ -351,8 +354,6 @@ exports = Class(View, function (supr) {
                 me.showLargeCraft(craft);
             };
         })(btn));
-
-        //this.animateCraft(btn);
 
         return btn;
     };
@@ -447,22 +448,9 @@ exports = Class(View, function (supr) {
      * animate a gentle swaying of the crafts
      */
     this.animateCraft = function _a_animateCraft(btn) {
-        if (!btn.getOpts().purchaseable) {
-            animate(btn).clear().now({r: 0});
-            return;
-        }
-
-        var wiggle, stepSize = (Math.random() * 15) + 10;
-        // 50% of the time, stay put
-        var odd = parseInt(stepSize.toFixed(3).substr(4, 1), 10) % 2 == 1;
-
-        if (odd) {
-            wiggle = 0;
-        } else {
-            wiggle = c.WIGGLE_RADIANS / 2;
-        }
-        animate(btn).clear().now({r: -1 * wiggle}, 14000 / stepSize, animate.easeIn
-            ).then({r: wiggle}, 14000 / stepSize, animate.easeIn
+        var wiggle = c.WIGGLE_RADIANS/3;
+        animate(btn).clear().now({r: -1 * wiggle}, 1000, animate.easeIn
+            ).then({r: wiggle}, 1000, animate.easeIn
             ).then(bind(this, this.animateCraft, btn));
     };
 

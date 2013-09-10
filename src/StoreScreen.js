@@ -633,10 +633,6 @@ exports = Class(View, function (supr) {
         } else {
             this.priceDisplays.diamond.setText(constants.UPGRADE_PRICES.diamond);
         }
-
-        if (GC.app.player.upgrades.get('adFree').value) {
-            this.adsPrice.setText('Purchased!');
-        }
     };
 
     this._upgradeLevels = function () {
