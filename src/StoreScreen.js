@@ -248,7 +248,7 @@ exports = Class(View, function (supr) {
             height: 36,
             color: '#6b5e53',
             fontFamily: 'delius',
-            size: 24,
+            size: 26,
             text: 'Upgrades'
         }));
 
@@ -264,25 +264,213 @@ exports = Class(View, function (supr) {
             text: 'Purchase upgrades to improve your clipper.'
         }));
 
+        // clipper power title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 242,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Clipper Power'
+        }));
+
+        // clipper power background
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 242,
+            y: 152,
+            width: 160,
+            height: 91,
+            image: 'resources/images/store-upgrades-background.png'
+        }));
+
+        // clipper power ewero
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 252,
+            y: 201,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // clipper power description
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 242,
+            y: 253,
+            width: 160,
+            height: 100,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 18,
+            verticalAlign: 'top',
+            wrap: true,
+            text: 'Increases the max clipper power.'
+        }));
+
+        // blade power title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 414,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Blade Power'
+        }));
+
+        // blade power background
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 414,
+            y: 152,
+            width: 160,
+            height: 91,
+            image: 'resources/images/store-upgrades-background.png'
+        }));
+
+        // blade power ewero
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 423,
+            y: 201,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // blade power description
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 414,
+            y: 253,
+            width: 160,
+            height: 100,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 18,
+            verticalAlign: 'top',
+            wrap: true,
+            text: 'Increases the number of sheep a blade single blade can shear.'
+        }));
+
+        // bolt multiplier title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 586,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Bolt Multiplier'
+        }));
+
+        // bolt multiplier background
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 586,
+            y: 152,
+            width: 160,
+            height: 91,
+            image: 'resources/images/store-upgrades-background.png'
+        }));
+
+        // bolt multiplier ewero
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 596,
+            y: 201,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // bolt multiplier description
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 586,
+            y: 253,
+            width: 160,
+            height: 100,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 18,
+            verticalAlign: 'top',
+            wrap: true,
+            text: 'Increases the amount of wool earned from shearing sheep.'
+        }));
+
+        // diamond blades title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 758,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Diamond Blades'
+        }));
+
+        // diamond blades background
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 758,
+            y: 152,
+            width: 160,
+            height: 91,
+            image: 'resources/images/store-upgrades-background.png'
+        }));
+
+        // diamond blades image
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 794,
+            y: 162,
+            width: 89,
+            height: 32,
+            image: 'resources/images/store-diamond-blades.png'
+        }));
+
+        // diamond blades ewero
+        this.tabs.upgrades.addSubview(new ImageView({
+            x: 768,
+            y: 201,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // diamond blades description
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 758,
+            y: 253,
+            width: 160,
+            height: 100,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 18,
+            verticalAlign: 'top',
+            wrap: true,
+            text: 'All clipper blades are diamond blades.'
+        }));
+
         this.progressBars = {
+            // clipper power bars
             power: new ImageView({
                 superview: this.tabs.upgrades,
-                x: 225,
-                y: 141,
+                x: 252,
+                y: 162,
                 width: 140,
                 height: 32
             }),
-            multiplier: new ImageView({
-                superview: this.tabs.upgrades,
-                x: 415,
-                y: 141,
-                width: 140,
-                height: 32
-            }),
+            // blade power bars
             blade: new ImageView({
                 superview: this.tabs.upgrades,
-                x: 606,
-                y: 141,
+                x: 424,
+                y: 162,
+                width: 140,
+                height: 32
+            }),
+            // bolt multiplier bars
+            multiplier: new ImageView({
+                superview: this.tabs.upgrades,
+                x: 596,
+                y: 162,
                 width: 140,
                 height: 32
             })
@@ -291,44 +479,48 @@ exports = Class(View, function (supr) {
         this.updateProgressBars();
 
         this.priceDisplays = {
+            // clipper power price
             power: new TextView({
                 superview: this.tabs.upgrades,
-                x: 260,
-                y: 185,
-                width: 104,
+                x: 289,
+                y: 201,
+                width: 92,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
             }),
-            multiplier: new TextView({
-                superview: this.tabs.upgrades,
-                x: 450,
-                y: 185,
-                width: 104,
-                height: 28,
-                color: '#333333',
-                fontFamily: 'delius',
-                size: 24,
-                horizontalAlign: "left"
-            }),
+            // blade power price
             blade: new TextView({
                 superview: this.tabs.upgrades,
-                x: 641,
-                y: 185,
-                width: 104,
+                x: 460,
+                y: 201,
+                width: 92,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
             }),
+            // bolt multiplier price
+            multiplier: new TextView({
+                superview: this.tabs.upgrades,
+                x: 633,
+                y: 201,
+                width: 92,
+                height: 28,
+                color: '#333333',
+                fontFamily: 'delius',
+                size: 24,
+                horizontalAlign: "left"
+            }),
+            // diamond blades price
             diamond: new TextView({
                 superview: this.tabs.upgrades,
-                x: 831,
-                y: 185,
-                width: 104,
+                x: 805,
+                y: 201,
+                width: 92,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
@@ -338,51 +530,58 @@ exports = Class(View, function (supr) {
         };
         this.updatePriceDisplays();
 
-        ///// Buttons for upgrades
+        // clipper power button
         var powerButton = new Button({
             superview: this.tabs.upgrades,
-            x: 215,
-            y: 136,
+            x: 242,
+            y: 152,
             width: 160,
             height: 91,
             click: true
         });
+        // clipper power confirmation
         powerButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a clipper power upgrade. Do you wish to continue?', 'power');
         }));
 
-        var multiplierButton = new Button({
-            superview: this.tabs.upgrades,
-            x: 405,
-            y: 136,
-            width: 160,
-            height: 91,
-            click: true
-        });
-        multiplierButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a bolt multiplier upgrade. Do you wish to continue?', 'mult');
-        }));
-
+        // blade power button
         var bladeButton = new Button({
             superview: this.tabs.upgrades,
-            x: 596,
-            y: 136,
+            x: 414,
+            y: 152,
             width: 160,
             height: 91,
             click: true
         });
+        // blade power confirmation
         bladeButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a blade power upgrade. Do you wish to continue?', 'blade');
         }));
 
-        var diamondButton = new Button({
+        // bolt muliplier button
+        var multiplierButton = new Button({
             superview: this.tabs.upgrades,
-            x: 786,
-            y: 136,
+            x: 586,
+            y: 152,
             width: 160,
             height: 91,
             click: true
         });
+        // bolt multiplier confirmation
+        multiplierButton.on('InputSelect', bind(this, function () {
+            this.showPurchaseDialog('You are about to purchase a bolt multiplier upgrade. Do you wish to continue?', 'mult');
+        }));
+
+        // diamond blades button
+        var diamondButton = new Button({
+            superview: this.tabs.upgrades,
+            x: 758,
+            y: 152,
+            width: 160,
+            height: 91,
+            click: true
+        });
+        // diamond blades confirmation
         diamondButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a diamond blade. Do you wish to continue?', 'diamond');
         }));
