@@ -492,34 +492,34 @@ garment: [
     ],
 craftBuy: [
         [ // white
-            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_RED},    x: 186, y: 125, width: 52, height: 52},
-            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLUE},   x: 286, y: 125, width: 52, height: 52},
-            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_YELLOW}, x: 386, y: 125, width: 52, height: 52},
-            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLACK},  x: 486, y: 125, width: 52, height: 52}
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_RED},    x: 186, y: 129, width: 52, height: 52},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLUE},   x: 286, y: 129, width: 52, height: 52},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_YELLOW}, x: 386, y: 129, width: 52, height: 52},
+            {item: {main: c.COLOR_WHITE, contrast: c.COLOR_BLACK},  x: 486, y: 129, width: 52, height: 52}
         ],
         [ // red
-            {item: {main: c.COLOR_RED, contrast: c.COLOR_WHITE},    x: 186, y: 191, width: 52, height: 52},
-            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLUE},     x: 286, y: 191, width: 52, height: 52},
-            {item: {main: c.COLOR_RED, contrast: c.COLOR_YELLOW},   x: 386, y: 191, width: 52, height: 52},
-            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLACK},    x: 486, y: 191, width: 52, height: 52}
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_WHITE},    x: 186, y: 195, width: 52, height: 52},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLUE},     x: 286, y: 195, width: 52, height: 52},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_YELLOW},   x: 386, y: 195, width: 52, height: 52},
+            {item: {main: c.COLOR_RED, contrast: c.COLOR_BLACK},    x: 486, y: 195, width: 52, height: 52}
         ],
         [ // blue
-            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_WHITE},   x: 186, y: 257, width: 52, height: 52},
-            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_RED},     x: 286, y: 257, width: 52, height: 52},
-            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_YELLOW},  x: 386, y: 257, width: 52, height: 52},
-            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_BLACK},   x: 486, y: 257, width: 52, height: 52}
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_WHITE},   x: 186, y: 261, width: 52, height: 52},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_RED},     x: 286, y: 261, width: 52, height: 52},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_YELLOW},  x: 386, y: 261, width: 52, height: 52},
+            {item: {main: c.COLOR_BLUE, contrast: c.COLOR_BLACK},   x: 486, y: 261, width: 52, height: 52}
         ],
         [ // yellow
-            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_WHITE}, x: 186, y: 323, width: 52, height: 52},
-            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_RED},   x: 286, y: 323, width: 52, height: 52},
-            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLUE},  x: 386, y: 323, width: 52, height: 52},
-            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLACK}, x: 486, y: 323, width: 52, height: 52}
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_WHITE}, x: 186, y: 327, width: 52, height: 52},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_RED},   x: 286, y: 327, width: 52, height: 52},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLUE},  x: 386, y: 327, width: 52, height: 52},
+            {item: {main: c.COLOR_YELLOW, contrast: c.COLOR_BLACK}, x: 486, y: 327, width: 52, height: 52}
         ],
         [ // black
-            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_WHITE},   x: 186, y: 389, width: 52, height: 52},
-            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_RED},     x: 286, y: 389, width: 52, height: 52},
-            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_BLUE},    x: 386, y: 389, width: 52, height: 52},
-            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW},  x: 486, y: 389, width: 52, height: 52}
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_WHITE},   x: 186, y: 393, width: 52, height: 52},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_RED},     x: 286, y: 393, width: 52, height: 52},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_BLUE},    x: 386, y: 393, width: 52, height: 52},
+            {item: {main: c.COLOR_BLACK, contrast: c.COLOR_YELLOW},  x: 486, y: 393, width: 52, height: 52}
         ]
     ],
 craftStars: [

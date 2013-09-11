@@ -9,6 +9,7 @@ import src.util as util;
 import src.ThoughtBubble as ThoughtBubble;
 import src.Runner as Runner;
 import src.Player as Player;
+import src.Craft as Craft;
 
 
 var textOpts = c.TEXT_OPTIONS;
@@ -197,7 +198,7 @@ exports = Class(CraftScreen, function (supr) {
 
             next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickBWSweater() {
-                this.showLargeCraft({main: c.COLOR_BLACK, contrast: c.COLOR_WHITE});
+                this.showLargeCraft(new Craft('sweater', 'black', 'white'));
                 next();
             }));
             this.clickOnlyHere(btnNew);
