@@ -626,34 +626,234 @@ exports = Class(View, function (supr) {
             text: 'Purchase wool for crafting.'
         }));
 
+        // white title
+        this.tabs.wool.addSubview(new TextView({
+            x: 182,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'White'
+        }));
+
+        // white background
+        this.tabs.wool.addSubview(new ImageView({
+            x: 182,
+            y: 152,
+            width: 150,
+            height: 136,
+            image: 'resources/images/store-wool-eweros-ads-background.png'
+        }));
+
+        // white wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 225,
+            y: 167,
+            width:  64,
+            height: 64,
+            image: 'resources/images/wool-white.png'
+        }));
+
+        // white ewero
+        this.tabs.wool.addSubview(new ImageView({
+            x: 192,
+            y: 246,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // red title
+        this.tabs.wool.addSubview(new TextView({
+            x: 344,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Red'
+        }));
+
+        // red background
+        this.tabs.wool.addSubview(new ImageView({
+            x: 344,
+            y: 152,
+            width: 150,
+            height: 136,
+            image: 'resources/images/store-wool-eweros-ads-background.png'
+        }));
+
+        // red wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 387,
+            y: 167,
+            width:  64,
+            height: 64,
+            image: 'resources/images/wool-red.png'
+        }));
+
+        // red ewero
+        this.tabs.wool.addSubview(new ImageView({
+            x: 354,
+            y: 246,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // blue title
+        this.tabs.wool.addSubview(new TextView({
+            x: 505,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Blue'
+        }));
+
+        // blue background
+        this.tabs.wool.addSubview(new ImageView({
+            x: 505,
+            y: 152,
+            width: 150,
+            height: 136,
+            image: 'resources/images/store-wool-eweros-ads-background.png'
+        }));
+
+        // blue wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 548,
+            y: 167,
+            width:  64,
+            height: 64,
+            image: 'resources/images/wool-blue.png'
+        }));
+
+        // blue ewero
+        this.tabs.wool.addSubview(new ImageView({
+            x: 515,
+            y: 246,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // yellow title
+        this.tabs.wool.addSubview(new TextView({
+            x: 667,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Yellow'
+        }));
+
+        // yellow background
+        this.tabs.wool.addSubview(new ImageView({
+            x: 667,
+            y: 152,
+            width: 150,
+            height: 136,
+            image: 'resources/images/store-wool-eweros-ads-background.png'
+        }));
+
+        // yellow wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 710,
+            y: 167,
+            width:  64,
+            height: 64,
+            image: 'resources/images/wool-yellow.png'
+        }));
+
+        // yellow ewero
+        this.tabs.wool.addSubview(new ImageView({
+            x: 677,
+            y: 246,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
+        // black title
+        this.tabs.wool.addSubview(new TextView({
+            x: 828,
+            y: 114,
+            width: 160,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Black'
+        }));
+
+        // black background
+        this.tabs.wool.addSubview(new ImageView({
+            x: 828,
+            y: 152,
+            width: 150,
+            height: 136,
+            image: 'resources/images/store-wool-eweros-ads-background.png'
+        }));
+
+        // black wool
+        this.tabs.wool.addSubview(new ImageView({
+            x: 871,
+            y: 167,
+            width:  64,
+            height: 64,
+            image: 'resources/images/wool-black.png'
+        }));
+
+        // black ewero
+        this.tabs.wool.addSubview(new ImageView({
+            x: 838,
+            y: 246,
+            width:  32,
+            height: 32,
+            image: 'resources/images/store-ewero.png'
+        }));
+
         for (i; i < constants.colors.length; i++) {
             //container
             container = new Button({
                 superview: this.tabs.wool,
                 x: containerStart + i*gap,
-                y: 136,
+                y: 152,
                 width: 150,
-                height: 174
+                height: 136
             });
             _registerClick(container, i);
-            // quantity
+            
+            // wool quantity
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 147,
-                width: 95,
+                y: 185,
+                width: 50,
                 height: 28,
-                color: '#333333',
+                color: '#ffffff',
                 fontFamily: 'delius',
-                size: 24,
-                horizontalAlign: 'left',
+                strokeWidth: 3,
+                strokeColor: '#333333',
+                shadowColor: '#000000',
+                size: 26,
+                horizontalAlign: 'center',
+                verticalAlign: 'middle',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
             }));
 
             // cost
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 268,
-                width: 95,
+                y: 246,
+                width: 92,
                 height: 28,
                 color: '#333333',
                 fontFamily: 'delius',
