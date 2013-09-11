@@ -239,12 +239,29 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-1.png'
         }));
-        this.tabs.upgrades.addSubview(new ImageView({
-            x: 210,
+        
+        // upgrades title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 293,
             y: 40,
-            width: 740,
-            height: 256,
-            image: 'resources/images/store-upgrades.png'
+            width: 574,
+            height: 36,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Upgrades'
+        }));
+
+        // upgrades sub-title
+        this.tabs.upgrades.addSubview(new TextView({
+            x: 293,
+            y: 76,
+            width: 574,
+            height: 28,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Purchase upgrades to improve your clipper.'
         }));
 
         this.progressBars = {
@@ -331,7 +348,7 @@ exports = Class(View, function (supr) {
             click: true
         });
         powerButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent clipper power upgrade. Do you wish to continue?', 'power');
+            this.showPurchaseDialog('You are about to purchase a clipper power upgrade. Do you wish to continue?', 'power');
         }));
 
         var multiplierButton = new Button({
@@ -343,7 +360,7 @@ exports = Class(View, function (supr) {
             click: true
         });
         multiplierButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent bolt multiplier upgrade. Do you wish to continue?', 'mult');
+            this.showPurchaseDialog('You are about to purchase a bolt multiplier upgrade. Do you wish to continue?', 'mult');
         }));
 
         var bladeButton = new Button({
@@ -355,7 +372,7 @@ exports = Class(View, function (supr) {
             click: true
         });
         bladeButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent blade power upgrade. Do you wish to continue?', 'blade');
+            this.showPurchaseDialog('You are about to purchase a blade power upgrade. Do you wish to continue?', 'blade');
         }));
 
         var diamondButton = new Button({
@@ -367,7 +384,7 @@ exports = Class(View, function (supr) {
             click: true
         });
         diamondButton.on('InputSelect', bind(this, function () {
-            this.showPurchaseDialog('You are about to purchase a permanent diamond blade. Do you wish to continue?', 'diamond');
+            this.showPurchaseDialog('You are about to purchase a diamond blade. Do you wish to continue?', 'diamond');
         }));
     };
 
@@ -385,13 +402,31 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-2.png'
         }));
-        this.tabs.wool.addSubview(new ImageView({
-            x: 177,
+        
+        // wool title
+        this.tabs.wool.addSubview(new TextView({
+            x: 293,
             y: 40,
-            width: 806,
-            height: 275,
-            image: 'resources/images/store-wool.png'
+            width: 574,
+            height: 36,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Wool'
         }));
+
+        // wool sub-title
+        this.tabs.wool.addSubview(new TextView({
+            x: 293,
+            y: 76,
+            width: 574,
+            height: 28,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Purchase wool for crafting.'
+        }));
+
         for (i; i < constants.colors.length; i++) {
             //container
             container = new Button({
@@ -444,13 +479,31 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-3.png'
         }));
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 177,
+        
+        // eweros title
+        this.tabs.eweros.addSubview(new TextView({
+            x: 293,
             y: 40,
-            width: 806,
-            height: 262,
-            image: 'resources/images/store-eweros.png'
+            width: 574,
+            height: 36,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Eweros'
         }));
+
+        // eweros sub-title
+        this.tabs.eweros.addSubview(new TextView({
+            x: 293,
+            y: 76,
+            width: 574,
+            height: 28,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Purchase eweros to buy upgrades and wool.'
+        }));
+
         for (i; i < constants.colors.length; i++) {
             //container
             container = new Button({
@@ -498,12 +551,29 @@ exports = Class(View, function (supr) {
             height: 350,
             image: 'resources/images/tab-4.png'
         }));
-        this.tabs.ads.addSubview(new ImageView({
-            x: 435,
+        
+        // ads title
+        this.tabs.ads.addSubview(new TextView({
+            x: 293,
             y: 40,
-            width: 290,
-            height: 228,
-            image: 'resources/images/store-ads.png'
+            width: 574,
+            height: 36,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Remove Ads'
+        }));
+
+        // ads sub-title
+        this.tabs.ads.addSubview(new TextView({
+            x: 293,
+            y: 76,
+            width: 574,
+            height: 28,
+            color: '#6d6e71',
+            fontFamily: 'delius',
+            size: 22,
+            text: 'Purchase to remove ads from Sheared.'
         }));
         
         // cost
