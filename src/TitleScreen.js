@@ -79,10 +79,10 @@ exports = Class(ImageView, function (supr) {
 
         this.shearedLogo = new ImageView({
             superview: this,
-            x: 87,
-            y: 133,
-            width: 850,
-            height: 210,
+            x: 104,
+            y: 122,
+            width:  816,
+            height: 186,
             opacity: 0,
             image: 'resources/images/sheared.png'
         });
@@ -185,12 +185,12 @@ exports = Class(ImageView, function (supr) {
 
         this.playButton = new Button({
             superview: this,
-            x: 435,
-            y: 346,
-            width: 154,
-            height: 82,
-            anchorX: 154/2,
-            anchorY: 82/2,
+            x: 400,
+            y: 338,
+            width: 234,
+            height: 64,
+            anchorX: 234/2,
+            anchorY: 64/2,
             opacity: 0,
             click: true,
             image: 'resources/images/button-play.png'
@@ -201,10 +201,10 @@ exports = Class(ImageView, function (supr) {
 
         this.tutorialButton = new Button({
             superview: this,
-            x: 407,
-            y: 439,
-            width: 210,
-            height: 36,
+            x: 425,
+            y: 412,
+            width: 184,
+            height: 64,
             opacity: 0,
             click: true,
             image: 'resources/images/button-tutorials.png'
