@@ -70,10 +70,10 @@ exports = Class(ImageView, function (supr) {
 
         this.giantClipper = new ImageView({
             superview: this,
-            x: -545,
-            y: 133,
-            width: 545,
-            height: 210,
+            x: -535,
+            y: 123,
+            width:  535,
+            height: 190,
             image: 'resources/images/clipper-title.png'
         });
 
