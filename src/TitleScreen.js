@@ -186,7 +186,7 @@ exports = Class(ImageView, function (supr) {
         this.playButton = new Button({
             superview: this,
             x: 400,
-            y: 338,
+            y: 330,
             width: 234,
             height: 64,
             anchorX: 234/2,
