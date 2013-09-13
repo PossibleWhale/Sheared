@@ -210,7 +210,7 @@ exports = Class(View, function (supr) {
 
         _a = [
         function () {
-            animate(holdImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
+            animate(holdImage).now({opacity: 1}, 1500).wait(5500).wait(3000).then({opacity: 0}, 0);
         },
         bind(this, function () {
             animate(holdText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
