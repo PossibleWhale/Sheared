@@ -44,9 +44,8 @@ exports = Class(ImageView, function (supr) {
             height: 28,
             size: 24,
             color: '#ffffff',
-            strokeWidth: 3,
-            strokeColor: '#333333',
-            shadowColor: '#000000',
+            strokeWidth: 2,
+            strokeColor: '#000000',
             fontFamily: 'delius',
             text: '' + this.award.reward,
             horizontalAlign: 'left'

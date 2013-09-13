@@ -302,7 +302,7 @@ exports = Class(View, function (supr) {
                         width: 460,
                         height: 30,
                         horizontalAlign: 'left',
-                        color: '#333333',
+                        color: '#352e29',
                         fontFamily: 'delius',
                         size: 24,
                     });
@@ -341,11 +341,11 @@ exports = Class(View, function (supr) {
                     x: 60,
                     y: yIndex,
                     width: 460,
-                    height: 30,
+                    height: 28,
                     horizontalAlign: 'left',
-                    color: '#333333',
+                    color: '#6b5e53',
                     fontFamily: 'delius',
-                    size: 20,
+                    size: 22,
                     text: constants.AWARDS[key].text
                 }));
 
@@ -353,11 +353,11 @@ exports = Class(View, function (supr) {
                     x: 690,
                     y: yIndex,
                     width: 50,
-                    height: 30,
+                    height: 28,
                     horizontalAlign: 'right',
-                    color: '#333333',
+                    color: '#6b5e53',
                     fontFamily: 'delius',
-                    size: 20,
+                    size: 22,
                     text: '' + constants.AWARDS[key].reward
                 }));
 

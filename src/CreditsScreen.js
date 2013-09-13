@@ -66,7 +66,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#0083ca',
             strokeWidth: 2,
-            strokeColor: '#333333',
+            strokeColor: '#000000',
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'center',
@@ -79,9 +79,9 @@ exports = Class(View, function (supr) {
             y: 163,
             width: 220,
             height: 28,
-            color: '#333333',
+            color: '#352e29',
             fontFamily: 'delius',
-            size: 20,
+            size: 22,
             horizontalAlign: 'center',
             text: 'Shepherd'
         }));
@@ -94,7 +94,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#eb2b3b',
             strokeWidth: 2,
-            strokeColor: '#333333',
+            strokeColor: '#000000',
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'center',
@@ -107,9 +107,9 @@ exports = Class(View, function (supr) {
             y: 253,
             width: 220,
             height: 28,
-            color: '#333333',
+            color: '#352e29',
             fontFamily: 'delius',
-            size: 20,
+            size: 22,
             horizontalAlign: 'center',
             text: 'Sheep Engineering'
         }));
@@ -122,7 +122,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#fff200',
             strokeWidth: 2,
-            strokeColor: '#333333',
+            strokeColor: '#000000',
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'center',
@@ -135,9 +135,9 @@ exports = Class(View, function (supr) {
             y: 343,
             width: 220,
             height: 28,
-            color: '#333333',
+            color: '#352e29',
             fontFamily: 'delius',
-            size: 20,
+            size: 22,
             horizontalAlign: 'center',
             text: 'Sous Sheep'
         }));
@@ -163,7 +163,7 @@ exports = Class(View, function (supr) {
             height: 28,
             color: '#6b5e53',
             fontFamily: 'delius',
-            size: 16,
+            size: 18,
             horizontalAlign: 'center',
             text: 'In memory of Shrek the sheep.'
         }));
