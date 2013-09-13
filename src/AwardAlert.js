@@ -9,10 +9,10 @@ var instances = [];
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            x: 1024/2 - 320,
+            x: 1024/2 - 312,
             y: -80,
             zIndex: 99,
-            width: 640,
+            width: 624,
             height: 80,
             image: 'resources/images/award-alert.png'
         });
