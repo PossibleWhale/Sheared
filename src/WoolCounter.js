@@ -26,12 +26,12 @@ exports = Class(ImageView, function (supr) {
         var textViewOpts = {
             width: 50,
             height: 28,
-            color: '#FFFFFF',
+            color: '#ffffff',
             fontFamily: 'delius',
             strokeWidth: 3,
             strokeColor: '#333333',
             shadowColor: '#000000',
-            size: 26,
+            size: 24,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
         }, i, xPos = 7;
