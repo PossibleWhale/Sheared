@@ -210,16 +210,16 @@ exports = Class(View, function (supr) {
 
         _a = [
         function () {
-            animate(holdImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
+            animate(holdImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
         },
         bind(this, function () {
-            animate(holdText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
+            animate(holdText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
         }),
         function () {
-            animate(moveImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
+            animate(moveImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
         },
         bind(this, function () {
-            animate(moveText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
+            animate(moveText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
         }),
         bind(this, function () { this.addSubview(this.inputBuffer); }),
         _sx(['appear', tryText, {duration: 1500}]),
@@ -235,10 +235,10 @@ exports = Class(View, function (supr) {
             }));
         }),
         function () {
-            animate(tapImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
+            animate(tapImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
         },
         bind(this, function () {
-            animate(tapText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
+            animate(tapText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
         }),
         bind(this, function () { this.addSubview(this.inputBuffer); }),
         _sx(['appear', tryText, {duration: 1500}]),
@@ -258,7 +258,6 @@ exports = Class(View, function (supr) {
     };
 
     this.eweTutorial = function () {
-        this.addSubview(this.inputBuffer);
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
