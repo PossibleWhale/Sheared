@@ -348,7 +348,7 @@ exports = Class(View, function (supr) {
                 storage: this.dailyWool
             }));
             continueButton = new Button({
-                x: 411,
+                x: 412,
                 y: 344,
                 width: 200,
                 height: 64,
