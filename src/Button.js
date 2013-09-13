@@ -19,7 +19,7 @@ exports = Class(ui.TextView, function (supr) {
     this.init = function (opts) {
         var defaults = {
                 size: 128,
-                strokeWidth: 4,
+                strokeWidth: 2,
                 strokeColor: '#000000',
                 color: '#ffffff',
                 fontFamily: 'delius'

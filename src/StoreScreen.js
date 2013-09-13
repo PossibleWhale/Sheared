@@ -242,13 +242,13 @@ exports = Class(View, function (supr) {
         
         // upgrades title
         this.tabs.upgrades.addSubview(new TextView({
-            x: 293,
+            x: 370,
             y: 40,
-            width: 574,
-            height: 36,
-            color: '#6b5e53',
+            width: 420,
+            height: 28,
+            color: '#352e29',
             fontFamily: 'delius',
-            size: 26,
+            size: 24,
             text: 'Upgrades'
         }));
 
@@ -258,9 +258,9 @@ exports = Class(View, function (supr) {
             y: 76,
             width: 574,
             height: 28,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
-            size: 22,
+            size: 20,
             text: 'Purchase upgrades to improve your clipper.'
         }));
 
@@ -270,7 +270,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Clipper Power'
@@ -300,7 +300,7 @@ exports = Class(View, function (supr) {
             y: 253,
             width: 160,
             height: 100,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
             size: 18,
             verticalAlign: 'top',
@@ -314,7 +314,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Blade Power'
@@ -344,7 +344,7 @@ exports = Class(View, function (supr) {
             y: 253,
             width: 160,
             height: 100,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
             size: 18,
             verticalAlign: 'top',
@@ -358,7 +358,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Bolt Multiplier'
@@ -388,7 +388,7 @@ exports = Class(View, function (supr) {
             y: 253,
             width: 160,
             height: 100,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
             size: 18,
             verticalAlign: 'top',
@@ -402,7 +402,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Diamond Blades'
@@ -441,7 +441,7 @@ exports = Class(View, function (supr) {
             y: 253,
             width: 160,
             height: 100,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
             size: 18,
             verticalAlign: 'top',
@@ -486,7 +486,7 @@ exports = Class(View, function (supr) {
                 y: 201,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
@@ -498,7 +498,7 @@ exports = Class(View, function (supr) {
                 y: 201,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
@@ -510,7 +510,7 @@ exports = Class(View, function (supr) {
                 y: 201,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
@@ -522,7 +522,7 @@ exports = Class(View, function (supr) {
                 y: 201,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: "left"
@@ -604,11 +604,11 @@ exports = Class(View, function (supr) {
         
         // wool title
         this.tabs.wool.addSubview(new TextView({
-            x: 293,
+            x: 370,
             y: 40,
-            width: 574,
-            height: 36,
-            color: '#6b5e53',
+            width: 420,
+            height: 28,
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Wool'
@@ -620,9 +620,9 @@ exports = Class(View, function (supr) {
             y: 76,
             width: 574,
             height: 28,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
-            size: 22,
+            size: 20,
             text: 'Purchase wool for crafting.'
         }));
 
@@ -632,7 +632,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'White'
@@ -671,7 +671,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Red'
@@ -710,7 +710,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Blue'
@@ -749,7 +749,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Yellow'
@@ -788,7 +788,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Black'
@@ -840,10 +840,9 @@ exports = Class(View, function (supr) {
                 height: 28,
                 color: '#ffffff',
                 fontFamily: 'delius',
-                strokeWidth: 3,
-                strokeColor: '#333333',
-                shadowColor: '#000000',
-                size: 26,
+                strokeWidth: 2,
+                strokeColor: '#000000',
+                size: 24,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
                 text: '' + constants.WOOL_QUANTITIES[constants.colors[i].label]
@@ -855,7 +854,7 @@ exports = Class(View, function (supr) {
                 y: 246,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: 'left',
@@ -881,11 +880,11 @@ exports = Class(View, function (supr) {
         
         // eweros title
         this.tabs.eweros.addSubview(new TextView({
-            x: 293,
+            x: 370,
             y: 40,
-            width: 574,
-            height: 36,
-            color: '#6b5e53',
+            width: 420,
+            height: 28,
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Eweros'
@@ -897,9 +896,9 @@ exports = Class(View, function (supr) {
             y: 76,
             width: 574,
             height: 28,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
-            size: 22,
+            size: 20,
             text: 'Purchase eweros to buy upgrades and wool.'
         }));
 
@@ -1054,7 +1053,7 @@ exports = Class(View, function (supr) {
                 y: 114,
                 width: 140,
                 height: 28,
-                color: '#6b5e53',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 22,
                 horizontalAlign: 'left',
@@ -1067,7 +1066,7 @@ exports = Class(View, function (supr) {
                 y: 246,
                 width: 92,
                 height: 28,
-                color: '#333333',
+                color: '#352e29',
                 fontFamily: 'delius',
                 size: 24,
                 horizontalAlign: 'left',
@@ -1088,11 +1087,11 @@ exports = Class(View, function (supr) {
         
         // ads title
         this.tabs.ads.addSubview(new TextView({
-            x: 293,
+            x: 370,
             y: 40,
-            width: 574,
-            height: 36,
-            color: '#6b5e53',
+            width: 420,
+            height: 28,
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Ads'
@@ -1104,9 +1103,9 @@ exports = Class(View, function (supr) {
             y: 76,
             width: 574,
             height: 28,
-            color: '#6d6e71',
+            color: '#6b5e53',
             fontFamily: 'delius',
-            size: 22,
+            size: 20,
             text: 'Purchase to remove ads from Sheared.'
         }));
         
@@ -1116,7 +1115,7 @@ exports = Class(View, function (supr) {
             y: 114,
             width: 160,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 22,
             text: 'Remove Ads'
@@ -1156,7 +1155,7 @@ exports = Class(View, function (supr) {
             y: 246,
             width: 92,
             height: 28,
-            color: '#333333',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'left',
