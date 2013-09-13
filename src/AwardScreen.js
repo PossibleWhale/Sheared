@@ -48,10 +48,10 @@ exports = Class(View, function (supr) {
 
         // header title
         this.addSubview(new ImageView({
-            x: 192,
-            y: 0,
-            width: 640,
-            height: 80,
+            x: 200,
+            y: 8,
+            width: 624,
+            height: 64,
             image: 'resources/images/header-awards.png'
         }));
 
