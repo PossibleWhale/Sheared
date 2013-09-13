@@ -711,8 +711,9 @@ exports = Class(View, function (supr) {
             y: 194,
             width: 120,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + GC.app.player.stats.get('diamonds').value
         }));
 
