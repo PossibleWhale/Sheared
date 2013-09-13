@@ -258,6 +258,7 @@ exports = Class(View, function (supr) {
     };
 
     this.eweTutorial = function () {
+        this.addSubview(this.inputBuffer);
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
