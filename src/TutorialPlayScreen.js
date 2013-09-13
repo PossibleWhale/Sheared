@@ -120,7 +120,7 @@ exports = Class(View, function (supr) {
             opacity: 0,
             x: 412,
             y: 344,
-            zIndex: 9999,
+            zIndex: 99999,
             width: 200,
             height: 64,
             click: true,
@@ -206,38 +206,43 @@ exports = Class(View, function (supr) {
             text: 'Try it out.'
         });
 
+        this.inputBuffer.removeFromSuperview();
+
         _a = [
         function () {
-            animate(holdImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+            animate(holdImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
         },
         bind(this, function () {
-            animate(holdText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+            animate(holdText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
         }),
         function () {
-            animate(moveImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+            animate(moveImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
         },
         bind(this, function () {
-            animate(moveText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+            animate(moveText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
         }),
-        _sx(['appear', tryText, {duration: 500}]),
-        _sx(['disappear', tryText, {duration: 500}]),
+        bind(this, function () { this.addSubview(this.inputBuffer); }),
+        _sx(['appear', tryText, {duration: 1500}]),
+        _sx(['disappear', tryText, {duration: 1500}]),
         bind(this, function () { animate(this.nextButton).wait(1500); }),
         _sx(['appear', this.nextButton, {duration: 500}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
             this.nextButton.on('InputSelect', bind(this, function () {
                 this.nextButton.style.opacity = 0;
+                this.inputBuffer.removeFromSuperview();
                 next();
             }));
         }),
         function () {
-            animate(tapImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+            animate(tapImage).now({opacity: 1}, 2000).wait(3000).then({opacity: 0}, 2000);
         },
         bind(this, function () {
-            animate(tapText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+            animate(tapText).wait(1500).then({opacity: 1}, 1500).wait(1000).then({opacity: 0}, 1500).wait(2000).then(this.runner.waitPlain());
         }),
-        _sx(['appear', tryText, {duration: 500}]),
-        _sx(['disappear', tryText, {duration: 500}]),
+        bind(this, function () { this.addSubview(this.inputBuffer); }),
+        _sx(['appear', tryText, {duration: 1500}]),
+        _sx(['disappear', tryText, {duration: 1500}]),
         bind(this, function () { animate(this.nextButton).wait(1500); }),
         _sx(['appear', this.nextButton, {duration: 500}]),
         bind(this, function () {
@@ -253,6 +258,7 @@ exports = Class(View, function (supr) {
     };
 
     this.eweTutorial = function () {
+        this.addSubview(this.inputBuffer);
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
