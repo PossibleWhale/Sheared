@@ -571,7 +571,7 @@ exports = Class(View, function (supr) {
             y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/hat-disabled-large.png'
+            image: 'resources/images/hat-disabled.png'
         }));
 
         // crafts mittens
@@ -580,7 +580,7 @@ exports = Class(View, function (supr) {
             y: 113,
             width: 80,
             height: 80,
-            image: 'resources/images/mitten-disabled-large.png'
+            image: 'resources/images/mitten-disabled.png'
         }));
 
         // crafts socks
@@ -589,7 +589,7 @@ exports = Class(View, function (supr) {
             y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/sock-disabled-large.png'
+            image: 'resources/images/sock-disabled.png'
         }));
 
         // crafts scarves
@@ -598,7 +598,7 @@ exports = Class(View, function (supr) {
             y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/scarf-disabled-large.png'
+            image: 'resources/images/scarf-disabled.png'
         }));
 
         // crafts sweaters
@@ -607,7 +607,7 @@ exports = Class(View, function (supr) {
             y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/sweater-disabled-large.png'
+            image: 'resources/images/sweater-disabled.png'
         }));
 
         // crafts total title

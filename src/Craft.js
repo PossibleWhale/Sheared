@@ -103,7 +103,7 @@ exports = Class(ui.View, function (supr) {
             this.pvSwatch.setImage('resources/images/swatch-' +
                     main + '-' + cont + '.png');
             this.pvItem.setImage('resources/images/' +
-                    garm + '-' + main + '-' + cont + '-large.png');
+                    garm + '-' + main + '-' + cont + '.png');
             this.pvText.setText(util.capitalize(main) + ' & ' + util.capitalize(cont) + ' ' + util.capitalize(garm));
             this.pvMain.setImage('resources/images/wool-' + main + '.png');
             this.pvContrast.setImage('resources/images/wool-' + cont + '.png');
@@ -115,7 +115,7 @@ exports = Class(ui.View, function (supr) {
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
-            this.pvItem.setImage('resources/images/' + garm + '-disabled-large.png');
+            this.pvItem.setImage('resources/images/' + garm + '-disabled.png');
             this.pvMain.setImage('resources/images/wool-main-disabled.png');
             this.pvContrast.setImage('resources/images/wool-contrast-disabled.png');
 
