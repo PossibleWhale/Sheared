@@ -295,6 +295,7 @@ exports = Class(View, function (supr) {
                                     text: 'Ewes appear in five colors. Each ewe gives one bolt of that color.'
                                 });
                                 this._animate(text).then(bind(this, function () {
+                                    this.nextButton.style.opacity = 1;
                                     this.addSubview(this.nextButton);
                                     this.nextButton.on('InputSelect', bind(this, function () {
                                         this.nextButton.removeFromSuperview();
