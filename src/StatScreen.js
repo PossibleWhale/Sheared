@@ -708,7 +708,7 @@ exports = Class(View, function (supr) {
         // labels for misc stats
         this.tabs.misc.addSubview(new TextView({
             x: 435,
-            y: 194,
+            y: 220,
             width: 120,
             height: 28,
             color: '#6b5e53',
