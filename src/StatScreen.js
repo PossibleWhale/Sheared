@@ -211,11 +211,12 @@ exports = Class(View, function (supr) {
             current = GC.app.player.stats.get('ewesSheared.' + colors[i].label).value;
             this.tabs.ewes.addSubview(new TextView({
                 x: startX + i*gap,
-                y: 194,
+                y: 220,
                 width: 120,
                 height: 28,
-                color: '#333333',
+                color: '#6b5e53',
                 fontFamily: 'delius',
+                size: 22,
                 text: '' + current
             }));
             total += current;
@@ -236,7 +237,7 @@ exports = Class(View, function (supr) {
             y: 54,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Ewes sheared by color'
@@ -244,8 +245,8 @@ exports = Class(View, function (supr) {
 
         // ewe white
         this.tabs.ewes.addSubview(new ImageView({
-            x: 214,
-            y: 125,
+            x: 216,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-white.png'
@@ -253,8 +254,8 @@ exports = Class(View, function (supr) {
 
         // ewe red
         this.tabs.ewes.addSubview(new ImageView({
-            x: 346,
-            y: 125,
+            x: 347,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-red.png'
@@ -263,7 +264,7 @@ exports = Class(View, function (supr) {
         // ewe blue
         this.tabs.ewes.addSubview(new ImageView({
             x: 474,
-            y: 125,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-blue.png'
@@ -271,8 +272,8 @@ exports = Class(View, function (supr) {
 
         // ewe yellow
         this.tabs.ewes.addSubview(new ImageView({
-            x: 605,
-            y: 125,
+            x: 607,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-yellow.png'
@@ -280,8 +281,8 @@ exports = Class(View, function (supr) {
 
         // ewe black
         this.tabs.ewes.addSubview(new ImageView({
-            x: 735,
-            y: 125,
+            x: 737,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-black.png'
@@ -289,8 +290,8 @@ exports = Class(View, function (supr) {
 
         // ewe gold
         this.tabs.ewes.addSubview(new ImageView({
-            x: 865,
-            y: 125,
+            x: 867,
+            y: 127,
             width: 82,
             height: 56,
             image: 'resources/images/ewe-gold.png'
@@ -302,7 +303,7 @@ exports = Class(View, function (supr) {
             y: 272,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Total ewes sheared'
@@ -313,8 +314,9 @@ exports = Class(View, function (supr) {
             y: 320,
             width: 360,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + total
         }));
 
@@ -332,7 +334,7 @@ exports = Class(View, function (supr) {
             y: 54,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Rams sheared by color'
@@ -398,7 +400,7 @@ exports = Class(View, function (supr) {
             y: 272,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Total rams sheared'
@@ -416,8 +418,9 @@ exports = Class(View, function (supr) {
                 y: 220,
                 width: 120,
                 height: 28,
-                color: '#333333',
+                color: '#6b5e53',
                 fontFamily: 'delius',
+                size: 22,
                 text: '' + current
             }));
             total += current;
@@ -427,8 +430,9 @@ exports = Class(View, function (supr) {
             y: 320,
             width: 360,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + total
         }));
 
@@ -446,7 +450,7 @@ exports = Class(View, function (supr) {
             y: 54,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Wool collected by color'
@@ -455,7 +459,7 @@ exports = Class(View, function (supr) {
         // wool white
         this.tabs.wool.addSubview(new ImageView({
             x: 223,
-            y: 121,
+            y: 123,
             width: 64,
             height: 64,
             image: 'resources/images/wool-white.png'
@@ -464,7 +468,7 @@ exports = Class(View, function (supr) {
         // wool red
         this.tabs.wool.addSubview(new ImageView({
             x: 386,
-            y: 121,
+            y: 123,
             width: 64,
             height: 64,
             image: 'resources/images/wool-red.png'
@@ -473,7 +477,7 @@ exports = Class(View, function (supr) {
         // wool blue
         this.tabs.wool.addSubview(new ImageView({
             x: 549,
-            y: 121,
+            y: 123,
             width: 64,
             height: 64,
             image: 'resources/images/wool-blue.png'
@@ -482,7 +486,7 @@ exports = Class(View, function (supr) {
         // wool yellow
         this.tabs.wool.addSubview(new ImageView({
             x: 711,
-            y: 121,
+            y: 123,
             width: 64,
             height: 64,
             image: 'resources/images/wool-yellow.png'
@@ -491,7 +495,7 @@ exports = Class(View, function (supr) {
         // wool black
         this.tabs.wool.addSubview(new ImageView({
             x: 874,
-            y: 121,
+            y: 123,
             width: 64,
             height: 64,
             image: 'resources/images/wool-black.png'
@@ -503,7 +507,7 @@ exports = Class(View, function (supr) {
             y: 272,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Total wool collected'
@@ -518,11 +522,12 @@ exports = Class(View, function (supr) {
             current = GC.app.player.stats.get('wool.' + constants.colors[i].label).value;
             this.tabs.wool.addSubview(new TextView({
                 x: startX + i*gap,
-                y: 200,
+                y: 220,
                 width: 120,
                 height: 28,
-                color: '#333333',
+                color: '#6b5e53',
                 fontFamily: 'delius',
+                size: 22,
                 text: '' + current
             }));
             total += current;
@@ -533,8 +538,9 @@ exports = Class(View, function (supr) {
             y: 320,
             width: 360,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + total
         }));
         
@@ -553,7 +559,7 @@ exports = Class(View, function (supr) {
             y: 54,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Crafts completed by type'
@@ -562,10 +568,10 @@ exports = Class(View, function (supr) {
         // crafts hats
         this.tabs.crafts.addSubview(new ImageView({
             x: 215,
-            y: 113,
+            y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/statistics-hat.png'
+            image: 'resources/images/hat-disabled-large.png'
         }));
 
         // crafts mittens
@@ -574,34 +580,34 @@ exports = Class(View, function (supr) {
             y: 113,
             width: 80,
             height: 80,
-            image: 'resources/images/statistics-mitten.png'
+            image: 'resources/images/mitten-disabled-large.png'
         }));
 
         // crafts socks
         this.tabs.crafts.addSubview(new ImageView({
             x: 541,
-            y: 113,
+            y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/statistics-sock.png'
+            image: 'resources/images/sock-disabled-large.png'
         }));
 
         // crafts scarves
         this.tabs.crafts.addSubview(new ImageView({
             x: 703,
-            y: 113,
+            y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/statistics-scarf.png'
+            image: 'resources/images/scarf-disabled-large.png'
         }));
 
         // crafts sweaters
         this.tabs.crafts.addSubview(new ImageView({
             x: 866,
-            y: 113,
+            y: 115,
             width: 80,
             height: 80,
-            image: 'resources/images/statistics-sweater.png'
+            image: 'resources/images/sweater-disabled-large.png'
         }));
 
         // crafts total title
@@ -610,7 +616,7 @@ exports = Class(View, function (supr) {
             y: 272,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Total crafts completed'
@@ -630,8 +636,9 @@ exports = Class(View, function (supr) {
                 y: 220,
                 width: 120,
                 height: 28,
-                color: '#333333',
+                color: '#6b5e53',
                 fontFamily: 'delius',
+                size: 22,
                 text: '' + current
             }));
             total += current;
@@ -642,8 +649,9 @@ exports = Class(View, function (supr) {
             y: 320,
             width: 360,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + total
         }));
         
@@ -661,7 +669,7 @@ exports = Class(View, function (supr) {
             y: 54,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Pickups collected by type'
@@ -670,8 +678,8 @@ exports = Class(View, function (supr) {
         // misc diamonds
         this.tabs.misc.addSubview(new ImageView({
             x: 469,
-            y: 126,
-            width: 54,
+            y: 128,
+            width:  54,
             height: 54,
             image: 'resources/images/diamond.png'
         }));
@@ -679,8 +687,8 @@ exports = Class(View, function (supr) {
         // misc battery
         this.tabs.misc.addSubview(new ImageView({
             x: 649,
-            y: 126,
-            width: 34,
+            y: 128,
+            width:  34,
             height: 54,
             image: 'resources/images/battery.png'
         }));
@@ -691,7 +699,7 @@ exports = Class(View, function (supr) {
             y: 272,
             width: 420,
             height: 28,
-            color: '#6b5e53',
+            color: '#352e29',
             fontFamily: 'delius',
             size: 24,
             text: 'Total eweros earned'
@@ -708,24 +716,25 @@ exports = Class(View, function (supr) {
             text: '' + GC.app.player.stats.get('diamonds').value
         }));
 
-
-
         this.tabs.misc.addSubview(new TextView({
             x: 605,
-            y: 194,
+            y: 220,
             width: 120,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + GC.app.player.stats.get('batteries').value
         }));
+
         this.tabs.misc.addSubview(new TextView({
             x: 400,
             y: 320,
             width: 360,
             height: 28,
-            color: '#333333',
+            color: '#6b5e53',
             fontFamily: 'delius',
+            size: 22,
             text: '' + GC.app.player.stats.get('coinsEarned').value
         }));
 
