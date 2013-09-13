@@ -15,7 +15,39 @@ import src.WoolCounter as WoolCounter;
 import src.WoolStorage as WoolStorage;
 import src.MuteButton as MuteButton;
 import src.ThoughtBubble as ThoughtBubble;
+import src.Runner as Runner;
 
+var _sx = function _a_sx(arr) {
+    return {
+        method: arr[0],
+        factory: arr[1],
+        methodArgs: arr[2],
+        factoryArgs: arr[3]
+    };
+};
+
+var PlayTutorialRunner = Class(Runner, function (supr) {
+    // handle the continue click by hiding the button
+    this.animation_ok = function _a_animation_ok(animation, _) {
+        return animation.then({opacity: 1.0}, 600, animate.linear);
+    };
+
+    // create the 'Continue >' button
+    this.factory_ok = function _a_factory_ok(obj) {
+        var next = this.context.nextButton;
+        next.removeAllListeners();
+        next.on('InputSelect', bind(this, function () {
+            next.updateOpts({opacity: 0.0});
+        }));
+        next.on('InputSelect', this.waitPlain());
+        return next;
+    };
+
+    // fade in, and then fade out text in a thought bubble
+    this.factory_thought = function _a_factory_thought(fargs) {
+        return new ThoughtBubble({superview: this.context, text: fargs.text});
+    };
+});
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
@@ -31,6 +63,8 @@ exports = Class(View, function (supr) {
     };
 
     this.build = function() {
+        this.runner = new PlayTutorialRunner(this);
+
         this.isTutorial = true;
 
         // header background
@@ -82,6 +116,8 @@ exports = Class(View, function (supr) {
 
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new Button({
+            superview: this,
+            opacity: 0,
             x: 412,
             y: 344,
             zIndex: 9999,
@@ -135,35 +171,85 @@ exports = Class(View, function (supr) {
 
     this.clipperTutorial = function () {
         this.nextButton.removeAllListeners();
-        var moveText = new ThoughtBubble({
+        var holdImage = new ImageView({
+            superview: this,
+            opacity: 0,
+            image: 'resources/images/tutorial-gesture-holding.png',
+            autoSize: true
+        }),
+        moveImage = new ImageView({
+            superview: this,
+            opacity: 0,
+            image: 'resources/images/tutorial-gesture-moving.png',
+            autoSize: true
+        }),
+        tapImage = new ImageView({
+            superview: this,
+            opacity: 0,
+            image: 'resources/images/tutorial-gesture-shearing.png',
+            autoSize: true
+        }),
+        holdText = new ThoughtBubble({
+            superview: this,
+            text: 'Hold the device as shown.'
+        }),
+        moveText = new ThoughtBubble({
             superview: this,
             text: 'Drag on the left side of the screen to move the clipper.',
         }),
-        fireText = new ThoughtBubble({
+        tapText = new ThoughtBubble({
             superview: this,
-            text: 'Tap on the right side of the screen to fire a blade.',
+            text: 'Tap on the right side of the screen to fire a blade.'
         }),
-        hintText = new ThoughtBubble({
+        tryText = new ThoughtBubble({
             superview: this,
-            text: 'Give it a try now.'
+            text: 'Try it out.'
         });
 
-        animate(this.inputBuffer.leftSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-        this._animate(moveText).then(bind(this, function () {
-
-            animate(this.inputBuffer.rightSide).now({opacity: 0.1}, 1000).wait(2000).then({opacity: 0}, 1000);
-            this._animate(fireText).then(
-                bind(this, function () {
-                    this._animate(hintText).then(bind(this, function (){
-
-                    this.addSubview(this.nextButton);
-                    this.nextButton.on('InputSelect', bind(this, function () {
-                        this.nextButton.removeFromSuperview();
-                        this.eweTutorial();
-                    }));
-                }))
+        _a = [
+        function () {
+            animate(holdImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+        },
+        bind(this, function () {
+            animate(holdText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+        }),
+        function () {
+            animate(moveImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+        },
+        bind(this, function () {
+            animate(moveText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+        }),
+        _sx(['appear', tryText, {duration: 500}]),
+        _sx(['disappear', tryText, {duration: 500}]),
+        bind(this, function () { animate(this.nextButton).wait(1500); }),
+        _sx(['appear', this.nextButton, {duration: 500}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            this.nextButton.on('InputSelect', bind(this, function () {
+                this.nextButton.style.opacity = 0;
+                next();
             }));
-        }));
+        }),
+        function () {
+            animate(tapImage).now({opacity: 1}, 1000).wait(2000).then({opacity: 0}, 1000);
+        },
+        bind(this, function () {
+            animate(tapText).wait(500).then({opacity: 1}, 500).wait(1000).then({opacity: 0}, 500).wait(1000).then(this.runner.waitPlain());
+        }),
+        _sx(['appear', tryText, {duration: 500}]),
+        _sx(['disappear', tryText, {duration: 500}]),
+        bind(this, function () { animate(this.nextButton).wait(1500); }),
+        _sx(['appear', this.nextButton, {duration: 500}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            this.nextButton.on('InputSelect', bind(this, function () {
+                this.nextButton.style.opacity = 0;
+                this.eweTutorial();
+            }));
+        })
+        ];
+
+        this.runner.run(_a);
     };
 
     this.eweTutorial = function () {
