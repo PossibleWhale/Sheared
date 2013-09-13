@@ -28,9 +28,8 @@ exports = Class(ImageView, function (supr) {
             height: 28,
             color: '#ffffff',
             fontFamily: 'delius',
-            strokeWidth: 3,
-            strokeColor: '#333333',
-            shadowColor: '#000000',
+            strokeWidth: 2,
+            strokeColor: '#000000',
             size: 24,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
