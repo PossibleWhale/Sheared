@@ -210,7 +210,7 @@ exports = Class(View, function (supr) {
 
         _a = [
         function () {
-            animate(holdImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
+            animate(holdImage).now({opacity: 1}, 1500).wait(5500).wait(3000).then({opacity: 0}, 0);
         },
         bind(this, function () {
             animate(holdText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
@@ -258,6 +258,7 @@ exports = Class(View, function (supr) {
     };
 
     this.eweTutorial = function () {
+        this.addSubview(this.inputBuffer);
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
         this._resetClipper();
@@ -294,6 +295,7 @@ exports = Class(View, function (supr) {
                                     text: 'Ewes appear in five colors. Each ewe gives one bolt of that color.'
                                 });
                                 this._animate(text).then(bind(this, function () {
+                                    this.nextButton.style.opacity = 1;
                                     this.addSubview(this.nextButton);
                                     this.nextButton.on('InputSelect', bind(this, function () {
                                         this.nextButton.removeFromSuperview();

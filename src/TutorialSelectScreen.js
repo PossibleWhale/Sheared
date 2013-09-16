@@ -1,5 +1,6 @@
 import ui.View;
 import ui.ImageView as ImageView;
+import ui.TextView as TextView;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.TutorialPlayScreen as TutorialPlayScreen;
@@ -65,31 +66,87 @@ exports = Class(ui.View, function (supr) {
         }));
 
         // tutorial selector
-        this.addSubview(new ImageView({
-            x: 252,
-            y: 113,
-            width: 520,
-            height: 350,
-            image: "resources/images/tutorials.png",
+        // this.addSubview(new ImageView({
+        //     x: 252,
+        //     y: 113,
+        //     width: 520,
+        //     height: 350,
+        //     //image: "resources/images/tutorials.png",
+        // }));
+
+        // shearing title
+        this.addSubview(new TextView({
+            x: 259,
+            y: 147,
+            width: 206,
+            height: 28,
+            color: '#352e29',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Shearing',
+            horizontalAlign: 'center'
         }));
 
+        // shearing button
         var playButton = new Button({
             superview: this,
-            x: 262,
-            y: 188,
-            width: 200,
-            height: 200,
-            click: true
+            x: 259,
+            y: 185,
+            width:  206,
+            height: 206,
+            click: true,
+            image: 'resources/images/button-tutorial-shearing.png'
         });
 
+        // shearing tutorial
+        this.addSubview(new TextView({
+            x: 259,
+            y: 401,
+            width: 206,
+            height: 28,
+            color: '#352e29',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Tutorial',
+            horizontalAlign: 'center'
+        }));
+
+        // crafting title
+        this.addSubview(new TextView({
+            x: 559,
+            y: 147,
+            width: 206,
+            height: 28,
+            color: '#352e29',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Crafting',
+            horizontalAlign: 'center'
+        }));
+
+        // crafting button
         var craftButton = new Button({
             superview: this,
-            x: 562,
-            y: 188,
-            width: 200,
-            height: 200,
-            click: true
+            x: 559,
+            y: 185,
+            width:  206,
+            height: 206,
+            click: true,
+            image: 'resources/images/button-tutorial-crafting.png'
         });
+
+        // crafting tutorial
+        this.addSubview(new TextView({
+            x: 559,
+            y: 401,
+            width: 206,
+            height: 28,
+            color: '#352e29',
+            fontFamily: 'delius',
+            size: 24,
+            text: 'Tutorial',
+            horizontalAlign: 'center'
+        }));
 
         this.backButton = new Button({
             superview: this,

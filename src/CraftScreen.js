@@ -226,7 +226,7 @@ exports = Class(View, function (supr) {
         var garment = this.selectedGarment,
             disabledImage;
 
-        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled-small.png'});
+        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled.png'});
 
         this._loopCrafts(bind(this, function _a_loopCraftsForUpdate(i, j) {
             var starRow, star, cbRow, cb, res, contrast, main, player = this.player;
@@ -243,7 +243,7 @@ exports = Class(View, function (supr) {
             if (player.canCraft(currentCraft)) {
                 cb.updateOpts({opacity: 1.0, purchaseable: true});
                 res = new Image({url:
-                    'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '-small.png'
+                    'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png'
                 });
                 cb.setImage(res);
             } else {
