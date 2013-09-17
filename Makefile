@@ -27,21 +27,31 @@ LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/tapjoyads/ads.js
+PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/js/backbutton.js $(PLUGINS_DIR)/tapjoyads/js/ads.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
 XCODEPROJ =         $(GC_DIR)/addons/native-ios/build/sheared/tealeaf/TeaLeafIOS.xcodeproj/project.pbxproj
 
+SUBPROJECTS =       addons/backbutton addons/tapjoyads
 
-all: manifest.json register $(PLUGINS) $(APK)
+TOP_LEVEL_DEPS =	manifest.json register $(SUBPROJECTS)
+
+
+all: $(TOP_LEVEL_DEPS) $(APK)
 
 debug: all
 
-ios: manifest.json register $(PLUGINS) $(XCODEPROJ)
+ios: $(TOP_LEVEL_DEPS) $(XCODEPROJ)
 
 $(XCODEPROJ): $(ALL_APK_DEPS)
 	basil debug native-ios
+
+addons/tapjoyads:
+	git clone git@github.com:PossibleWhale/tapjoyads.git
+
+addons/backbutton:
+	git clone git@github.com:PossibleWhale/backbutton.git
 
 release:
 	$(MAKE) BUILD=release clean $(GC_DIR)/config.json all
@@ -58,10 +68,10 @@ $(GC_DIR)/config.json: $(RELEASE_KEY)
 $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
-$(PLUGINS_DIR)/backbutton/backbutton.js:
+$(PLUGINS_DIR)/backbutton/js/backbutton.js:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(PLUGINS_DIR)/tapjoyads/ads.js:
+$(PLUGINS_DIR)/tapjoyads/js/ads.js:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
 
 tapjoysecretkey.txt: ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt
@@ -91,7 +101,10 @@ clean:
 	rm -vf $(APK)
 	rm -vf manifest.json
 	rm -vf $(GC_DIR)/addons/tapjoyads
+	rm -rf $(GC_DIR)/addons/tapjoyads
 	rm -vf $(GC_DIR)/addons/backbutton
+	rm -rf $(GC_DIR)/addons/backbutton
+	rm -vf sdk/plugins/* 
 
 localconfig: $(LOCALCONFIG)
 
