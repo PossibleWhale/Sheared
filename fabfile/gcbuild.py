@@ -16,7 +16,9 @@ TJ_KEY = "tapjoysecretkey.txt"
 @task
 def generateConfigJSON(configFile):
     """
-    Create manifest.json from manifest.json.in and tapjoysecretkey.txt
+    Create devkit/config.json from 
+    - androidstorepass.txt and
+    - possiblewhale.keystore
     """
     tmpOut = configFile + ".out"
     with open(tmpOut, 'w') as f:
@@ -36,13 +38,16 @@ def generateConfigJSON(configFile):
 @task
 def generateManifest(manifestFile):
     """
-    Create manifest.json from manifest.json.in and tapjoysecretkey.txt
+    Create manifest.json from 
+    - manifest.json.in and 
+    - tapjoysecretkey.txt
     """
     with open(manifestFile, 'w') as f:
         data = json.load(open(manifestFile + ".in"))
 
         tjKey = open(TJ_KEY).read().strip()
         data['android']["tapjoySecretKey"] = tjKey
+        data['ios']["tapjoySecretKey"] = tjKey
 
         json.dump(data, f, indent=4)
 
