@@ -34,11 +34,11 @@ ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFES
 XCODEPROJ =         $(GC_DIR)/addons/native-ios/build/sheared/tealeaf/TeaLeafIOS.xcodeproj/project.pbxproj
 
 
-all: manifest.json check-register $(PLUGINS) $(APK)
+all: manifest.json register $(PLUGINS) $(APK)
 
 debug: all
 
-ios: manifest.json check-register $(PLUGINS) $(XCODEPROJ)
+ios: manifest.json register $(PLUGINS) $(XCODEPROJ)
 
 $(XCODEPROJ): $(ALL_APK_DEPS)
 	basil debug native-ios
@@ -73,11 +73,8 @@ androidstorepass.txt: ~/Dropbox/possiblewhale/androidstorepass.txt
 possiblewhale.keystore: ~/Dropbox/possiblewhale/possiblewhale.keystore
 	ln -s ~/Dropbox/possiblewhale/possiblewhale.keystore possiblewhale.keystore
 
-check-register: register
-	grep -i `pwd` $(GC_DIR)/config.json
-
 register:
-	basil register .
+	grep -i sheared $(GC_DIR)/config.json || basil register .
 
 $(APK): $(ALL_APK_DEPS)
 	git pull
