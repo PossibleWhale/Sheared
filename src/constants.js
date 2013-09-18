@@ -1,4 +1,5 @@
 import ui.resource.Image as Image;
+import src.Craft as Craft;
 var imagePath = 'resources/images/';
 
 exports = {
@@ -93,23 +94,28 @@ exports = {
 
     GARMENT_HAT: {
         label: 'hat',
-        cost: {contrast: 2, main: 10}
+        cost: {contrast: 2, main: 10},
+        disabledImage: new Image({url: imagePath + 'hat-disabled.png'})
     },
     GARMENT_SOCK: {
         label: 'sock',
-        cost: {contrast: 10, main: 26}
+        cost: {contrast: 10, main: 26},
+        disabledImage: new Image({url: imagePath + 'sock-disabled.png'})
     },
     GARMENT_SCARF: {
         label: 'scarf',
-        cost: {contrast: 14, main: 34}
+        cost: {contrast: 14, main: 34},
+        disabledImage: new Image({url: imagePath + 'scarf-disabled.png'})
     },
     GARMENT_MITTEN: {
         label: 'mitten',
-        cost: {contrast: 6, main: 18}
+        cost: {contrast: 6, main: 18},
+        disabledImage: new Image({url: imagePath + 'mitten-disabled.png'})
     },
     GARMENT_SWEATER: {
         label: 'sweater',
-        cost: {contrast: 18, main: 42}
+        cost: {contrast: 18, main: 42},
+        disabledImage: new Image({url: imagePath + 'sweater-disabled.png'})
     },
 
     SHOP_NAMES: [
@@ -140,6 +146,15 @@ exports = {
     soundOffImage: new Image({url: imagePath + 'button-sound-off.png'}),
     regularBladeImage: new Image({url: imagePath + 'blade-regular.png'}),
     diamondBladeImage: new Image({url: imagePath + 'blade-diamond.png'}),
+    starImage: new Image({url: imagePath + 'gold-star.png'}),
+    coinParticleImage: new Image({url: imagePath + 'particle-ewero.png'}),
+    tabImages: [
+        new Image({url: imagePath + 'tab-1.png'}),
+        new Image({url: imagePath + 'tab-2.png'}),
+        new Image({url: imagePath + 'tab-3.png'}),
+        new Image({url: imagePath + 'tab-4.png'}),
+        new Image({url: imagePath + 'tab-5.png'})
+    ],
 
     UPGRADE_PRICES: {
         power: [1000, 2000, 4000,  8000,  16000],
@@ -371,3 +386,34 @@ exports.colorsByLabel = indexByLabel(exports.colors);
 exports.garments = [exports.GARMENT_HAT, exports.GARMENT_MITTEN,
     exports.GARMENT_SOCK, exports.GARMENT_SCARF, exports.GARMENT_SWEATER];
 exports.garmentsByLabel = indexByLabel(exports.garments);
+
+// build crafts (and images) for every craft
+exports.initCrafts = function () {
+    var i = exports.garments.length, j = exports.colors.length, k = exports.colors.length,
+        garment, main, contrast; 
+    exports.crafts = {};
+    exports.nullCrafts = {};
+    exports.craftImages = {};
+    while (i--) {
+        garment = exports.garments[i];
+        exports.crafts[garment.label] = {};
+        exports.nullCrafts[garment.label] = new Craft(garment, exports.COLOR_NONE, exports.COLOR_NONE);
+        exports.craftImages[garment.label] = {};
+        while (j--) {
+            main = exports.colors[j];
+            exports.crafts[garment.label][main.label] = {};
+            exports.craftImages[garment.label][main.label] = {};
+            while (k--) {
+                contrast = exports.colors[k];
+                if (main !== contrast) {
+                    exports.crafts[garment.label][main.label][contrast.label] = 
+                        new Craft(garment, main, contrast);
+                    exports.craftImages[garment.label][main.label][contrast.label] = 
+                        new Image({url: imagePath + garment.label + '-' + main.label + '-' + contrast.label + '.png'});
+                }
+            }
+            k = exports.colors.length;
+        }
+        j = exports.colors.length;
+    }
+};

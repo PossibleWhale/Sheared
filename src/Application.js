@@ -46,6 +46,7 @@ exports = Class(GC.Application, function (supr) {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
+        c.initCrafts();
         var stackView, muted;
 
         this.view.style.backgroundColor = '#000';

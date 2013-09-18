@@ -1,7 +1,6 @@
 
 import event.Emitter;
 import src.constants as c;
-import src.Craft as Craft;
 
 AwardTracker = Class(event.Emitter, function (supr) {
     this.init = function () {
@@ -169,7 +168,7 @@ AwardTracker = Class(event.Emitter, function (supr) {
                 for (i = 0; i < c.colors.length; i++) {
                     for (j = 0; j < c.garments.length; j++) {
                         if (craft.colors.main.label !== c.colors[i].label) {
-                            current = new Craft(c.garments[j].label, craft.colors.main.label, c.colors[i].label);
+                            current = c.crafts[c.garments[j].label][craft.colors.main.label][c.colors[i].label];
                             if (player.crafts.get(current).count < 1) {
                                 earnedColorAward = false;
                             }
