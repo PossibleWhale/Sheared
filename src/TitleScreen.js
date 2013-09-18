@@ -71,7 +71,7 @@ exports = Class(ImageView, function (supr) {
         this.giantClipper = new ImageView({
             superview: this,
             x: -535,
-            y: 123,
+            y: 113,
             width:  535,
             height: 190,
             image: 'resources/images/clipper-title.png'
@@ -79,10 +79,10 @@ exports = Class(ImageView, function (supr) {
 
         this.shearedLogo = new ImageView({
             superview: this,
-            x: 104,
-            y: 122,
+            x: 92,
+            y: 110,
             width:  816,
-            height: 186,
+            height: 190,
             opacity: 0,
             image: 'resources/images/sheared.png'
         });
