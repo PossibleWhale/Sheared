@@ -1,5 +1,5 @@
 import ui.resource.Image as Image;
-import src.Craft as Craft;
+
 var imagePath = 'resources/images/';
 
 exports = {
@@ -148,6 +148,17 @@ exports = {
     diamondBladeImage: new Image({url: imagePath + 'blade-diamond.png'}),
     starImage: new Image({url: imagePath + 'gold-star.png'}),
     coinParticleImage: new Image({url: imagePath + 'particle-ewero.png'}),
+    craftButtonImage: new Image({url: imagePath + 'button-craft.png'}),
+    craftButtonDisabledImage: new Image({url: imagePath + 'button-craft-disabled.png'}),
+    woolImages: {
+        white: new Image({url: imagePath + 'wool-white.png'}),
+        red: new Image({url: imagePath + 'wool-red.png'}),
+        blue: new Image({url: imagePath + 'wool-blue.png'}),
+        yellow: new Image({url: imagePath + 'wool-yellow.png'}),
+        black: new Image({url: imagePath + 'wool-black.png'}),
+        disabledMain: new Image({url: imagePath + 'wool-main-disabled.png'}),
+        disabledContrast: new Image({url: imagePath + 'wool-contrast-disabled.png'})
+    },
     tabImages: [
         new Image({url: imagePath + 'tab-1.png'}),
         new Image({url: imagePath + 'tab-2.png'}),
@@ -389,27 +400,41 @@ exports.garmentsByLabel = indexByLabel(exports.garments);
 
 // build crafts (and images) for every craft
 exports.initCrafts = function () {
+    import src.Craft as Craft;
     var i = exports.garments.length, j = exports.colors.length, k = exports.colors.length,
         garment, main, contrast; 
     exports.crafts = {};
-    exports.nullCrafts = {};
     exports.craftImages = {};
+    exports.nullCrafts = {};
+    exports.nullCraftImages = {};
+    exports.swatchImages = {};
     while (i--) {
         garment = exports.garments[i];
+        exports.craftImages[garment.label] = {};
+        exports.nullCraftImages[garment.label] = new Image({url: imagePath + garment.label + '-disabled.png'});
         exports.crafts[garment.label] = {};
         exports.nullCrafts[garment.label] = new Craft(garment, exports.COLOR_NONE, exports.COLOR_NONE);
-        exports.craftImages[garment.label] = {};
         while (j--) {
             main = exports.colors[j];
             exports.crafts[garment.label][main.label] = {};
             exports.craftImages[garment.label][main.label] = {};
+
+            if (i === 0) {
+                exports.swatchImages[main.label] = {};
+            }
             while (k--) {
                 contrast = exports.colors[k];
                 if (main !== contrast) {
-                    exports.crafts[garment.label][main.label][contrast.label] = 
-                        new Craft(garment, main, contrast);
                     exports.craftImages[garment.label][main.label][contrast.label] = 
                         new Image({url: imagePath + garment.label + '-' + main.label + '-' + contrast.label + '.png'});
+                    exports.crafts[garment.label][main.label][contrast.label] = 
+                        new Craft(garment, main, contrast);
+
+
+                    if (i === 0) {
+                        exports.swatchImages[main.label][contrast.label] =
+                            new Image({url: imagePath + 'swatch-' + main.label + '-' + contrast.label + '.png'});
+                    }
                 }
             }
             k = exports.colors.length;
