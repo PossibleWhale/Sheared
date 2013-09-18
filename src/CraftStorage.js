@@ -1,6 +1,5 @@
 import src.constants as c;
 import src.Storage as Storage;
-import src.Craft as Craft;
 import src.util as util;
 
 
@@ -50,7 +49,7 @@ exports = Class(Storage, function (supr) {
                     continue;
                 }
 
-                craft = new Craft(garment, c.colors[i], c.colors[j]);
+                craft = c.crafts[garment][c.colors[i].label][c.colors[j].label];
                 callback(i, j, this.get(craft));
             }
         }

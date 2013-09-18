@@ -12,7 +12,6 @@ import src.constants as c;
 import src.Button as Button;
 import src.MuteButton as MuteButton;
 import src.util as util;
-import src.Craft as Craft;
 import src.debughack as dh;
 import src.awardtracker as at;
 import src.WoolCounter as WoolCounter;
@@ -111,6 +110,14 @@ exports = Class(View, function (supr) {
             width: 394,
             height: 324,
             superview: this.tabBG
+        });
+
+        // used to prevent input during crafting
+        this.inputBlock = new View({
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 416
         });
 
         // load up alllll dem buttons
@@ -226,7 +233,7 @@ exports = Class(View, function (supr) {
         var garment = this.selectedGarment,
             disabledImage;
 
-        disabledImage = new Image({url: 'resources/images/' + garment.label + '-disabled.png'});
+        disabledImage = garment.disabledImage;
 
         this._loopCrafts(bind(this, function _a_loopCraftsForUpdate(i, j) {
             var starRow, star, cbRow, cb, res, contrast, main, player = this.player;
@@ -238,13 +245,11 @@ exports = Class(View, function (supr) {
 
             main = cb.getOpts().item.main;
             contrast = cb.getOpts().item.contrast;
-            currentCraft = new Craft(garment, main, contrast);
+            currentCraft = c.crafts[garment.label][main.label][contrast.label];
 
             if (player.canCraft(currentCraft)) {
                 cb.updateOpts({opacity: 1.0, purchaseable: true});
-                res = new Image({url:
-                    'resources/images/' + garment.label + '-' + main.label + '-' + contrast.label + '.png'
-                });
+                res = c.craftImages[garment.label][main.label][contrast.label];
                 cb.setImage(res);
             } else {
                 cb.updateOpts({opacity: 0.75, purchaseable: false});
@@ -260,8 +265,8 @@ exports = Class(View, function (supr) {
     };
 
     this.updateTabs = function _a_updateTabs() {
-        var num = c.garments.indexOf(this.selectedGarment) + 1;
-        this.tabs.setImage('resources/images/tab-' + num + '.png');
+        var num = c.garments.indexOf(this.selectedGarment);
+        this.tabs.setImage(c.tabImages[num]);
     };
 
     /*
@@ -306,7 +311,7 @@ exports = Class(View, function (supr) {
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
         this.largeCraft.removeAllSubviews();
-        this.selectedCraft = new Craft(this.selectedGarment, null, null);
+        this.selectedCraft = c.nullCrafts[this.selectedGarment.label];
         this.largeCraft.addSubview(this.selectedCraft);
         this.selectedCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
     };
@@ -324,13 +329,7 @@ exports = Class(View, function (supr) {
 
         craft.removeAllListeners();
         craft.on('largeCraft:purchased', bind(this, function _a_largeCraftPurchased() {
-            this.inputBlock = new View({
-                superview: this,
-                x: 0,
-                y: 80,
-                width: 1024,
-                height: 416
-            });
+            this.addSubview(this.inputBlock);
             craft._disableBuy();
             this.buyCraft(craft);
         }));
@@ -350,7 +349,8 @@ exports = Class(View, function (supr) {
 
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
-                var craft = new Craft(me.selectedGarment, _btn.getOpts().item.main, _btn.getOpts().item.contrast);
+                var craft = c.crafts[me.selectedGarment.label][_btn.getOpts().item.main.label]
+                                    [_btn.getOpts().item.contrast.label];
                 me.showLargeCraft(craft);
             };
         })(btn));
@@ -361,7 +361,7 @@ exports = Class(View, function (supr) {
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
         var me = this.btn;
         region.superview = this.tabs;
-        region.image = new Image({url: 'resources/images/gold-star.png'});
+        region.image = c.starImage;
         btn = this.defaultButtonFactory(region, 'craftStars');
         btn.hide();
 
@@ -391,7 +391,7 @@ exports = Class(View, function (supr) {
                     y: 125 + 325/2,
                     width: 20,
                     height: 20,
-                    image: 'resources/images/particle-ewero.png'
+                    image: c.coinParticleImage
                 })),
                 x = Math.random() * 150,
                 y = Math.random() * 150;
@@ -413,6 +413,7 @@ exports = Class(View, function (supr) {
                         for (j = 0; j < coins.length; j++) {
                             coins[j].removeFromSuperview();
                         }
+                        coins.length = 0;
                         this.crafts.addCraft(craft);
                         this.emit('craft:addDollars', craft.eweros());
                         this.wool.addWool(craft.colors.main, -1 * costs[0].amount);

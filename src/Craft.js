@@ -83,8 +83,8 @@ exports = Class(ui.View, function (supr) {
         enabled = (enabled === undefined) ? true : enabled;
         this.buyButton.setImage(
             enabled || enabled === undefined ?
-                'resources/images/button-craft.png' :
-                'resources/images/button-craft-disabled.png'
+               c.craftButtonImage :
+               c.craftButtonDisabledImage
         );
         this.buyButton.updateOpts({buyEnabled: enabled});
     };
@@ -100,13 +100,11 @@ exports = Class(ui.View, function (supr) {
             main = this.colors.main.label,
             cont = this.colors.contrast.label;
         if (enabled === undefined || enabled) {
-            this.pvSwatch.setImage('resources/images/swatch-' +
-                    main + '-' + cont + '.png');
-            this.pvItem.setImage('resources/images/' +
-                    garm + '-' + main + '-' + cont + '.png');
+            this.pvSwatch.setImage(c.swatchImages[main][cont]);
+            this.pvItem.setImage(c.craftImages[garm][main][cont]);
             this.pvText.setText(util.capitalize(main) + ' & ' + util.capitalize(cont) + ' ' + util.capitalize(garm));
-            this.pvMain.setImage('resources/images/wool-' + main + '.png');
-            this.pvContrast.setImage('resources/images/wool-' + cont + '.png');
+            this.pvMain.setImage(c.woolImages[main]);
+            this.pvContrast.setImage(c.woolImages[cont]);
 
             costs = this.cost();
             this.mainWoolCost.setText(costs[0].amount);
@@ -115,9 +113,9 @@ exports = Class(ui.View, function (supr) {
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
-            this.pvItem.setImage('resources/images/' + garm + '-disabled.png');
-            this.pvMain.setImage('resources/images/wool-main-disabled.png');
-            this.pvContrast.setImage('resources/images/wool-contrast-disabled.png');
+            this.pvItem.setImage(c.nullCraftImages[garm]);
+            this.pvMain.setImage(c.woolImages['disabledMain']);
+            this.pvContrast.setImage(c.woolImages['disabledContrast']);
 
             this.mainWoolCost.setText('-');
             this.contrastWoolCost.setText('-');
