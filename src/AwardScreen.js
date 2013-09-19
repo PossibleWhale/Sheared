@@ -206,6 +206,45 @@ exports = Class(View, function (supr) {
             this._buildTab('wool');
             this._buildTab('crafts');
             this._buildTab('misc');
+            this.tabs.ewes.addSubview(new ImageView({
+                x: 33,
+                y: 33,
+                width: 137,
+                height: 350,
+                image: 'resources/images/tab-1.png'
+            }));
+            // rams
+            this.tabs.rams.addSubview(new ImageView({
+                x: 33,
+                y: 33,
+                width: 137,
+                height: 350,
+                image: 'resources/images/tab-2.png'
+            }));
+            // wool
+            this.tabs.wool.addSubview(new ImageView({
+                x: 33,
+                y: 33,
+                width: 137,
+                height: 350,
+                image: 'resources/images/tab-3.png'
+            }));
+            // crafts
+            this.tabs.crafts.addSubview(new ImageView({
+                x: 33,
+                y: 33,
+                width: 137,
+                height: 350,
+                image: 'resources/images/tab-4.png'
+            }));
+            // misc
+            this.tabs.misc.addSubview(new ImageView({
+                x: 33,
+                y: 33,
+                width: 137,
+                height: 350,
+                image: 'resources/images/tab-5.png'
+            }));
         }));
 
         this.on('ViewDidDisappear', bind(this, function () {
@@ -218,54 +257,7 @@ exports = Class(View, function (supr) {
     };
 
     this._buildTab = function (tab) {
-        this.tabs[tab].removeAllSubviews();
         // ewes
-        this.tabs.ewes.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-1.png'
-        }));
-        // rams
-        this.tabs.rams.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-2.png'
-        }));
-        // wool
-        this.tabs.wool.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-3.png'
-        }));
-        // crafts
-        this.tabs.crafts.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-4.png'
-        }));
-        // misc
-        this.tabs.misc.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-5.png'
-        }));
-        this.tabs[tab].addSubview(new ImageView({
-            x: 183,
-            y: 46,
-            width: 795,
-            height: 324,
-            image: 'resources/images/awards-background.png'
-        }));
         var view = new View({
             x: 0,
             y: 0,

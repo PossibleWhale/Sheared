@@ -17,16 +17,16 @@ exports = Class(ImageView, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+    };
 
+    this.run = function () {
         this.sheepSheared = 0;
         if (opts.fromTutorial) {
             this.maxSheep = 1;
         } else {
             this.maxSheep = GC.app.player.upgrades.get('blade').value;
         }
-    };
 
-    this.run = function () {
         if (this.getSuperview().clipper.isDiamond) {
             this.setImage(constants.diamondBladeImage);
             this.isDiamond = true;
