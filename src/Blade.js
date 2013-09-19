@@ -44,7 +44,7 @@ exports = Class(ImageView, function (supr) {
         superview.clipper.blades.splice(superview.clipper.blades.indexOf(this), 1);
         superview.clipper.bladeOut = false;
         superview.clipper.reloadBlade();
-        this.removeFromSuperview();
+        superview.clipper.bladePool.releaseView(this);
     };
 
     this.ricochet = function () {

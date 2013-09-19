@@ -6,7 +6,7 @@ import src.debughack as dh;
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
-        var initialTime = 30;
+        this.initialTime = 30;
 
         opts = merge(opts, {
              width: 54,
@@ -26,14 +26,14 @@ exports = Class(ImageView, function (supr) {
             size: 20,
             autoFontSize: true,
             fontFamily: 'delius',
-            text: initialTime,
+            text: this.initialTime,
             horizontalAlign: 'center',
             vertcalAlign: 'middle'
         });
 
 
-        this.time = initialTime;
-        this.setText(initialTime);
+        this.time = this.initialTime;
+        this.setText(this.initialTime);
 
         this.diamondTime1 = Math.floor(Math.random() * 10) + 5;
         this.diamondTime2 = this.diamondTime1 + Math.floor(Math.random() * 5) + 10;
@@ -81,5 +81,11 @@ exports = Class(ImageView, function (supr) {
 
     this.stop = function () {
         clearInterval(this.interval);
+    };
+
+    this.reset = function () {
+        this.time = this.initialTime;
+        this.setText(this.time);
+        this.run();
     };
 });

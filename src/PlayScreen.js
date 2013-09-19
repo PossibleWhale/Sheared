@@ -346,7 +346,7 @@ exports = Class(View, function (supr) {
                 this.diamond.animator.pause();
             }
             this.removeSubview(this.inputBuffer);
-            animate(this.pgameOverScreen).now({x: 1024/2 - 250}, 400);
+            animate(this.pauseText).now({x: 1024/2 - 250}, 400);
         } else {
             animate(this.pauseText).now({x: 0 - 500}, 400).then(bind(this, function () {
                 this.timer.run();
@@ -407,7 +407,7 @@ exports = Class(View, function (supr) {
 
     this.removeSheep = function (sheep) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
-        sheep.removeFromSuperview();
+        //sheep.removeFromSuperview();
     };
 
     this.spawnDiamond = function () {
@@ -440,6 +440,8 @@ exports = Class(View, function (supr) {
         while (i--) {
             this.sheep[i].die();
         }
+        this.sheepPool.releaseAllViews();
+        this.ramPool.releaseAllViews();
         while (j--) {
             this.clipper.blades[j].die();
         }
@@ -453,7 +455,7 @@ exports = Class(View, function (supr) {
         }
         clearInterval(this.interval);
         this.removeSubview(this.timer);
-        this.timer = false;
+        this.clipper.bladePool.releaseAllViews();
         this.removeSubview(this.clipper);
         this.removeSubview(this.inputBuffer);
         this.removeSubview(this.pauseButton);
@@ -558,12 +560,17 @@ function playGame () {
     this.audio = GC.app.audio;
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
-    this.timer = new Timer({
-        x: 836,
-        y: 505
-    });
-    this.addSubview(this.timer);
-    this.timer.run();
+    if (this.timer) {
+        this.addSubview(this.timer);
+        this.timer.reset();
+    } else {
+        this.timer = new Timer({
+            x: 836,
+            y: 505
+        });
+        this.addSubview(this.timer);
+        this.timer.run();
+    }
 
     this.audio.playMusic();
 
