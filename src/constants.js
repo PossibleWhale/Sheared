@@ -150,6 +150,12 @@ exports = {
     coinParticleImage: new Image({url: imagePath + 'particle-ewero.png'}),
     craftButtonImage: new Image({url: imagePath + 'button-craft.png'}),
     craftButtonDisabledImage: new Image({url: imagePath + 'button-craft-disabled.png'}),
+    clipperRegularImage: new Image({url: imagePath + 'clipper-regular.png'}),
+    clipperDiamondImage: new Image({url: imagePath + 'clipper-diamond.png'}),
+    clipperGoldImage: new Image({url: imagePath + 'clipper-gold-regular.png'}),
+    clipperGoldDiamondImage: new Image({url: imagePath + 'clipper-gold-diamond.png'}),
+    clipperNoneImage: new Image({url: imagePath + 'clipper-none.png'}),
+    clipperGoldNoneImage: new Image({url: imagePath + 'clipper-gold-none.png'}),
     woolImages: {
         white: new Image({url: imagePath + 'wool-white.png'}),
         red: new Image({url: imagePath + 'wool-red.png'}),

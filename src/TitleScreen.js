@@ -216,14 +216,14 @@ exports = Class(ImageView, function (supr) {
         GC.app.engine.on('Tick', bind(this, function (dt) {
             var ticker, tut;
 
-            if (playScreen.clipper) {
+            if (playScreen.clipper && playScreen.clipper.isDiamond) {
                 playScreen.clipper.emitDiamonds();
             }
 
             tut = tutorialScreen.tutorialScreen;
             if (tut && tut.runTick) {
                 tut.runTick();
-                if (tut.clipper) {
+                if (tut.clipper && tut.clipper.isDiamond) {
                     tut.clipper.emitDiamonds();
                 }
             }

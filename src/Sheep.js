@@ -126,13 +126,13 @@ exports = Class(ImageView, function (supr) {
                     return;
                 }
             }
-            if (intersect.rectAndRect(this.style,
-                new Rect({
-                    x: superview.clipper.style.x + superview.clipper.marginSize,
-                    y: superview.clipper.style.y + superview.clipper.marginSize,
-                    width: superview.clipper.clipperBox.style.width,
-                    height: superview.clipper.clipperBox.style.height
-                }))) {
+            if (intersect.rectAndRect(this.style, superview.clipper.style)) {
+                //new Rect({
+                //    x: superview.clipper.style.x + superview.clipper.marginSize,
+                //    y: superview.clipper.style.y + superview.clipper.marginSize,
+                //    width: superview.clipper.clipperBox.style.width,
+                //    height: superview.clipper.clipperBox.style.height
+                //}))) {
 
                 this.emit('sheep:collision');
                 superview.clipper.emitSparks();

@@ -18,7 +18,7 @@ exports = Class(ImageView, function (supr) {
         opts = merge(opts, {
             width: 128,
             height: 46,
-            image: 'resources/images/clipper-regular.png'
+            image: constants.clipperRegularImage
         });
 
         supr(this, 'init', [opts]);
@@ -29,15 +29,6 @@ exports = Class(ImageView, function (supr) {
 
     this.build = function () {
         this.checkGold();
-        this.marginSize = 10;
-
-        this.clipperBox = new View({
-            x: this.marginSize,
-            y: this.marginSize,
-            width: this.style.width - 2*this.marginSize,
-            height: this.style.height - 2*this.marginSize
-        });
-        this.addSubview(this.clipperBox);
 
         this.isDiamond = false;
         this.bladeOut = false;
@@ -58,7 +49,7 @@ exports = Class(ImageView, function (supr) {
             !this.getSuperview().isTutorial) {
 
             this.isGold = true;
-            this.setImage('resources/images/clipper-gold-regular.png');
+            this.setImage(constants.clipperGoldImage);
         }
     };
 
@@ -67,9 +58,9 @@ exports = Class(ImageView, function (supr) {
 
         this.isDiamond = true;
         if (this.isGold) {
-            this.setImage('resources/images/clipper-gold-diamond.png');
+            this.setImage(constants.clipperGoldDiamondImage);
         } else {
-            this.setImage('resources/images/clipper-diamond.png');
+            this.setImage(constants.clipperDiamondImage);
         }
 
         this.getSuperview().addSubview(diamondIndicator);
@@ -83,9 +74,9 @@ exports = Class(ImageView, function (supr) {
         clearInterval(this.interval);
         this.isDiamond = false;
         if (this.isGold) {
-            this.setImage('resources/images/clipper-gold-regular.png');
+            this.setImage(constants.clipperGoldImage);
         } else {
-            this.setImage('resources/images/clipper-regular.png');
+            this.setImage(constants.clipperRegularImage);
         }
         if (this.getSuperview()) {
             this.getSuperview().removeSubview(diamondIndicator);
@@ -129,9 +120,9 @@ exports = Class(ImageView, function (supr) {
         this.blades.push(newBlade);
         this.bladeOut = true;
         if (this.isGold) {
-            this.setImage('resources/images/clipper-gold-none.png');
+            this.setImage(constants.clipperGoldNoneImage);
         } else {
-            this.setImage('resources/images/clipper-none.png');
+            this.setImage(constants.clipperNoneImage);
         }
         newBlade.run();
     };
@@ -139,15 +130,15 @@ exports = Class(ImageView, function (supr) {
     this.reloadBlade = function () {
         if (this.isDiamond) {
             if (this.isGold) {
-                this.setImage('resources/images/clipper-gold-diamond.png');
+                this.setImage(constants.clipperGoldDiamondImage);
             } else {
-                this.setImage('resources/images/clipper-diamond.png');
+                this.setImage(constants.clipperDiamondImage);
             }
         } else {
             if (this.isGold) {
-                this.setImage('resources/images/clipper-gold-regular.png');
+                this.setImage(constants.clipperGoldImage);
             } else {
-                this.setImage('resources/images/clipper-regular.png');
+                this.setImage(constants.clipperRegularImage);
             }
         }
     };

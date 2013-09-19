@@ -407,7 +407,6 @@ exports = Class(View, function (supr) {
 
     this.removeSheep = function (sheep) {
         this.sheep.splice(this.sheep.indexOf(sheep), 1);
-        //sheep.removeFromSuperview();
     };
 
     this.spawnDiamond = function () {
