@@ -111,6 +111,205 @@ exports = Class(View, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
+        this.pauseText = new Button({
+            x: 1024,
+            y: 576/2 - 100,
+            width: 500,
+            height: 200,
+            text: 'Paused'
+        });
+
+        this.dayIntro = new View({
+            x: 1024,
+            y: 0,
+            width: 1024,
+            height: 576
+        });
+        this.dayIntro.addSubview(new ImageView({
+            x: 192,
+            y: 113,
+            width: 628,
+            height: 108,
+            image: 'resources/images/ribbon.png'
+        }));
+        this.dayText = new Button({
+            superview: this.dayIntro,
+            x: 270,
+            y: 140,
+            width: 484,
+            height: 54,
+            size: 128,
+            text: 'Day  ' + (this.day+1)
+        });
+
+        var continueButton = new Button({
+            x: 412,
+            y: 344,
+            width: 200,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-continue.png'
+        });
+
+        this.dayIntro.addSubview(continueButton);
+
+        this.dayIntro.on('InputSelect', bind(this, function(evt) {
+            evt.cancel();
+            animate(this.dayIntro).now({x: -1024}).then(bind(this, function () {
+                this.dayIntro.removeFromSuperview();
+                this.emit('play:start');
+            }));
+        }));
+
+        // results
+        this.resultsScreen = new View({
+            x: 1024,
+            y: 0,
+            width: 1024,
+            height: 576
+        });
+        this.resultsScreen.addSubview(new ImageView({
+            x: 198,
+            y: 113,
+            width: 628,
+            height: 108,
+            image: 'resources/images/ribbon.png'
+        }));
+        this.resultsScreen.addSubview(new Button({
+            x: 270,
+            y: 140,
+            width: 484,
+            height: 54,
+            size: 128,
+            text: 'Results'
+        }));
+        continueButton = new Button({
+            superview: this.resultsScreen,
+            x: 412,
+            y: 344,
+            width: 200,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-continue.png'
+        });
+        this.resultsScreen.storeButton = new Button({
+            superview: this.resultsScreen,
+            x: 59,
+            y: 252,
+            width: 184,
+            height: 60,
+            click: true,
+            image: 'resources/images/button-general-store.png'
+        });
+        this.resultsScreen.craftButton = new Button({
+            superview: this.resultsScreen,
+            x: 781,
+            y: 252,
+            width: 184,
+            height: 60,
+            click: true,
+            image: 'resources/images/button-crafts-catalog.png'
+        });
+        this.resultsScreen.homeButton = new Button({
+            x: 8,
+            y: 8,
+            width: 64,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-home.png'
+        });
+
+        continueButton.on('InputSelect', bind(this, function (evt) {
+            animate(this.resultsScreen).now({x: -1024}).then(bind(this, function() {
+                this.resultsScreen.removeFromSuperview();
+                this.day += 1;
+                this.beginDay();
+            }));
+        }));
+
+        // game over
+        this.gameOverScreen = new View({
+            x: 1024,
+            y: 0,
+            width: 1024,
+            height: 576
+        });
+        this.gameOverScreen.addSubview(new ImageView({
+            x: 198,
+            y: 113,
+            width: 628,
+            height: 108,
+            image: 'resources/images/ribbon.png'
+        }));
+        this.gameOverScreen.addSubview(new Button({
+            x: 270,
+            y: 140,
+            width: 484,
+            height: 54,
+            size: 128,
+            text: 'Game Over'
+        }));
+        this.gameOverScreen.storeButton = new Button({
+            superview: this.gameOverScreen,
+            x: 59,
+            y: 252,
+            width: 184,
+            height: 60,
+            click: true,
+            image: 'resources/images/button-general-store.png'
+        });
+        this.gameOverScreen.restartButton = new Button({
+            superview: this.gameOverScreen,
+            x: 412,
+            y: 250,
+            width: 200,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-restart.png'
+        });
+        this.gameOverScreen.homeButton = new Button({
+            superview: this.gameOverScreen,
+            x: 412,
+            y: 344,
+            width: 200,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-mainmenu.png'
+        });
+        this.gameOverScreen.craftButton = new Button({
+            superview: this.gameOverScreen,
+            x: 781,
+            y: 252,
+            width: 184,
+            height: 60,
+            click: true,
+            image: 'resources/images/button-crafts-catalog.png'
+        });
+
+        this.gameOverScreen.restartButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:restart');
+            this.gameOverScreen.removeFromSuperview();
+        }));
+
+        this.resultsScreen.storeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:store');
+        }));
+        this.gameOverScreen.storeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:store');
+        }));
+        this.resultsScreen.craftButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:craft');
+        }));
+        this.gameOverScreen.craftButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:craft');
+        }));
+        this.resultsScreen.homeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:home');
+        }));
+        this.gameOverScreen.homeButton.on('InputSelect', bind(this, function () {
+            GC.app.titleScreen.emit('playscreen:home');
+        }));
+
         // for playtesting purposes..
         if (device.name === 'browser') {
             if (!this.onKey) {
@@ -129,14 +328,8 @@ exports = Class(View, function (supr) {
     this.togglePaused = function () {
         this.paused = !this.paused;
         if (this.paused) {
-            this.pauseText = new Button({
-                superview: this,
-                x: 1024,
-                y: 576/2 - 100,
-                width: 500,
-                height: 200,
-                text: 'Paused'
-            });
+            this.pauseText.style.x = 1024;
+            this.addSubview(this.pauseText);
             this.timer.stop();
             this.clipper.pauseCountdown();
             if (this.interval) {
@@ -153,7 +346,7 @@ exports = Class(View, function (supr) {
                 this.diamond.animator.pause();
             }
             this.removeSubview(this.inputBuffer);
-            animate(this.pauseText).now({x: 1024/2 - 250}, 400);
+            animate(this.pgameOverScreen).now({x: 1024/2 - 250}, 400);
         } else {
             animate(this.pauseText).now({x: 0 - 500}, 400).then(bind(this, function () {
                 this.timer.run();
@@ -193,48 +386,10 @@ exports = Class(View, function (supr) {
         this.dailyWool = new WoolStorage({persist: false});
         this.sheep = [];
 
-        var dayIntro = new View({
-            x: 1024,
-            y: 0,
-            width: 1024,
-            height: 576
-        });
-        dayIntro.addSubview(new ImageView({
-            x: 192,
-            y: 113,
-            width: 628,
-            height: 108,
-            image: 'resources/images/ribbon.png'
-        }));
-        dayIntro.addSubview(new Button({
-            x: 270,
-            y: 140,
-            width: 484,
-            height: 54,
-            size: 128,
-            text: 'Day  ' + (this.day+1)
-        }));
-
-        var continueButton = new Button({
-            x: 412,
-            y: 344,
-            width: 200,
-            height: 64,
-            click: true,
-            image: 'resources/images/button-continue.png'
-        });
-
-        dayIntro.addSubview(continueButton);
-        this.addSubview(dayIntro);
-        animate(dayIntro).now({x: 0});
-
-        dayIntro.on('InputSelect', bind(this, function(evt) {
-            evt.cancel();
-            animate(dayIntro).now({x: -1024}).then(bind(this, function () {
-                dayIntro.removeFromSuperview();
-                this.emit('play:start');
-            }));
-        }));
+        this.dayText.setText('Day  ' + (this.day+1));
+        this.dayIntro.style.x = 1024;
+        this.addSubview(this.dayIntro);
+        animate(this.dayIntro).now({x: 0});
     };
 
     this.runTick = function () {
@@ -319,164 +474,34 @@ exports = Class(View, function (supr) {
     this._showResults = function (finishedDay) {
         var i, resultsScreen, continueButton;
         if (finishedDay) {
-            resultsScreen = new View({
-                x: 1024,
-                y: 0,
-                width: 1024,
-                height: 576
-            });
-            resultsScreen.addSubview(new ImageView({
-                x: 198,
-                y: 113,
-                width: 628,
-                height: 108,
-                image: 'resources/images/ribbon.png'
-            }));
-            resultsScreen.addSubview(new Button({
-                x: 270,
-                y: 140,
-                width: 484,
-                height: 54,
-                size: 128,
-                text: 'Results'
-            }));
-            resultsScreen.addSubview(new WoolCounter({
-                x: 300,
-                y: 250,
-                width: 424,
-                height: 64,
-                storage: this.dailyWool
-            }));
-            continueButton = new Button({
-                x: 412,
-                y: 344,
-                width: 200,
-                height: 64,
-                click: true,
-                image: 'resources/images/button-continue.png'
-            }),
-            storeButton = new Button({
-                superview: resultsScreen,
-                x: 59,
-                y: 252,
-                width: 184,
-                height: 60,
-                click: true,
-                image: 'resources/images/button-general-store.png'
-            }),
-            craftButton = new Button({
-                superview: resultsScreen,
-                x: 781,
-                y: 252,
-                width: 184,
-                height: 60,
-                click: true,
-                image: 'resources/images/button-crafts-catalog.png'
-            }),
-            homeButton = new Button({
-                x: 8,
-                y: 8,
-                width: 64,
-                height: 64,
-                click: true,
-                image: 'resources/images/button-home.png'
-            });
-
             var counts = [];
             for (i = 0; i < constants.colors.length; i++) {
                 var count = this.dailyWool.get(constants.colors[i]).count,
                     numParticles = Math.min(10, count);
                 counts.push(numParticles);
             }
-
-            resultsScreen.addSubview(continueButton);
-            continueButton.on('InputSelect', bind(this, function (evt) {
-                animate(resultsScreen).now({x: -1024}).then(bind(this, function() {
-                    resultsScreen.removeFromSuperview();
-                    this.day += 1;
-                    this.beginDay();
-                }));
-            }));
-        } else {
-            resultsScreen = new View({
-                x: 1024,
-                y: 0,
-                width: 1024,
-                height: 576
-            });
-            resultsScreen.addSubview(new ImageView({
-                x: 198,
-                y: 113,
-                width: 628,
-                height: 108,
-                image: 'resources/images/ribbon.png'
-            }));
-            resultsScreen.addSubview(new Button({
-                x: 270,
-                y: 140,
-                width: 484,
-                height: 54,
-                size: 128,
-                text: 'Game Over'
-            }));
-            storeButton = new Button({
-                superview: resultsScreen,
-                x: 59,
-                y: 252,
-                width: 184,
-                height: 60,
-                click: true,
-                image: 'resources/images/button-general-store.png'
-            }),
-            restartButton = new Button({
-                superview: resultsScreen,
-                x: 412,
+            if (this.dailyCounter) {
+                this.dailyCounter.removeFromSuperview()
+                delete this.dailyCounter;
+            }
+            this.dailyCounter = new WoolCounter({
+                x: 300,
                 y: 250,
-                width: 200,
+                width: 424,
                 height: 64,
-                click: true,
-                image: 'resources/images/button-restart.png'
-            }),
-            homeButton = new Button({
-                superview: resultsScreen,
-                x: 412,
-                y: 344,
-                width: 200,
-                height: 64,
-                click: true,
-                image: 'resources/images/button-mainmenu.png'
-            }),
-            craftButton = new Button({
-                superview: resultsScreen,
-                x: 781,
-                y: 252,
-                width: 184,
-                height: 60,
-                click: true,
-                image: 'resources/images/button-crafts-catalog.png'
+                storage: this.dailyWool
             });
-
-            restartButton.on('InputSelect', bind(this, function () {
-                GC.app.titleScreen.emit('playscreen:restart');
-                resultsScreen.removeFromSuperview();
-            }));
+            this.resultsScreen.addSubview(this.dailyCounter);
+            resultsScreen = this.resultsScreen;
+        } else {
+            resultsScreen = this.gameOverScreen;
         }
-
-        storeButton.on('InputSelect', bind(this, function () {
-            GC.app.titleScreen.emit('playscreen:store');
-        }));
-        craftButton.on('InputSelect', bind(this, function () {
-            GC.app.titleScreen.emit('playscreen:craft');
-        }));
-        homeButton.on('InputSelect', bind(this, function () {
-            GC.app.titleScreen.emit('playscreen:home');
-        }));
 
         this.addSubview(resultsScreen);
         animate(resultsScreen).now({x: 0}).then(bind(this, function () {
             if (finishedDay) {
                 var i, startX = 333, gap = 90;
-                resultsScreen.addSubview(homeButton);
+                resultsScreen.addSubview(resultsScreen.homeButton);
                 for (i = 0; i < constants.colors.length; i++) {
                     emitWool(startX + i*gap,
                              294, counts[i], constants.colors[i].label);
