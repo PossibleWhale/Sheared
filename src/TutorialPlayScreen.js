@@ -119,8 +119,8 @@ exports = Class(View, function (supr) {
         this.woolCounts = new WoolCounter({
             storage: new WoolStorage({persist: false}),
             superview: this,
-            x: 283,
-            y: 0,
+            x: 300,
+            y: 8,
         });
 
         this.inputBuffer = new InputBuffer({superview: this});
@@ -139,11 +139,11 @@ exports = Class(View, function (supr) {
 
         this.backButton = new Button({
             superview: this,
-            x: 0,
-            y: 0,
-            zIndex: 9999,
-            width: 80,
-            height: 80,
+            x: 8,
+            y: 8,
+            zIndex: 999999,
+            width: 64,
+            height: 64,
             click: true,
             image: 'resources/images/button-return.png'
         });
@@ -153,11 +153,11 @@ exports = Class(View, function (supr) {
 
         var muteButton = new MuteButton({
             superview: this,
-            x: 944,
-            y: 0,
-            zIndex: 9999,
-            width: 80,
-            height: 80
+            x: 952,
+            y: 8,
+            zIndex: 99999,
+            width: 64,
+            height: 64
         });
 
         this.sheepPool = new ViewPool({
