@@ -81,12 +81,13 @@ exports = Class(CraftScreen, function (supr) {
             canHandleEvents: false
         });
 
-        this.nextButton = new ImageView({
+        this.nextButton = new Button({
             x: 412,
             y: 344,
             zIndex: 9999,
             width: 200,
             height: 64,
+            click: true,
             image: 'resources/images/button-continue.png',
             superview: this,
             opacity: 0.0
@@ -170,7 +171,7 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 190, y: 450, r: 4.30}]), /* highlight sweater tab */
         bind(this, function _a_waitSweater() {
             var btnNew = new Button({
-                y:399, x:33, width:137, height:64
+                y:399, x:33, width:137, height:64, click: true
             });
             var next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickSweater() {
