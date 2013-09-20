@@ -10,8 +10,6 @@ import ui.View;
 import ui.ImageView as ImageView;
 import animate;
 
-import plugins.backbutton.backbutton as backbutton;
-
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
@@ -105,18 +103,24 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         });
 
-        this.exitButton = new Button({
-            superview: this.marqueeTop,
-            x: 8,
-            y: 8,
-            width: 64,
-            height: 64,
-            click: true,
-            image: 'resources/images/button-exit.png'
-        });
-        this.exitButton.on('InputSelect', bind(this, function () {
-            backbutton.back();
-        }));
+        try {
+            import plugins.backbutton.backbutton as backbutton;
+            this.exitButton = new Button({
+                superview: this.marqueeTop,
+                x: 8,
+                y: 8,
+                width: 64,
+                height: 64,
+                click: true,
+                image: 'resources/images/button-exit.png'
+            });
+            this.exitButton.on('InputSelect', bind(this, function () {
+                backbutton.back();
+            }));
+
+        } catch {
+            console.log("backbutton plugin will not be available.");
+        }
 
         this.websiteButton = new Button({
             superview: this.marqueeBottom,
