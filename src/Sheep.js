@@ -36,7 +36,12 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.onObtain = function () {
-        var color = this.color || randomColor();
+        var color;
+        if (!this.fromTutorial || !this.color) {
+            color = randomColor();
+        } else {
+            color = this.color;
+        }
 
         if (color.label === 'gold' && !this.fromTutorial) {
             this.isGold = true;
@@ -127,13 +132,6 @@ exports = Class(ImageView, function (supr) {
                 }
             }
             if (intersect.rectAndRect(this.style, superview.clipper.style)) {
-                //new Rect({
-                //    x: superview.clipper.style.x + superview.clipper.marginSize,
-                //    y: superview.clipper.style.y + superview.clipper.marginSize,
-                //    width: superview.clipper.clipperBox.style.width,
-                //    height: superview.clipper.clipperBox.style.height
-                //}))) {
-
                 this.emit('sheep:collision');
                 superview.clipper.emitSparks();
                 superview.healthBar.decreaseHealth();

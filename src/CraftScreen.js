@@ -411,6 +411,7 @@ exports = Class(View, function (supr) {
                         // clean up all the coins
                         for (j = 0; j < coins.length; j++) {
                             coins[j].removeFromSuperview();
+                            delete coins[j];
                         }
                         coins.length = 0;
                         this.crafts.addCraft(craft);

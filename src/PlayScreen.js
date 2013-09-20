@@ -111,6 +111,13 @@ exports = Class(View, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
+        this.healthBar = new HealthBar({
+            superview: this,
+            visible: false,
+            x: 404,
+            y: 518
+        });
+
         this.diamondIndicator = new ImageView({
             superview: this,
             visible: false,
@@ -122,6 +129,7 @@ exports = Class(View, function (supr) {
         });
 
         this.pauseText = new Button({
+            superview: this,
             x: 1024,
             y: 576/2 - 100,
             width: 500,
@@ -130,6 +138,7 @@ exports = Class(View, function (supr) {
         });
 
         this.dayIntro = new View({
+            superview: this,
             x: 1024,
             y: 0,
             width: 1024,
@@ -166,13 +175,13 @@ exports = Class(View, function (supr) {
         this.dayIntro.on('InputSelect', bind(this, function(evt) {
             evt.cancel();
             animate(this.dayIntro).now({x: -1024}).then(bind(this, function () {
-                this.dayIntro.removeFromSuperview();
                 this.emit('play:start');
             }));
         }));
 
         // results
         this.resultsScreen = new View({
+            superview: this,
             x: 1024,
             y: 0,
             width: 1024,
@@ -221,6 +230,8 @@ exports = Class(View, function (supr) {
             image: 'resources/images/button-crafts-catalog.png'
         });
         this.resultsScreen.homeButton = new Button({
+            superview: this.resultsScreen,
+            visible: false,
             x: 8,
             y: 8,
             width: 64,
@@ -231,7 +242,8 @@ exports = Class(View, function (supr) {
 
         continueButton.on('InputSelect', bind(this, function (evt) {
             animate(this.resultsScreen).now({x: -1024}).then(bind(this, function() {
-                this.resultsScreen.removeFromSuperview();
+                this.resultsScreen.style.x = 1024;
+                this.resultsScreen.homeButton.hide();
                 this.day += 1;
                 this.beginDay();
             }));
@@ -239,6 +251,7 @@ exports = Class(View, function (supr) {
 
         // game over
         this.gameOverScreen = new View({
+            superview: this,
             x: 1024,
             y: 0,
             width: 1024,
@@ -298,7 +311,7 @@ exports = Class(View, function (supr) {
 
         this.gameOverScreen.restartButton.on('InputSelect', bind(this, function () {
             GC.app.titleScreen.emit('playscreen:restart');
-            this.gameOverScreen.removeFromSuperview();
+            this.gameOverScreen.style.x = 1024;
         }));
 
         this.resultsScreen.storeButton.on('InputSelect', bind(this, function () {
@@ -339,7 +352,6 @@ exports = Class(View, function (supr) {
         this.paused = !this.paused;
         if (this.paused) {
             this.pauseText.style.x = 1024;
-            this.addSubview(this.pauseText);
             this.timer.stop();
             this.clipper.pauseCountdown();
             if (this.interval) {
@@ -373,7 +385,6 @@ exports = Class(View, function (supr) {
                     this.diamond.animator.resume();
                 }
                 this.addSubview(this.inputBuffer);
-                this.removeSubview(this.pauseText);
             }));
         }
     };
@@ -383,11 +394,6 @@ exports = Class(View, function (supr) {
             adtimer.interrupt(bind(this, this._beginDay));
         } else {
             this._beginDay();
-            this.healthBar = new HealthBar({
-                superview: this,
-                x: 404,
-                y: 518
-            });
         }
         this.firstPlay = false;
     }
@@ -398,14 +404,15 @@ exports = Class(View, function (supr) {
 
         this.dayText.setText('Day  ' + (this.day+1));
         this.dayIntro.style.x = 1024;
-        this.addSubview(this.dayIntro);
         animate(this.dayIntro).now({x: 0});
     };
 
     this.runTick = function () {
         var i = this.sheep.length;
         while (i--) {
-            this.sheep[i].onTick();
+            if (this.sheep[i]) {
+                this.sheep[i].onTick();
+            }
         }
         if (this.battery) {
             this.battery.onTick();
@@ -420,22 +427,30 @@ exports = Class(View, function (supr) {
     };
 
     this.spawnDiamond = function () {
-        this.diamond = new Diamond({
-            x: 1024
-        });
+        if (this.diamond) {
+            this.diamond.style.x = 1024;
+            this.diamond.show();
+        } else {
+            this.diamond = new Diamond({
+                superview: this,
+                x: 1024
+            });
+        }
         this.diamond.style.y = util.randomY(this.diamond.style.height);
-
-        this.addSubview(this.diamond);
         this.diamond.run();
     };
 
     this.spawnBattery = function () {
-        this.battery = new Battery({
-            x: 1024
-        });
+        if (this.battery) {
+            this.battery.style.x = 1024;
+            this.battery.show();
+        } else {
+            this.battery = new Battery({
+                superview: this,
+                x: 1024
+            });
+        }
         this.battery.style.y = util.randomY(this.battery.style.height);
-
-        this.addSubview(this.battery);
         this.battery.run();
     };
 
@@ -456,18 +471,19 @@ exports = Class(View, function (supr) {
         }
         if (this.diamond) {
             this.diamond.animator.clear();
-            this.removeSubview(this.diamond);
+            this.diamond.hide();
         }
         if (this.battery) {
             this.battery.animator.clear();
-            this.removeSubview(this.battery);
+            this.battery.hide();
         }
         clearInterval(this.interval);
-        this.removeSubview(this.timer);
+        this.timer.hide();
         this.clipper.bladePool.releaseAllViews();
-        this.removeSubview(this.clipper);
+        this.clipper.hide();
         this.removeSubview(this.inputBuffer);
-        this.removeSubview(this.pauseButton);
+        this.pauseButton.hide();
+        this.healthBar.hide();
 
         this.player.mergeWoolCounts(this.dailyWool);
     };
@@ -483,7 +499,7 @@ exports = Class(View, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        var i, resultsScreen, continueButton;
+        var i, resultsScreen;
         if (finishedDay) {
             var counts = [];
             for (i = 0; i < constants.colors.length; i++) {
@@ -508,11 +524,10 @@ exports = Class(View, function (supr) {
             resultsScreen = this.gameOverScreen;
         }
 
-        this.addSubview(resultsScreen);
         animate(resultsScreen).now({x: 0}).then(bind(this, function () {
             if (finishedDay) {
                 var i, startX = 333, gap = 90;
-                resultsScreen.addSubview(resultsScreen.homeButton);
+                resultsScreen.homeButton.show();
                 for (i = 0; i < constants.colors.length; i++) {
                     emitWool(startX + i*gap,
                              294, counts[i], constants.colors[i].label);
@@ -526,7 +541,7 @@ exports = Class(View, function (supr) {
 function playGame () {
     this.paused = false;
     if (this.pauseButton) {
-        this.addSubview(this.pauseButton);
+        this.pauseButton.show();
     } else {
         this.pauseButton = new Button({
             superview: this,
@@ -555,7 +570,7 @@ function playGame () {
         this.clipper.style.y = laneCoord(4) + 5;
         this.clipper.infiniteDiamond = GC.app.player.upgrades.get('diamond').value;
         this.clipper.checkGold();
-        this.addSubview(this.clipper);
+        this.clipper.show();
     }
     if (this.clipper.infiniteDiamond) {
         this.clipper.becomeDiamond(true);
@@ -570,16 +585,19 @@ function playGame () {
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     if (this.timer) {
-        this.addSubview(this.timer);
+        this.timer.show();
         this.timer.reset();
     } else {
         this.timer = new Timer({
+            superview: this,
             x: 836,
             y: 505
         });
         this.addSubview(this.timer);
         this.timer.run();
     }
+
+    this.healthBar.show();
 
     this.audio.playMusic();
 

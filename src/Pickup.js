@@ -20,10 +20,6 @@ exports = Class(ImageView, function (supr) {
     this.onTick = function () {
         if (this.animator && this.animator.hasFrames()) {
             var superview = this.getSuperview();
-            if (!superview) {
-                this.animator.clear();
-                return;
-            }
             if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 this.apply();
                 this.die();
@@ -39,7 +35,8 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.die = function () {
-        this.removeFromSuperview();
+        this.hide();
+        this.animator.clear();
     };
 });
 

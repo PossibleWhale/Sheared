@@ -320,6 +320,7 @@ exports = Class(ImageView, function (supr) {
 
         this.on('playscreen:restart', bind(this, function () {
             this.stackView.remove(playScreen);
+            playScreen.removeAllSubviews();
             delete playScreen;
             playScreen = new PlayScreen();
             this.stackView.push(playScreen);
