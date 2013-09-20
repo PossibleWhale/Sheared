@@ -288,11 +288,13 @@ exports = Class(View, function (supr) {
 
     this.backButtonFactory = function _a_backButtonFactory(region) {
         this.backButton = this.defaultButtonFactory(region, 'backButton');
+        this.backButton.updateOpts({click: true});
         util.reissue(this.backButton, 'InputSelect', this, 'craft:back');
     };
 
     this.storeFactory = function _a_storeFactory(region) {
         this.store = this.defaultButtonFactory(region, 'store');
+        this.store.updateOpts({click: true});
         util.reissue(this.store, 'InputSelect', this, 'craft:store');
     };
 
