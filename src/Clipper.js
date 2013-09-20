@@ -5,13 +5,6 @@ import ui.ImageView as ImageView;
 import ui.View as View;
 import ui.ViewPool as ViewPool;
 
-var diamondIndicator = new ImageView({
-    x: 159,
-    y: 13,
-    width: 54,
-    height: 54,
-    image: 'resources/images/diamond.png'
-});
 
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
@@ -54,6 +47,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.becomeDiamond = function (infinite) {
+        var superview = this.getSuperview();
         this.countdown = 5;
 
         this.isDiamond = true;
@@ -63,7 +57,7 @@ exports = Class(ImageView, function (supr) {
             this.setImage(constants.clipperDiamondImage);
         }
 
-        this.getSuperview().addSubview(diamondIndicator);
+        superview.diamondIndicator.show();
 
         if (!infinite) {
             this.startCountdown();
@@ -71,6 +65,7 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.becomeRegular = function () {
+        var superview = this.getSuperview();
         clearInterval(this.interval);
         this.isDiamond = false;
         if (this.isGold) {
@@ -78,8 +73,8 @@ exports = Class(ImageView, function (supr) {
         } else {
             this.setImage(constants.clipperRegularImage);
         }
-        if (this.getSuperview()) {
-            this.getSuperview().removeSubview(diamondIndicator);
+        if (superview) {
+            superview.diamondIndicator.hide();
         }
     };
 

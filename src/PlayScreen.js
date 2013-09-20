@@ -111,6 +111,16 @@ exports = Class(View, function (supr) {
         };
         this.muteButton = new MuteButton(muteOpts);
 
+        this.diamondIndicator = new ImageView({
+            superview: this,
+            visible: false,
+            x: 159,
+            y: 13,
+            width: 54,
+            height: 54,
+            image: 'resources/images/diamond.png'
+        });
+
         this.pauseText = new Button({
             x: 1024,
             y: 576/2 - 100,
