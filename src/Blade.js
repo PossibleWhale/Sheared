@@ -21,7 +21,7 @@ exports = Class(ImageView, function (supr) {
 
     this.run = function () {
         this.sheepSheared = 0;
-        if (opts.fromTutorial) {
+        if (this.getSuperview().isTutorial) {
             this.maxSheep = 1;
         } else {
             this.maxSheep = GC.app.player.upgrades.get('blade').value;

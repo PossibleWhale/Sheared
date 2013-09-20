@@ -109,7 +109,6 @@ exports = Class(ImageView, function (supr) {
             superview: superview,
             x: this.style.x + this.style.width,
             y: this.style.y + 3,
-            fromTutorial: superview.isTutorial,
             visible: true
         });
         this.blades.push(newBlade);

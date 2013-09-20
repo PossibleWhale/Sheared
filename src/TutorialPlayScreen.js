@@ -59,13 +59,12 @@ exports = Class(View, function (supr) {
         });
 
         supr(this, 'init', [opts]);
+        this.isTutorial = true;
         this.build();
     };
 
     this.build = function() {
         this.runner = new PlayTutorialRunner(this);
-
-        this.isTutorial = true;
 
         // header background
         this.addSubview(new ImageView({
@@ -105,6 +104,16 @@ exports = Class(View, function (supr) {
             x: 404,
             y: 518,
             health: 5
+        });
+
+        this.diamondIndicator = new ImageView({
+            superview: this,
+            visible: false,
+            x: 159,
+            y: 13,
+            width: 54,
+            height: 54,
+            image: 'resources/images/diamond.png'
         });
 
         this.woolCounts = new WoolCounter({
