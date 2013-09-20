@@ -8,6 +8,7 @@
 
 import ui.View;
 import ui.ImageView as ImageView;
+
 import animate;
 
 import plugins.backbutton.backbutton as backbutton;
@@ -105,18 +106,20 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         });
 
-        this.exitButton = new Button({
-            superview: this.marqueeTop,
-            x: 8,
-            y: 8,
-            width: 64,
-            height: 64,
-            click: true,
-            image: 'resources/images/button-exit.png'
-        });
-        this.exitButton.on('InputSelect', bind(this, function () {
-            backbutton.back();
-        }));
+        if (backbutton) {
+            this.exitButton = new Button({
+                superview: this.marqueeTop,
+                x: 8,
+                y: 8,
+                width: 64,
+                height: 64,
+                click: true,
+                image: 'resources/images/button-exit.png'
+            });
+            this.exitButton.on('InputSelect', bind(this, function () {
+                backbutton.back();
+            }));
+        }
 
         this.websiteButton = new Button({
             superview: this.marqueeBottom,
