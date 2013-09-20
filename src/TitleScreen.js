@@ -8,7 +8,10 @@
 
 import ui.View;
 import ui.ImageView as ImageView;
+
 import animate;
+
+import plugins.backbutton.backbutton as backbutton;
 
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
@@ -103,8 +106,7 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         });
 
-        try {
-            import plugins.backbutton.backbutton as backbutton;
+        if (backbutton) {
             this.exitButton = new Button({
                 superview: this.marqueeTop,
                 x: 8,
@@ -117,9 +119,6 @@ exports = Class(ImageView, function (supr) {
             this.exitButton.on('InputSelect', bind(this, function () {
                 backbutton.back();
             }));
-
-        } catch {
-            console.log("backbutton plugin will not be available.");
         }
 
         this.websiteButton = new Button({
