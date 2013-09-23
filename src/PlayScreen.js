@@ -479,6 +479,7 @@ exports = Class(View, function (supr) {
         }
         clearInterval(this.interval);
         this.timer.hide();
+        this.timer.stop();
         this.clipper.bladePool.releaseAllViews();
         this.clipper.hide();
         this.removeSubview(this.inputBuffer);
