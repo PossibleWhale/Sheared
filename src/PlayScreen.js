@@ -140,6 +140,7 @@ exports = Class(View, function (supr) {
 
         this.dayIntro = new View({
             superview: this,
+            visible: false,
             x: 1024,
             y: 0,
             width: 1024,
@@ -176,6 +177,7 @@ exports = Class(View, function (supr) {
         this.dayIntro.on('InputSelect', bind(this, function(evt) {
             evt.cancel();
             animate(this.dayIntro).now({x: -1024}).then(bind(this, function () {
+                this.dayIntro.hide();
                 this.emit('play:start');
             }));
         }));
@@ -407,6 +409,7 @@ exports = Class(View, function (supr) {
 
         this.dayText.setText('Day  ' + (this.day+1));
         this.dayIntro.style.x = 1024;
+        this.dayIntro.show();
         animate(this.dayIntro).now({x: 0});
     };
 

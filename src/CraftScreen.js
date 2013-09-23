@@ -73,6 +73,14 @@ exports = Class(View, function (supr) {
             storage: this.wool
         });
 
+        this.craftHighlight = new ImageView({
+            x: 0,
+            y: 0,
+            width: 52,
+            height: 52,
+            image: c.swatchHighlight,
+        });
+
         // tab background image
         this.tabBG = new ImageView({
             superview: this,
@@ -266,6 +274,7 @@ exports = Class(View, function (supr) {
     this.updateTabs = function _a_updateTabs() {
         var num = c.garments.indexOf(this.selectedGarment);
         this.tabs.setImage(c.tabImages[num]);
+        this.craftHighlight.removeFromSuperview();
     };
 
     /*
@@ -341,15 +350,16 @@ exports = Class(View, function (supr) {
         var me = this, btn;
         region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
-        btn.updateOpts({anchorX: btn.getOpts().width / 2,
-            anchorY: 8,
+        btn.updateOpts({
             click: false, // these have their own noise
             purchaseable: true
         });
 
-
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
+
+                me.craftHighlight.removeFromSuperview();
+                btn.addSubview(me.craftHighlight);
                 var craft = c.crafts[me.selectedGarment.label][_btn.getOpts().item.main.label]
                                     [_btn.getOpts().item.contrast.label];
                 me.showLargeCraft(craft);
