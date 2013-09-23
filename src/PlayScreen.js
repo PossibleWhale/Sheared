@@ -130,6 +130,7 @@ exports = Class(View, function (supr) {
 
         this.pauseText = new Button({
             superview: this,
+            visible: false,
             x: 1024,
             y: 576/2 - 100,
             width: 500,
@@ -351,6 +352,7 @@ exports = Class(View, function (supr) {
     this.togglePaused = function () {
         this.paused = !this.paused;
         if (this.paused) {
+            this.pauseText.show();
             this.pauseText.style.x = 1024;
             this.timer.stop();
             this.clipper.pauseCountdown();
@@ -371,6 +373,7 @@ exports = Class(View, function (supr) {
             animate(this.pauseText).now({x: 1024/2 - 250}, 400);
         } else {
             animate(this.pauseText).now({x: 0 - 500}, 400).then(bind(this, function () {
+                this.pauseText.hide();
                 this.timer.run();
                 this.clipper.startCountdown();
                 this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
@@ -521,10 +524,13 @@ exports = Class(View, function (supr) {
             });
             this.resultsScreen.addSubview(this.dailyCounter);
             resultsScreen = this.resultsScreen;
+            this.gameOverScreen.hide();
         } else {
             resultsScreen = this.gameOverScreen;
+            this.resultsScreen.hide();
         }
 
+        resultsScreen.show();
         animate(resultsScreen).now({x: 0}).then(bind(this, function () {
             if (finishedDay) {
                 var i, startX = 333, gap = 90;
