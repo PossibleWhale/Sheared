@@ -68,12 +68,14 @@ $(GC_DIR)/config.json: $(RELEASE_KEY)
 $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
-$(PLUGINS_DIR)/backbutton/backbutton.js:
-	test ! -e $(GC_DIR)/addons/backbutton
+$(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
+
+$(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(PLUGINS_DIR)/tapjoyads/ads.js:
-	test ! -e $(GC_DIR)/addons/tapjoyads
+$(PLUGINS_DIR)/tapjoyads/ads.js: $(GC_DIR)/addons/tapjoyads
+
+$(GC_DIR)/addons/tapjoyads:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
 
 tapjoysecretkey.txt: ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt
@@ -99,14 +101,14 @@ $(APK): $(ALL_APK_DEPS)
 	fi
 
 clean:
-	basil clean
 	rm -vf $(APK)
-	rm -vf manifest.json
 	rm -vf $(GC_DIR)/addons/tapjoyads
 	rm -rf $(GC_DIR)/addons/tapjoyads
 	rm -vf $(GC_DIR)/addons/backbutton
 	rm -rf $(GC_DIR)/addons/backbutton
 	rm -vf $(PLUGINS_DIR)/*
+	basil clean
+	rm -vf manifest.json
 
 localconfig: $(LOCALCONFIG)
 
