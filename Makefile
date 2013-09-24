@@ -69,11 +69,13 @@ $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
 $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
+	ln -sf $(GC_DIR)/addons/backbutton/js $(PLUGINS_DIR)/backbutton
 
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
 $(PLUGINS_DIR)/tapjoyads/ads.js: $(GC_DIR)/addons/tapjoyads
+	ln -sf $(GC_DIR)/addons/tapjoyads/js $(PLUGINS_DIR)/tapjoyads
 
 $(GC_DIR)/addons/tapjoyads:
 	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
