@@ -260,6 +260,7 @@ exports = Class(View, function (supr) {
                 cb.setImage(res);
             } else {
                 cb.updateOpts({opacity: 0.75, purchaseable: false});
+                this.craftHighlight.removeFromSuperview();
                 cb.setImage(disabledImage);
             }
 
@@ -274,7 +275,6 @@ exports = Class(View, function (supr) {
     this.updateTabs = function _a_updateTabs() {
         var num = c.garments.indexOf(this.selectedGarment);
         this.tabs.setImage(c.tabImages[num]);
-        this.craftHighlight.removeFromSuperview();
     };
 
     /*
@@ -320,6 +320,7 @@ exports = Class(View, function (supr) {
     };
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
+        this.craftHighlight.removeFromSuperview();
         this.largeCraft.removeAllSubviews();
         this.selectedCraft = c.nullCrafts[this.selectedGarment.label];
         this.largeCraft.addSubview(this.selectedCraft);
