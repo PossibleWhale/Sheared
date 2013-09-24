@@ -10,6 +10,7 @@ exports = Class(AudioManager, function (supr) {
                 'shear-01': {},
                 'shear-02': {},
                 'shear-03': {},
+                'shear-gold': {},
                 'collision-01': {},
                 'collision-02': {},
                 'collision-regularblade-ram': {},
@@ -24,7 +25,8 @@ exports = Class(AudioManager, function (supr) {
                 'crafting-02': {},
                 'crafting-03': {},
                 'crafting-04': {},
-                'store-purchase': {}
+                'store-purchase': {},
+                'tab': {}
             }
         };
         supr(this, 'init', [opts]);
@@ -33,6 +35,10 @@ exports = Class(AudioManager, function (supr) {
     this.playShear = function () {
         var index = Math.floor(Math.random() * 3) + 1;
         this.play('shear-0' + index);
+    };
+
+    this.playGoldShear = function () {
+        this.play('shear-gold');
     };
 
     this.playBattery = function () {
@@ -80,5 +86,9 @@ exports = Class(AudioManager, function (supr) {
 
     this.playPurchase = function () {
         this.play('store-purchase');
+    };
+
+    this.playTab = function () {
+        this.play('tab');
     };
 });

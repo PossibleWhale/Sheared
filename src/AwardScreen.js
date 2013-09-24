@@ -124,7 +124,6 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 135,
             height: 68,
-            click: true,
             image: 'resources/images/tab-label-ewes.png'
         });
         ewesTab.on('InputSelect', bind(this, function () {
@@ -138,7 +137,6 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 135,
             height: 68,
-            click: true,
             image: 'resources/images/tab-label-rams.png'
         });
         ramsTab.on('InputSelect', bind(this, function () {
@@ -152,7 +150,6 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 135,
             height: 68,
-            click: true,
             image: 'resources/images/tab-label-wool.png'
         });
         woolTab.on('InputSelect', bind(this, function () {
@@ -166,7 +163,6 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 135,
             height: 68,
-            click: true,
             image: 'resources/images/tab-label-crafts.png'
         });
         craftsTab.on('InputSelect', bind(this, function () {
@@ -180,7 +176,6 @@ exports = Class(View, function (supr) {
             zIndex: 99,
             width: 135,
             height: 68,
-            click: true,
             image: 'resources/images/tab-label-misc.png'
         });
         miscTab.on('InputSelect', bind(this, function () {
@@ -381,6 +376,7 @@ exports = Class(View, function (supr) {
     };
 
     this.switchTab = function (key) {
+        GC.app.audio.playTab();
         this.currentTab.removeFromSuperview();
         this.currentTab = this.tabs[key];
         this.addSubview(this.currentTab);

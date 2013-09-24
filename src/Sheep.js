@@ -108,7 +108,11 @@ exports = Class(ImageView, function (supr) {
                             superview.clipper.reloadBlade();
                         }
 
-                        GC.app.audio.playShear();
+                        if (!this.isGold) {
+                            GC.app.audio.playShear();
+                        } else {
+                            GC.app.audio.playGoldShear();
+                        }
                         if (Math.random() < 0.25) {
                             GC.app.audio.playBaa();
                         }
