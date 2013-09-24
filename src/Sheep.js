@@ -45,6 +45,8 @@ exports = Class(ImageView, function (supr) {
 
         if (color.label === 'gold' && !this.fromTutorial) {
             this.isGold = true;
+        } else if (color.label !== 'gold') {
+            this.isGold = false;
         }
 
         this.setImage(color.eweImage);
