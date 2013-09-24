@@ -75,6 +75,7 @@ exports = Class(ui.View, function (supr) {
     this.purchased = function () {
         if (this.buyButton.getOpts().buyEnabled) {
             GC.app.audio.playBuyGarment();
+            GC.app.audio.playPurchase();
             this.emit('largeCraft:purchased');
         }
     };

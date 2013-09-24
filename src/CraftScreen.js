@@ -312,8 +312,8 @@ exports = Class(View, function (supr) {
         var btn, me = this;
         region.superview = this.tabs;
         var btn = this.defaultButtonFactory(region, 'garment');
-        btn.updateOpts({click: true});
         btn.on('InputSelect', function _a_onInputSelectGarment() {
+            GC.app.audio.playTab();
             me.setGarment(this.getOpts().item);
         });
         return btn;
