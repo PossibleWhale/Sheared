@@ -87,7 +87,7 @@ exports = {
         label: 'gold',
         eweImage: new Image({url: imagePath + 'ewe-gold.png'}),
         ramImage: new Image({url: imagePath + 'ram-gold.png'}),
-        rarity: 0.05
+        rarity: 0.15
     },
 
     GARMENT_NAKED: {label: 'naked'},
