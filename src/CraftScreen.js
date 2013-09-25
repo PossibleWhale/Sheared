@@ -152,7 +152,9 @@ exports = Class(View, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            if (this.player.persist) {
+                this.woolCounts.matchStorage();
+            }
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {

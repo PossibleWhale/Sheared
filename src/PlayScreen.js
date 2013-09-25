@@ -491,8 +491,6 @@ exports = Class(View, function (supr) {
         this.removeSubview(this.inputBuffer);
         this.pauseButton.hide();
         this.healthBar.hide();
-
-        this.player.mergeWoolCounts(this.dailyWool);
     };
 
     this.gameOver = function () {
@@ -503,6 +501,7 @@ exports = Class(View, function (supr) {
     this.timeOver = function () {
         this.endDay();
         this._showResults(true);
+        this.player.mergeWoolCounts(this.dailyWool);
     };
 
     this._showResults = function (finishedDay) {
