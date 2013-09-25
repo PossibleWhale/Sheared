@@ -82,6 +82,7 @@ exports = Class(AudioManager, function (supr) {
     this.playBuyGarment = function () {
         var index = Math.floor(Math.random() * 4) + 1;
         this.play('crafting-0' + index);
+        this.playGoldShear();
     };
 
     this.playPurchase = function () {

@@ -131,7 +131,7 @@ exports = Class(View, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            this.woolCounts.matchStorage();
             this.coinsLabel.update();
 
             this._buildUpgradeTab();
