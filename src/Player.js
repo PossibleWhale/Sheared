@@ -133,7 +133,7 @@ exports = Class(Emitter, function Player(supr) {
         main = craft.colors.main;
         contrast = craft.colors.contrast;
 
-        copy = this.wool.copy();
+        copy = this.wool.copy({persist: false});
 
         copy.addWool(main, -1 * costs[0].amount);
         copy.addWool(contrast, -1 * costs[1].amount);
