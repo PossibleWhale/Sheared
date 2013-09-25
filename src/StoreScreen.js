@@ -37,7 +37,8 @@ exports = Class(View, function (supr) {
                 this.coinsLabel.update();
             } else if (item === 'adFree') {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
-                this.adsPrice.setText('Purchased!');
+                this.adsTab.removeFromSuperview();
+                this.switchTab('upgrades');
             }
         });
 
@@ -213,18 +214,20 @@ exports = Class(View, function (supr) {
             this.switchTab('eweros');
         }));
 
-        var adsTab = new Button({
-            superview: this,
-            x: 33,
-            y: 324,
-            zIndex: 99,
-            width: 135,
-            height: 68,
-            image: 'resources/images/tab-label-ads.png'
-        });
-        adsTab.on('InputSelect', bind(this, function () {
-            this.switchTab('ads');
-        }));
+        if (!GC.app.player.upgrades.get('adFree').value) {
+            this.adsTab = new Button({
+                superview: this,
+                x: 33,
+                y: 324,
+                zIndex: 99,
+                width: 135,
+                height: 68,
+                image: 'resources/images/tab-label-ads.png'
+            });
+            this.adsTab.on('InputSelect', bind(this, function () {
+                this.switchTab('ads');
+            }));
+        }
     };
 
     this._buildUpgradeTab = function () {
@@ -1072,6 +1075,9 @@ exports = Class(View, function (supr) {
     };
 
     this._buildAdsTab = function () {
+        if (GC.app.player.upgrades.get('adFree').value) {
+            return;
+        }
         var startX = 550, containerStart = 182;
         this.tabs.ads.addSubview(new ImageView({
             x: 33,
