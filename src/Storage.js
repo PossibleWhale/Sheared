@@ -254,8 +254,9 @@ Storage = Class(GCDataSource, function (supr) {
     /*
      * make a copy of the objects, probably for transient modifications
      */
-    this.copy = function _a_copy(persist) {
-        persist = persist === undefined ? this.persist : persist;
+    this.copy = function _a_copy(opts) {
+        util.assert(opts.persist === false, "copy used without persist === false");
+        persist = opts.persist === undefined ? this.persist : opts.persist;
         var other = new this.constructor({persist: persist});
         other.add(this.toArray());
         return other;
