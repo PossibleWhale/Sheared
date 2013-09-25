@@ -113,9 +113,6 @@ exports = Class(ImageView, function (supr) {
                         } else {
                             GC.app.audio.playGoldShear();
                         }
-                        if (Math.random() < 0.25) {
-                            GC.app.audio.playBaa();
-                        }
                         GC.app.player.shearedSheep(this);
                         GC.app.player.hitWithBlade(blade.isDiamond);
                         this.emit('sheep:sheared');
@@ -156,6 +153,9 @@ exports = Class(ImageView, function (supr) {
     this.run = function () {
         this._calcTrajectory();
         this.continuousAnimate();
+        if (Math.random() < 0.1) {
+            GC.app.audio.playBaa();
+        }
         this.animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear)
             .then(bind(this, function () {
             this.emit('sheep:offscreen');
