@@ -85,7 +85,7 @@ exports = Class(ImageView, function (supr) {
         if (this.animator && this.animator.hasFrames()) {
             var superview = this.getSuperview(), i, blade;
             if (!superview) {
-                this.animator.clear();
+                this.die();
                 return;
             }
             //this.emitDust()
