@@ -31,7 +31,7 @@ exports = Class(ImageView, function (supr) {
             width: 420,
             height: 28,
             size: 24,
-            color: '#ffffff',
+            color: '#333333',
             fontFamily: 'delius',
             text: this.award.text,
             horizontalAlign: 'left'
@@ -43,9 +43,7 @@ exports = Class(ImageView, function (supr) {
             width: 130,
             height: 28,
             size: 24,
-            color: '#ffffff',
-            strokeWidth: 2,
-            strokeColor: '#000000',
+            color: '#333333',
             fontFamily: 'delius',
             text: '' + this.award.reward,
             horizontalAlign: 'left'

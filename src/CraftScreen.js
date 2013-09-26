@@ -73,6 +73,14 @@ exports = Class(View, function (supr) {
             storage: this.wool
         });
 
+        this.craftHighlight = new ImageView({
+            x: 0,
+            y: 0,
+            width: 52,
+            height: 52,
+            image: c.swatchHighlight,
+        });
+
         // tab background image
         this.tabBG = new ImageView({
             superview: this,
@@ -144,7 +152,9 @@ exports = Class(View, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function _a_onViewWillAppear() {
             this.muteButton.setMuted({silent: true});
-            this.woolCounts.update();
+            if (this.player.persist) {
+                this.woolCounts.matchStorage();
+            }
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
@@ -252,6 +262,7 @@ exports = Class(View, function (supr) {
                 cb.setImage(res);
             } else {
                 cb.updateOpts({opacity: 0.75, purchaseable: false});
+                this.craftHighlight.removeFromSuperview();
                 cb.setImage(disabledImage);
             }
 
@@ -303,14 +314,15 @@ exports = Class(View, function (supr) {
         var btn, me = this;
         region.superview = this.tabs;
         var btn = this.defaultButtonFactory(region, 'garment');
-        btn.updateOpts({click: true});
         btn.on('InputSelect', function _a_onInputSelectGarment() {
+            GC.app.audio.playTab();
             me.setGarment(this.getOpts().item);
         });
         return btn;
     };
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
+        this.craftHighlight.removeFromSuperview();
         this.largeCraft.removeAllSubviews();
         this.selectedCraft = c.nullCrafts[this.selectedGarment.label];
         this.largeCraft.addSubview(this.selectedCraft);
@@ -341,15 +353,16 @@ exports = Class(View, function (supr) {
         var me = this, btn;
         region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
-        btn.updateOpts({anchorX: btn.getOpts().width / 2,
-            anchorY: 8,
+        btn.updateOpts({
             click: false, // these have their own noise
             purchaseable: true
         });
 
-
         btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
             return function _a_onInputSelectCraftBuy() {
+
+                me.craftHighlight.removeFromSuperview();
+                btn.addSubview(me.craftHighlight);
                 var craft = c.crafts[me.selectedGarment.label][_btn.getOpts().item.main.label]
                                     [_btn.getOpts().item.contrast.label];
                 me.showLargeCraft(craft);

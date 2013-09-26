@@ -87,7 +87,7 @@ exports = {
         label: 'gold',
         eweImage: new Image({url: imagePath + 'ewe-gold.png'}),
         ramImage: new Image({url: imagePath + 'ram-gold.png'}),
-        rarity: 0.05
+        rarity: 0.15
     },
 
     GARMENT_NAKED: {label: 'naked'},
@@ -156,6 +156,7 @@ exports = {
     clipperGoldDiamondImage: new Image({url: imagePath + 'clipper-gold-diamond.png'}),
     clipperNoneImage: new Image({url: imagePath + 'clipper-none.png'}),
     clipperGoldNoneImage: new Image({url: imagePath + 'clipper-gold-none.png'}),
+    swatchHighlight: new Image({url: imagePath + 'craft-swatch-highlight.png'}),
     woolImages: {
         white: new Image({url: imagePath + 'wool-white.png'}),
         red: new Image({url: imagePath + 'wool-red.png'}),

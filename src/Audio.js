@@ -10,12 +10,13 @@ exports = Class(AudioManager, function (supr) {
                 'shear-01': {},
                 'shear-02': {},
                 'shear-03': {},
+                'shear-gold': {},
                 'collision-01': {},
                 'collision-02': {},
                 'collision-regularblade-ram': {},
-                'baa-01': {},
-                'baa-02': {},
-                'baa-03': {},
+                'baa-01': {volume: 0.25},
+                'baa-02': {volume: 0.25},
+                'baa-03': {volume: 0.25},
                 'button-01': {},
                 'play-01': {background: true},
                 'play-02': {background: true},
@@ -24,7 +25,8 @@ exports = Class(AudioManager, function (supr) {
                 'crafting-02': {},
                 'crafting-03': {},
                 'crafting-04': {},
-                'store-purchase': {}
+                'store-purchase': {},
+                'tab': {}
             }
         };
         supr(this, 'init', [opts]);
@@ -33,6 +35,10 @@ exports = Class(AudioManager, function (supr) {
     this.playShear = function () {
         var index = Math.floor(Math.random() * 3) + 1;
         this.play('shear-0' + index);
+    };
+
+    this.playGoldShear = function () {
+        this.play('shear-gold');
     };
 
     this.playBattery = function () {
@@ -54,7 +60,7 @@ exports = Class(AudioManager, function (supr) {
 
     this.playBaa = function () {
         var index = Math.floor(Math.random() * 3) + 1;
-        this.play('shear-0' + index);
+        this.play('baa-0' + index);
     };
 
     this.playButton = function () {
@@ -76,9 +82,14 @@ exports = Class(AudioManager, function (supr) {
     this.playBuyGarment = function () {
         var index = Math.floor(Math.random() * 4) + 1;
         this.play('crafting-0' + index);
+        this.playGoldShear();
     };
 
     this.playPurchase = function () {
         this.play('store-purchase');
+    };
+
+    this.playTab = function () {
+        this.play('tab');
     };
 });

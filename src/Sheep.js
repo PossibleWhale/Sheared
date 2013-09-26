@@ -45,6 +45,8 @@ exports = Class(ImageView, function (supr) {
 
         if (color.label === 'gold' && !this.fromTutorial) {
             this.isGold = true;
+        } else if (color.label !== 'gold') {
+            this.isGold = false;
         }
 
         this.setImage(color.eweImage);
@@ -106,9 +108,10 @@ exports = Class(ImageView, function (supr) {
                             superview.clipper.reloadBlade();
                         }
 
-                        GC.app.audio.playShear();
-                        if (Math.random() < 0.25) {
-                            GC.app.audio.playBaa();
+                        if (!this.isGold) {
+                            GC.app.audio.playShear();
+                        } else {
+                            GC.app.audio.playGoldShear();
                         }
                         GC.app.player.shearedSheep(this);
                         GC.app.player.hitWithBlade(blade.isDiamond);
@@ -150,6 +153,9 @@ exports = Class(ImageView, function (supr) {
     this.run = function () {
         this._calcTrajectory();
         this.continuousAnimate();
+        if (Math.random() < 0.1) {
+            GC.app.audio.playBaa();
+        }
         this.animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear)
             .then(bind(this, function () {
             this.emit('sheep:offscreen');
