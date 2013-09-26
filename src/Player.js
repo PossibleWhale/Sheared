@@ -54,21 +54,34 @@ exports = Class(Emitter, function Player(supr) {
 
     this.purchased = function (upgradeName, woolColor) {
         dh.pre_purchase();
-        this._buy(upgradeName, woolColor);
-        if (woolColor) {
-            this.wool.addWool(woolColor, c.WOOL_QUANTITIES[woolColor]);
-        } else if (upgradeName === 'diamond') {
+
+        if (upgradeName === 'all') {
+            this.upgrades.addToUpgrade('power', c.UPGRADE_MAX.power);
+            this.upgrades.addToUpgrade('blade', c.UPGRADE_MAX.blade);
+            this.upgrades.addToUpgrade('mult', c.UPGRADE_MAX.mult);
             this.upgrades.addToUpgrade('diamond', true);
         } else {
-            this.upgrades.addToUpgrade(upgradeName, this.upgrades.get(upgradeName).value + 1);
+            this._buy(upgradeName, woolColor);
+            if (woolColor) {
+                this.wool.addWool(woolColor, c.WOOL_QUANTITIES[woolColor]);
+            } else if (upgradeName === 'diamond') {
+                this.upgrades.addToUpgrade('diamond', true);
+            } else {
+                this.upgrades.addToUpgrade(upgradeName, this.upgrades.get(upgradeName).value + 1);
+            }
         }
 
         this.emit('player:purchased');
-        if (upgradeName === 'power') {
+        if (upgradeName === 'power' || upgradeName === 'all') {
             this.emit('player:purchasedPower');
         }
 
-        if (upgradeName) {
+        if (upgradeName === 'all') {
+            at.emit('player:purchasedpower');
+            at.emit('player:purchasedblade');
+            at.emit('player:purchasedmult');
+            at.emit('player:purchaseddiamond');
+        } else if (upgradeName) {
             at.emit('player:purchased' + upgradeName);
         }
 

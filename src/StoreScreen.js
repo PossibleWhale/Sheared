@@ -39,6 +39,10 @@ exports = Class(View, function (supr) {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
                 this.adsTab.removeFromSuperview();
                 this.switchTab('upgrades');
+            } else if (item === 'all') {
+                GC.app.player.purchased('all');
+                this.updateProgressBars();
+                this.updatePriceDisplays();
             }
         });
 
@@ -583,6 +587,29 @@ exports = Class(View, function (supr) {
         // diamond blades confirmation
         diamondButton.on('InputSelect', bind(this, function () {
             this.showPurchaseDialog('You are about to purchase a diamond blade. Do you wish to continue?', 'diamond');
+        }));
+
+
+        // purchase all button
+        var unlockAllButton = new Button({
+            superview: this.tabs.upgrades,
+            x: 753,
+            y: 335,
+            width: 142,
+            height: 130,
+            anchorX: 142/2,
+            anchorY: 130/2,
+            image: 'resources/images/special-offer.png'
+        });
+        var animateButton = function () {
+            animate(unlockAllButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
+            .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
+            .then(animateButton);
+        };
+        animateButton();
+
+        unlockAllButton.on('InputSelect', bind(this, function () {
+            billing.purchase('all');
         }));
     };
 
