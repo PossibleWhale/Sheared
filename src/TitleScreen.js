@@ -307,7 +307,7 @@ exports = Class(ImageView, function (supr) {
 
         GC.app.player.on('player:purchasedPower', function () {
             playScreen.healthBar.maxHealth = GC.app.player.maxClipperHealth;
-            playScreen.healthBar.health++;
+            playScreen.healthBar.health = playScreen.healthBar.maxHealth;
             playScreen.healthBar.updateImage();
         });
 
