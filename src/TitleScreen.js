@@ -217,13 +217,11 @@ exports = Class(ImageView, function (supr) {
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
-            var ticker, tut;
-
             if (playScreen.clipper && playScreen.clipper.style.visible && playScreen.clipper.isDiamond) {
                 playScreen.clipper.emitDiamonds();
             }
 
-            tut = tutorialScreen.tutorialScreen;
+            var tut = tutorialScreen.tutorialScreen;
             if (tut && tut.runTick) {
                 tut.runTick();
                 if (tut.clipper && tut.clipper.style.visible && tut.clipper.isDiamond) {
@@ -356,9 +354,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i, pObj;
         for (i = 0; i < particleObjects.length; i++) {
-            var pObj = particleObjects[i];
+            pObj = particleObjects[i];
             pObj.x = this.giantClipper.style.x + this.giantClipper.style.width;
             pObj.y = this.giantClipper.style.y + this.giantClipper.style.height/2;
             pObj.dx = Math.random() * 100;
