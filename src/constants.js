@@ -12,7 +12,7 @@ exports = {
         y: (576-400)/2,
         width: 800,
         height: 400,
-        color: '#FFFFFF',
+        color: '#ffffff',
         fontFamily: 'delius',
         strokeWidth: 6,
         strokeColor: '#333333',
@@ -94,27 +94,27 @@ exports = {
 
     GARMENT_HAT: {
         label: 'hat',
-        cost: {contrast: 2, main: 10},
+        cost: {contrast: 10, main: 50},
         disabledImage: new Image({url: imagePath + 'hat-disabled.png'})
+    },
+    GARMENT_MITTEN: {
+        label: 'mitten',
+        cost: {contrast: 30, main: 90},
+        disabledImage: new Image({url: imagePath + 'mitten-disabled.png'})
     },
     GARMENT_SOCK: {
         label: 'sock',
-        cost: {contrast: 10, main: 26},
+        cost: {contrast: 50, main: 130},
         disabledImage: new Image({url: imagePath + 'sock-disabled.png'})
     },
     GARMENT_SCARF: {
         label: 'scarf',
-        cost: {contrast: 14, main: 34},
+        cost: {contrast: 70, main: 170},
         disabledImage: new Image({url: imagePath + 'scarf-disabled.png'})
-    },
-    GARMENT_MITTEN: {
-        label: 'mitten',
-        cost: {contrast: 6, main: 18},
-        disabledImage: new Image({url: imagePath + 'mitten-disabled.png'})
     },
     GARMENT_SWEATER: {
         label: 'sweater',
-        cost: {contrast: 18, main: 42},
+        cost: {contrast: 90, main: 210},
         disabledImage: new Image({url: imagePath + 'sweater-disabled.png'})
     },
 
@@ -197,11 +197,11 @@ exports = {
 
     // amount of wool you get from purchasing.. might want to change
     WOOL_QUANTITIES: {
-        white:  800,
-        red:    800,
-        blue:   800,
-        yellow: 800,
-        black:  800
+        white:  500,
+        red:    500,
+        blue:   500,
+        yellow: 500,
+        black:  500
     },
 
     // cost, in real dollars, of coins
