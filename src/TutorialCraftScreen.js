@@ -194,12 +194,16 @@ exports = Class(CraftScreen, function (supr) {
         bind(this, function _a_waitBWSweater() {
             var btnNew, next;
             btnNew = new Button({
-                y: 389, x: 182, width: 60, height: 60
+                y: 389, x: 182, width: 60, height: 60,
+                item: {
+                    main: c.COLOR_BLACK,
+                    contrast: c.COLOR_WHITE
+                }
             });
 
             next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickBWSweater() {
-                this.showLargeCraft(new Craft('sweater', 'black', 'white'));
+                this.onCraftSelected(btnNew);
                 next();
             }));
             this.clickOnlyHere(btnNew);

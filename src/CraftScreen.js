@@ -52,14 +52,16 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         }, _myBGOpts));
 
+        this.player = opts.player || GC.app.player;
+
         this.coinsLabel = new CoinLabel({
             superview: this,
             x: 398,
-            y: 504
+            y: 504,
+            stats: this.player.stats
         });
 
         this.buttons = {};
-        this.player = opts.player || GC.app.player;
         this.wool = this.player.wool;
         this.crafts = this.player.crafts;
 
@@ -350,7 +352,7 @@ exports = Class(View, function (supr) {
 
     // buy garment buttons
     this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
-        var me = this, btn;
+        var btn;
         region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({
@@ -358,18 +360,16 @@ exports = Class(View, function (supr) {
             purchaseable: true
         });
 
-        btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
-            return function _a_onInputSelectCraftBuy() {
-
-                me.craftHighlight.removeFromSuperview();
-                btn.addSubview(me.craftHighlight);
-                var craft = c.crafts[me.selectedGarment.label][_btn.getOpts().item.main.label]
-                                    [_btn.getOpts().item.contrast.label];
-                me.showLargeCraft(craft);
-            };
-        })(btn));
-
+        btn.on('InputSelect', bind(this, this.onCraftSelected, btn));
         return btn;
+    };
+
+    this.onCraftSelected = function _a_onCraftSelected(btn) {
+        var craft, o = btn.getOpts();
+        this.craftHighlight.removeFromSuperview();
+        btn.addSubview(this.craftHighlight);
+        craft = c.crafts[this.selectedGarment.label][o.item.main.label][o.item.contrast.label];
+        this.showLargeCraft(craft);
     };
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
