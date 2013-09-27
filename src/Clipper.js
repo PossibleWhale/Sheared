@@ -143,9 +143,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(1), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(1), i, pObj;
         for (i = 0; i < particleObjects.length; i++) {
-            var pObj = particleObjects[i];
+            pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
             pObj.y = this.style.y + this.style.height/2;
             pObj.dx = Math.random() * 100;
@@ -174,9 +174,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(30), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(30), i, pObj;
         for (i = 0; i < particleObjects.length; i++) {
-            var pObj = particleObjects[i];
+            pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width/2;
             pObj.y = this.style.y + this.style.height/2;
             pObj.dx = Math.random() * 300;

@@ -42,8 +42,10 @@ exports = Class(ImageView, function (supr) {
         this.animator.clear();
         var superview = this.getSuperview();
         superview.clipper.blades.splice(superview.clipper.blades.indexOf(this), 1);
-        superview.clipper.bladeOut = false;
-        superview.clipper.reloadBlade();
+        if (!superview.clipper.blades.length) {
+            superview.clipper.bladeOut = false;
+            superview.clipper.reloadBlade();
+        }
         superview.clipper.bladePool.releaseView(this);
     };
 
