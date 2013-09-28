@@ -29,16 +29,13 @@ exports = Class(ImageView, function (supr) {
 
         this.bladePool = new ViewPool({
             ctor: Blade,
-            initCount: 10,
+            initCount: 3,
         });
 
     };
 
     this.checkGold = function () {
-        if (GC.app.player.upgrades.get('power').value === constants.UPGRADE_MAX.power &&
-            GC.app.player.upgrades.get('mult').value === constants.UPGRADE_MAX.mult &&
-            GC.app.player.upgrades.get('blade').value === constants.UPGRADE_MAX.blade &&
-            GC.app.player.upgrades.get('diamond').value &&
+        if (GC.app.player.hasAllUpgrades() &&
             !this.getSuperview().isTutorial) {
 
             this.isGold = true;

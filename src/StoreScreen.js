@@ -43,6 +43,7 @@ exports = Class(View, function (supr) {
                 GC.app.player.purchased('all');
                 this.updateProgressBars();
                 this.updatePriceDisplays();
+                this.unlockAllButton.removeFromSuperview();
             }
         });
 
@@ -591,26 +592,28 @@ exports = Class(View, function (supr) {
 
 
         // purchase all button
-        var unlockAllButton = new Button({
-            superview: this.tabs.upgrades,
-            x: 753,
-            y: 335,
-            width: 142,
-            height: 130,
-            anchorX: 142/2,
-            anchorY: 130/2,
-            image: 'resources/images/special-offer.png'
-        });
-        var animateButton = function () {
-            animate(unlockAllButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
-            .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
-            .then(animateButton);
-        };
-        animateButton();
+        if (!GC.app.player.hasAllUpgrades()) {
+            this.unlockAllButton = new Button({
+                superview: this.tabs.upgrades,
+                x: 753,
+                y: 335,
+                width: 142,
+                height: 130,
+                anchorX: 142/2,
+                anchorY: 130/2,
+                image: 'resources/images/special-offer.png'
+            });
+            var animateButton = function () {
+                animate(this.unlockAllButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
+                .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
+                .then(animateButton);
+            };
+            animateButton();
 
-        unlockAllButton.on('InputSelect', bind(this, function () {
-            billing.purchase('all');
-        }));
+            this.unlockAllButton.on('InputSelect', bind(this, function () {
+                billing.purchase('all');
+            }));
+        }
     };
 
     this._buildWoolTab = function () {

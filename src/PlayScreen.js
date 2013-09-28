@@ -82,14 +82,14 @@ exports = Class(View, function (supr) {
 
         this.sheepPool = new ViewPool({
             ctor: Sheep,
-            initCount: 20,
+            initCount: 10,
             initOpts: {
                 superview: this
             }
         });
         this.ramPool = new ViewPool({
             ctor: Ram,
-            initCount: 10,
+            initCount: 5,
             initOpts: {
                 superview: this
             }

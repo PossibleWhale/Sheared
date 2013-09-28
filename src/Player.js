@@ -36,6 +36,13 @@ exports = Class(Emitter, function Player(supr) {
         this.mergeWoolCounts = bind(this.wool, this.wool.mergeCounts);
     };
 
+    this.hasAllUpgrades = function () {
+        return (this.upgrades.get('power').value === c.UPGRADE_MAX.power &&
+                this.upgrades.get('mult').value === c.UPGRADE_MAX.mult &&
+                this.upgrades.get('blade').value === c.UPGRADE_MAX.blade &&
+                this.upgrades.get('diamond').value);
+    };
+
     this.setUpgrades = function () {
         this.maxClipperHealth = Math.min(10, 5 + this.upgrades.get('power').value-1);
         this.boltMultiplier = this.upgrades.get('mult').value;

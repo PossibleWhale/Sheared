@@ -26,12 +26,6 @@ exports = Class(ImageView, function (supr) {
         });
 
         this.fromTutorial = opts.fromTutorial;
-
-        if (opts.fromTutorial) {
-            this.bolts = 1;
-        } else {
-            this.bolts = GC.app.player.boltMultiplier;
-        }
         this.isRam = false;
     };
 
@@ -41,6 +35,12 @@ exports = Class(ImageView, function (supr) {
             color = randomColor();
         } else {
             color = this.color;
+        }
+
+        if (this.fromTutorial) {
+            this.bolts = 1;
+        } else {
+            this.bolts = GC.app.player.boltMultiplier;
         }
 
         if (color.label === 'gold' && !this.fromTutorial) {
@@ -98,11 +98,11 @@ exports = Class(ImageView, function (supr) {
 
                     if (!this.isRam || blade.isDiamond) {
                         blade.sheepSheared++;
-                        if (blade.sheepSheared === 1) {
+                        if (blade.sheepSheared >= blade.maxSheep) {
+                            blade.die();
+                        } else if (blade.sheepSheared === 1) {
                             superview.clipper.bladeOut = false;
                             superview.clipper.reloadBlade();
-                        } else if (blade.sheepSheared >= blade.maxSheep) {
-                            blade.die();
                         }
 
                         if (!this.isGold) {

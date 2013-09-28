@@ -9,11 +9,6 @@ exports = Class(Sheep, function (supr) {
             height: 108
         });
         supr(this, 'init', [opts]);
-        if (opts.fromTutorial) {
-            this.bolts = 5;
-        } else {
-            this.bolts = 5 * GC.app.player.boltMultiplier;
-        }
         this.isRam = true;
 
         this.image.style.width = 117;
@@ -24,6 +19,11 @@ exports = Class(Sheep, function (supr) {
 
     this.onObtain = function () {
         supr(this, 'onObtain');
+        if (this.fromTutorial) {
+            this.bolts = 5;
+        } else {
+            this.bolts = 5 * GC.app.player.boltMultiplier;
+        }
         this.setImage(this.color.ramImage);
     };
 
