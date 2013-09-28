@@ -259,11 +259,11 @@ exports = Class(View, function (supr) {
             currentCraft = c.crafts[garment.label][main.label][contrast.label];
 
             if (player.canCraft(currentCraft)) {
-                cb.updateOpts({opacity: 1.0, purchaseable: true});
+                cb.updateOpts({opacity: 1.0});
                 res = c.craftImages[garment.label][main.label][contrast.label];
                 cb.setImage(res);
             } else {
-                cb.updateOpts({opacity: 0.75, purchaseable: false});
+                cb.updateOpts({opacity: 0.75});
                 this.craftHighlight.removeFromSuperview();
                 cb.setImage(disabledImage);
             }
@@ -356,8 +356,7 @@ exports = Class(View, function (supr) {
         region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({
-            click: false, // these have their own noise
-            purchaseable: true
+            click: false // these have their own noise
         });
 
         btn.on('InputSelect', bind(this, this.onCraftSelected, btn));
