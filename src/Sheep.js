@@ -83,29 +83,26 @@ exports = Class(ImageView, function (supr) {
     // stuff we need to do every tick
     this.onTick = function () {
         if (this.animator && this.animator.hasFrames()) {
-            var superview = this.getSuperview(), i, blade;
+            var superview = this.getSuperview(), i, blade, wool;
             if (!superview) {
-                this.animator.clear();
+                this.die();
                 return;
             }
             //this.emitDust()
 
             i = superview.clipper.blades.length;
+            wool = superview.dailyWool;
             while (i--) {
                 blade = superview.clipper.blades[i];
                 if (blade.getSuperview() && intersect.rectAndRect(this.style, blade.style)) {
 
-                    var wool = superview.dailyWool;
-
                     if (!this.isRam || blade.isDiamond) {
                         blade.sheepSheared++;
-                        if (blade.sheepSheared >= blade.maxSheep) {
-                            blade.die();
-                        }
                         if (blade.sheepSheared === 1) {
-                            superview.clipper.reloadBlade();
                             superview.clipper.bladeOut = false;
                             superview.clipper.reloadBlade();
+                        } else if (blade.sheepSheared >= blade.maxSheep) {
+                            blade.die();
                         }
 
                         if (!this.isGold) {
@@ -179,9 +176,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(this.bolts), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(this.bolts), i, pObj;
         for (i = 0; i < particleObjects.length; i++) {
-            var pObj = particleObjects[i];
+            pObj = particleObjects[i];
             pObj.x = this.style.x;
             pObj.y = this.style.y;
             pObj.dx = Math.random() * 300;
@@ -215,9 +212,9 @@ exports = Class(ImageView, function (supr) {
             return;
         }
 
-        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i;
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(3), i, pObj;
         for (i = 0; i < particleObjects.length; i++) {
-            var pObj = particleObjects[i];
+            pObj = particleObjects[i];
             pObj.x = this.style.x + this.style.width;
             pObj.y = this.style.y + this.style.height/2;
             pObj.dx = Math.random() * 50;

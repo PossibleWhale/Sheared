@@ -507,9 +507,9 @@ exports = Class(View, function (supr) {
     this._showResults = function (finishedDay) {
         var i, resultsScreen;
         if (finishedDay) {
-            var counts = [];
+            var counts = [], count;
             for (i = 0; i < constants.colors.length; i++) {
-                var count = this.dailyWool.get(constants.colors[i]).count,
+                count = this.dailyWool.get(constants.colors[i]).count,
                     numParticles = Math.min(10, count);
                 counts.push(numParticles);
             }
@@ -637,9 +637,9 @@ function laneCoord (index) {
 }
 
 function emitWool (x, y, numBolts, color) {
-    var particleObjects = GC.app.particleEngine.obtainParticleArray(numBolts), i;
+    var particleObjects = GC.app.particleEngine.obtainParticleArray(numBolts), i, pObj;
     for (i = 0; i < particleObjects.length; i++) {
-        var pObj = particleObjects[i];
+        pObj = particleObjects[i];
         pObj.x = x-30;
         pObj.y = y-30;
         pObj.dx = Math.random() * 300;

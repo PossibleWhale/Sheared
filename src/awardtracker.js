@@ -111,9 +111,9 @@ AwardTracker = Class(event.Emitter, function (supr) {
 
         this.on('player:purchasedpower', function () {
             var player = GC.app.player;
-            var upgradeLevel = player.upgrades.get('power').value - 1, i = 1;
+            var upgradeLevel = player.upgrades.get('power').value - 1, i = 1, currentLevel;
             while (i <= 5) {
-                var currentLevel = i === 5 ? 'max' : i, key = 'power.' + currentLevel;
+                currentLevel = i === 5 ? 'max' : i, key = 'power.' + currentLevel;
                 if (!player.awards.get(key).value && upgradeLevel >= i) {
                     player.earnedAward(key);
                 }
@@ -123,9 +123,9 @@ AwardTracker = Class(event.Emitter, function (supr) {
 
         this.on('player:purchasedmult', function () {
             var player = GC.app.player;
-            var upgradeLevel = player.upgrades.get('mult').value, i = 2;
+            var upgradeLevel = player.upgrades.get('mult').value, i = 2, currentLevel;
             while (i <= 6) {
-                var currentLevel = i === 6 ? 'max' : i, key = 'multiplier.' + currentLevel;
+                currentLevel = i === 6 ? 'max' : i, key = 'multiplier.' + currentLevel;
                 if (!player.awards.get(key).value && upgradeLevel >= i) {
                     player.earnedAward(key);
                 }
@@ -135,9 +135,9 @@ AwardTracker = Class(event.Emitter, function (supr) {
 
         this.on('player:purchasedblade', function () {
             var player = GC.app.player;
-            var upgradeLevel = player.upgrades.get('blade').value - 1, i = 1;
+            var upgradeLevel = player.upgrades.get('blade').value - 1, i = 1, currentLevel;
             while (i <= 5) {
-                var currentLevel = i === 5 ? 'max' : i, key = 'bladepower.' + currentLevel;
+                currentLevel = i === 5 ? 'max' : i, key = 'bladepower.' + currentLevel;
                 if (!player.awards.get(key).value && upgradeLevel >= i) {
                     player.earnedAward(key);
                 }

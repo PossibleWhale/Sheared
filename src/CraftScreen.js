@@ -157,6 +157,7 @@ exports = Class(View, function (supr) {
             if (this.player.persist) {
                 this.woolCounts.matchStorage();
             }
+            this.coinsLabel.update();
         }));
 
         this.on('craft:addDollars', function _a_onCraftAddDollars(amount) {
