@@ -52,19 +52,21 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         }, _myBGOpts));
 
+        this.player = opts.player || GC.app.player;
+
         this.coinsLabel = new CoinLabel({
             superview: this,
             x: 398,
-            y: 504
+            y: 504,
+            stats: this.player.stats
         });
 
         this.buttons = {};
-        this.player = opts.player || GC.app.player;
         this.wool = this.player.wool;
         this.crafts = this.player.crafts;
 
         this.selectedGarment = c.GARMENT_HAT;
-        this.selectedCraft = null;
+        this.currentCraft = null;
 
         this.woolCounts = new WoolCounter({
             superview: this,
@@ -258,11 +260,11 @@ exports = Class(View, function (supr) {
             currentCraft = c.crafts[garment.label][main.label][contrast.label];
 
             if (player.canCraft(currentCraft)) {
-                cb.updateOpts({opacity: 1.0, purchaseable: true});
+                cb.updateOpts({opacity: 1.0});
                 res = c.craftImages[garment.label][main.label][contrast.label];
                 cb.setImage(res);
             } else {
-                cb.updateOpts({opacity: 0.75, purchaseable: false});
+                cb.updateOpts({opacity: 0.75});
                 this.craftHighlight.removeFromSuperview();
                 cb.setImage(disabledImage);
             }
@@ -323,11 +325,13 @@ exports = Class(View, function (supr) {
     };
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
+        var nullCraft;
         this.craftHighlight.removeFromSuperview();
         this.largeCraft.removeAllSubviews();
-        this.selectedCraft = c.nullCrafts[this.selectedGarment.label];
-        this.largeCraft.addSubview(this.selectedCraft);
-        this.selectedCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
+        nullCraft = c.nullCrafts[this.selectedGarment.label];
+        this.largeCraft.addSubview(nullCraft);
+        this.currentCraft = nullCraft;
+        nullCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
     };
 
     this.showLargeCraft = function _a_showLargeCraft(craft) {
@@ -339,6 +343,7 @@ exports = Class(View, function (supr) {
             this.animateCraft(craft.pvItem);
         }
         this.largeCraft.addSubview(craft);
+        this.currentCraft = craft;
         craft.enable(isEnabled, isEnabled ? undefined : 'Requires more wool');
 
         craft.removeAllListeners();
@@ -351,26 +356,24 @@ exports = Class(View, function (supr) {
 
     // buy garment buttons
     this.craftBuyFactory = function _a_craftBuyFactory(region, i, j) {
-        var me = this, btn;
+        var btn;
         region.superview = this.tabs;
         btn = this.defaultButtonFactory(region, 'craftBuy');
         btn.updateOpts({
-            click: false, // these have their own noise
-            purchaseable: true
+            click: false // these have their own noise
         });
 
-        btn.on('InputSelect', (function _a_onInputSelectCraftBuyClosure(_btn) {
-            return function _a_onInputSelectCraftBuy() {
-
-                me.craftHighlight.removeFromSuperview();
-                btn.addSubview(me.craftHighlight);
-                var craft = c.crafts[me.selectedGarment.label][_btn.getOpts().item.main.label]
-                                    [_btn.getOpts().item.contrast.label];
-                me.showLargeCraft(craft);
-            };
-        })(btn));
-
+        btn.on('InputSelect', bind(this, this.onCraftSelected, btn));
         return btn;
+    };
+
+    this.onCraftSelected = function _a_onCraftSelected(btn) {
+        var craft, o = btn.getOpts();
+        this.craftHighlight.removeFromSuperview();
+        btn.addSubview(this.craftHighlight);
+        craft = c.crafts[this.selectedGarment.label][o.item.main.label][o.item.contrast.label];
+        this.showLargeCraft(craft);
+        assert(craft.buyButton.getOpts().buyEnabled);
     };
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {

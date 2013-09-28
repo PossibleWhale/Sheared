@@ -86,7 +86,8 @@ exports = Class(View, function (supr) {
         this.coinsLabel = new CoinLabel({
             superview: this,
             x: 398,
-            y: 504
+            y: 504,
+            stats: GC.app.player.stats
         });
 
         this.tabs = {
