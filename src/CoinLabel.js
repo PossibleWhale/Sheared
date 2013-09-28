@@ -3,7 +3,9 @@
  */
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
+
 import src.constants as constants;
+import src.util as util;
 
 
 exports = Class(ImageView, function (supr) {
@@ -14,6 +16,10 @@ exports = Class(ImageView, function (supr) {
             clip: false,
             image: 'resources/images/label-eweros.png'
         });
+
+        util.assert(opts.stats, "opts.stats is required in CoinLabel's options");
+        this.stats = opts.stats;
+        delete opts.stats;
 
         supr(this, 'init', [opts]);
 
@@ -27,11 +33,11 @@ exports = Class(ImageView, function (supr) {
             fontFamily: 'delius',
             size: 24,
             horizontalAlign: 'left',
-            text: '' + GC.app.player.stats.get('coins').value
+            text: '' + this.stats.get('coins').value
         });
     };
 
     this.update = function () {
-        this.text.setText('' + GC.app.player.stats.get('coins').value);
+        this.text.setText('' + this.stats.get('coins').value);
     };
 });

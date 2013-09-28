@@ -204,6 +204,7 @@ exports = Class(CraftScreen, function (supr) {
             next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickBWSweater() {
                 this.onCraftSelected(btnNew);
+                assert(this.currentCraft.buyButton.getOpts().buyEnabled);
                 next();
             }));
             this.clickOnlyHere(btnNew);
@@ -250,7 +251,7 @@ exports = Class(CraftScreen, function (supr) {
 
             next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickBuyCraft() {
-                this.selectedCraft.purchased();
+                this.currentCraft.purchased();
                 next();
             }));
             this.clickOnlyHere(btnNew);

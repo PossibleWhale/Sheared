@@ -66,7 +66,7 @@ exports = Class(View, function (supr) {
         this.crafts = this.player.crafts;
 
         this.selectedGarment = c.GARMENT_HAT;
-        this.selectedCraft = null;
+        this.currentCraft = null;
 
         this.woolCounts = new WoolCounter({
             superview: this,
@@ -324,11 +324,13 @@ exports = Class(View, function (supr) {
     };
 
     this.nullLargeCraft = function _a_nullLargeCraft() {
+        var nullCraft;
         this.craftHighlight.removeFromSuperview();
         this.largeCraft.removeAllSubviews();
-        this.selectedCraft = c.nullCrafts[this.selectedGarment.label];
-        this.largeCraft.addSubview(this.selectedCraft);
-        this.selectedCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
+        nullCraft = c.nullCrafts[this.selectedGarment.label];
+        this.largeCraft.addSubview(nullCraft);
+        this.currentCraft = nullCraft;
+        nullCraft.enable(false, 'Select a ' + this.selectedGarment.label + ' to craft');
     };
 
     this.showLargeCraft = function _a_showLargeCraft(craft) {
@@ -340,6 +342,7 @@ exports = Class(View, function (supr) {
             this.animateCraft(craft.pvItem);
         }
         this.largeCraft.addSubview(craft);
+        this.currentCraft = craft;
         craft.enable(isEnabled, isEnabled ? undefined : 'Requires more wool');
 
         craft.removeAllListeners();
@@ -369,6 +372,7 @@ exports = Class(View, function (supr) {
         btn.addSubview(this.craftHighlight);
         craft = c.crafts[this.selectedGarment.label][o.item.main.label][o.item.contrast.label];
         this.showLargeCraft(craft);
+        assert(craft.buyButton.getOpts().buyEnabled);
     };
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
