@@ -163,6 +163,8 @@ exports = Class(ImageView, function (supr) {
     this.die = function () {
         this.animator.clear();
         this.rotation.clear();
+        delete this.animator;
+        delete this.rotation;
         if (this.getSuperview()) {
             this.getSuperview().sheepPool.releaseView(this);
             this.getSuperview().removeSheep(this);
