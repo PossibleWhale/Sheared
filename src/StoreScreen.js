@@ -604,11 +604,11 @@ exports = Class(View, function (supr) {
                 anchorY: 130/2,
                 image: 'resources/images/special-offer.png'
             });
-            var animateButton = function () {
+            var animateButton = bind(this, function () {
                 animate(this.unlockAllButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
                 .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
                 .then(animateButton);
-            };
+            });
             animateButton();
 
             this.unlockAllButton.on('InputSelect', bind(this, function () {
