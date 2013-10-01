@@ -74,8 +74,9 @@ exports = Class(CraftScreen, function (supr) {
         this.woolCounts.update();
         this.clickControl = new View({
             x: 0,
-            y: 0,
-            infinite: true,
+            y: 80,
+            width: 1024,
+            height: 496,
             opacity: 0.0,
             superview: this,
             canHandleEvents: false
@@ -94,7 +95,6 @@ exports = Class(CraftScreen, function (supr) {
         });
 
         this.hideButtons("store");
-        this.hideButtons("backButton");
     };
 
     // prevent all clicks except on the button
@@ -131,6 +131,8 @@ exports = Class(CraftScreen, function (supr) {
         this.hideButtons("total");
 
         var arrow1 = new ImageView({
+            x: 0,
+            y: 510,
             width: 58,
             height: 66,
             image: 'resources/images/arrow.png',
@@ -139,6 +141,8 @@ exports = Class(CraftScreen, function (supr) {
         });
 
         var arrow2 = new ImageView({
+            x: 0,
+            y: 510,
             width: 58,
             height: 66,
             image: 'resources/images/arrow.png',

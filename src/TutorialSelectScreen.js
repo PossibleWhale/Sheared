@@ -65,15 +65,6 @@ exports = Class(ui.View, function (supr) {
             image: 'resources/images/tab-0.png'
         }));
 
-        // tutorial selector
-        // this.addSubview(new ImageView({
-        //     x: 252,
-        //     y: 113,
-        //     width: 520,
-        //     height: 350,
-        //     //image: "resources/images/tutorials.png",
-        // }));
-
         // shearing title
         this.addSubview(new TextView({
             x: 259,
@@ -170,7 +161,7 @@ exports = Class(ui.View, function (supr) {
             this.emit('tutorial:back');
         }));
 
-        var muteButton = new MuteButton({
+        this.muteButton = new MuteButton({
             superview: this,
             x: 952,
             y: 8,
@@ -178,6 +169,10 @@ exports = Class(ui.View, function (supr) {
             width: 64,
             height: 64
         });
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
+        }));
     };
 
     this.playTutorial = function () {
@@ -190,5 +185,9 @@ exports = Class(ui.View, function (supr) {
         this.tutorialScreen = new TutorialCraftScreen();
         GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.tutor();
+
+        this.tutorialScreen.on('craft:back', bind(this, function () {
+            this.emit('tutorial:back');
+        }));
     };
 });

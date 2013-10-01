@@ -151,7 +151,7 @@ exports = Class(View, function (supr) {
             GC.app.titleScreen.back();
         });
 
-        var muteButton = new MuteButton({
+        this.muteButton = new MuteButton({
             superview: this,
             x: 952,
             y: 8,
@@ -176,6 +176,10 @@ exports = Class(View, function (supr) {
                 fromTutorial: true
             }
         });
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
+        }));
     };
 
     this.clipperTutorial = function () {
@@ -257,8 +261,9 @@ exports = Class(View, function (supr) {
         bind(this, function () {
             var next = this.runner.waitPlain();
             this.nextButton.on('InputSelect', bind(this, function () {
-                this.nextButton.style.opacity = 0;
                 this.eweTutorial();
+                this.nextButton.style.opacity = 0;
+                next();
             }));
         })
         ];
