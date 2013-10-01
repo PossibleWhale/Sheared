@@ -88,7 +88,6 @@ exports = Class(ImageView, function (supr) {
                 this.die();
                 return;
             }
-            //this.emitDust()
 
             i = superview.clipper.blades.length;
             wool = superview.dailyWool;
@@ -161,10 +160,13 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.die = function () {
-        this.animator.clear();
-        this.rotation.clear();
-        delete this.animator;
-        delete this.rotation;
+        if (this.animator) {
+            this.animator.clear();
+            delete this.animator;
+        }
+        if (this.rotation) {
+            this.rotation.clear();
+            delete this.rotation;
         if (this.getSuperview()) {
             this.getSuperview().sheepPool.releaseView(this);
             this.getSuperview().removeSheep(this);
