@@ -168,13 +168,14 @@ exports = Class(View, function (supr) {
             text: 'In memory of Shrek the sheep.'
         }));
 
-        this.addSubview(new MuteButton({
+        this.muteButton = new MuteButton({
+            superview: this,
             x: 952,
             y: 8,
             zIndex: 9999,
             width: 64,
             height: 64
-        }));
+        });
 
         var backButton = new Button({
             superview: this,
@@ -187,6 +188,10 @@ exports = Class(View, function (supr) {
         });
 
         util.reissue(backButton, 'InputSelect', this, 'credits:back');
+
+        this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
+        }));
     };
 });
 

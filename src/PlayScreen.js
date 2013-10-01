@@ -273,7 +273,7 @@ exports = Class(View, function (supr) {
             width: 484,
             height: 54,
             size: 128,
-            text: 'Game Over'
+            text: 'Game Over (Day ' + (this.day+1) + ')'
         }));
         this.gameOverScreen.storeButton = new Button({
             superview: this.gameOverScreen,

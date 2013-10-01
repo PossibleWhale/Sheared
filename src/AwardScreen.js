@@ -74,13 +74,14 @@ exports = Class(View, function (supr) {
         }));
 
         // sound toggle button
-        this.addSubview(new MuteButton({
+        this.muteButton = new MuteButton({
+            superview: this,
             x: 952,
             y: 8,
             zIndex: 9999,
             width: 64,
             height: 64
-        }));
+        });
 
         this.tabs = {
             ewes: new View({
@@ -196,6 +197,7 @@ exports = Class(View, function (supr) {
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
+            this.muteButton.setMuted({silent: true});
             this._buildTab('ewes');
             this._buildTab('rams');
             this._buildTab('wool');
