@@ -133,6 +133,7 @@ exports = Class(View, function (supr) {
             visible: false,
             x: 1024,
             y: 576/2 - 100,
+            zIndex: 999999,
             width: 500,
             height: 200,
             text: 'Paused'
