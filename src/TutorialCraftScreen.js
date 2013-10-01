@@ -175,7 +175,7 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 190, y: 450, r: 4.30}]), /* highlight sweater tab */
         bind(this, function _a_waitSweater() {
             var btnNew = new Button({
-                y:399, x:33, width:137, height:64, click: true
+                y:319, x:33, width:137, height:64, click: true
             });
             var next = this.runner.waitPlain();
             btnNew.on('InputSelect', bind(this, function _on_clickSweater() {
@@ -198,7 +198,7 @@ exports = Class(CraftScreen, function (supr) {
         bind(this, function _a_waitBWSweater() {
             var btnNew, next;
             btnNew = new Button({
-                y: 389, x: 182, width: 60, height: 60,
+                y: 309, x: 182, width: 60, height: 60,
                 item: {
                     main: c.COLOR_BLACK,
                     contrast: c.COLOR_WHITE
@@ -250,7 +250,7 @@ exports = Class(CraftScreen, function (supr) {
         bind(this, function _a_waitBuySweater() {
             var btnNew, next;
             btnNew = new Button({
-                x: 734, y: 408, width: 96, height: 37
+                x: 734, y: 328, width: 96, height: 37
             });
 
             next = this.runner.waitPlain();

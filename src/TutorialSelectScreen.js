@@ -176,12 +176,18 @@ exports = Class(ui.View, function (supr) {
     };
 
     this.playTutorial = function () {
+        if (this.tutorialScreen) {
+            delete this.tutorialScreen;
+        }
         this.tutorialScreen = new TutorialPlayScreen();
         GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.clipperTutorial();
     };
 
     this.craftTutorial = function () {
+        if (this.tutorialScreen) {
+            delete this.tutorialScreen;
+        }
         this.tutorialScreen = new TutorialCraftScreen();
         GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.tutor();
