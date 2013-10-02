@@ -71,8 +71,8 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(PLUGINS_DIR)/appflood/appFlood.js: $(GC_DIR)/addons/appflood
-	ln -sf $(GC_DIR)/addons/appflood/js $(PLUGINS_DIR)/appflood
+$(PLUGINS_DIR)/appflood/appFlood.js:
+	basil install appflood
 
 appfloodsecretkey.txt: ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt
 	ln -s ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt appfloodsecretkey.txt
