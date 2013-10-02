@@ -10,7 +10,7 @@ from fabric.api import task, local as l, execute
 
 KEYSTORE = "possiblewhale.keystore"
 PW_FILE = "androidstorepass.txt"
-TJ_KEY = "tapjoysecretkey.txt"
+AF_KEY = "appfloodsecretkey.txt"
 
 
 @task
@@ -40,14 +40,14 @@ def generateManifest(manifestFile):
     """
     Create manifest.json from 
     - manifest.json.in and 
-    - tapjoysecretkey.txt
+    - appfloodsecretkey.txt
     """
     with open(manifestFile, 'w') as f:
         data = json.load(open(manifestFile + ".in"))
 
-        tjKey = open(TJ_KEY).read().strip()
-        data['android']["tapjoySecretKey"] = tjKey
-        data['ios']["tapjoySecretKey"] = tjKey
+        afKey = open(AF_KEY).read().strip()
+        data['android']["appFloodSecretKey"] = afKey
+        data['ios']["appFloodSecretKey"] = afKey
 
         json.dump(data, f, indent=4)
 

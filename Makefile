@@ -27,13 +27,13 @@ LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/tapjoyads/ads.js
+PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
 XCODEPROJ =         $(GC_DIR)/addons/native-ios/build/sheared/tealeaf/TeaLeafIOS.xcodeproj/project.pbxproj
 
-SUBPROJECTS =       addons/backbutton addons/tapjoyads
+SUBPROJECTS =       addons/backbutton
 
 TOP_LEVEL_DEPS =	manifest.json register $(SUBPROJECTS)
 
@@ -47,9 +47,6 @@ ios: $(TOP_LEVEL_DEPS) $(XCODEPROJ)
 $(XCODEPROJ): $(ALL_APK_DEPS)
 	basil debug native-ios
 
-addons/tapjoyads:
-	git clone git@github.com:PossibleWhale/tapjoyads.git $@
-
 addons/backbutton:
 	git clone git@github.com:PossibleWhale/backbutton.git $@
 
@@ -59,7 +56,7 @@ release:
 release-install:
 	$(MAKE) BUILD=release clean $(GC_DIR)/config.json all install
 
-manifest.json: tapjoysecretkey.txt manifest.json.in
+manifest.json: appfloodsecretkey.txt manifest.json.in
 	fab "gcbuild.generateManifest:$@"
 
 $(GC_DIR)/config.json: $(RELEASE_KEY)
@@ -74,14 +71,11 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(PLUGINS_DIR)/tapjoyads/ads.js: $(GC_DIR)/addons/tapjoyads
-	ln -sf $(GC_DIR)/addons/tapjoyads/js $(PLUGINS_DIR)/tapjoyads
+$(PLUGINS_DIR)/appflood/appFlood.js: $(GC_DIR)/addons/appflood
+	ln -sf $(GC_DIR)/addons/appflood/js $(PLUGINS_DIR)/appflood
 
-$(GC_DIR)/addons/tapjoyads:
-	ln -s `pwd`/addons/tapjoyads/ $(GC_DIR)/addons/tapjoyads
-
-tapjoysecretkey.txt: ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt
-	ln -s ~/Dropbox/possiblewhale/sheared/tapjoysecretkey.txt tapjoysecretkey.txt
+appfloodsecretkey.txt: ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt
+	ln -s ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt appfloodsecretkey.txt
 
 androidstorepass.txt: ~/Dropbox/possiblewhale/androidstorepass.txt
 	ln -s ~/Dropbox/possiblewhale/androidstorepass.txt androidstorepass.txt
@@ -104,8 +98,6 @@ $(APK): $(ALL_APK_DEPS)
 
 clean:
 	rm -vf $(APK)
-	rm -vf $(GC_DIR)/addons/tapjoyads
-	rm -rf $(GC_DIR)/addons/tapjoyads
 	rm -vf $(GC_DIR)/addons/backbutton
 	rm -rf $(GC_DIR)/addons/backbutton
 	rm -vf $(PLUGINS_DIR)/*

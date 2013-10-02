@@ -25,9 +25,8 @@
 			"96": "resources/icons/android96.png"
 		},
 
-        "tapjoyAppID": "89443602-da26-4099-850b-729ff1717f5e",
-        "tapjoySecretKey": "____________________",
-        "tapjoyCurrencyID": "4262295e-1d82-4b90-bc2c-61101edf8e0f"
+        "appFloodAppKey": "2AuqjdBJhcQrM4VJ",
+        "appFloodSecretKey": "______________________"
 	},
 	"ios": {
 		"bundleID": "com.possiblewhale.sheared",
@@ -41,17 +40,16 @@
 			"renderGloss": false
 		},
 
-        "tapjoyAppID": "89443602-da26-4099-850b-729ff1717f5e",
-        "tapjoySecretKey": "____________________",
-        "tapjoyCurrencyID": "4262295e-1d82-4b90-bc2c-61101edf8e0f"
+        "appFloodAppKey": "2AuqjdBJhcQrM4VJ",
+        "appFloodSecretKey": "______________________"
 	},
 	"ttf": [
 		"resources/fonts/delius.ttf"
 	],
     "addons": [
-        "tapjoyads",
+        "appflood",
         "billing",
         "backbutton"
     ],
-	"sdkVersion": "release-0.1.27"
+	"sdkVersion": "release-0.1.36"
 }
