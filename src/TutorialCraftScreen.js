@@ -101,7 +101,7 @@ exports = Class(CraftScreen, function (supr) {
     this.clickOnlyHere = function _a_clickOnlyHere(button) {
         this.disableClicks();
         this.clickControl.addSubview(button);
-        button.once('InputSelect', bind(this, function _a_clickOnlyHereClicked() {
+        button.on('InputSelect', bind(this, function _a_clickOnlyHereClicked() {
             this.clickControl.removeSubview(button);
             this.clickAnywhere();
         }));
