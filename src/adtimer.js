@@ -1,7 +1,7 @@
 
 import event.Emitter;
 
-import plugins.tapjoyads.ads as ads;
+import plugins.appflood.appFlood as appFlood;
 
 import src.constants as c;
 import src.debughack as dh;
@@ -14,6 +14,12 @@ AdTimer = Class(event.Emitter, function (supr) {
 
         this.suppressTime = c.AD_SUPPRESS_TIME;
         this.isSuppressed = false;
+
+        appFlood.on('appflood:closed', bind(this, function _a_appFloodClosed(callback, cbArgs) {
+            callback.apply(cbArgs);
+            GC.app.stopSpinner();
+            this.start();
+        }));
     };
 
     /*
@@ -45,16 +51,7 @@ AdTimer = Class(event.Emitter, function (supr) {
         if (!this.isSuppressed) {
             this.isSuppressed = true;
             GC.app.startSpinner();
-            ads.showAd(bind(this, function _a_onShowAd(evt) {
-                if (evt.errorCode) {
-                    console.log("[APP] Response from Plugin: message='" + evt.message + "' code=" + evt.errorCode);
-                } else {
-                    console.log("[APP] Response from Plugin: message=" + evt.message);
-                }
-                callback.apply(cbArgs);
-                GC.app.stopSpinner();
-                this.start();
-            }));
+            appFlood.showInterstitial(callback, cbArgs);
         } else {
             callback.apply(cbArgs);
         }
