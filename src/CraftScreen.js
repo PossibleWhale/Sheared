@@ -373,7 +373,6 @@ exports = Class(View, function (supr) {
         btn.addSubview(this.craftHighlight);
         craft = c.crafts[this.selectedGarment.label][o.item.main.label][o.item.contrast.label];
         this.showLargeCraft(craft);
-        assert(craft.buyButton.getOpts().buyEnabled);
     };
 
     this.craftStarsFactory = function _a_craftStarFactory(region, i, j) {
