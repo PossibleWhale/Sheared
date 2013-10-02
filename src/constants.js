@@ -94,22 +94,22 @@ exports = {
 
     GARMENT_HAT: {
         label: 'hat',
-        cost: {contrast: 10, main: 50},
+        cost: {contrast: 6, main: 30},
         disabledImage: new Image({url: imagePath + 'hat-disabled.png'})
     },
     GARMENT_MITTEN: {
         label: 'mitten',
-        cost: {contrast: 30, main: 90},
+        cost: {contrast: 24, main: 72},
         disabledImage: new Image({url: imagePath + 'mitten-disabled.png'})
     },
     GARMENT_SOCK: {
         label: 'sock',
-        cost: {contrast: 60, main: 156},
+        cost: {contrast: 50, main: 130},
         disabledImage: new Image({url: imagePath + 'sock-disabled.png'})
     },
     GARMENT_SCARF: {
         label: 'scarf',
-        cost: {contrast: 98, main: 238},
+        cost: {contrast: 84, main: 204},
         disabledImage: new Image({url: imagePath + 'scarf-disabled.png'})
     },
     GARMENT_SWEATER: {
@@ -180,7 +180,7 @@ exports = {
         blade: [2000, 4000, 8000, 16000,  32000],
         diamond: 64000,
 
-        // wool prices. for now they are all the same... we might want them to be different?
+        // wool prices
         white:  1000,
         red:    1500,
         blue:   1500,

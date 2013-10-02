@@ -268,14 +268,14 @@ exports = Class(View, function (supr) {
             height: 108,
             image: 'resources/images/ribbon.png'
         }));
-        this.gameOverScreen.addSubview(new Button({
+        this.gameOverText = new Button({
+            superview: this.gameOverScreen,
             x: 270,
             y: 140,
             width: 484,
             height: 54,
-            size: 128,
-            text: 'Game Over (Day ' + (this.day+1) + ')'
-        }));
+            size: 128
+        });
         this.gameOverScreen.storeButton = new Button({
             superview: this.gameOverScreen,
             x: 59,
@@ -529,6 +529,7 @@ exports = Class(View, function (supr) {
             resultsScreen = this.resultsScreen;
             this.gameOverScreen.hide();
         } else {
+            this.gameOverText.setText('Game Over (Day ' + (this.day+1) + ')');
             resultsScreen = this.gameOverScreen;
             this.resultsScreen.hide();
         }
