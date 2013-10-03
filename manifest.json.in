@@ -10,7 +10,7 @@
 	"supportedOrientations": [
 		"landscape"
 	],
-	"description": "",
+	"description": "A mobile game for crafty players",
 	"icon": "resources/icons/icon512.png",
 	"splash": {
 		"autoHide": false,

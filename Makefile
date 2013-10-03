@@ -83,7 +83,7 @@ $(XCODEPROJ): $(ALL_APK_DEPS)
 	basil $(BASIL_COMMAND) native-ios $(BASIL_FLAGS)
 
 manifest.json: appfloodsecretkey.txt manifest.json.in
-	fab "gcbuild.generateManifest:$@"
+	fab "gcbuild.generateManifest:$@,$(BUILD)"
 
 # These shenanigans ensure that we can rebuild devkit/config.json every time without
 # removing it, because we remove the stamp file instead.

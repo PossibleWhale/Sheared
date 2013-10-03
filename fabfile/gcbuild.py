@@ -38,7 +38,7 @@ def generateConfigJSON(configFile):
 
 
 @task
-def generateManifest(manifestFile):
+def generateManifest(manifestFile, build):
     """
     Create manifest.json from
     - manifest.json.in and
@@ -50,6 +50,14 @@ def generateManifest(manifestFile):
         afKey = open(AF_KEY).read().strip()
         data['android']["appFloodSecretKey"] = afKey
         data['ios']["appFloodSecretKey"] = afKey
+        if build in ['ads-android', 'ads-ios']:
+            data['title'] = 'Sheared Free'
+        elif build in ['paid-android', 'paid-ios']:
+            data['title'] = 'Sheared'
+        elif build in ['debug-android', 'debug-ios']:
+            data['title'] = 'Sheared Debug'
+        else:
+            data['title'] = 'Sheared WTFISTHIS'
 
         json.dump(data, f, indent=4)
 
