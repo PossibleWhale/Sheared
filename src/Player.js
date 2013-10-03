@@ -26,6 +26,11 @@ exports = Class(Emitter, function Player(supr) {
         this.upgrades = new UpgradeStorage({persist: this.persist});
         this.awards = new AwardStorage({persist: this.persist});
 
+        // if this is the paid version, no ads.
+        if (GC.app.localConfig.release === 'paid') {
+            this.upgrades.addToUpgrade('adFree', true);
+        }
+
         this.addWool = bind(this.wool, this.wool.addWool);
 
         this.addCraft = bind(this.crafts, this.crafts.addCraft);

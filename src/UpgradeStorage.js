@@ -27,7 +27,6 @@ exports = Class(Storage, function (supr) {
     };
 
     this.addToUpgrade = function (name, value) {
-        console.log('name=' + name + ', value=' + value);
         this.add({name: name, value: value});
     };
 });
