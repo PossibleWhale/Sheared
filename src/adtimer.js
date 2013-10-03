@@ -1,3 +1,4 @@
+import device;
 
 import event.Emitter;
 
@@ -48,7 +49,7 @@ AdTimer = Class(event.Emitter, function (supr) {
 
         cbArgs.shift();
 
-        if (!this.isSuppressed) {
+        if (!device.isIOS && !this.isSuppressed) { // doesn't work on ios yet
             this.isSuppressed = true;
             GC.app.startSpinner();
             appFlood.showInterstitial(callback, cbArgs);
