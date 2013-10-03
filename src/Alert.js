@@ -100,7 +100,6 @@ exports = Class(ImageView, function (supr) {
     this.show = function () {
         if (instances.length > 1) {
             instances.pop();
-            delete this;
             return;
         }
         animate(this).now({y: 576/2 - 160}, 400);
