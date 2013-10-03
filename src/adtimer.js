@@ -67,12 +67,13 @@ AdTimer = Class(event.Emitter, function (supr) {
         }), this.suppressTime);
     };
 
-    var storage = new UpgradeStorage();
-    if (!storage.get('adFree').value) {
-        this.interrupt = this._interruptNormal;
-    } else {
-        this.interrupt = this._interruptNoAds;
-    }
+    this.interrupt = function (callback) {
+        if (GC.app.player.upgrades.get('adFree').value) {
+            this._interruptNoAds(callback);
+        } else {
+            this._interruptNormal(callback);
+        }
+    };
 
 });
 
