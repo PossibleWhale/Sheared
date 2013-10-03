@@ -22,7 +22,7 @@ def generateConfigJSON(configFile):
     """
     tmpOut = configFile + ".out"
     with open(tmpOut, 'w') as f:
-        data = json.load(open(manifestFile + ".in"))
+        data = json.load(open(configFile))
 
         androidKeyStore = os.path.join(os.getcwd(), KEYSTORE)
         data['android']['keystore'] = androidKeyStore
@@ -51,3 +51,33 @@ def generateManifest(manifestFile):
 
         json.dump(data, f, indent=4)
 
+
+@task
+def generateLocalConfig(localFile, build):
+    """
+    Create resources/conf/localconfig.json and set the build values
+    appropriately.
+    """
+    tmpOut = localFile + ".out"
+    with open(tmpOut, 'w') as f:
+        if os.path.exists(localFile):
+            data = json.load(open(localFile))
+        else:
+            data = {}
+
+        if build == 'debug-android' or build == 'debug-ios':
+            data['release'] = "debug"
+        elif build == 'ads-android' or build == 'ads-ios':
+            data['release'] = "ads"
+        elif build == 'paid-android' or build == 'paid-ios':
+            data['release'] = "paid"
+        else:
+            assert 0, "run with build=something"
+
+        # force off the debug flag while building.
+        if data['release'] in ['paid', 'ads']:
+            data['debug'] = False
+
+        json.dump(data, f, indent=4)
+
+    shutil.move(tmpOut, localFile)
