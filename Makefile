@@ -88,13 +88,7 @@ register:
 
 $(APK): $(ALL_APK_DEPS)
 	git pull
-	if [ -e $(LOCALCONFIG) ]; then \
-		mv $(LOCALCONFIG) $(LOCALCONFIG)-disabled; \
-	fi
 	basil $(BUILD_COMMAND) native-android $(BUILD_FLAGS)
-	if [ -e $(LOCALCONFIG)-disabled ]; then \
-		mv $(LOCALCONFIG)-disabled $(LOCALCONFIG); \
-	fi
 
 clean:
 	rm -vf $(APK)
