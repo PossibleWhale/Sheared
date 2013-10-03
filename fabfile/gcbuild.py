@@ -9,6 +9,7 @@ import shutil
 from fabric.api import task, local as l, execute
 
 KEYSTORE = "possiblewhale.keystore"
+KEYSTORE_ALIAS = 'possible whale'
 PW_FILE = "androidstorepass.txt"
 AF_KEY = "appfloodsecretkey.txt"
 
@@ -16,7 +17,7 @@ AF_KEY = "appfloodsecretkey.txt"
 @task
 def generateConfigJSON(configFile):
     """
-    Create devkit/config.json from 
+    Create devkit/config.json from
     - androidstorepass.txt and
     - possiblewhale.keystore
     """
@@ -28,6 +29,7 @@ def generateConfigJSON(configFile):
         data['android']['keystore'] = androidKeyStore
         androidPass = open(PW_FILE).read().strip()
         data['android']['storepass'] = data['android']['keypass'] = androidPass
+        data['android']['key'] = KEYSTORE_ALIAS
 
         json.dump(data, f, indent=4)
 
@@ -38,8 +40,8 @@ def generateConfigJSON(configFile):
 @task
 def generateManifest(manifestFile):
     """
-    Create manifest.json from 
-    - manifest.json.in and 
+    Create manifest.json from
+    - manifest.json.in and
     - appfloodsecretkey.txt
     """
     with open(manifestFile, 'w') as f:
