@@ -12,6 +12,8 @@ KEYSTORE = "possiblewhale.keystore"
 KEYSTORE_ALIAS = 'possible whale'
 PW_FILE = "androidstorepass.txt"
 AF_KEY = "appfloodsecretkey.txt"
+APPID_ADS = "3e78ca071be24330aa38d4091a52219e"
+APPID_PAID = "1f0a0998fe0047e89241980872fa7ff6"
 
 
 @task
@@ -52,12 +54,16 @@ def generateManifest(manifestFile, build):
         data['ios']["appFloodSecretKey"] = afKey
         if build in ['ads-android', 'ads-ios']:
             data['title'] = 'Sheared Free'
+            data['appID'] = APPID_ADS
         elif build in ['paid-android', 'paid-ios']:
             data['title'] = 'Sheared'
+            data['appID'] = APPID_PAID
         elif build in ['debug-android', 'debug-ios']:
             data['title'] = 'Sheared Debug'
+            data['appID'] = APPID_ADS
         else:
             data['title'] = 'Sheared WTFISTHIS'
+            data['appID'] = APPID_ADS
 
         json.dump(data, f, indent=4)
 
