@@ -35,7 +35,7 @@ exports = Class(View, function (supr) {
             if (name === 'coins') {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
                 this.coinsLabel.update();
-            } else if (item === 'adFree') {
+            } else if (item === 'adfree') {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
                 this.adsTab.removeFromSuperview();
                 this.switchTab('upgrades');
@@ -1206,7 +1206,7 @@ exports = Class(View, function (supr) {
 
         button.on('InputSelect', function () {
             if (!GC.app.player.upgrades.get('adFree').value) {
-                billing.purchase('adFree');
+                billing.purchase('adfree');
             }
         });
     };
