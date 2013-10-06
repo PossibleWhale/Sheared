@@ -55,9 +55,13 @@ def generateManifest(manifestFile, build):
         if build in ['ads-android', 'ads-ios']:
             data['title'] = 'Sheared Free'
             data['appID'] = APPID_ADS
+            data['shortName'] = 'shearedfree'
+            data['ios']['bundleID'] = 'com.possiblewhale.shearedfree'
         elif build in ['paid-android', 'paid-ios']:
             data['title'] = 'Sheared'
             data['appID'] = APPID_PAID
+            data['shortName'] = 'sheared'
+            data['ios']['bundleID'] = 'com.possiblewhale.sheared'
         elif build in ['debug-android', 'debug-ios']:
             data['title'] = 'Sheared Debug'
             data['appID'] = APPID_ADS

@@ -39,7 +39,7 @@ exports = Class(View, function (supr) {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
                 this.adsTab.removeFromSuperview();
                 this.switchTab('upgrades');
-            } else if (item === 'all') {
+            } else if (item === 'unlockall') {
                 GC.app.player.purchased('all');
                 this.updateProgressBars();
                 this.updatePriceDisplays();
@@ -612,7 +612,7 @@ exports = Class(View, function (supr) {
             animateButton();
 
             this.unlockAllButton.on('InputSelect', bind(this, function () {
-                billing.purchase('all');
+                billing.purchase('unlockall');
             }));
         }
     };
