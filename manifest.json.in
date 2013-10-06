@@ -2,6 +2,7 @@
 	"appID": "1f0a0998fe0047e89241980872fa7ff6",
 	"shortName": "sheared",
 	"title": "Sheared",
+    "version": "1.0.0",
 	"studio": {
 		"name": "Possible Whale",
 		"domain": "possiblewhale.com",
