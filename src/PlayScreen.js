@@ -627,6 +627,9 @@ function spawnSheep () {
     }
     this.sheep.push(sheep);
     sheep.run();
+    if (Math.random() < 0.1) {
+        GC.app.audio.playBaa();
+    }
 }
 
 // return a random y-coordinate for the lane

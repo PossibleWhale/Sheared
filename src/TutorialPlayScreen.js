@@ -147,9 +147,9 @@ exports = Class(View, function (supr) {
             click: true,
             image: 'resources/images/button-return.png'
         });
-        this.backButton.on('InputSelect', function () {
-            GC.app.titleScreen.back();
-        });
+        this.backButton.on('InputSelect', bind(this, function () {
+            this.emit('tutorial:back');
+        }));
 
         this.muteButton = new MuteButton({
             superview: this,
@@ -244,6 +244,7 @@ exports = Class(View, function (supr) {
             this.nextButton.on('InputSelect', bind(this, function () {
                 this.nextButton.style.opacity = 0;
                 this.inputBuffer.removeFromSuperview();
+                this.nextButton.removeAllListeners();
                 next();
             }));
         }),
@@ -261,11 +262,11 @@ exports = Class(View, function (supr) {
         bind(this, function () {
             var next = this.runner.waitPlain();
             this.nextButton.on('InputSelect', bind(this, function () {
-                this.eweTutorial();
                 this.nextButton.style.opacity = 0;
                 next();
             }));
-        })
+        }),
+        bind(this, function () { this.eweTutorial(); })
         ];
 
         this.runner.run(_a);
@@ -275,6 +276,8 @@ exports = Class(View, function (supr) {
         this.addSubview(this.inputBuffer);
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
+        this.sheepPool.releaseAllViews();
+        this.ramPool.releaseAllViews();
         this._resetClipper();
 
         var text = new ThoughtBubble({
@@ -373,6 +376,8 @@ exports = Class(View, function (supr) {
     this.ramTutorial = function () {
         this.nextButton.removeAllListeners();
         this.sheep.length = 0;
+        this.sheepPool.releaseAllViews();
+        this.ramPool.releaseAllViews();
         this._resetClipper();
 
         var text = new ThoughtBubble({
