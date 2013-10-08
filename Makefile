@@ -1,48 +1,48 @@
 SHELL =             /bin/bash
 
-APP_DOMAIN =        com.possiblewhale.sheared
+GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
-APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
 XCODEPROJ =         $(GC_DIR)/addons/native-ios/build/sheared/tealeaf/TeaLeafIOS.xcodeproj/project.pbxproj
 
 BUILD ?=            debug-android
 ifeq ($(BUILD),ads-android)
-	RELEASE_KEY =   androidstorepass.txt possiblewhale.keystore
-	BASIL_FLAGS =   --compress --clean
-	BASIL_COMMAND = release
-	OUTPUT =        $(APK)
+RELEASE_KEY =       androidstorepass.txt possiblewhale.keystore
+APK =               build/$(BUILD_COMMAND)/native-android/shearedfree.apk
+OUTPUT =            $(APK)
+APP_DOMAIN =        com.possiblewhale.shearedfree
+
 
 else ifeq ($(BUILD),paid-android)
-	RELEASE_KEY =   androidstorepass.txt possiblewhale.keystore
-	BASIL_FLAGS =   --compress --clean
-	BASIL_COMMAND = release
-	OUTPUT =        $(APK)
+RELEASE_KEY =       androidstorepass.txt possiblewhale.keystore
+APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
+OUTPUT =            $(APK)
 
 else ifeq ($(BUILD),debug-android)
-	RELEASE_KEY =
-	BASIL_FLAGS =   --no-compress --clean
-	BASIL_COMMAND = debug
-	OUTPUT =        $(APK)
+BASIL_FLAGS =       --no-compress --clean
+BASIL_COMMAND =     debug
+APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
+OUTPUT =            $(APK)
 
 else ifeq ($(BUILD),ads-ios)
-	RELEASE_KEY =
-	BASIL_FLAGS =   --compress --clean
-	BASIL_COMMAND = release
-	OUTPUT =        $(XCODEPROJ)
+OUTPUT =            $(XCODEPROJ)
+APP_DOMAIN =        com.possiblewhale.shearedfree
 
 else ifeq ($(BUILD),paid-ios)
-	RELEASE_KEY =
-	BASIL_FLAGS =   --compress --clean
-	BASIL_COMMAND = release
-	OUTPUT =        $(XCODEPROJ)
+OUTPUT =            $(XCODEPROJ)
 
 else ifeq ($(BUILD),debug-ios)
-	RELEASE_KEY =
-	BUILD_FLAGS =   --no-compress --clean
-	BASIL_COMMAND = debug
-	OUTPUT =        $(XCODEPROJ)
+BUILD_FLAGS =       --no-compress --clean
+BASIL_COMMAND =     debug
+OUTPUT =            $(XCODEPROJ)
 
 endif
+
+APP_DOMAIN ?=       com.possiblewhale.sheared
+BASIL_COMMAND ?=    release
+BASIL_FLAGS ?=      --compress --clean
+
+LATEST_APK =        $(shell find build -name '*.apk' 2> /dev/null)
+LATEST_APK ?=       missing.apk
 
 
 JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
@@ -55,8 +55,6 @@ ADDON_FILES =       $(wildcard addons/*/android/*.java) $(wildcard addons/*/andr
 
 CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
-
-GC_DIR =            $(subst /bin/basil,,$(realpath $(shell which basil)))
 
 PLUGINS_DIR =       sdk/plugins
 PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js
@@ -134,15 +132,8 @@ clean:
 
 install: install-android
 
-install-android: $(APK)
-	# If you do shell pm uninstall, it's impossible to uninstall "cleanly"
-	# (through the OS), which is the only way to install a build with a
-	# different signing key. Very annoying during development... recommend we
-	# not do this.
-	#
-	# adb shell pm uninstall -k $(APP_DOMAIN)
-	#
-	adb install -r $(APK)
+install-android: $(LATEST_APK)
+	adb install -r $^
 
 clear-data-android:
 	adb shell pm clear $(APP_DOMAIN)
