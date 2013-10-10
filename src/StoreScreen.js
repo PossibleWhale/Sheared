@@ -1,4 +1,6 @@
 import animate;
+import device;
+
 import plugins.billing.billing as billing;
 import ui.View as View;
 import ui.ImageView as ImageView;
@@ -10,6 +12,18 @@ import src.MuteButton as MuteButton;
 import src.WoolCounter as WoolCounter;
 import src.Alert as Alert;
 import src.CoinLabel as CoinLabel;
+
+
+/*
+ * ios requires paid and free versions to have different billing id strings.
+ * So, only on ios, we prepend the appropriate string.
+ */
+function _billingIDHack(s) {
+    if (device.isIOS) {
+        return "sheared_" + GC.app.localConfig.release + "_" + s;
+    }
+    return s;
+}
 
 exports = Class(View, function (supr) {
     this.init = function (opts) {
@@ -35,11 +49,11 @@ exports = Class(View, function (supr) {
             if (name === 'coins') {
                 GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
                 this.coinsLabel.update();
-            } else if (item === 'adfree') {
+            } else if (item === _billingIDHack('adfree')) {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
                 this.adsTab.removeFromSuperview();
                 this.switchTab('upgrades');
-            } else if (item === 'unlockall') {
+            } else if (item === _billingIDHack('unlockall')) {
                 GC.app.player.purchased('all');
                 this.updateProgressBars();
                 this.updatePriceDisplays();
@@ -612,7 +626,7 @@ exports = Class(View, function (supr) {
             animateButton();
 
             this.unlockAllButton.on('InputSelect', bind(this, function () {
-                billing.purchase('unlockall');
+                billing.purchase(_billingIDHack('unlockall'));
             }));
         }
     };
@@ -896,7 +910,7 @@ exports = Class(View, function (supr) {
     this._buildEwerosTab = function () {
         var _registerClick = bind(this, function (view, index) {
             view.on('InputSelect', function () {
-                billing.purchase('coins_' + index);
+                billing.purchase(_billingIDHack('coins_' + index));
             });
         });
         var startX = 227, containerStart = 182, gap = 162, i = 0;
@@ -1067,7 +1081,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/dollar.png'
         })); 
 
-        for (i; i < constants.colors.length; i++) {
+        for (i; i < constants.EWEROS_QUANTITIES.length; i++) {
             //container
             container = new Button({
                 superview: this.tabs.eweros,
@@ -1206,7 +1220,7 @@ exports = Class(View, function (supr) {
 
         button.on('InputSelect', function () {
             if (!GC.app.player.upgrades.get('adFree').value) {
-                billing.purchase('adfree');
+                billing.purchase(_billingIDHack('adfree'));
             }
         });
     };
