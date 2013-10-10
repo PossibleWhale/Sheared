@@ -9,6 +9,12 @@ import src.debughack as dh;
 import src.UpgradeStorage as UpgradeStorage;
 
 
+// ios hacks - appFlood doesn't even work yet, stub it out.
+if (device.isIOS) {
+    appFlood.on = function () {};
+}
+
+
 AdTimer = Class(event.Emitter, function (supr) {
     this.init = function () {
         supr(this, 'init', arguments);
