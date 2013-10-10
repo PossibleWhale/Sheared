@@ -25,6 +25,15 @@ function _billingIDHack(s) {
     return s;
 }
 
+function _billingIDHackParse(s) {
+    var splits = s.split('_');
+    if (device.isIOS) {
+        return { name: splits[2], index: parseInt(splits[3]) };
+    }
+
+    return { name: splits[0], index: parseInt(splits[1]) };
+}
+
 exports = Class(View, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
@@ -41,13 +50,11 @@ exports = Class(View, function (supr) {
 
     this.build = function() {
         billing.onPurchase = bind(this, function (item) {
-            var name, index, split;
-            split = item.split('_');
-            name = split[0];
-            index = parseInt(split[1]);
+            var name, index, parsed;
+            parsedItem = _billingIDHackParse(item);
 
-            if (name === 'coins') {
-                GC.app.player.addCoins(constants.EWEROS_QUANTITIES[index]);
+            if (parsedItem.name === 'coins') {
+                GC.app.player.addCoins(constants.EWEROS_QUANTITIES[parsedItem.index]);
                 this.coinsLabel.update();
             } else if (item === _billingIDHack('adfree')) {
                 GC.app.player.upgrades.addToUpgrade('adFree', true);
