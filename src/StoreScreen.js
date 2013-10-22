@@ -124,12 +124,6 @@ exports = Class(View, function (supr) {
                 width: 1024,
                 height: 416
             }),
-            eweros: new View ({
-                x: 0,
-                y: 80,
-                width: 1024,
-                height: 416
-            }),
             ads: new View ({
                 x: 0,
                 y: 80,
@@ -163,7 +157,6 @@ exports = Class(View, function (supr) {
 
             this._buildUpgradeTab();
             this._buildWoolTab();
-            this._buildEwerosTab();
             this._buildAdsTab();
         }));
 
@@ -228,24 +221,11 @@ exports = Class(View, function (supr) {
             this.switchTab('wool');
         }));
 
-        var ewerosTab = new Button({
-            superview: this,
-            x: 33,
-            y: 254,
-            zIndex: 99,
-            width: 135,
-            height: 68,
-            image: 'resources/images/tab-label-eweros.png'
-        });
-        ewerosTab.on('InputSelect', bind(this, function () {
-            this.switchTab('eweros');
-        }));
-
         if (!GC.app.player.upgrades.get('adFree').value) {
             this.adsTab = new Button({
                 superview: this,
                 x: 33,
-                y: 324,
+                y: 254,
                 zIndex: 99,
                 width: 135,
                 height: 68,
@@ -914,218 +894,6 @@ exports = Class(View, function (supr) {
         }
     };
 
-    this._buildEwerosTab = function () {
-        var _registerClick = bind(this, function (view, index) {
-            view.on('InputSelect', function () {
-                billing.purchase(_billingIDHack('coins_' + index));
-            });
-        });
-        var startX = 227, containerStart = 182, gap = 162, i = 0;
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 33,
-            y: 33,
-            width: 137,
-            height: 350,
-            image: 'resources/images/tab-3.png'
-        }));
-        
-        // eweros title
-        this.tabs.eweros.addSubview(new TextView({
-            x: 370,
-            y: 40,
-            width: 420,
-            height: 28,
-            color: '#352e29',
-            fontFamily: 'delius',
-            size: 24,
-            text: 'Eweros'
-        }));
-
-        // eweros sub-title
-        this.tabs.eweros.addSubview(new TextView({
-            x: 293,
-            y: 76,
-            width: 574,
-            height: 28,
-            color: '#6b5e53',
-            fontFamily: 'delius',
-            size: 20,
-            text: 'Purchase eweros to buy upgrades and wool.'
-        }));
-
-        // $1 background
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 182,
-            y: 152,
-            width:  150,
-            height: 136,
-            image: 'resources/images/store-wool-eweros-ads-background.png'
-        }));
-
-        // $1 ewero
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 225,
-            y: 167,
-            width:  64,
-            height: 64,
-            image: 'resources/images/store-ewero.png'
-        }));
-
-        // $1 dollar
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 192,
-            y: 246,
-            width:  32,
-            height: 32,
-            image: 'resources/images/dollar.png'
-        }));
-
-        // $2 background
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 344,
-            y: 152,
-            width:  150,
-            height: 136,
-            image: 'resources/images/store-wool-eweros-ads-background.png'
-        }));
-
-        // $2 ewero
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 387,
-            y: 167,
-            width:  64,
-            height: 64,
-            image: 'resources/images/store-ewero.png'
-        }));
-
-        // $2 dollar
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 354,
-            y: 246,
-            width:  32,
-            height: 32,
-            image: 'resources/images/dollar.png'
-        }));
-
-        // $3 background
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 505,
-            y: 152,
-            width:  150,
-            height: 136,
-            image: 'resources/images/store-wool-eweros-ads-background.png'
-        }));
-
-        // $3 ewero
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 548,
-            y: 167,
-            width:  64,
-            height: 64,
-            image: 'resources/images/store-ewero.png'
-        }));
-
-        // $3 dollar
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 515,
-            y: 246,
-            width:  32,
-            height: 32,
-            image: 'resources/images/dollar.png'
-        }));
-
-        // $4 background
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 667,
-            y: 152,
-            width:  150,
-            height: 136,
-            image: 'resources/images/store-wool-eweros-ads-background.png'
-        }));
-
-        // $4 ewero
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 710,
-            y: 167,
-            width:  64,
-            height: 64,
-            image: 'resources/images/store-ewero.png'
-        }));
-
-        // $4 dollar
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 677,
-            y: 246,
-            width:  32,
-            height: 32,
-            image: 'resources/images/dollar.png'
-        }));
-
-        // $5 background
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 828,
-            y: 152,
-            width:  150,
-            height: 136,
-            image: 'resources/images/store-wool-eweros-ads-background.png'
-        }));
-
-        // $5 ewero
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 871,
-            y: 167,
-            width:  64,
-            height: 64,
-            image: 'resources/images/store-ewero.png'
-        }));
-
-        // $5 dollar
-        this.tabs.eweros.addSubview(new ImageView({
-            x: 838,
-            y: 246,
-            width:  32,
-            height: 32,
-            image: 'resources/images/dollar.png'
-        })); 
-
-        for (i; i < constants.EWEROS_QUANTITIES.length; i++) {
-            //container
-            container = new Button({
-                superview: this.tabs.eweros,
-                x: containerStart + i*gap,
-                y: 152,
-                width: 150,
-                height: 136
-            });
-            _registerClick(container, i);
-            // quantity
-            this.tabs.eweros.addSubview(new TextView({
-                x: startX + gap*i,
-                y: 114,
-                width: 140,
-                height: 28,
-                color: '#352e29',
-                fontFamily: 'delius',
-                size: 22,
-                horizontalAlign: 'left',
-                text: '' + constants.EWEROS_QUANTITIES[i]
-            }));
-
-            // cost
-            this.tabs.eweros.addSubview(new TextView({
-                x: startX + gap*i,
-                y: 246,
-                width: 92,
-                height: 28,
-                color: '#352e29',
-                fontFamily: 'delius',
-                size: 24,
-                horizontalAlign: 'left',
-                text: '$' + constants.EWEROS_PRICES[i]
-            }));
-        }
-    };
-
     this._buildAdsTab = function () {
         if (GC.app.player.upgrades.get('adFree').value) {
             return;
@@ -1136,7 +904,7 @@ exports = Class(View, function (supr) {
             y: 33,
             width: 137,
             height: 350,
-            image: 'resources/images/tab-4.png'
+            image: 'resources/images/tab-3.png'
         }));
         
         // ads title
