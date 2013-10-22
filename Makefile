@@ -57,11 +57,11 @@ CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js
+PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/billingrestore/billingrestore.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
-SUBPROJECTS =       addons/backbutton
+SUBPROJECTS =       addons/backbutton addons/billingrestore
 
 TOP_LEVEL_DEPS =	$(GC_DIR)/config.json manifest.json register $(LOCALCONFIG) $(SUBPROJECTS)
 
@@ -105,6 +105,13 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
+addons/billingrestore:
+	git clone git@github.com:PossibleWhale/billingrestore.git $@
+$(PLUGINS_DIR)/billingrestore/billingrestore.js: $(GC_DIR)/addons/billingrestore
+	ln -sf $(GC_DIR)/addons/billingrestore/js $(PLUGINS_DIR)/billingrestore
+$(GC_DIR)/addons/billingrestore:
+	ln -s `pwd`/addons/billingrestore/ $(GC_DIR)/addons/billingrestore
+
 $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
@@ -126,6 +133,7 @@ clean:
 	rm -vf $(APK)
 	rm -vf $(LOCALCONFIG).stamp
 	rm -rf $(GC_DIR)/addons/backbutton
+	rm -rf $(GC_DIR)/addons/billingrestore
 	rm -vf $(PLUGINS_DIR)/*
 	rm -vf $(GC_DIR)/config.json.stamp
 	-basil clean
@@ -134,7 +142,7 @@ clean:
 install: install-android
 
 install-android: $(LATEST_APK)
-	adb install -r $^
+	adb install -r $(LATEST_APK)
 
 clear-data-android:
 	adb shell pm clear $(APP_DOMAIN)
