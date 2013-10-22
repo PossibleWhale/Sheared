@@ -99,6 +99,11 @@ exports = Class(ui.View, function (supr) {
             garm = this.garment.label,
             main = this.colors.main.label,
             cont = this.colors.contrast.label;
+
+        costs = this.cost();
+        this.mainWoolCost.setText(costs[0].amount);
+        this.contrastWoolCost.setText(costs[1].amount);
+
         if (enabled === undefined || enabled) {
             this.pvSwatch.setImage(c.swatchImages[main][cont]);
             this.pvItem.setImage(c.craftImages[garm][main][cont]);
@@ -106,19 +111,12 @@ exports = Class(ui.View, function (supr) {
             this.pvMain.setImage(c.woolImages[main]);
             this.pvContrast.setImage(c.woolImages[cont]);
 
-            costs = this.cost();
-            this.mainWoolCost.setText(costs[0].amount);
-            this.contrastWoolCost.setText(costs[1].amount);
-
             this._enableBuy();
         } else {
             this.pvSwatch.setImage(undefined);
             this.pvItem.setImage(c.nullCraftImages[garm]);
             this.pvMain.setImage(c.woolImages['disabledMain']);
             this.pvContrast.setImage(c.woolImages['disabledContrast']);
-
-            this.mainWoolCost.setText('-');
-            this.contrastWoolCost.setText('-');
 
             this._disableBuy();
         }
