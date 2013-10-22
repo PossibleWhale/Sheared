@@ -109,6 +109,7 @@ $(PLUGINS_DIR)/billing/billing.js:
 	basil install billing
 
 $(PLUGINS_DIR)/appflood/appFlood.js:
+	git clone https://github.com/PossibleWhale/appflood.git $(GC_DIR)/addons/appflood
 	basil install appflood
 appfloodsecretkey.txt: ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt
 	ln -s ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt appfloodsecretkey.txt
