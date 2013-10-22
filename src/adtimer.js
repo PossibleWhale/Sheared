@@ -16,7 +16,7 @@ if (device.isIOS) {
 
 
 AdTimer = Class(event.Emitter, function (supr) {
-    this.init = function () {
+    this._nativeInit = function () {
         supr(this, 'init', arguments);
 
         this.suppressTime = c.AD_SUPPRESS_TIME;
@@ -28,6 +28,17 @@ AdTimer = Class(event.Emitter, function (supr) {
             this.start();
         }));
     };
+
+    this._simulatorInit = function () {
+        supr(this, 'init', arguments);
+        this.isSuppressed = true;
+    };
+
+    if (device.isSimulator) {
+        this.init = this._simulatorInit;
+    } else {
+        this.init = this._nativeInit;
+    }
 
     /*
      * User has purchased an ad-free upgrade, so no-op
