@@ -572,12 +572,12 @@ function playGame () {
     if (!this.clipper) {
         this.clipper = new Clipper({
             superview: this,
-            x: 0,
+            x: 100,
             y: laneCoord(4) + 5, // start in middle lane
             infiniteDiamond: GC.app.player.upgrades.get('diamond').value
         });
     } else {
-        this.clipper.style.x = 0;
+        this.clipper.style.x = 100;
         this.clipper.style.y = laneCoord(4) + 5;
         this.clipper.infiniteDiamond = GC.app.player.upgrades.get('diamond').value;
         this.clipper.checkGold();

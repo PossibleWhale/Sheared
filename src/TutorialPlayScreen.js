@@ -95,7 +95,7 @@ exports = Class(View, function (supr) {
 
         this.clipper = new Clipper({
             superview: this,
-            x: 0
+            x: 100
         });
         this.clipper.style.y = 576/2 - this.clipper.style.height/2;
 
@@ -497,7 +497,7 @@ exports = Class(View, function (supr) {
     this._resetClipper = function () {
         this.healthBar.resetHealth();
         this.clipper.becomeRegular();
-        this.clipper.style.x = 0;
+        this.clipper.style.x = 100;
         this.clipper.style.y = 576/2 - this.clipper.style.height/2;
     };
 
