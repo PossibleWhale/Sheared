@@ -7,7 +7,7 @@ resources/icons/metadata.json
 resources/splash/metadata.json
 sdk
 hs_err_*.log
-resources/conf/localconfig.json
+resources/conf/localconfig.json*
 tmp/
 manifest.json
 appfloodsecretkey.txt
