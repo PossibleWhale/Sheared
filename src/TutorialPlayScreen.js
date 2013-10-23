@@ -186,7 +186,6 @@ exports = Class(View, function (supr) {
         this.nextButton.removeAllListeners();
         var holdImage = new ImageView({
             superview: this,
-            opacity: 0,
             image: 'resources/images/tutorial-gesture-holding.png',
             autoSize: true
         }),
@@ -202,43 +201,54 @@ exports = Class(View, function (supr) {
             image: 'resources/images/tutorial-gesture-shearing.png',
             autoSize: true
         }),
-        holdText = new ThoughtBubble({
-            superview: this,
-            text: 'Hold the device as shown.'
-        }),
-        moveText = new ThoughtBubble({
-            superview: this,
-            text: 'Drag on the left side of the screen to move the clipper.',
-        }),
-        tapText = new ThoughtBubble({
-            superview: this,
-            text: 'Tap on the right side of the screen to fire a blade.'
-        }),
         tryText = new ThoughtBubble({
             superview: this,
             text: 'Try it out.'
-        });
+        }),
+        activateNext = new Button({
+            superview: this,
+            x: 412,
+            y: 256,
+            zIndex: 99999,
+            width: 200,
+            height: 64,
+            click: true
+        }),
+        animateTime = 500;
 
         this.inputBuffer.removeFromSuperview();
 
         _a = [
-        function () {
-            animate(holdImage).now({opacity: 1}, 1500).wait(5500).wait(3000).then({opacity: 0}, 0);
-        },
         bind(this, function () {
-            animate(holdText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
+            var next = this.runner.waitPlain();
+            activateNext.on('InputSelect', function () {
+                activateNext.removeAllListeners();
+                next();
+            });
         }),
-        function () {
-            animate(moveImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
-        },
+        _sx(['appear', moveImage, {duration: animateTime}]),
         bind(this, function () {
-            animate(moveText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
+            var next = this.runner.waitPlain();
+            activateNext.on('InputSelect', function () {
+                activateNext.removeAllListeners();
+                next();
+            });
         }),
+        _sx(['appear', tapImage, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            activateNext.on('InputSelect', function () {
+                activateNext.removeAllListeners();
+                holdImage.removeFromSuperview()
+                moveImage.removeFromSuperview();
+                next();
+            });
+        }),
+        _sx(['disappear', tapImage, {duration: animateTime}]),
         bind(this, function () { this.addSubview(this.inputBuffer); }),
-        _sx(['appear', tryText, {duration: 1500}]),
-        _sx(['disappear', tryText, {duration: 1500}]),
-        bind(this, function () { animate(this.nextButton).wait(1500); }),
-        _sx(['appear', this.nextButton, {duration: 500}]),
+        _sx(['appear', tryText, {duration: animateTime}]),
+        _sx(['disappear', tryText, {duration: animateTime}]),
+        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
             this.nextButton.on('InputSelect', bind(this, function () {
@@ -248,27 +258,8 @@ exports = Class(View, function (supr) {
                 next();
             }));
         }),
-        function () {
-            animate(tapImage).now({opacity: 1}, 1500).wait(5500).then({opacity: 0}, 1500);
-        },
-        bind(this, function () {
-            animate(tapText).wait(3000).then({opacity: 1}, 1000).wait(1500).then({opacity: 0}, 1000).wait(2000).then(this.runner.waitPlain());
-        }),
-        bind(this, function () { this.addSubview(this.inputBuffer); }),
-        _sx(['appear', tryText, {duration: 1500}]),
-        _sx(['disappear', tryText, {duration: 1500}]),
-        bind(this, function () { animate(this.nextButton).wait(1500); }),
-        _sx(['appear', this.nextButton, {duration: 500}]),
-        bind(this, function () {
-            var next = this.runner.waitPlain();
-            this.nextButton.on('InputSelect', bind(this, function () {
-                this.nextButton.style.opacity = 0;
-                next();
-            }));
-        }),
         bind(this, function () { this.eweTutorial(); })
         ];
-
         this.runner.run(_a);
     };
 
