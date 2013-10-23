@@ -14,6 +14,7 @@ PW_FILE = "androidstorepass.txt"
 AF_KEY = "appfloodsecretkey.txt"
 APPID_ADS = "3e78ca071be24330aa38d4091a52219e"
 APPID_PAID = "1f0a0998fe0047e89241980872fa7ff6"
+APPID_DEBUG = "80202a572dd84fc6805e6edb30f6662e"
 
 
 @task
@@ -62,9 +63,11 @@ def generateManifest(manifestFile, build):
             data['appID'] = APPID_PAID
             data['shortName'] = 'sheared'
             data['ios']['bundleID'] = 'com.possiblewhale.sheared'
-        elif build in ['debug-android', 'debug-ios']:
+        elif build in ['debug-android', 'debug-ios', 'billingtest-android']: # billingtest-ios?
             data['title'] = 'Sheared Debug'
-            data['appID'] = APPID_ADS
+            data['appID'] = APPID_DEBUG
+            data['shortName'] = 'shearedfreedebug'
+            data['ios']['bundleID'] = 'com.possiblewhale.shearedfreedebug'
         else:
             data['title'] = 'Sheared WTFISTHIS'
             data['appID'] = APPID_ADS
@@ -85,7 +88,7 @@ def generateLocalConfig(localFile, build):
         else:
             data = {}
 
-        if build == 'debug-android' or build == 'debug-ios':
+        if build == 'debug-android' or build == 'debug-ios' or build == 'billingtest-android':
             data['release'] = "debug"
         elif build == 'ads-android' or build == 'ads-ios':
             data['release'] = "ads"

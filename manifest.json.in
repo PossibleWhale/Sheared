@@ -49,7 +49,6 @@
 	],
     "addons": [
         "appflood",
-        "billing",
         "backbutton",
         "billingrestore"
     ],

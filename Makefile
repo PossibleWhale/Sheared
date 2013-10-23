@@ -11,17 +11,23 @@ APK =               build/$(BUILD_COMMAND)/native-android/shearedfree.apk
 OUTPUT =            $(APK)
 APP_DOMAIN =        com.possiblewhale.shearedfree
 
-
 else ifeq ($(BUILD),paid-android)
 RELEASE_KEY =       androidstorepass.txt possiblewhale.keystore
 APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
 OUTPUT =            $(APK)
 
+else ifeq ($(BUILD),billingtest-android)
+RELEASE_KEY =       androidstorepass.txt possiblewhale.keystore
+APK =               build/$(BUILD_COMMAND)/native-android/shearedfreedebug.apk
+OUTPUT =            $(APK)
+APP_DOMAIN =        com.possiblewhale.shearedfreedebug
+
 else ifeq ($(BUILD),debug-android)
 BASIL_FLAGS =       --no-compress --clean
 BASIL_COMMAND =     debug
-APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
+APK =               build/$(BUILD_COMMAND)/native-android/shearedfreedebug.apk
 OUTPUT =            $(APK)
+APP_DOMAIN =        com.possiblewhale.shearedfreedebug
 
 else ifeq ($(BUILD),ads-ios)
 OUTPUT =            $(XCODEPROJ)
@@ -34,6 +40,7 @@ else ifeq ($(BUILD),debug-ios)
 BUILD_FLAGS =       --no-compress --clean
 BASIL_COMMAND =     debug
 OUTPUT =            $(XCODEPROJ)
+APP_DOMAIN =        com.possiblewhale.shearedfreedebug
 
 endif
 
@@ -57,16 +64,16 @@ CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billing/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/billingrestore/billingrestore.js
+PLUGINS =           $(PLUGINS_DIR)/billingrestore/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
-SUBPROJECTS =       addons/backbutton addons/billingrestore
+SUBPROJECTS =       addons/backbutton
 
 TOP_LEVEL_DEPS =	$(GC_DIR)/config.json manifest.json register $(LOCALCONFIG) $(SUBPROJECTS)
 
 
-debug-android debug-ios ads-android paid-android ads-ios paid-ios:
+debug-android debug-ios ads-android paid-android ads-ios paid-ios billingtest-android:
 	git pull
 	$(MAKE) BUILD=$@ clean all
 
@@ -105,15 +112,12 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-addons/billingrestore:
-	git clone git@github.com:PossibleWhale/billingrestore.git $@
-$(PLUGINS_DIR)/billingrestore/billingrestore.js: $(GC_DIR)/addons/billingrestore
-	ln -sf $(GC_DIR)/addons/billingrestore/js $(PLUGINS_DIR)/billingrestore
-$(GC_DIR)/addons/billingrestore:
-	ln -s `pwd`/addons/billingrestore/ $(GC_DIR)/addons/billingrestore
-
-$(PLUGINS_DIR)/billing/billing.js:
-	basil install billing
+## $(PLUGINS_DIR)/billing/billing.js:
+## 	basil install billing
+## 
+$(PLUGINS_DIR)/billingrestore/billing.js:
+	git clone https://github.com/PossibleWhale/billingrestore.git $(GC_DIR)/addons/billingrestore
+	basil install billingrestore
 
 $(PLUGINS_DIR)/appflood/appFlood.js:
 	git clone https://github.com/PossibleWhale/appflood.git $(GC_DIR)/addons/appflood
@@ -141,7 +145,7 @@ clean:
 
 install: install-android
 
-install-android: $(LATEST_APK)
+install-android: all $(LATEST_APK)
 	adb install -r $(LATEST_APK)
 
 clear-data-android:
