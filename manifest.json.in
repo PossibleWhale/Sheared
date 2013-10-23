@@ -50,7 +50,8 @@
     "addons": [
         "appflood",
         "billing",
-        "backbutton"
+        "backbutton",
+        "billingrestore"
     ],
 	"sdkVersion": "release-0.1.36"
 }

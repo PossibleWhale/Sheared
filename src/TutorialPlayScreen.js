@@ -385,7 +385,7 @@ exports = Class(View, function (supr) {
                 showText = function () {
                     text = new ThoughtBubble({
                         superview: this,
-                        text: 'Your clipper will require a diamond blade to shear rams.'
+                        text: 'Your clipper requires a diamond blade to shear rams.'
                     });
                     this._animate(text).then(bind(this, function () {
                         this.addSubview(this.nextButton);
