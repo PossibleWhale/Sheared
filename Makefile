@@ -61,7 +61,7 @@ CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/billingrestore/billing.js $(PLUGINS_DIR)/backbutton/backbutton.js
+PLUGINS =           $(PLUGINS_DIR)/backbutton/backbutton.js
 
 ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
 
@@ -92,7 +92,7 @@ manifest.json: appfloodsecretkey.txt manifest.json.in
 $(GC_DIR)/config.json: $(GC_DIR)/config.json.stamp $(RELEASE_KEY)
 $(GC_DIR)/config.json.stamp:
 	fab "gcbuild.generateConfigJSON:$(subst .stamp,,$@)"
-	touch $@
+	touch $@ && ls -l $@
 
 # These shenanigans ensure that we can rebuild localconfig every time without
 # removing it, because we remove the stamp file instead.
@@ -100,7 +100,7 @@ $(LOCALCONFIG): $(LOCALCONFIG).stamp
 $(LOCALCONFIG).stamp:
 	mkdir -p resources/conf/
 	fab "gcbuild.generateLocalConfig:$(subst .stamp,,$@),$(BUILD)"
-	touch $@
+	touch $@ && ls -l $@
 
 addons/backbutton:
 	git clone git@github.com:PossibleWhale/backbutton.git $@
@@ -109,15 +109,10 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-## $(PLUGINS_DIR)/billing/billing.js:
-## 	basil install billing
-## 
-$(PLUGINS_DIR)/billingrestore/billing.js:
-	git clone https://github.com/PossibleWhale/billingrestore.git $(GC_DIR)/addons/billingrestore
-	basil install billingrestore
+$(PLUGINS_DIR)/billing/billing.js:
+	basil install billing
 
 $(PLUGINS_DIR)/appflood/appFlood.js:
-	git clone https://github.com/PossibleWhale/appflood.git $(GC_DIR)/addons/appflood
 	basil install appflood
 appfloodsecretkey.txt: ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt
 	ln -s ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt appfloodsecretkey.txt
@@ -135,7 +130,9 @@ clean:
 	rm -vf $(LOCALCONFIG).stamp
 	rm -rf $(GC_DIR)/addons/backbutton
 	rm -rf $(GC_DIR)/addons/billingrestore
-	rm -vf $(PLUGINS_DIR)/*
+	rm -rf $(GC_DIR)/addons/appflood
+	rm -rf $(GC_DIR)/addons/billing
+	rm -rf $(PLUGINS_DIR)/*
 	rm -vf $(GC_DIR)/config.json.stamp
 	-basil clean
 	rm -vf manifest.json
