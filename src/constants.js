@@ -163,8 +163,8 @@ exports = {
         blue: new Image({url: imagePath + 'wool-blue.png'}),
         yellow: new Image({url: imagePath + 'wool-yellow.png'}),
         black: new Image({url: imagePath + 'wool-black.png'}),
-        disabledMain: new Image({url: imagePath + 'wool-main-disabled.png'}),
-        disabledContrast: new Image({url: imagePath + 'wool-contrast-disabled.png'})
+        disabledMain: new Image({url: imagePath + 'wool-main.png'}),
+        disabledContrast: new Image({url: imagePath + 'wool-contrast.png'})
     },
     tabImages: [
         new Image({url: imagePath + 'tab-1.png'}),
