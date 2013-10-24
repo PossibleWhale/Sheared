@@ -94,27 +94,27 @@ exports = {
 
     GARMENT_HAT: {
         label: 'hat',
-        cost: {contrast: 6, main: 30},
+        cost: {contrast: 8, main: 32},
         disabledImage: new Image({url: imagePath + 'hat-disabled.png'})
     },
     GARMENT_MITTEN: {
         label: 'mitten',
-        cost: {contrast: 24, main: 72},
+        cost: {contrast: 16, main: 64},
         disabledImage: new Image({url: imagePath + 'mitten-disabled.png'})
     },
     GARMENT_SOCK: {
         label: 'sock',
-        cost: {contrast: 50, main: 130},
+        cost: {contrast: 32, main: 128},
         disabledImage: new Image({url: imagePath + 'sock-disabled.png'})
     },
     GARMENT_SCARF: {
         label: 'scarf',
-        cost: {contrast: 84, main: 204},
+        cost: {contrast: 64, main: 256},
         disabledImage: new Image({url: imagePath + 'scarf-disabled.png'})
     },
     GARMENT_SWEATER: {
         label: 'sweater',
-        cost: {contrast: 126, main: 294},
+        cost: {contrast: 128, main: 512},
         disabledImage: new Image({url: imagePath + 'sweater-disabled.png'})
     },
 
