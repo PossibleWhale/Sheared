@@ -866,13 +866,11 @@ exports = Class(View, function (supr) {
             // wool quantity
             this.tabs.wool.addSubview(new TextView({
                 x: startX + gap*i,
-                y: 185,
+                y: 181,
                 width: 58,
                 height: 28,
                 color: '#ffffff',
                 fontFamily: 'delius',
-                strokeWidth: 2,
-                strokeColor: '#000000',
                 size: 24,
                 horizontalAlign: 'center',
                 verticalAlign: 'middle',
