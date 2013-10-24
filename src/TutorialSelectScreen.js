@@ -181,6 +181,9 @@ exports = Class(ui.View, function (supr) {
         }
         this.tutorialScreen = new TutorialPlayScreen();
         this.tutorialScreen.on('tutorial:back', bind(this, function () {
+            if (this.tutorialScreen.clipper) {
+                this.tutorialScreen.clipper.becomeRegular();
+            }
             this.emit('tutorial:back');
         }));
         GC.app.titleScreen.stackView.push(this.tutorialScreen);

@@ -13,11 +13,15 @@ import src.util as util;
 
 var AbstractRunner = Class(Emitter, function _a_Runner(supr) {
     this.init = function _a_init(context) {
-        this.fn = ff();
+        supr(this, 'init', arguments);
         if (context) {
             this.setContext(context);
         }
-        supr(this, 'init', arguments);
+        this.reset();
+    };
+
+    this.reset = function () {
+        this.fn = ff();
 
         this.next = bind(this.fn, this.fn.next);
         this.waitPlain = bind(this.fn, this.fn.waitPlain);
@@ -36,6 +40,10 @@ var AbstractRunner = Class(Emitter, function _a_Runner(supr) {
         script = script.slice();
 
         while (script.length) {
+           /* if (this._clearFlag) {
+                this._clearFlag = false;
+                break;
+            }*/
             step = script.shift();
             if (typeof step === 'function' ) {
                 this._runFunction(step);
@@ -43,6 +51,11 @@ var AbstractRunner = Class(Emitter, function _a_Runner(supr) {
                 this._runObject(step);
             }
         }
+    };
+
+    this.clear = function () {
+        //this._clearFlag = true;
+        this.reset();
     };
 
     this._runFunction = function _a_runFunction(step) {
