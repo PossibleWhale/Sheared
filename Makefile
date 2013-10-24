@@ -48,9 +48,6 @@ APP_DOMAIN ?=       com.possiblewhale.sheared
 BASIL_COMMAND ?=    release
 BASIL_FLAGS ?=      --compress --clean
 
-LATEST_APK =        $(shell find build -name '*.apk' 2> /dev/null)
-LATEST_APK ?=       missing.apk
-
 
 JS_FILES =          $(wildcard src/*.js) $(wildcard src/*/*.js)
 PNG_FILES =         $(wildcard resources/images/*.png) $(wildcard resources/icons/*.png) $(wildcard resources/splash/*.png)
@@ -145,8 +142,8 @@ clean:
 
 install: install-android
 
-install-android: all $(LATEST_APK)
-	adb install -r $(LATEST_APK)
+install-android: $(LATEST_APK)
+	adb install -r $(shell find build -name '*.apk' 2> /dev/null)
 
 clear-data-android:
 	adb shell pm clear $(APP_DOMAIN)

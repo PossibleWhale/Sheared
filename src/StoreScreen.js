@@ -1,7 +1,7 @@
 import animate;
 import device;
 
-import plugins.billing.billing as billing;
+import plugins.billingrestore.billing as billing;
 import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
