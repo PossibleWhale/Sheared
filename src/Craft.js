@@ -66,7 +66,7 @@ exports = Class(ui.View, function (supr) {
             superview: this, canHandleEvents: false});
         this.contrastWoolCost = new Button({x: 303, y: 143, width: 58, height: 28, strokeWidth: 0, size: 24,
             superview: this, canHandleEvents: false});
-        this.value = new Button({x: 308, y: 6, width: 73, height: 28, strokeWidth: 0, color: '#333333',
+        this.value = new Button({x: 308, y: 6, width: 73, height: 28, strokeWidth: 0, horizontalAlign: 'left', color: '#333333',
             superview: this, canHandleEvents: false});
 
         this.buyButton.on('InputSelect', bind(this, this.purchased));
