@@ -68,8 +68,6 @@ exports = Class(View, function (supr) {
             }
         });
 
-        billing.restore(function(err) { logger.log("oh nooooooooooooooooooooooooooooooooo" + err); });
-
         // header image
         this.addSubview(new ImageView({
             x: 0,
