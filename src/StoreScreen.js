@@ -1,7 +1,7 @@
 import animate;
 import device;
 
-import plugins.billingrestore.billing as billing;
+import plugins.billing.billing as billing;
 import ui.View as View;
 import ui.ImageView as ImageView;
 import ui.TextView as TextView;
@@ -67,6 +67,8 @@ exports = Class(View, function (supr) {
                 this.unlockAllButton.removeFromSuperview();
             }
         });
+
+        billing.restore(function(err) { logger.log("oh nooooooooooooooooooooooooooooooooo" + err); });
 
         // header image
         this.addSubview(new ImageView({
