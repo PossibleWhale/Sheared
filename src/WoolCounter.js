@@ -28,8 +28,6 @@ exports = Class(ImageView, function (supr) {
             height: 28,
             color: '#ffffff',
             fontFamily: 'delius',
-            strokeWidth: 2,
-            strokeColor: '#000000',
             size: 24,
             horizontalAlign: 'center',
             verticalAlign: 'middle'
@@ -40,7 +38,7 @@ exports = Class(ImageView, function (supr) {
             this.counts[constants.colors[i].label] = new TextView(merge({
                 superview: this,
                 x: xPos,
-                y: 17
+                y: 15
             }, textViewOpts));
             xPos += 90;
             this.update(constants.colors[i]);

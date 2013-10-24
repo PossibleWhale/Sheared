@@ -191,7 +191,7 @@ exports = Class(ImageView, function (supr) {
             pObj.ttl = 300;
             pObj.opacity = 0.5;
             pObj.dopacity = -0.5;
-            pObj.image = 'resources/images/particle-bolt.png';
+            pObj.image = 'resources/images/bolt.png';
         }
         GC.app.particleEngine.emitParticles(particleObjects);
     };

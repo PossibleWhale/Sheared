@@ -69,8 +69,8 @@ exports = Class(CraftScreen, function (supr) {
     };
 
     this.build = function() {
-        this.player.addWool('black', 307);
-        this.player.addWool('white', 133);
+        this.player.addWool('black', 512);
+        this.player.addWool('white', 128);
         this.woolCounts.update();
         this.clickControl = new View({
             x: 0,
