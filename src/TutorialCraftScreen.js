@@ -36,7 +36,7 @@ var TutorialRunner = Class(Runner, function _a_TutorialRunner(supr) {
     // create the 'Continue >' button
     this.factory_ok = function _a_factory_ok(obj) {
         var next = this.context.nextButton;
-        this.context.addSubview(nextButton);
+        this.context.addSubview(next);
         next.removeAllListeners();
         next.on('InputSelect', bind(this, function () {
             next.updateOpts({opacity: 0.0});
@@ -76,6 +76,7 @@ exports = Class(CraftScreen, function (supr) {
         this.clickControl = new View({
             x: 0,
             y: 80,
+            zIndex: 999,
             width: 1024,
             height: 496,
             opacity: 0.0,
@@ -396,7 +397,8 @@ exports = Class(CraftScreen, function (supr) {
         bind(this, function _a_waitBuySweater() {
             var btnNew, next;
             btnNew = new Button({
-                x: 734, y: 328, width: 96, height: 37
+                // 733, 405
+                x: 733, y: 325, width: 96, height: 37
             });
 
             next = this.runner.waitPlain();
@@ -449,7 +451,6 @@ exports = Class(CraftScreen, function (supr) {
                  x: 230,
                  y: 450,
                  r: 0}]),
-        _sx(['ok', 'ok']),
         _sx(['disappear', arrow1, {duration: 0}])
         ];
 
