@@ -630,6 +630,7 @@ exports = Class(View, function (supr) {
                 superview: this,
                 x: 767,
                 y: 30,
+                zIndex: 999999,
                 width: 142,
                 height: 130,
                 anchorX: 142/2,

@@ -459,7 +459,7 @@ exports = Class(View, function (supr) {
             y: 123,
             width: 64,
             height: 64,
-            image: 'resources/images/wool-white.png'
+            image: 'resources/images/wool-white-blank.png'
         }));
 
         // wool red
@@ -468,7 +468,7 @@ exports = Class(View, function (supr) {
             y: 123,
             width: 64,
             height: 64,
-            image: 'resources/images/wool-red.png'
+            image: 'resources/images/wool-red-blank.png'
         }));
 
         // wool blue
@@ -477,7 +477,7 @@ exports = Class(View, function (supr) {
             y: 123,
             width: 64,
             height: 64,
-            image: 'resources/images/wool-blue.png'
+            image: 'resources/images/wool-blue-blank.png'
         }));
 
         // wool yellow
@@ -486,7 +486,7 @@ exports = Class(View, function (supr) {
             y: 123,
             width: 64,
             height: 64,
-            image: 'resources/images/wool-yellow.png'
+            image: 'resources/images/wool-yellow-blank.png'
         }));
 
         // wool black
@@ -495,7 +495,7 @@ exports = Class(View, function (supr) {
             y: 123,
             width: 64,
             height: 64,
-            image: 'resources/images/wool-black.png'
+            image: 'resources/images/wool-black-blank.png'
         }));
 
         // wool total title

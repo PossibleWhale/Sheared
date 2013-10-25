@@ -2,7 +2,7 @@
 	"appID": "1f0a0998fe0047e89241980872fa7ff6",
 	"shortName": "sheared",
 	"title": "Sheared",
-    "version": "1.0.0",
+    "version": "1.0.1",
 	"studio": {
 		"name": "Possible Whale",
 		"domain": "possiblewhale.com",
@@ -18,7 +18,7 @@
 		"universal": "resources/splash/universal.png"
 	},
 	"android": {
-		"versionCode": 1,
+		"versionCode": 2,
 		"icons": {
 			"36": "resources/icons/android36.png",
 			"48": "resources/icons/android48.png",
