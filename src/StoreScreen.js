@@ -1062,9 +1062,8 @@ exports = Class(View, function (supr) {
         if (!GC.app.localConfig.debug && GC.app.player.stats.get('coins').value < cost) {
             confirmDialog = new Alert({
                 superview: this,
-                text: 'Not enough Eweros! Earn more by crafting, or buy more in the store.',
-                confirmFn: bind(this, function () { this.switchTab('eweros'); }),
-                confirmText: 'Buy Eweros!'
+                text: 'Not enough Eweros! Earn more by crafting.',
+                confirmText: 'OK'
             });
         } else {
             confirmDialog = new Alert({
