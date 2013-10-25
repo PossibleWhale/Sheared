@@ -78,12 +78,19 @@ exports = Class(View, function (supr) {
         }));
 
         if (device.isIOS) {
-            this.restoreButton = this.addSubview(new TextView({
+            this.addSubview(new ImageView({ // this disabled one is revealed when the other one is clicked
                 x: 80,
                 y: 0,
-                width: 100,
-                height: 80,
-                text: "Restore"
+                width: 184,
+                height: 60,
+                image: 'resources/images/button-restore-purchases-disabled.png'
+            }));
+            this.restoreButton = this.addSubview(new ImageView({
+                x: 80,
+                y: 0,
+                width: 184,
+                height: 60,
+                image: 'resources/images/button-restore-purchases.png'
             }));
 
             this.restoreButton.on('InputSelect', bind(this, function () {
