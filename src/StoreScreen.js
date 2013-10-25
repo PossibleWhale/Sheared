@@ -367,7 +367,7 @@ exports = Class(View, function (supr) {
             color: '#352e29',
             fontFamily: 'delius',
             size: 22,
-            text: 'Bolt Multiplier'
+            text: 'Wool Multiplier'
         }));
 
         // wool multiplier background
