@@ -299,7 +299,7 @@ exports = Class(View, function (supr) {
             text: 'Purchase upgrades to improve your clipper.'
         }));
 
-        // battery power title
+        // power supply title
         this.tabs.upgrades.addSubview(new TextView({
             x: 242,
             y: 114,
@@ -308,10 +308,10 @@ exports = Class(View, function (supr) {
             color: '#352e29',
             fontFamily: 'delius',
             size: 22,
-            text: 'Battery Power'
+            text: 'Power Supply'
         }));
 
-        // battery power background
+        // power supply background
         this.tabs.upgrades.addSubview(new ImageView({
             x: 242,
             y: 152,
@@ -320,7 +320,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-upgrades-background.png'
         }));
 
-        // battery power ewero
+        // power supply ewero
         this.tabs.upgrades.addSubview(new ImageView({
             x: 252,
             y: 201,
@@ -329,7 +329,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-ewero.png'
         }));
 
-        // battery power description
+        // power supply description
         this.tabs.upgrades.addSubview(new TextView({
             x: 242,
             y: 253,
@@ -340,7 +340,7 @@ exports = Class(View, function (supr) {
             size: 18,
             verticalAlign: 'top',
             wrap: true,
-            text: 'Increases the max battery power.'
+            text: 'Increases the max power supploy.'
         }));
 
         // blade power title
