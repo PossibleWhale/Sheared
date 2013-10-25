@@ -625,9 +625,9 @@ exports = Class(View, function (supr) {
         // purchase all button
         if (!GC.app.player.hasAllUpgrades()) {
             this.unlockAllButton = new Button({
-                superview: this.tabs.upgrades,
-                x: 753,
-                y: 335,
+                superview: this,
+                x: 767,
+                y: 30,
                 width: 142,
                 height: 130,
                 anchorX: 142/2,
