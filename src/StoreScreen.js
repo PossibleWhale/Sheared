@@ -77,6 +77,28 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-header-wood.png'
         }));
 
+        if (device.isIOS) {
+            this.restoreButton = this.addSubview(new TextView({
+                x: 80,
+                y: 0,
+                width: 100,
+                height: 80,
+                text: "Restore"
+            }));
+
+            this.restoreButton.on('InputSelect', bind(this, function () {
+                this.restoreButton.hide();
+                billing.restore( function (err) {
+                    if (err) {
+                        logger.log("Unable to restore purchases:", err);
+                    } else {
+                        logger.log("Finished restoring purchases!");
+                    };
+                    this.restoreButton.show();
+                });
+            }));
+        }
+
         // footer image
         this.addSubview(new ImageView({
             x: 0,
