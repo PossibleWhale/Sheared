@@ -79,17 +79,19 @@ exports = Class(View, function (supr) {
 
         if (device.isIOS) {
             this.addSubview(new ImageView({ // this disabled one is revealed when the other one is clicked
-                x: 80,
-                y: 0,
+                x: 697,
+                y: 506,
                 width: 184,
                 height: 60,
+                zIndex: 9999,
                 image: 'resources/images/button-restore-purchases-disabled.png'
             }));
             this.restoreButton = this.addSubview(new ImageView({
-                x: 80,
-                y: 0,
+                x: 697,
+                y: 506,
                 width: 184,
                 height: 60,
+                zIndex: 10000,
                 image: 'resources/images/button-restore-purchases.png'
             }));
 
