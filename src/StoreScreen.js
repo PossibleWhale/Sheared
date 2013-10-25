@@ -95,14 +95,14 @@ exports = Class(View, function (supr) {
 
             this.restoreButton.on('InputSelect', bind(this, function () {
                 this.restoreButton.hide();
-                billing.restore( function (err) {
+                billing.restore(bind(this, function (err) {
                     if (err) {
                         logger.log("Unable to restore purchases:", err);
                     } else {
                         logger.log("Finished restoring purchases!");
                     };
                     this.restoreButton.show();
-                });
+                }));
             }));
         }
 
