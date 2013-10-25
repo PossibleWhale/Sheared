@@ -125,6 +125,18 @@ exports = Class(CraftScreen, function (supr) {
 
         this.runner = new TutorialRunner(this);
 
+        nextButton = new Button({
+            superview: this,
+            opacity: 0,
+            x: 412,
+            y: 416,
+            zIndex: 99999,
+            width: 200,
+            height: 64,
+            click: true,
+            image: 'resources/images/button-continue.png'
+        });
+
         this.hideButtons("garment");
         this.hideButtons("craftBuy");
         this.hideButtons("craftStars");
@@ -150,17 +162,70 @@ exports = Class(CraftScreen, function (supr) {
             opacity: 0.0
         });
 
+        var text1 = new ThoughtBubble({
+            superview: this,
+            text: 'Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.'
+        }),
+        text2 = new ThoughtBubble({
+            superview: this,
+            text: 'Your wool is shown here.'
+        }),
+        text3 = new ThoughtBubble({
+            superview: this,
+            text: 'You have wool, so you’re ready to craft!'
+        });
+
+        var animateTime = 500;
+
         _a = [
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Get wool two different ways: shear sheep in the game, or buy it in the store with Eweros.'}]),
+        _sx(['appear', text1, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text1.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 512-40, y: 84, r: 0}]),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Your wool is shown here.'}]),
+        _sx(['appear', text2, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text2.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['disappear', arrow1, {duration: 0}]),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'You have wool, so you’re ready to craft!'}]),
-        _sx(['ok', 'ok'])
+        _sx(['appear', text3, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text3.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         ];
 
         this.runner.run(_a);
         /**********************************************************/
+
+        var text4 = new ThoughtBubble({
+            superview: this,
+            text: 'Craftable items are shown here.'
+        }),
+        text5 = new ThoughtBubble({
+            superview: this,
+            text: 'Click the tab for sweaters on the left.'
+        });
 
         _b = [
         bind(this, function _a_showStuff() {
@@ -170,8 +235,28 @@ exports = Class(CraftScreen, function (supr) {
             this.showButtons('tabs');
             this.disableClicks();
         }),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Craftable items are shown here.'}]),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Click the tab for sweaters on the left.'}]),
+        _sx(['appear', text4, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text4.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
+        _sx(['appear', text5, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text5.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 190, y: 450, r: 4.30}]), /* highlight sweater tab */
         bind(this, function _a_waitSweater() {
             var btnNew = new Button({
@@ -191,9 +276,38 @@ exports = Class(CraftScreen, function (supr) {
         this.runner.run(_b);
         /**********************************************************/
 
+        var text6 = new ThoughtBubble({
+            superview: this,
+            text: 'Some of the sweaters are gray. You don’t have enough wool to make those.'
+        }),
+        text7 = new ThoughtBubble({
+            superview: this,
+            text: 'Click the black & white sweater in the bottom corner.'
+        });
+
         _c = [
-        _sx(['materialize', 'thought', {duration: 4000}, {text: 'Some of the sweaters are gray. You don’t have enough wool to make those.'}]),
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Click the black & white sweater in the bottom corner.'}]),
+        _sx(['appear', text6, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text6.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
+        _sx(['appear', text7, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text7.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 175, y: 400, r: 1.30}]), /* highlight b&w sweater */
         bind(this, function _a_waitBWSweater() {
             var btnNew, next;
@@ -220,28 +334,71 @@ exports = Class(CraftScreen, function (supr) {
         this.runner.run(_c);
         /**********************************************************/
 
+        var text8 = new ThoughtBubble({
+            superview: this,
+            text: 'The amount of wool to craft the sweater is shown on the left and right.'
+        }),
+        text9 = new ThoughtBubble({
+            superview: this,
+            text: 'The amount of Eweros you would earn by making it is shown in the top corner.'
+        }),
+        text10 = new ThoughtBubble({
+            superview: this,
+            text: 'Click ‘Craft’ to make this item.'
+        });
+
         _d = [
-        _sx(['materialize', 'thought', {duration: 4000}, {text: 'The amount of wool to craft the sweater is shown on the left and right.'}]),
-        _sx(['appear', 'arrow', {duration: 750},
+        _sx(['appear', text8, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text8.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
+        _sx(['appear', 'arrow', {duration: 0},
                 {view: arrow1,
                  x: 613,
                  y: 321,
                  r: 0}]),
-        _sx(['appear', 'arrow', {duration: 750},
+        _sx(['appear', 'arrow', {duration: 0},
                 {view: arrow2,
                  x: 893,
                  y: 321,
                  r: 0}]),
         _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['disappear', arrow2, {duration: 0}]),
-        _sx(['materialize', 'thought', {duration: 4000}, {text: 'The amount of Eweros you would earn by making it is shown in the top corner.'}]),
+        _sx(['appear', text9, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text9.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 750},
                 {view: arrow1,
                 x: 900,
                 y: 180,
                 r: 0}]),
         _sx(['disappear', arrow1, {duration: 0}]),
-        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Click ‘Craft’ to make this item.'}]),
+        _sx(['appear', text10, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text10.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 0},
                 {view: arrow1,
                  x: 730,
@@ -266,9 +423,38 @@ exports = Class(CraftScreen, function (supr) {
         this.runner.run(_d);
         /**********************************************************/
 
+        var text11 = new ThoughtBubble({
+            superview: this,
+            text: 'You immediately receive the Eweros and your wool is immediately deducted.'
+        }),
+        text12 = new ThoughtBubble({
+            superview: this,
+            text: 'Once you craft at least one of something, you get a star next to it.'
+        });
+
         _e = [
-        _sx(['materialize', 'thought', {duration: 4000}, {text: 'You immediately receive the Eweros and your wool is immediately deducted.'}]),
-        _sx(['materialize', 'thought', {duration: 3500}, {text: 'Once you craft at least one of something, you get a star next to it.'}]),
+        _sx(['appear', text11, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text11.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
+        _sx(['appear', text12, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text12.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         _sx(['appear', 'arrow', {duration: 0},
                 {view: arrow1,
                  x: 230,
@@ -281,11 +467,38 @@ exports = Class(CraftScreen, function (supr) {
         this.runner.run(_e);
         /**********************************************************/
 
+        var text13 = new ThoughtBubble({
+            superview: this,
+            text: 'Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white.'
+        }),
+        text14 = new ThoughtBubble({
+            superview: this,
+            text: 'The more wool in an item, the more it’s worth.'
+        });
+
         _f = [
-        _sx(['materialize', 'thought', {duration: 6000}, {text: 'Items of black wool are more valuable than red, yellow or blue items, which are more valuable than white.'}]),
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'The more wool in an item, the more it’s worth.'}]),
-        _sx(['materialize', 'thought', {duration: 3500}, {text: 'The more valuable wool used in the item, the more it’s worth.'}]),
-        _sx(['ok', 'ok'])
+        _sx(['appear', text13, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text13.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
+        _sx(['appear', text14, {duration: animateTime}]),
+        _sx(['appear', nextButton, {duration: animateTime}]),
+        bind(this, function () {
+            var next = this.runner.waitPlain();
+            nextButton.on('InputSelect', function () {
+                text14.style.opacity = 0;
+                nextButton.style.opacity = 0;
+                nextButton.removeAllListeners();
+                next();
+            });
+        }),
         ];
 
         this.runner.run(_f);
@@ -313,7 +526,7 @@ exports = Class(CraftScreen, function (supr) {
                  r: 1.2 + Math.PI,
                  zIndex: 1000
                 }]),
-        _sx(['materialize', 'thought', {duration: 3000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}]),
+        _sx(['materialize', 'thought', {duration: 2000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}]),
         _sx(['ok', 'ok']),
         bind(this, function _a_done() {
             this.getSuperview().pop();
