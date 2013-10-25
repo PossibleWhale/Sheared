@@ -31,11 +31,8 @@ exports = Class(ui.TextView, function (supr) {
 
         dh.post_initButton(this, opts);
 
-        this.on('InputSelect', function () {
-            if (this.getOpts().click) {
-                GC.app.audio.playButton();
-            }
-        });
+        this.click = this.getOpts().click;
+        this._addListener();
 
         this.imageLayer = new ImageView({
             superview: this,
@@ -49,5 +46,18 @@ exports = Class(ui.TextView, function (supr) {
             this.setImage(opts.image);
         }
 
+    };
+
+    this._addListener = function () {
+        this.on('InputSelect', function () {
+            if (this.click) {
+                GC.app.audio.playButton();
+            }
+        });
+    };
+
+    this.removeAllListeners = function () {
+        supr(this, 'removeAllListeners');
+        this._addListener();
     };
 });

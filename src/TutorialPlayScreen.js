@@ -125,8 +125,6 @@ exports = Class(View, function (supr) {
 
         this.inputBuffer = new InputBuffer({superview: this});
         this.nextButton = new Button({
-            superview: this,
-            opacity: 0,
             x: 412,
             y: 344,
             zIndex: 99999,
@@ -239,7 +237,7 @@ exports = Class(View, function (supr) {
             var next = this.runner.waitPlain();
             activateNext.on('InputSelect', function () {
                 activateNext.removeAllListeners();
-                holdImage.removeFromSuperview()
+                holdImage.removeFromSuperview();
                 moveImage.removeFromSuperview();
                 next();
             });
@@ -248,11 +246,11 @@ exports = Class(View, function (supr) {
         bind(this, function () { this.addSubview(this.inputBuffer); }),
         _sx(['appear', tryText, {duration: animateTime}]),
         _sx(['disappear', tryText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.inputBuffer.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
@@ -297,23 +295,23 @@ exports = Class(View, function (supr) {
 
         _a = [
         _sx(['appear', text, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 text.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', hintText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 hintText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -326,34 +324,34 @@ exports = Class(View, function (supr) {
             }));
         }),
         _sx(['appear', woolText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 woolText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();;
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', colorText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 colorText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', restText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 restText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -411,12 +409,12 @@ exports = Class(View, function (supr) {
 
         _a = [
         _sx(['appear', text, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 text.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();;
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -427,12 +425,12 @@ exports = Class(View, function (supr) {
             sheep.on('sheep:collision', next);
         }),
         _sx(['appear', batteryText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 batteryText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -447,11 +445,11 @@ exports = Class(View, function (supr) {
             this.battery.run();
             this.battery.on('battery:pickup', next);
         }),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 next();
             }));
         }),
@@ -487,23 +485,23 @@ exports = Class(View, function (supr) {
 
         _a = [
         _sx(['appear', text, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 text.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', hintText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 hintText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -522,12 +520,12 @@ exports = Class(View, function (supr) {
             });
         }),
         _sx(['appear', diamondText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 diamondText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -582,23 +580,23 @@ exports = Class(View, function (supr) {
             }));
         }),
         _sx(['appear', text, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 text.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', tryText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 tryText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -611,34 +609,34 @@ exports = Class(View, function (supr) {
             }));
         }),
         _sx(['appear', ramText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 ramText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', colorText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 colorText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
         }),
         _sx(['appear', restText, {duration: animateTime}]),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
                 restText.style.opacity = 0;
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
@@ -671,11 +669,11 @@ exports = Class(View, function (supr) {
                 next();
             });
         }),
-        _sx(['appear', this.nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(this.nextButton);
             this.nextButton.on('InputSelect', bind(this, function () {
-                this.nextButton.style.opacity = 0;
+                this.nextButton.removeFromSuperview();
                 this.nextButton.removeAllListeners();
                 next();
             }));
