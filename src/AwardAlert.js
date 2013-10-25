@@ -51,10 +51,16 @@ exports = Class(ImageView, function (supr) {
     };
 
     this.show = function () {
+        var coinsLabel;
         if (this.award === instances[0].award) {
             animate(instances[0]).now({y: 0}, 1000).wait(1000).then({y: -80}, 1000).then(function () {
                 instances.shift();
                 if (instances.length > 0) {
+                    coinsLabel = this.getSuperview().coinsLabel;
+                    if (coinsLabel) {
+                        coinsLabel.text.setText(
+                            parseInt(coinsLabel.text.getText()) + instances[0].award.reward);
+                    }
                     instances[0].show();
                 }
             });
