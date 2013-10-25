@@ -36,6 +36,7 @@ var TutorialRunner = Class(Runner, function _a_TutorialRunner(supr) {
     // create the 'Continue >' button
     this.factory_ok = function _a_factory_ok(obj) {
         var next = this.context.nextButton;
+        this.context.addSubview(nextButton);
         next.removeAllListeners();
         next.on('InputSelect', bind(this, function () {
             next.updateOpts({opacity: 0.0});
@@ -84,14 +85,12 @@ exports = Class(CraftScreen, function (supr) {
 
         this.nextButton = new Button({
             x: 412,
-            y: 344,
-            zIndex: 9999,
+            y: 416,
+            zIndex: 99999,
             width: 200,
             height: 64,
             click: true,
-            image: 'resources/images/button-continue.png',
-            superview: this,
-            opacity: 0.0
+            image: 'resources/images/button-continue.png'
         });
 
         this.hideButtons("store");
@@ -125,22 +124,12 @@ exports = Class(CraftScreen, function (supr) {
 
         this.runner = new TutorialRunner(this);
 
-        nextButton = new Button({
-            superview: this,
-            opacity: 0,
-            x: 412,
-            y: 416,
-            zIndex: 99999,
-            width: 200,
-            height: 64,
-            click: true,
-            image: 'resources/images/button-continue.png'
-        });
-
         this.hideButtons("garment");
         this.hideButtons("craftBuy");
         this.hideButtons("craftStars");
         this.hideButtons("total");
+
+        var nextButton = this.nextButton;
 
         var arrow1 = new ImageView({
             x: 0,
@@ -179,36 +168,36 @@ exports = Class(CraftScreen, function (supr) {
 
         _a = [
         _sx(['appear', text1, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text1.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['appear', 'arrow', {duration: 0}, {view: arrow1, x: 512-40, y: 84, r: 0}]),
         _sx(['appear', text2, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text2.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['appear', text3, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text3.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -236,23 +225,23 @@ exports = Class(CraftScreen, function (supr) {
             this.disableClicks();
         }),
         _sx(['appear', text4, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text4.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['appear', text5, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text5.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -287,23 +276,23 @@ exports = Class(CraftScreen, function (supr) {
 
         _c = [
         _sx(['appear', text6, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text6.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['appear', text7, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text7.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -349,12 +338,12 @@ exports = Class(CraftScreen, function (supr) {
 
         _d = [
         _sx(['appear', text8, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text8.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -372,12 +361,12 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['disappear', arrow2, {duration: 0}]),
         _sx(['appear', text9, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text9.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -389,12 +378,12 @@ exports = Class(CraftScreen, function (supr) {
                 r: 0}]),
         _sx(['disappear', arrow1, {duration: 0}]),
         _sx(['appear', text10, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text10.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -434,23 +423,23 @@ exports = Class(CraftScreen, function (supr) {
 
         _e = [
         _sx(['appear', text11, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text11.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['appear', text12, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text12.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
@@ -478,23 +467,23 @@ exports = Class(CraftScreen, function (supr) {
 
         _f = [
         _sx(['appear', text13, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text13.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
         }),
         _sx(['appear', text14, {duration: animateTime}]),
-        _sx(['appear', nextButton, {duration: animateTime}]),
         bind(this, function () {
             var next = this.runner.waitPlain();
+            this.addSubview(nextButton);
             nextButton.on('InputSelect', function () {
                 text14.style.opacity = 0;
-                nextButton.style.opacity = 0;
+                nextButton.removeFromSuperview();
                 nextButton.removeAllListeners();
                 next();
             });
