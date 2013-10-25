@@ -77,6 +77,35 @@ exports = Class(View, function (supr) {
             image: 'resources/images/background-header-wood.png'
         }));
 
+        if (device.isIOS) {
+            this.addSubview(new ImageView({ // this disabled one is revealed when the other one is clicked
+                x: 80,
+                y: 0,
+                width: 184,
+                height: 60,
+                image: 'resources/images/button-restore-purchases-disabled.png'
+            }));
+            this.restoreButton = this.addSubview(new ImageView({
+                x: 80,
+                y: 0,
+                width: 184,
+                height: 60,
+                image: 'resources/images/button-restore-purchases.png'
+            }));
+
+            this.restoreButton.on('InputSelect', bind(this, function () {
+                this.restoreButton.hide();
+                billing.restore( function (err) {
+                    if (err) {
+                        logger.log("Unable to restore purchases:", err);
+                    } else {
+                        logger.log("Finished restoring purchases!");
+                    };
+                    this.restoreButton.show();
+                });
+            }));
+        }
+
         // footer image
         this.addSubview(new ImageView({
             x: 0,
@@ -270,7 +299,7 @@ exports = Class(View, function (supr) {
             text: 'Purchase upgrades to improve your clipper.'
         }));
 
-        // clipper power title
+        // battery power title
         this.tabs.upgrades.addSubview(new TextView({
             x: 242,
             y: 114,
@@ -279,10 +308,10 @@ exports = Class(View, function (supr) {
             color: '#352e29',
             fontFamily: 'delius',
             size: 22,
-            text: 'Clipper Power'
+            text: 'Battery Power'
         }));
 
-        // clipper power background
+        // battery power background
         this.tabs.upgrades.addSubview(new ImageView({
             x: 242,
             y: 152,
@@ -291,7 +320,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-upgrades-background.png'
         }));
 
-        // clipper power ewero
+        // battery power ewero
         this.tabs.upgrades.addSubview(new ImageView({
             x: 252,
             y: 201,
@@ -300,7 +329,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-ewero.png'
         }));
 
-        // clipper power description
+        // battery power description
         this.tabs.upgrades.addSubview(new TextView({
             x: 242,
             y: 253,
@@ -311,7 +340,7 @@ exports = Class(View, function (supr) {
             size: 18,
             verticalAlign: 'top',
             wrap: true,
-            text: 'Increases the max clipper power.'
+            text: 'Increases the max battery power.'
         }));
 
         // blade power title
@@ -355,10 +384,10 @@ exports = Class(View, function (supr) {
             size: 18,
             verticalAlign: 'top',
             wrap: true,
-            text: 'Increases the number of sheep a blade single blade can shear.'
+            text: 'Increases the number of sheep a single blade can shear.'
         }));
 
-        // bolt multiplier title
+        // wool multiplier title
         this.tabs.upgrades.addSubview(new TextView({
             x: 586,
             y: 114,
@@ -367,10 +396,10 @@ exports = Class(View, function (supr) {
             color: '#352e29',
             fontFamily: 'delius',
             size: 22,
-            text: 'Bolt Multiplier'
+            text: 'Wool Multiplier'
         }));
 
-        // bolt multiplier background
+        // wool multiplier background
         this.tabs.upgrades.addSubview(new ImageView({
             x: 586,
             y: 152,
@@ -379,7 +408,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-upgrades-background.png'
         }));
 
-        // bolt multiplier ewero
+        // wool multiplier ewero
         this.tabs.upgrades.addSubview(new ImageView({
             x: 596,
             y: 201,
@@ -388,7 +417,7 @@ exports = Class(View, function (supr) {
             image: 'resources/images/store-ewero.png'
         }));
 
-        // bolt multiplier description
+        // wool multiplier description
         this.tabs.upgrades.addSubview(new TextView({
             x: 586,
             y: 253,
@@ -399,7 +428,7 @@ exports = Class(View, function (supr) {
             size: 18,
             verticalAlign: 'top',
             wrap: true,
-            text: 'Increases the amount of wool earned from shearing sheep.'
+            text: 'Multiplies the amount of wool earned from shearing sheep.'
         }));
 
         // diamond blades title

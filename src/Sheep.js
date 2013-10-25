@@ -74,10 +74,10 @@ exports = Class(ImageView, function (supr) {
         this.image.setImage(image);
     };
 
-    this._calcTrajectory = function () {
+    this._calcTrajectory = function (timeToLive) {
         var ydist = this.startY - this.endY;
         this.style.r = Math.atan(ydist/1024),
-        this.timeToLive = (Math.random() * 3000) + 2000;
+        this.timeToLive = timeToLive ? timeToLive : (Math.random() * 3000) + 2000;
     };
 
     // stuff we need to do every tick
@@ -146,8 +146,8 @@ exports = Class(ImageView, function (supr) {
             .then(this.continuousAnimate.bind(this));
     };
 
-    this.run = function () {
-        this._calcTrajectory();
+    this.run = function (timeToLive) {
+        this._calcTrajectory(timeToLive);
         this.continuousAnimate();
         this.animator = animate(this).now({x: 0 - this.style.width, y: this.endY}, this.timeToLive, animate.linear)
             .then(bind(this, function () {
