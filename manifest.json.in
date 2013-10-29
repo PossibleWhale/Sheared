@@ -1,56 +1,56 @@
 {
-	"appID": "1f0a0998fe0047e89241980872fa7ff6",
-	"shortName": "sheared",
-	"title": "Sheared",
+    "appID": "1f0a0998fe0047e89241980872fa7ff6",
+    "shortName": "sheared",
+    "title": "Sheared",
     "version": "1.0.1",
-	"studio": {
-		"name": "Possible Whale",
-		"domain": "possiblewhale.com",
-		"stagingDomain": "staging.possiblewhale.com"
-	},
-	"supportedOrientations": [
-		"landscape"
-	],
-	"description": "A mobile game for crafty players",
-	"icon": "resources/icons/icon512.png",
-	"splash": {
-		"autoHide": false,
-		"universal": "resources/splash/universal.png"
-	},
-	"android": {
-		"versionCode": 2,
-		"icons": {
-			"36": "resources/icons/android36.png",
-			"48": "resources/icons/android48.png",
-			"72": "resources/icons/android72.png",
-			"96": "resources/icons/android96.png"
-		},
+    "studio": {
+        "name": "Possible Whale",
+        "domain": "possiblewhale.com",
+        "stagingDomain": "staging.possiblewhale.com"
+    },
+    "supportedOrientations": [
+        "landscape"
+    ],
+    "description": "A mobile game for crafty players",
+    "icon": "resources/icons/icon512.png",
+    "splash": {
+        "autoHide": false,
+        "universal": "resources/splash/universal.png"
+    },
+    "android": {
+        "versionCode": 2,
+        "icons": {
+            "36": "resources/icons/android36.png",
+            "48": "resources/icons/android48.png",
+            "72": "resources/icons/android72.png",
+            "96": "resources/icons/android96.png"
+        },
 
         "appFloodAppKey": "2AuqjdBJhcQrM4VJ",
         "appFloodSecretKey": "______________________"
-	},
-	"ios": {
-		"bundleID": "com.possiblewhale.sheared",
-		"appleID": "12345678",
-		"version": "1.0.0",
-		"icons": {
-			"57": "resources/icons/ios57.png",
-			"72": "resources/icons/ios72.png",
-			"114": "resources/icons/ios114.png",
-			"144": "resources/icons/ios144.png",
-			"renderGloss": false
-		},
+    },
+    "ios": {
+        "bundleID": "com.possiblewhale.sheared",
+        "appleID": "12345678",
+        "version": "1.0.0",
+        "icons": {
+            "57": "resources/icons/ios57.png",
+            "72": "resources/icons/ios72.png",
+            "114": "resources/icons/ios114.png",
+            "144": "resources/icons/ios144.png",
+            "renderGloss": false
+        },
 
         "appFloodAppKey": "2AuqjdBJhcQrM4VJ",
         "appFloodSecretKey": "______________________"
-	},
-	"ttf": [
-		"resources/fonts/delius.ttf"
-	],
+    },
+    "ttf": [
+        "resources/fonts/delius.ttf"
+    ],
     "addons": [
         "appflood",
         "backbutton",
         "billing"
     ],
-	"sdkVersion": "release-0.1.36"
+    "sdkVersion": "release-0.1.36"
 }
