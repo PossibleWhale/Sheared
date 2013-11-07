@@ -50,8 +50,8 @@
     "addons": [
         "appflood",
         "backbutton",
-        "billing",
-        "ouya"
+        "ouya",
+        "billingpw"
     ],
     "sdkVersion": "release-0.1.36"
 }
