@@ -115,8 +115,9 @@ $(GC_DIR)/addons/backbutton:
 
 $(GC_DIR)/addons/billingpw:
 	git clone git@github.com:PossibleWhale/billing.git $@
-$(PLUGINS_DIR)/billingpw/billing.js: $(PLUGINS_DIR) $(GC_DIR)/addons/billingpw
-	ln -s $(GC_DIR)/addons/billingpw $(PLUGINS_DIR)/billingpw
+$(PLUGINS_DIR)/billingpw/billing.js: $(PLUGINS_DIR) $(PLUGINS_DIR)/billingpw $(GC_DIR)/addons/billingpw
+$(PLUGINS_DIR)/billingpw:
+	ln -s $(GC_DIR)/addons/billingpw $(PLUGINS_DIR)/.
 
 $(PLUGINS_DIR)/appflood/appFlood.js: $(PLUGINS_DIR)
 	basil install appflood
