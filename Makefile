@@ -61,9 +61,9 @@ CONF_DIR =          resources/conf
 LOCALCONFIG =       $(CONF_DIR)/localconfig.json
 
 PLUGINS_DIR =       sdk/plugins
-PLUGINS =           $(PLUGINS_DIR)/backbutton/backbutton.js
+PLUGINS =           $(PLUGINS_DIR)/backbutton/backbutton.js $(PLUGINS_DIR)/billingpw/billing.js
 
-ALL_APK_DEPS =      $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES) $(PLUGINS)
+ALL_APK_DEPS =      $(PLUGINS) $(JS_FILES) $(PNG_FILES) $(MP3_FILES) $(TTF_FILES) $(MANIFESTS) $(ADDON_FILES)
 
 SUBPROJECTS =       addons/backbutton
 
@@ -113,10 +113,10 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(PLUGINS_DIR) $(GC_DIR)/addons/backbut
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(GC_DIR)/addons/billing:
+$(GC_DIR)/addons/billingpw:
 	git clone git@github.com:PossibleWhale/billing.git $@
-$(PLUGINS_DIR)/billing/billing.js: $(PLUGINS_DIR)
-	ln -s $(GC_DIR)/addons/billing $(PLUGINS_DIR)/billing
+$(PLUGINS_DIR)/billingpw/billing.js: $(PLUGINS_DIR) $(GC_DIR)/addons/billingpw
+	ln -s $(GC_DIR)/addons/billingpw $(PLUGINS_DIR)/billingpw
 
 $(PLUGINS_DIR)/appflood/appFlood.js: $(PLUGINS_DIR)
 	basil install appflood
@@ -135,9 +135,8 @@ clean:
 	rm -vf $(APK)
 	rm -vf $(LOCALCONFIG).stamp
 	rm -rf $(GC_DIR)/addons/backbutton
-	rm -rf $(GC_DIR)/addons/billingrestore
 	rm -rf $(GC_DIR)/addons/appflood
-	rm -rf $(GC_DIR)/addons/billing
+	# rm -rf $(GC_DIR)/addons/billingpw
 	rm -rf $(PLUGINS_DIR)/*
 	rm -vf $(GC_DIR)/config.json.stamp
 	-basil clean
