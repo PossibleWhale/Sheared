@@ -84,12 +84,16 @@ $(APK): $(ALL_APK_DEPS)
 $(XCODEPROJ): $(ALL_APK_DEPS)
 	basil $(BASIL_COMMAND) native-ios $(BASIL_FLAGS)
 
-manifest.json: appfloodsecretkey.txt manifest.json.in
+manifest.json: androidstorepass.txt appfloodsecretkey.txt manifest.json.in
 	fab "gcbuild.generateManifest:$@,$(BUILD)"
+
+$(PLUGINS_DIR): sdk
+sdk:
+	ln -s $(GC_DIR)/sdk sdk
 
 # These shenanigans ensure that we can rebuild devkit/config.json every time without
 # removing it, because we remove the stamp file instead.
-$(GC_DIR)/config.json: $(GC_DIR)/config.json.stamp $(RELEASE_KEY)
+$(GC_DIR)/config.json: androidstorepass.txt $(GC_DIR)/config.json.stamp $(RELEASE_KEY)
 $(GC_DIR)/config.json.stamp:
 	fab "gcbuild.generateConfigJSON:$(subst .stamp,,$@)"
 	touch $@ && ls -l $@
@@ -104,15 +108,15 @@ $(LOCALCONFIG).stamp:
 
 addons/backbutton:
 	git clone git@github.com:PossibleWhale/backbutton.git $@
-$(PLUGINS_DIR)/backbutton/backbutton.js: $(GC_DIR)/addons/backbutton
+$(PLUGINS_DIR)/backbutton/backbutton.js: $(PLUGINS_DIR) $(GC_DIR)/addons/backbutton
 	ln -sf $(GC_DIR)/addons/backbutton/js $(PLUGINS_DIR)/backbutton
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
-$(PLUGINS_DIR)/billing/billing.js:
+$(PLUGINS_DIR)/billing/billing.js: $(PLUGINS_DIR)
 	basil install billing
 
-$(PLUGINS_DIR)/appflood/appFlood.js:
+$(PLUGINS_DIR)/appflood/appFlood.js: $(PLUGINS_DIR)
 	basil install appflood
 appfloodsecretkey.txt: ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt
 	ln -s ~/Dropbox/possiblewhale/sheared/appfloodsecretkey.txt appfloodsecretkey.txt
