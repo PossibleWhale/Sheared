@@ -113,8 +113,10 @@ $(PLUGINS_DIR)/backbutton/backbutton.js: $(PLUGINS_DIR) $(GC_DIR)/addons/backbut
 $(GC_DIR)/addons/backbutton:
 	ln -s `pwd`/addons/backbutton/ $(GC_DIR)/addons/backbutton
 
+$(GC_DIR)/addons/billing:
+	git clone git@github.com:PossibleWhale/billing.git $@
 $(PLUGINS_DIR)/billing/billing.js: $(PLUGINS_DIR)
-	basil install billing
+	ln -s $(GC_DIR)/addons/billing $(PLUGINS_DIR)/billing
 
 $(PLUGINS_DIR)/appflood/appFlood.js: $(PLUGINS_DIR)
 	basil install appflood
