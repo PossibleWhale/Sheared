@@ -17,7 +17,7 @@ exports = Class(Storage, function (supr) {
         opts = opts || {};
         supr(this, 'init', [opts]);
 
-        if (this.get('power.1') === null) {
+        if (this.get('wool.black.50') === null) {
             this.add(awards);
         }
 
