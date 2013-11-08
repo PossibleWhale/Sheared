@@ -464,7 +464,7 @@ exports = Class(View, function (supr) {
     this.endDay = function () {
         var i = this.sheep.length, j = this.clipper.blades.length;
 
-        this.audio.stopMusic();
+        GC.app.audio.stopMusic();
         this.clipper.bladeOut = false;
         this.clipper.reloadBlade();
         this.clipper.pauseCountdown();
@@ -550,6 +550,8 @@ exports = Class(View, function (supr) {
 });
 
 function playGame () {
+    GC.app.audio.playMusic();
+
     this.paused = false;
     if (this.pauseButton) {
         this.pauseButton.show();
@@ -592,7 +594,7 @@ function playGame () {
     }
 
     this.player = GC.app.player;
-    this.audio = GC.app.audio;
+    //this.audio = GC.app.audio;
     this.interval = setInterval(spawnSheep.bind(this), sheepFrequency(this.day));
 
     if (this.timer) {
@@ -610,7 +612,7 @@ function playGame () {
 
     this.healthBar.show();
 
-    this.audio.playMusic();
+    //this.audio.playMusic();
 
     this.inputBuffer = new InputBuffer({superview: this});
 }

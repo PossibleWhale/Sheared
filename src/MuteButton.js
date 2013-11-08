@@ -12,14 +12,14 @@ exports = Class(Button, function proto(supr) {
 
         this.audio = GC.app.audio;
 
-        this.setMuted(this.audio.getMuted(), {silent: true});
+        this.setMuted(this.audio.getMuted(), {silent: true}, true);
 
         this.on('InputSelect', bind(this, function () {
             this.setMuted(!this.audio.getMuted());
         }));
     };
 
-    this.setMuted = function (muted, options) {
+    this.setMuted = function (muted, options, init) {
         if (typeof arguments[0] === 'object') {
             options = arguments[0];
             muted = undefined;
@@ -32,7 +32,9 @@ exports = Class(Button, function proto(supr) {
             muted = this.audio.getMuted();
         }
 
-        this.audio.setMuted(muted);
+        if (!init) {
+            this.audio.setMuted(muted);
+        }
 
         if (muted) {
             this.setImage(constants.soundOffImage);

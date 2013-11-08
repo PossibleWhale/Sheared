@@ -5,6 +5,17 @@ exports = Class(AudioManager, function (supr) {
         var opts = {
             path: 'resources/sounds',
             files: {
+                'music-play-01': {volume: 0.8, background: true},
+                'music-play-02': {volume: 0.8, background: true},
+                'music-play-03': {volume: 0.8, background: true},
+                'music-play-04': {volume: 0.8, background: true},
+                'music-play-05': {volume: 0.8, background: true},
+                'music-play-06': {volume: 0.8, background: true},
+                'music-play-07': {volume: 0.8, background: true},
+                'music-play-08': {volume: 0.8, background: true},
+                'music-play-09': {volume: 0.8, background: true},
+                'music-play-10': {volume: 0.8, background: true},
+                'music-title': {volume: 0.8, background: true},
                 'pickup-battery': {},
                 'pickup-diamond': {},
                 'shear-01': {},
@@ -18,8 +29,6 @@ exports = Class(AudioManager, function (supr) {
                 'baa-02': {volume: 0.25},
                 'baa-03': {volume: 0.25},
                 'button-01': {},
-                'play-01': {background: true},
-                'play-02': {background: true},
                 'play-5-seconds-remaining': {},
                 'crafting-01': {},
                 'crafting-02': {},
@@ -30,6 +39,22 @@ exports = Class(AudioManager, function (supr) {
             }
         };
         supr(this, 'init', [opts]);
+    };
+
+    this.playMusic = function () {
+        var index = Math.floor(Math.random() * 10) + 1;
+        if (index === 10) {
+            this.music = 'music-play-10';
+            this.play('music-play-10');
+        } else {
+            this.music = 'music-play-0' + index;
+            this.play(this.music);
+        }
+    };
+
+    this.playTitle = function () {
+        this.music = 'music-title';
+        this.play('music-title');
     };
 
     this.playShear = function () {
@@ -67,12 +92,14 @@ exports = Class(AudioManager, function (supr) {
         this.play('button-01');
     };
 
+    /*
     this.playMusic = function () {
         this.play('play-01');
     };
+    */
 
     this.stopMusic = function () {
-        this.stop('play-01');
+        this.stop(this.music);
     };
 
     this.playCountdown = function () {

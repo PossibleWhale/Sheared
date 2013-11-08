@@ -289,6 +289,7 @@ exports = Class(ImageView, function (supr) {
                     }
                 }
             } else {
+                GC.app.audio.stopMusic();
                 GC.app.startSpinner(c.SPIN_DELAY);
                 stackView.push(toView);
                 toView.once('ViewDidAppear', bind(this, function _a_viewAppearedFromTitleScreen() {
@@ -347,6 +348,7 @@ exports = Class(ImageView, function (supr) {
 
         this.on('ViewWillAppear', bind(this, function () {
             this.muteButton.setMuted(undefined, {silent: true});
+            GC.app.audio.playTitle();
         }));
     };
 
