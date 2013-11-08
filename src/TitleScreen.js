@@ -347,7 +347,7 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.on('ViewWillAppear', bind(this, function () {
-            this.muteButton.setMuted(undefined, {silent: true});
+            this.muteButton.setMuted(undefined, undefined, {silent: true});
             GC.app.audio.playTitle();
         }));
     };

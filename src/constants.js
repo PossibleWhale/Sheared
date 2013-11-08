@@ -144,6 +144,7 @@ exports = {
     batteryImage: new Image({url: imagePath + 'battery.png'}),
     soundOnImage: new Image({url: imagePath + 'button-sound-on.png'}),
     soundOffImage: new Image({url: imagePath + 'button-sound-off.png'}),
+    soundPartialImage: new Image({url: imagePath + 'button-sound-partial.png'}),
     regularBladeImage: new Image({url: imagePath + 'blade-regular.png'}),
     diamondBladeImage: new Image({url: imagePath + 'blade-diamond.png'}),
     starImage: new Image({url: imagePath + 'gold-star.png'}),
