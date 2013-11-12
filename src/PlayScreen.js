@@ -7,6 +7,7 @@ import ui.ViewPool as ViewPool;
 
 import src.Sheep as Sheep;
 import src.Ram as Ram;
+import src.Pig as Pig;
 import src.Clipper as Clipper;
 import src.Diamond as Diamond;
 import src.Battery as Battery;
@@ -89,6 +90,13 @@ exports = Class(View, function (supr) {
         });
         this.ramPool = new ViewPool({
             ctor: Ram,
+            initCount: 5,
+            initOpts: {
+                superview: this
+            }
+        });
+        this.pigPool = new ViewPool({
+            ctor: Pig,
             initCount: 5,
             initOpts: {
                 superview: this
@@ -473,6 +481,7 @@ exports = Class(View, function (supr) {
         }
         this.sheepPool.releaseAllViews();
         this.ramPool.releaseAllViews();
+        this.pigPool.releaseAllViews();
         while (j--) {
             this.clipper.blades[j].die();
         }
@@ -622,8 +631,11 @@ function spawnSheep () {
         return;
     }
     var sheep, r = Math.random();
-    if (r > constants.ramRarity) {
+
+    if (r > constants.ramRarity + constants.pigRarity) {
         sheep = this.sheepPool.obtainView();
+    } else if (r > constants.ramRarity) {
+        sheep = this.pigPool.obtainView(); // here piggy piggy
     } else {
         sheep = this.ramPool.obtainView();
     }

@@ -195,4 +195,39 @@ exports = Class(ImageView, function (supr) {
         }
         GC.app.particleEngine.emitParticles(particleObjects);
     };
+
+    this.emitWool = function (color, numParticles) {
+        var superview = this.getSuperview();
+        if (!superview) {
+            return;
+        }
+
+        var particleObjects = GC.app.particleEngine.obtainParticleArray(numParticles), i, pObj;
+        for (i = 0; i < particleObjects.length; i++) {
+            pObj = particleObjects[i];
+            pObj.x = this.style.x;
+            pObj.y = this.style.y;
+            pObj.dx = Math.random() * 300;
+            pObj.dy = Math.random() * 300;
+            if (Math.random() > 0.5) {
+                pObj.dx *= -1;
+            }
+            if (Math.random() > 0.5) {
+                pObj.dy *= -1;
+            }
+            pObj.ddx = Math.random() * 200;
+            pObj.ddy = Math.random() * 200;
+            pObj.dr = Math.random() * Math.PI / 4;
+            pObj.ax = 30;
+            pObj.ay = 30;
+            pObj.width = 60;
+            pObj.height = 60;
+            pObj.scale = 0.5;
+            pObj.dscale = 0.5;
+            pObj.opacity = 1;
+            pObj.dopacity = -1;
+            pObj.image = 'resources/images/particle-' + color.label + '.png';
+        }
+        GC.app.particleEngine.emitParticles(particleObjects);
+    };
 });

@@ -139,6 +139,7 @@ exports = {
     fenceSize: 80,
     laneSize: 52,
     ramRarity: 0.2,
+    pigRarity: 0.2,
 
     diamondImage: new Image({url: imagePath + 'diamond.png'}),
     batteryImage: new Image({url: imagePath + 'battery.png'}),
@@ -174,6 +175,7 @@ exports = {
         new Image({url: imagePath + 'tab-4.png'}),
         new Image({url: imagePath + 'tab-5.png'})
     ],
+    pigImage: new Image({url: imagePath + 'pig.png'}),
 
     UPGRADE_PRICES: {
         power: [1000, 2000, 4000,  8000,  16000],

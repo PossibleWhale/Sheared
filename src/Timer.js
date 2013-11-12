@@ -73,7 +73,7 @@ exports = Class(ImageView, function (supr) {
             }
 
             if (this.time === 5) {
-                superview.audio.playCountdown();
+                GC.app.audio.playCountdown();
             }
 
         }), 1000);
