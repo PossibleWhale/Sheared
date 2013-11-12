@@ -89,7 +89,7 @@ exports = Class(View, function (supr) {
         // ashley
         this.addSubview(new TextView({
             x: 402,
-            y: 225,
+            y: 205,
             width: 220,
             height: 28,
             color: '#eb2b3b',
@@ -104,7 +104,7 @@ exports = Class(View, function (supr) {
         // ashley title
         this.addSubview(new TextView({
             x: 402,
-            y: 253,
+            y: 233,
             width: 220,
             height: 28,
             color: '#352e29',
@@ -117,7 +117,7 @@ exports = Class(View, function (supr) {
         // cory
         this.addSubview(new TextView({
             x: 402,
-            y: 315,
+            y: 275,
             width: 220,
             height: 28,
             color: '#fff200',
@@ -132,7 +132,7 @@ exports = Class(View, function (supr) {
         // cory title
         this.addSubview(new TextView({
             x: 402,
-            y: 343,
+            y: 307,
             width: 220,
             height: 28,
             color: '#352e29',
@@ -142,10 +142,38 @@ exports = Class(View, function (supr) {
             text: 'Sous Sheep'
         }));
 
+        // music credit
+        this.addSubview(new TextView({
+            x: 172,
+            y: 339,
+            width: 680,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 20,
+            wrap: true,
+            horizontalAlign: 'center',
+            text: 'Music: "River Valley Breakdown" by Kevin MacLeod (incompetech.com)'
+        }));
+
+        // music credit cont.
+        this.addSubview(new TextView({
+            x: 172,
+            y: 367,
+            width: 680,
+            height: 28,
+            color: '#6b5e53',
+            fontFamily: 'delius',
+            size: 20,
+            wrap: true,
+            horizontalAlign: 'center',
+            text: 'Licensed under Creative Commons: By Attribution 3.0'
+        }));
+
         // special thanks
         this.addSubview(new TextView({
             x: 172,
-            y: 385,
+            y: 400,
             width: 680,
             height: 28,
             color: '#6b5e53',
@@ -158,7 +186,7 @@ exports = Class(View, function (supr) {
         // shrek
         this.addSubview(new TextView({
             x: 352,
-            y: 413,
+            y: 425,
             width: 320,
             height: 28,
             color: '#6b5e53',
