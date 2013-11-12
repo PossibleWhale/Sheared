@@ -25,6 +25,7 @@ exports = Class(AudioManager, function (supr) {
                 'collision-01': {},
                 'collision-02': {},
                 'collision-regularblade-ram': {},
+                'collision-pig': {},
                 'baa-01': {volume: 0.25},
                 'baa-02': {volume: 0.25},
                 'baa-03': {volume: 0.25},
@@ -79,6 +80,10 @@ exports = Class(AudioManager, function (supr) {
         this.play('collision-0' + index);
     };
 
+    this.playCollisionPig = function () {
+        this.play('collision-pig');
+    };
+
     this.playRamHit = function () {
         this.play('collision-regularblade-ram');
     };
@@ -92,11 +97,6 @@ exports = Class(AudioManager, function (supr) {
         this.play('button-01');
     };
 
-    /*
-    this.playMusic = function () {
-        this.play('play-01');
-    };
-    */
 
     this.stopMusic = function () {
         this.stop(this.music);

@@ -31,7 +31,7 @@ exports = Class(Sheep, function (supr) {
 
     this.onTick = function () {
         if (this.animator && this.animator.hasFrames()) {
-            var superview = this.getSuperview(), i, blade, wool, lostWool;
+            var superview = this.getSuperview(), i, blade, wool, lostWool, color;
             if (!superview) {
                 this.die();
                 return;
@@ -49,11 +49,15 @@ exports = Class(Sheep, function (supr) {
 
             if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 i = Math.floor(Math.random()*5);
-                lostWool = Math.min(this.woolToLose, GC.app.player.wool.get(constants.colors[i].label).count);
-                GC.app.player.addWool(constants.colors[i], -1 * lostWool);
-                superview.woolCounts.update(constants.colors[i]);
+                color = constants.colors[i];
+                lostWool = Math.min(this.woolToLose, superview.woolCounts.wool.get(color).count);
+                superview.woolCounts.wool.addWool(color, -1 * lostWool);
+                superview.woolCounts.update(color);
+                if (wool) {
+                    wool.addWool(color, -1 * lostWool);
+                }
                 superview.clipper.emitWool(constants.colors[i], lostWool);
-                GC.app.audio.playCollision();
+                GC.app.audio.playCollisionPig();
                 this.die();
             }
         }
