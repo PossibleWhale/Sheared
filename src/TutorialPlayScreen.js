@@ -133,7 +133,6 @@ exports = Class(View, function (supr) {
             click: true,
             image: 'resources/images/button-continue.png'
         });
-        this.sheep = [];
 
         this.backButton = new Button({
             superview: this,

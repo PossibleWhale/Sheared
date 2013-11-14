@@ -47,14 +47,10 @@ exports = Class(GC.Application, function (supr) {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        c.initCrafts();
         var stackView, muted;
 
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
-
-        // audio manager - must be created early so mute buttons work
-        this.audio = new Audio();
 
         //Add a new StackView to the root of the scene graph
         stackView = this.stackView = new StackView({
@@ -64,13 +60,25 @@ exports = Class(GC.Application, function (supr) {
             height: boundsHeight,
             width: boundsWidth,
             clip: true,
-            backgroundColor: '#37B34A'
+            backgroundColor: '#000000'
         });
+
+        stackView.addSubview(new ImageView({
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 576,
+            image: "resources/images/title.png"
+        }));
+
+        // audio manager - must be created early so mute buttons work
+        this.audio = new Audio();
 
         this.player = new Player();
         this.titleScreen = new TitleScreen({superview: stackView});
-
         stackView.push(this.titleScreen);
+
+        c.initCrafts();
 
         if (NATIVE) {
             device.setBackButtonHandler(bind(this, function () {
@@ -96,8 +104,6 @@ exports = Class(GC.Application, function (supr) {
             width: boundsWidth,
             height: boundsHeight
         });
-
-        this.titleScreen.animateIntro();
     };
 
     this.startSpinner = function _a_startSpinner(delay) {

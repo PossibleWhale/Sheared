@@ -33,12 +33,8 @@ import src.spinner as spinner;
  * a child of the main application. When this class is instantiated,
  * it adds the start button as a child.
  */
-exports = Class(ImageView, function (supr) {
+exports = Class(ui.View, function (supr) {
     this.init = function (opts) {
-        opts = merge(opts, {
-            image: "resources/images/title.png"
-        });
-
         supr(this, 'init', [opts]);
 
         this.build();
@@ -74,7 +70,7 @@ exports = Class(ImageView, function (supr) {
         this.giantClipper = new ImageView({
             superview: this,
             x: -535,
-            y: 113,
+            y: 149,
             width:  535,
             height: 190,
             image: 'resources/images/clipper-title.png'
@@ -83,7 +79,7 @@ exports = Class(ImageView, function (supr) {
         this.shearedLogo = new ImageView({
             superview: this,
             x: 92,
-            y: 110,
+            y: 146,
             width:  816,
             height: 190,
             opacity: 0,
@@ -210,7 +206,7 @@ exports = Class(ImageView, function (supr) {
         this.playButton = new Button({
             superview: this,
             x: 400,
-            y: 330,
+            y: 366,
             width: 234,
             height: 64,
             anchorX: 234/2,
@@ -362,22 +358,27 @@ exports = Class(ImageView, function (supr) {
             this.muteButton.setMuted(undefined, undefined, {silent: true});
             GC.app.audio.playTitle();
         }));
+
+        this.once('ViewDidAppear', bind(this, function () {
+            this.animateIntro();
+        }));
     };
 
     this.animateIntro = function () {
-        animate(this.giantClipper).now({x: 1024}, 750, animate.easeOut).then(this.giantClipper.removeFromSuperview);
-        animate(this.shearedLogo).now({opacity: 1}, 750).then(bind(this, function () {
-            animate(this.marqueeTop).now({y: 0}, 250, animate.easeOut);
-            animate(this.marqueeBottom).now({y: 496}, 250, animate.easeOut).then(bind(this, function () {
-                animate(this.playButton).now({opacity: 1}, 250).then(bind(this, function () {
-                    var animateButton = function () {
-                        animate(this.playButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
-                        .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
-                        .then(animateButton.bind(this));
-                    };
-                    bind(this, animateButton)();
+        animate(this.giantClipper).wait(500).then({x: 1024}, 750, animate.easeOut).then(bind(this, function () {
+            this.giantClipper.removeFromSuperview();
+            animate(this.shearedLogo).now({opacity: 1}, 750).then(bind(this, function () {
+                animate(this.marqueeTop).now({y: 0}, 250, animate.easeOut);
+                animate(this.marqueeBottom).now({y: 496}, 250, animate.easeOut).then(bind(this, function () {
+                    animate(this.playButton).now({opacity: 1}, 250).then(bind(this, function () {
+                        var animateButton = function () {
+                            animate(this.playButton).clear().now({r: Math.PI/64, scale: 1.1}, 1500, animate.easeIn)
+                            .then({r: -1*Math.PI/64, scale: 1}, 1500, animate.easeOut)
+                            .then(animateButton.bind(this));
+                        };
+                        bind(this, animateButton)();
+                    }));
                 }));
-                //animate(this.tutorialButton).now({opacity: 1}, 250);
             }));
         }));
     };
