@@ -136,6 +136,13 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_award.rams.100000', JSON.stringify({name: 'rams.100000', value: false}));
     };
 
+    this.upgrade_8_to_9 = function _a_upgrade_8_to_9() {
+        assert(parseInt(lsGet('pw_version'), 10) === 8);
+        lsSet('pw_version', 9);
+        lsSet('pw_store_stat.seen.playTutorial', JSON.stringify({name: 'seen.playTutorial', value: false}));
+        lsSet('pw_store_stat.seen.craftTutorial', JSON.stringify({name: 'seen.craftTutorial', value: false}));
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */

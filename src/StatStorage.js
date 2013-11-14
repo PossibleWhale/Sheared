@@ -29,7 +29,9 @@ stats = [
 {name: 'regularBladesHit', value: 0},
 {name: 'regularBladesFired', value: 0},
 {name: 'coinsEarned', value: 0},
-{name: 'coins', value: 0}
+{name: 'coins', value: 0},
+{name: 'seen.playTutorial', value: false},
+{name: 'seen.craftTutorial', value: false}
 ];
 
 exports = Class(Storage, function (supr) {
@@ -54,5 +56,9 @@ exports = Class(Storage, function (supr) {
         }
 
         util.reissue(this, 'Update', this, 'stat:update');
+    };
+
+    this.setSeen = function (name, value) {
+        this.add({name: 'seen.' + name, value: value});
     };
 });

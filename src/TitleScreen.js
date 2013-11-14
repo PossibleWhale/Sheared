@@ -16,7 +16,8 @@ import plugins.backbutton.backbutton as backbutton;
 import src.CraftScreen as CraftScreen;
 import src.PlayScreen as PlayScreen;
 import src.CreditsScreen as CreditsScreen;
-import src.TutorialSelectScreen as TutorialSelectScreen;
+import src.TutorialPlayScreen as TutorialPlayScreen;
+import src.TutorialCraftScreen as TutorialCraftScreen;
 import src.StoreScreen as StoreScreen;
 import src.StatScreen as StatScreen;
 import src.AwardScreen as AwardScreen;
@@ -57,11 +58,12 @@ exports = Class(ImageView, function (supr) {
     this.build = function() {
         var pbOpts, playButton, cbOpts, craftScreen,
             playScreen, modeScreen, stackView, creditsScreen,
-            credOpts, tutorialScreen, storeScreen, statScreen, awardsScreen;
+            credOpts, tutorialScreen, tutorialCraftScreen, storeScreen, statScreen, awardsScreen;
 
         craftScreen = new CraftScreen();
         creditsScreen = new CreditsScreen();
-        tutorialScreen = new TutorialSelectScreen();
+        tutorialScreen = new TutorialPlayScreen();
+        tutorialCraftScreen = new TutorialCraftScreen();
         playScreen = new PlayScreen();
         storeScreen = new StoreScreen();
         statScreen = new StatScreen();
@@ -218,21 +220,16 @@ exports = Class(ImageView, function (supr) {
             image: 'resources/images/button-play.png'
         });
         this.playButton.on('InputSelect', function () {
-            _goToView(playScreen);
+            if (!GC.app.player.stats.get('seen.playTutorial').value) {
+                _goToView(tutorialScreen);
+            } else {
+                _goToView(playScreen);
+            }
         });
 
-        this.tutorialButton = new Button({
-            superview: this,
-            x: 425,
-            y: 412,
-            width: 184,
-            height: 64,
-            opacity: 0,
-            click: true,
-            image: 'resources/images/button-tutorials.png'
-        });
-        this.tutorialButton.on('InputSelect', function () {
-            _goToView(tutorialScreen);
+        tutorialScreen.on('tutorial:end', function () { 
+            GC.app.player.stats.setSeen('playTutorial', true);
+            _goToView(playScreen);
         });
 
         GC.app.engine.on('Tick', bind(this, function (dt) {
@@ -240,13 +237,6 @@ exports = Class(ImageView, function (supr) {
                 playScreen.clipper.emitDiamonds();
             }
 
-            var tut = tutorialScreen.tutorialScreen;
-            if (tut && tut.runTick) {
-                tut.runTick();
-                if (tut.clipper && tut.clipper.style.visible && tut.clipper.isDiamond) {
-                    tut.clipper.emitDiamonds();
-                }
-            }
             if (GC.app.particleEngine) {
                 GC.app.particleEngine.runTick(dt);
             }
@@ -270,6 +260,17 @@ exports = Class(ImageView, function (supr) {
         creditsScreen.on('credits:back', bind(this, this.back));
         statScreen.on('stats:back', bind(this, this.back));
         awardsScreen.on('awards:back', bind(this, this.back));
+
+        // kinda dumb but basically this just makes it so the craft tutorial
+        // doesn't screw up if you leave it and then come back.
+        var backEvent = bind(this, function () {
+            tutorialCraftScreen.on('craft:back', bind(this, function () {
+                this.back();
+                tutorialCraftScreen = new TutorialCraftScreen();
+                bind(this, backEvent)();
+            }));
+        });
+        backEvent();
 
         craftScreen.on('craft:store', function () {
             _goToView(storeScreen);
@@ -300,8 +301,19 @@ exports = Class(ImageView, function (supr) {
 
         function _startCrafting() {
             adtimer.interrupt(function () {
-                _goToView(craftScreen);
-                craftScreen.emit('craft:start');
+                if (!GC.app.player.stats.get('seen.craftTutorial').value) {
+                    _goToView(tutorialCraftScreen);
+                    tutorialCraftScreen.tutor();
+                    tutorialCraftScreen.on('tutorial:end', function () { 
+                        GC.app.player.stats.setSeen('craftTutorial', true);
+                        GC.app.titleScreen.back();
+                        _goToView(craftScreen);
+                        craftScreen.emit('craft:start');
+                    });
+                } else {
+                    _goToView(craftScreen);
+                    craftScreen.emit('craft:start');
+                }
             });
         };
 
@@ -365,7 +377,7 @@ exports = Class(ImageView, function (supr) {
                     };
                     bind(this, animateButton)();
                 }));
-                animate(this.tutorialButton).now({opacity: 1}, 250);
+                //animate(this.tutorialButton).now({opacity: 1}, 250);
             }));
         }));
     };

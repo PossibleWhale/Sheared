@@ -630,20 +630,26 @@ function spawnSheep () {
     if (this.timer.time <= 2) {
         return;
     }
-    var sheep, r = Math.random();
+    var sheep, r = Math.random(), playSound = (Math.random() < 0.1);
 
     if (r > constants.ramRarity + constants.pigRarity) {
         sheep = this.sheepPool.obtainView();
+        if (playSound) {
+            GC.app.audio.playBaa();
+        }
     } else if (r > constants.ramRarity) {
         sheep = this.pigPool.obtainView(); // here piggy piggy
+        if (playSound) {
+            GC.app.audio.playOink();
+        }
     } else {
         sheep = this.ramPool.obtainView();
+        if (playSound) {
+            GC.app.audio.playBaa();
+        }
     }
     this.sheep.push(sheep);
     sheep.run();
-    if (Math.random() < 0.1) {
-        GC.app.audio.playBaa();
-    }
 }
 
 // return a random y-coordinate for the lane

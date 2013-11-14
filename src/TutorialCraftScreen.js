@@ -519,7 +519,8 @@ exports = Class(CraftScreen, function (supr) {
         _sx(['materialize', 'thought', {duration: 2000}, {text: 'Use the Eweros you earn to buy powerful upgrades in the game!'}]),
         _sx(['ok', 'ok']),
         bind(this, function _a_done() {
-            this.getSuperview().pop();
+            this.emit('tutorial:end');
+            //this.getSuperview().pop();
         })
         ];
 

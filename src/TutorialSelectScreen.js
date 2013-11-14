@@ -186,6 +186,9 @@ exports = Class(ui.View, function (supr) {
             }
             this.emit('tutorial:back');
         }));
+        this.tutorialScreen.on('tutorial:end', bind(this, function () {
+            this.emit('tutorial:end');
+        }));
         GC.app.titleScreen.stackView.push(this.tutorialScreen);
         this.tutorialScreen.clipperTutorial();
     };

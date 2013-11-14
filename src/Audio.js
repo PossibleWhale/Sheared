@@ -36,7 +36,9 @@ exports = Class(AudioManager, function (supr) {
                 'crafting-03': {},
                 'crafting-04': {},
                 'store-purchase': {},
-                'tab': {}
+                'tab': {},
+                'pig-01': {},
+                'pig-02': {}
             }
         };
         supr(this, 'init', [opts]);
@@ -91,6 +93,11 @@ exports = Class(AudioManager, function (supr) {
     this.playBaa = function () {
         var index = Math.floor(Math.random() * 3) + 1;
         this.play('baa-0' + index);
+    };
+
+    this.playOink = function () {
+        var index = Math.floor(Math.random() * 2) + 1;
+        this.play('pig-0' + index);
     };
 
     this.playButton = function () {
