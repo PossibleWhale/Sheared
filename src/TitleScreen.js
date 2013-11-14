@@ -330,7 +330,7 @@ exports = Class(ImageView, function (supr) {
         }));
 
         this.on('playscreen:home', bind(this, function () {
-            this.back();
+            _goToView(this);
         }));
 
         GC.app.player.on('player:purchased', function () {
