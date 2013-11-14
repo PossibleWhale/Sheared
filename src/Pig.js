@@ -50,7 +50,7 @@ exports = Class(Sheep, function (supr) {
             if (intersect.rectAndRect(this.style, superview.clipper.style)) {
                 i = Math.floor(Math.random()*5);
                 color = constants.colors[i];
-                lostWool = Math.min(this.woolToLose, superview.woolCounts.wool.get(color).count);
+                lostWool = Math.min(this.woolToLose, wool.get(color).count);
                 superview.woolCounts.wool.addWool(color, -1 * lostWool);
                 superview.woolCounts.update(color);
                 if (wool) {
