@@ -104,7 +104,7 @@ exports = Class(ui.View, function (supr) {
             image: 'resources/images/background-footer-wood.png'
         });
 
-        if (backbutton) {
+        if (backbutton && !device.isIOS) {
             this.exitButton = new Button({
                 superview: this.marqueeTop,
                 x: 8,
