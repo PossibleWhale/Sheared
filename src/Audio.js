@@ -106,7 +106,9 @@ exports = Class(AudioManager, function (supr) {
 
 
     this.stopMusic = function () {
-        this.stop(this.music);
+        if (this.music) {
+            this.stop(this.music);
+        }
     };
 
     this.playCountdown = function () {

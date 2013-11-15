@@ -119,25 +119,6 @@ exports = Class(ui.View, function (supr) {
             }));
         }
 
-        this.ratereviewButton = new Button({
-            superview: this.marqueeTop,
-            x: 420,
-            y: 10,
-            width: 184,
-            height: 60,
-            click: true,
-            image: 'resources/images/button-rate-review.png'
-        });
-        this.ratereviewButton.on('InputSelect', function () {
-            if(device.isIOS) {
-                window.open('http://appstore.com/sheared');
-            } else if(GC.app.localConfig.release === 'paid') {
-                window.open('https://play.google.com/store/apps/details?id=com.possiblewhale.sheared');
-            } else {
-                window.open('https://play.google.com/store/apps/details?id=com.possiblewhale.shearedfree');
-            }
-        });
-
         this.websiteButton = new Button({
             superview: this.marqueeBottom,
             x: 952,

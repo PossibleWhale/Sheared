@@ -49,6 +49,9 @@ exports = Class(GC.Application, function (supr) {
     this.initUI = function () {
         var stackView, muted;
 
+        // audio manager - must be created early so mute buttons work
+        this.audio = new Audio();
+
         this.view.style.backgroundColor = '#000';
         this.view.style.scale = scale;
 
@@ -70,9 +73,6 @@ exports = Class(GC.Application, function (supr) {
             height: 576,
             image: "resources/images/title.png"
         }));
-
-        // audio manager - must be created early so mute buttons work
-        this.audio = new Audio();
 
         this.player = new Player();
         this.titleScreen = new TitleScreen({superview: stackView});

@@ -58,7 +58,7 @@ def generateManifest(manifestFile, build):
             data['appID'] = APPID_ADS
             data['shortName'] = 'shearedfree'
             data['ios']['bundleID'] = 'com.possiblewhale.shearedfree'
-        elif build in ['paid-android', 'paid-ios']:
+        elif build in ['paid-android', 'paid-ios', 'samsung-android']:
             data['title'] = 'Sheared'
             data['appID'] = APPID_PAID
             data['shortName'] = 'sheared'
@@ -94,6 +94,8 @@ def generateLocalConfig(localFile, build):
             data['release'] = "ads"
         elif build == 'paid-android' or build == 'paid-ios':
             data['release'] = "paid"
+        elif build == 'samsung-android':
+            data['release'] = "samsung"
         else:
             assert 0, "run with build=something"
 

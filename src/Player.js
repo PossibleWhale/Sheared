@@ -27,7 +27,7 @@ exports = Class(Emitter, function Player(supr) {
         this.awards = new AwardStorage({persist: this.persist});
 
         // if this is the paid version, no ads.
-        if (GC.app.localConfig.release === 'paid') {
+        if (GC.app.localConfig.release === 'paid' || GC.app.localConfig.release === 'samsung') {
             this.upgrades.addToUpgrade('adFree', true);
         }
 

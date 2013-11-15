@@ -625,7 +625,7 @@ exports = Class(View, function (supr) {
 
 
         // purchase all button
-        if (!GC.app.player.hasAllUpgrades()) {
+        if (!GC.app.player.hasAllUpgrades() && GC.app.localConfig.release !== 'samsung') {
             this.unlockAllButton = new Button({
                 superview: this,
                 x: 767,

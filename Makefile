@@ -29,6 +29,11 @@ APK =               build/$(BUILD_COMMAND)/native-android/shearedfreedebug.apk
 OUTPUT =            $(APK)
 APP_DOMAIN =        com.possiblewhale.shearedfreedebug
 
+else ifeq ($(BUILD),samsung-android)
+RELEASE_KEY =       androidstorepass.txt possiblewhale.keystore
+APK =               build/$(BUILD_COMMAND)/native-android/sheared.apk
+OUTPUT =            $(APK)
+
 else ifeq ($(BUILD),ads-ios)
 OUTPUT =            $(XCODEPROJ)
 APP_DOMAIN =        com.possiblewhale.shearedfree
@@ -70,7 +75,7 @@ SUBPROJECTS =       addons/backbutton
 TOP_LEVEL_DEPS =	$(GC_DIR)/config.json manifest.json register $(LOCALCONFIG) $(SUBPROJECTS)
 
 
-debug-android debug-ios ads-android paid-android ads-ios paid-ios billingtest-android:
+debug-android debug-ios ads-android paid-android ads-ios paid-ios billingtest-android samsung-android:
 	git pull
 	$(MAKE) BUILD=$@ clean all
 
