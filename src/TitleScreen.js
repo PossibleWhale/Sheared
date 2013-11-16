@@ -36,7 +36,7 @@ import src.spinner as spinner;
 exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
         opts = merge(opts, {
-            image: "resources/images/title.png"
+            image: 'resources/images/title.png'
         });
         supr(this, 'init', [opts]);
 
