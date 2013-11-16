@@ -66,6 +66,7 @@ exports = Class(GC.Application, function (supr) {
             backgroundColor: '#000000'
         });
 
+        /*
         stackView.addSubview(new ImageView({
             x: 0,
             y: 0,
@@ -73,6 +74,7 @@ exports = Class(GC.Application, function (supr) {
             height: 576,
             image: "resources/images/title.png"
         }));
+        */
 
         this.player = new Player();
         this.titleScreen = new TitleScreen({superview: stackView});

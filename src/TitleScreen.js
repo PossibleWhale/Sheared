@@ -33,8 +33,11 @@ import src.spinner as spinner;
  * a child of the main application. When this class is instantiated,
  * it adds the start button as a child.
  */
-exports = Class(ui.View, function (supr) {
+exports = Class(ImageView, function (supr) {
     this.init = function (opts) {
+        opts = merge(opts, {
+            image: "resources/images/title.png"
+        });
         supr(this, 'init', [opts]);
 
         this.build();
