@@ -214,8 +214,9 @@ exports = Class(View, function (supr) {
             size: 128,
             text: 'Results'
         }));
-        continueButton = new Button({
+        this.resultsScreen.continueButton = new Button({
             superview: this.resultsScreen,
+            opacity: 0,
             x: 412,
             y: 344,
             width: 200,
@@ -225,6 +226,7 @@ exports = Class(View, function (supr) {
         });
         this.resultsScreen.storeButton = new Button({
             superview: this.resultsScreen,
+            opacity: 0,
             x: 59,
             y: 252,
             width: 184,
@@ -234,6 +236,7 @@ exports = Class(View, function (supr) {
         });
         this.resultsScreen.craftButton = new Button({
             superview: this.resultsScreen,
+            opacity: 0,
             x: 781,
             y: 252,
             width: 184,
@@ -252,12 +255,15 @@ exports = Class(View, function (supr) {
             image: 'resources/images/button-home.png'
         });
 
-        continueButton.on('InputSelect', bind(this, function (evt) {
+        this.resultsScreen.continueButton.on('InputSelect', bind(this, function (evt) {
             animate(this.resultsScreen).now({x: -1024}).then(bind(this, function() {
                 this.resultsScreen.style.x = 1024;
                 this.resultsScreen.homeButton.hide();
                 this.day += 1;
                 this.beginDay();
+                this.resultsScreen.craftButton.style.opacity = 0;
+                this.resultsScreen.storeButton.style.opacity = 0;
+                this.resultsScreen.continueButton.style.opacity = 0;
             }));
         }));
 
@@ -286,6 +292,7 @@ exports = Class(View, function (supr) {
         });
         this.gameOverScreen.storeButton = new Button({
             superview: this.gameOverScreen,
+            opacity: 0,
             x: 59,
             y: 252,
             width: 184,
@@ -295,6 +302,7 @@ exports = Class(View, function (supr) {
         });
         this.gameOverScreen.restartButton = new Button({
             superview: this.gameOverScreen,
+            opacity: 0,
             x: 412,
             y: 250,
             width: 200,
@@ -304,6 +312,7 @@ exports = Class(View, function (supr) {
         });
         this.gameOverScreen.homeButton = new Button({
             superview: this.gameOverScreen,
+            opacity: 0,
             x: 412,
             y: 344,
             width: 200,
@@ -313,6 +322,7 @@ exports = Class(View, function (supr) {
         });
         this.gameOverScreen.craftButton = new Button({
             superview: this.gameOverScreen,
+            opacity: 0,
             x: 781,
             y: 252,
             width: 184,
@@ -323,7 +333,13 @@ exports = Class(View, function (supr) {
 
         this.gameOverScreen.restartButton.on('InputSelect', bind(this, function () {
             GC.app.titleScreen.emit('playscreen:restart');
-            this.gameOverScreen.style.x = 1024;
+            animate(this.gameOverScreen).now({x: -1024}).then(bind(this, function () {
+                this.gameOverScreen.restartButton.style.opacity = 0;
+                this.gameOverScreen.craftButton.style.opacity = 0;
+                this.gameOverScreen.storeButton.style.opacity = 0;
+                this.gameOverScreen.homeButton.style.opacity = 0;
+                this.gameOverScreen.style.x = 1024;
+            }));
         }));
 
         this.resultsScreen.storeButton.on('InputSelect', bind(this, function () {
@@ -515,7 +531,7 @@ exports = Class(View, function (supr) {
     };
 
     this._showResults = function (finishedDay) {
-        var i, resultsScreen;
+        var i, resultsScreen, inputBlock;
         if (finishedDay) {
             var counts = [], count;
             for (i = 0; i < constants.colors.length; i++) {
@@ -543,8 +559,28 @@ exports = Class(View, function (supr) {
             this.resultsScreen.hide();
         }
 
+        inputBlock = new View({
+            superview: resultsScreen,
+            x: 0,
+            y: 80,
+            width: 1024,
+            height: 496
+        });
+
         resultsScreen.show();
         animate(resultsScreen).now({x: 0}).then(bind(this, function () {
+
+            if (finishedDay) {
+                animate(resultsScreen.continueButton).now({opacity: 1});
+            } else {
+                animate(resultsScreen.restartButton).now({opacity: 1});
+                animate(resultsScreen.homeButton).now({opacity: 1});
+            }
+            animate(resultsScreen.storeButton).now({opacity: 1});
+            animate(resultsScreen.craftButton).now({opacity: 1}).then(function () {
+                inputBlock.removeFromSuperview();
+            });
+
             if (finishedDay) {
                 var i, startX = 333, gap = 90;
                 resultsScreen.homeButton.show();
