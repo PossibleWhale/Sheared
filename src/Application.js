@@ -47,7 +47,7 @@ exports = Class(GC.Application, function (supr) {
      * place, but before the resources have been loaded.
      */
     this.initUI = function () {
-        var stackView, muted;
+        var stackView;
 
         // audio manager - must be created early so mute buttons work
         this.audio = new Audio();

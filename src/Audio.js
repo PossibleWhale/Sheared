@@ -1,4 +1,5 @@
 import AudioManager;
+import src.constants as c;
 
 exports = Class(AudioManager, function (supr) {
     this.init = function () {

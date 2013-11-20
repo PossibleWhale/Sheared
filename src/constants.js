@@ -7,6 +7,12 @@ exports = {
 
     AD_SUPPRESS_TIME: 120000, // minimum time between ads, in milliseconds
 
+    AUDIO_STATES: {
+        sfxMusic: 'sfx+music',
+        sfx: 'sfx',
+        mute: 'mute'
+    },
+
     TEXT_OPTIONS: {
         x: (1024-800)/2,
         y: (576-400)/2,
