@@ -38,8 +38,14 @@ exports = Class(View, function (supr) {
             opacity: 0
         });
 
+        var superview = this.getSuperview();
+
         this.rightSide.on('InputSelect', bind(this, function (evt) {
-            bind(this, launchBlade)();
+            if (!superview || (superview.timer && superview.timer.time === 0) || !superview.clipper) {
+                return;
+            }
+            superview.clipper.launchBlade();
+            GC.app.player.bladeFired(superview.clipper.isDiamond);
         }));
 
         // set up dragging events for clipper
@@ -50,7 +56,6 @@ exports = Class(View, function (supr) {
         }));
 
         this.leftSide.on('DragStart', bind(this, function (dragEvt) {
-            var superview = this.getSuperview();
             this.dragOffset = {
                 x: dragEvt.srcPt.x - superview.clipper.style.x,
                 y: dragEvt.srcPt.y - superview.clipper.style.y
@@ -66,15 +71,6 @@ exports = Class(View, function (supr) {
         }));
     };
 });
-
-function launchBlade() {
-    var superview = this.getSuperview();
-    if (!superview || (superview.timer && superview.timer.time === 0) || !superview.clipper) {
-        return;
-    }
-    superview.clipper.launchBlade();
-    GC.app.player.bladeFired(superview.clipper.isDiamond);
-}
 
 function clipperDrag(dragEvt) {
     var x = dragEvt.srcPt.x - this.dragOffset.x,

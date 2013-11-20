@@ -139,7 +139,7 @@ exports = {
     fenceSize: 80,
     laneSize: 52,
     ramRarity: 0.2,
-    pigRarity: 0.2,
+    pigRarity: 0.05,
 
     diamondImage: new Image({url: imagePath + 'diamond.png'}),
     batteryImage: new Image({url: imagePath + 'battery.png'}),

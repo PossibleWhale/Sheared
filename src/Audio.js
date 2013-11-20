@@ -8,13 +8,6 @@ exports = Class(AudioManager, function (supr) {
                 'music-play-01': {volume: 0.8, background: true},
                 'music-play-02': {volume: 0.8, background: true},
                 'music-play-03': {volume: 0.8, background: true},
-                'music-play-04': {volume: 0.8, background: true},
-                'music-play-05': {volume: 0.8, background: true},
-                'music-play-06': {volume: 0.8, background: true},
-                'music-play-07': {volume: 0.8, background: true},
-                'music-play-08': {volume: 0.8, background: true},
-                'music-play-09': {volume: 0.8, background: true},
-                'music-play-10': {volume: 0.8, background: true},
                 'music-title': {volume: 0.8, background: true},
                 'pickup-battery': {},
                 'pickup-diamond': {},
@@ -45,14 +38,9 @@ exports = Class(AudioManager, function (supr) {
     };
 
     this.playMusic = function () {
-        var index = Math.floor(Math.random() * 10) + 1;
-        if (index === 10) {
-            this.music = 'music-play-10';
-            this.play('music-play-10');
-        } else {
-            this.music = 'music-play-0' + index;
-            this.play(this.music);
-        }
+        var index = Math.floor(Math.random() * 3) + 1;
+        this.music = 'music-play-0' + index;
+        this.play(this.music);
     };
 
     this.playTitle = function () {
