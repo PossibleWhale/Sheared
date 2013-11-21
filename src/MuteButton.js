@@ -14,14 +14,17 @@ exports = Class(Button, function proto(supr) {
         this.audio = GC.app.audio;
         this.setMuted(this.audio.getMusicMuted(), this.audio.getEffectsMuted(), {silent: true});
 
-        this.on('InputSelect', bind(this, function () {
+        this.on('InputSelect', bind(this, function _a_muteClicked() {
             //this.setMuted(!this.audio.getMuted());
             if (this.audio.getMusicMuted() && this.audio.getEffectsMuted()) {
                 this.setMuted(false, false);
+                GC.app.player.stats.setAudioFlag(constants.AUDIO_STATES.sfxMusic);
             } else if (this.audio.getMusicMuted()) {
                 this.setMuted(true, true);
+                GC.app.player.stats.setAudioFlag(constants.AUDIO_STATES.mute);
             } else {
                 this.setMuted(true, false);
+                GC.app.player.stats.setAudioFlag(constants.AUDIO_STATES.sfx);
             }
         }));
     };

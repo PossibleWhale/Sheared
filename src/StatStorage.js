@@ -63,4 +63,8 @@ exports = Class(Storage, function (supr) {
     this.setSeen = function (name, value) {
         this.add({name: 'seen.' + name, value: value});
     };
+
+    this.setAudioFlag = function _a_setAudioFlag (flag) {
+        this.add({name: 'audio.state', value: flag});
+    };
 });

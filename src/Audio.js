@@ -38,6 +38,19 @@ exports = Class(AudioManager, function (supr) {
         supr(this, 'init', [opts]);
     };
 
+    this.setMutedFromFlag = function _a_setMutedFromFlag(flag) {
+        if (flag === c.AUDIO_STATES.mute) {
+            this.setMusicMuted(true);
+            this.setEffectsMuted(true);
+        } else if (flag === c.AUDIO_STATES.sfx) {
+            this.setMusicMuted(true);
+            this.setEffectsMuted(false);
+        } else if (flag === c.AUDIO_STATES.sfxMusic) {
+            this.setMusicMuted(false);
+            this.setEffectsMuted(false);
+        }
+    };
+
     this.playMusic = function () {
         var index = Math.floor(Math.random() * 3) + 1;
         this.music = 'music-play-0' + index;

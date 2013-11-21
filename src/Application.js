@@ -67,6 +67,7 @@ exports = Class(GC.Application, function (supr) {
         });
 
         this.player = new Player();
+        this.audio.setMutedFromFlag(this.player.stats.get('audio.state').value);
         this.titleScreen = new TitleScreen({superview: stackView});
         stackView.push(this.titleScreen);
 
