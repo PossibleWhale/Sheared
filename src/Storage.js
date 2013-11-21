@@ -143,6 +143,12 @@ Storage = Class(GCDataSource, function (supr) {
         lsSet('pw_store_stat.seen.craftTutorial', JSON.stringify({name: 'seen.craftTutorial', value: false}));
     };
 
+    this.upgrade_9_to_10 = function _a_upgrade_9_to_10() {
+        assert(parseInt(lsGet('pw_version'), 10) === 9);
+        lsSet('pw_store_stat.audio.state', JSON.stringify({name: 'audio.state', value: c.AUDIO_STATES.sfxMusic}));
+        lsSet('pw_version', 10);
+    };
+
     /*
      * check localStorage against our schema. abort if they don't match.
      */

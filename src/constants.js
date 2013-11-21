@@ -38,7 +38,7 @@ exports = {
     COLOR_NONE: {label: 'none'},
 
     SCHEMA: {
-        version: 9,
+        version: 10,
         stores: {
             wool: {key: 'color', value: 'count'},
             craft: {key: 'motif', value: 'count'},

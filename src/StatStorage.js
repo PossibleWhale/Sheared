@@ -32,7 +32,8 @@ stats = [
 {name: 'coinsEarned', value: 0},
 {name: 'coins', value: 0},
 {name: 'seen.playTutorial', value: false},
-{name: 'seen.craftTutorial', value: false}
+{name: 'seen.craftTutorial', value: false},
+{name: 'audio.state', value: c.AUDIO_STATES.sfxMusic}
 ];
 
 exports = Class(Storage, function (supr) {
